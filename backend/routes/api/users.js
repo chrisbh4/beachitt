@@ -8,6 +8,9 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
 
+
+// ! Going have to add fullname to the validateSignup array
+
 const validateSignup = [
     check('email')
       .exists({ checkFalsy: true })
