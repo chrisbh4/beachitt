@@ -19,6 +19,7 @@ module.exports = {
       },
       address: {
         allowNull:false,
+        unique: true,
         type: Sequelize.STRING(40)
       },
       state: {
@@ -42,10 +43,12 @@ module.exports = {
       },
       lat: {
         allowNull:false,
+        unique:true,
         type: Sequelize.DECIMAL
       },
       lng: {
         allowNull:false,
+        unique:true,
         type: Sequelize.DECIMAL
       },
       unitTypeId: {

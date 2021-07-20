@@ -15,7 +15,12 @@ module.exports = (sequelize, DataTypes) => {
     pool: DataTypes.BOOLEAN,
     price: DataTypes.DECIMAL,
     rentalUnitDescription: DataTypes.STRING,
-    totalRentals: DataTypes.INTEGER
+    totalRentals:  {
+      type: DataTypes.INTEGER,
+      validate: {
+        min: 0
+      }
+    }
   }, {});
   RentalUnits.associate = function(models) {
     // associations can be defined here
