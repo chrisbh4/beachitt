@@ -17,9 +17,9 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {model: 'Users'}
       },
-      address: {
+      city: {
         allowNull:false,
-        unique: true,
+
         type: Sequelize.STRING(40)
       },
       state: {
