@@ -9,9 +9,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       rentalUnitId: {
+        allowNull:false,
         type: Sequelize.INTEGER
       },
       url: {
+        allowNull:false,
         type: Sequelize.ARRAY(Sequelize.STRING)
       },
       createdAt: {

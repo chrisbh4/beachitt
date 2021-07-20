@@ -9,15 +9,19 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       userId: {
+        allowNull:false,
         type: Sequelize.INTEGER
       },
       startDate: {
+        allowNull:false,
         type: Sequelize.DATEONLY
       },
       endDate: {
+        allowNull:false,
         type: Sequelize.DATEONLY
       },
       rentalUnitId: {
+        allowNull:false,
         type: Sequelize.INTEGER
       },
       createdAt: {

@@ -9,48 +9,62 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       title: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(100),
+        allowNull:false
       },
       ownerId: {
+        allowNull:false,
         type: Sequelize.INTEGER
       },
       address: {
-        type: Sequelize.STRING
+        allowNull:false,
+        type: Sequelize.STRING(40)
       },
       state: {
-        type: Sequelize.STRING
+        allowNull:false,
+        type: Sequelize.STRING(2)
       },
       zipcode: {
         type: Sequelize.INTEGER
       },
       rooms: {
+        allowNull:false,
         type: Sequelize.INTEGER
       },
       bathrooms: {
+        allowNull:false,
         type: Sequelize.INTEGER
       },
       distanceFromBeach: {
-        type: Sequelize.INTEGER
+        allowNull:false,
+        type: Sequelize.DECIMAL(2,2)
       },
       lat: {
+        allowNull:false,
         type: Sequelize.DECIMAL
       },
       lng: {
+        allowNull:false,
         type: Sequelize.DECIMAL
       },
       unitTypeId: {
+        allowNull:false,
         type: Sequelize.INTEGER
       },
       pool: {
+        allowNull:false,
         type: Sequelize.BOOLEAN
       },
       price: {
-        type: Sequelize.DECIMAL
+        allowNull:false,
+        type: Sequelize.DECIMAL(5,2)
       },
       rentalUnitDescription: {
+        allowNull:false,
         type: Sequelize.STRING
       },
       totalRentals: {
+        allowNull:false,
         type: Sequelize.INTEGER
       },
       createdAt: {
