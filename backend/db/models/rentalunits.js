@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     unitTypeId: DataTypes.INTEGER,
     pool: DataTypes.BOOLEAN,
     price: DataTypes.STRING,
-    rentalUnitDescription: DataTypes.STRING,
+    rentalUnitDescription: DataTypes.TEXT,
     totalRentals:  {
       type: DataTypes.INTEGER,
       validate: {

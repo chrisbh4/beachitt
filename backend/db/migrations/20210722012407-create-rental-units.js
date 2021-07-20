@@ -66,7 +66,7 @@ module.exports = {
       },
       rentalUnitDescription: {
         allowNull:false,
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       totalRentals: {
         allowNull:false,
