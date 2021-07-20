@@ -9,11 +9,11 @@ module.exports = (sequelize, DataTypes) => {
     rooms: DataTypes.INTEGER,
     bathrooms: DataTypes.INTEGER,
     distanceFromBeach: DataTypes.INTEGER,
-    lat: DataTypes.DECIMAL,
-    lng: DataTypes.DECIMAL,
+    lat: DataTypes.STRING,
+    lng: DataTypes.STRING,
     unitTypeId: DataTypes.INTEGER,
     pool: DataTypes.BOOLEAN,
-    price: DataTypes.DECIMAL,
+    price: DataTypes.STRING,
     rentalUnitDescription: DataTypes.STRING,
     totalRentals:  {
       type: DataTypes.INTEGER,
@@ -24,6 +24,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   RentalUnits.associate = function(models) {
     // associations can be defined here
+    RentalUnits.belongsTo(models.Users , {foreignKey: 'userId'})
+    RentalUnits.hasOne(models.UnitType , {foreignKey: 'unitTypeId'})
   };
   return RentalUnits;
 };

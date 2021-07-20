@@ -7,11 +7,12 @@ module.exports = {
       Return a promise to correctly handle asynchronicity.
 
       Example:
-      return queryInterface.bulkInsert('People', [{
-        name: 'John Doe',
-        isBetaMember: false
-      }], {});
-    */
+      */
+   return queryInterface.bulkInsert('UnitTypes', [
+     {type:'house', createdAt: new Date(), updatedAt: new Date()},
+     {type:'apartment',createdAt: new Date(), updatedAt: new Date()},
+     {type:'private room',createdAt: new Date(), updatedAt: new Date()}
+   ], {});
   },
 
   down: (queryInterface, Sequelize) => {
@@ -20,7 +21,7 @@ module.exports = {
       Return a promise to correctly handle asynchronicity.
 
       Example:
-      return queryInterface.bulkDelete('People', null, {});
-    */
+      */
+   return queryInterface.bulkDelete('UnitTypes', null, {});
   }
 };

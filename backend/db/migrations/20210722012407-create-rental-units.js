@@ -44,12 +44,12 @@ module.exports = {
       lat: {
         allowNull:false,
         unique:true,
-        type: Sequelize.DECIMAL
+        type: Sequelize.STRING
       },
       lng: {
         allowNull:false,
         unique:true,
-        type: Sequelize.DECIMAL
+        type: Sequelize.STRING
       },
       unitTypeId: {
         allowNull:false,
@@ -62,7 +62,7 @@ module.exports = {
       },
       price: {
         allowNull:false,
-        type: Sequelize.DECIMAL(5,2)
+        type: Sequelize.STRING
       },
       rentalUnitDescription: {
         allowNull:false,

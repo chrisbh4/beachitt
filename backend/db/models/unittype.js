@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   UnitType.associate = function(models) {
     // associations can be defined here
+    UnitType.belongsTo(models.RentalUnits, {foreignKey:'unitTypeId'})
   };
   return UnitType;
 };
