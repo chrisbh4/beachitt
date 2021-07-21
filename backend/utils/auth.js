@@ -34,7 +34,7 @@ const setTokenCookie = (res, user) => {
     // const { token } = req.cookies;
     let { token } = req.cookies;
 
-    console.log(req.headers)
+    // console.log(req.headers)
     if(!token)token = req.headers.authorization
 
     return jwt.verify(token, secret, null, async (err, jwtPayload) => {
