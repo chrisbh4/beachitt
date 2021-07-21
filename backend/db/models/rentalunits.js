@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const RentalUnits = sequelize.define('RentalUnits', {
     title: DataTypes.STRING,
     ownerId: DataTypes.INTEGER,
-    address: DataTypes.STRING,
+    city: DataTypes.STRING,
     state: DataTypes.STRING,
     zipcode: DataTypes.INTEGER,
     rooms: DataTypes.INTEGER,
