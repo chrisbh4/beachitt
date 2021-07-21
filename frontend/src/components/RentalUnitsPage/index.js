@@ -22,18 +22,28 @@ function RentalUnitsPage (){
     return(
         <div>
             <h1>Beach Properties</h1>
-            {/* <h3>{rentalUnits[1]}</h3> */}
-            <ul>
-               {rentalUnits.map((rentalUnit)=>{
-                   if(rentalUnit.id){
-                       return (
-                           <li key={rentalUnit.id}>
-                               {rentalUnit.title}
-                           </li>
-                       )
-                   }
-               })}
-            </ul>
+
+            <div className='all-unit-container' >
+                {rentalUnits.map((unit)=>{
+                    return(
+                        <div key={unit.id}>
+                            <h3>{unit.title}</h3>
+                            <div className="unit-Info">
+                                <h4>Unit Description:</h4>
+                                <p>Location: {unit.city}, {unit.state}, {unit.zipcode} </p>
+                                <p>Distance From Beach: {unit.distanceFromBeach} miles </p>
+                                <p>Price: {unit.price} /per night</p>
+                                <p>Number of Rooms:{unit.rooms} </p>
+                                <p>Number of Bathrooms:{unit.bathrooms} </p>
+                                <p>{unit.rentalUnitDescription}</p>
+                            </div>
+
+                        </div>
+                    )
+                })}
+            </div>
+
+
 
         </div>
 
