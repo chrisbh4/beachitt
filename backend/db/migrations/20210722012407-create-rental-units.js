@@ -51,14 +51,13 @@ module.exports = {
         unique:true,
         type: Sequelize.STRING
       },
-      unitTypeId: {
+      unitType: {
         allowNull:false,
-        type: Sequelize.INTEGER,
-        references:{model:'UnitTypes'}
+        type: Sequelize.STRING,
       },
       pool: {
         allowNull:false,
-        type: Sequelize.BOOLEAN
+        type: Sequelize.STRING('10')
       },
       price: {
         allowNull:false,
