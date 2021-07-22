@@ -21,12 +21,9 @@ router.post('/new' , asyncHandler( async ( req ,res )=>{
     pool, price , rentalUnitDescription, bathrooms, unitType , rooms, state, zipcode,totalRentals } = req.body
 
     const newUnit = await RentalUnits.create({title,ownerId,  city,  distanceFromBeach, lat, lng,  pool, price ,
-      rentalUnitDescription, bathrooms , unitType , rooms , state, zipcode , totalRentals})
+      rentalUnitDescription, bathrooms , unitType , rooms , state, zipcode , totalRentals});
 
-    // await setTokenCookie(res , newUnit )
-
-    return res.json({newUnit
-    })
+    return res.json({  newUnit  });
   }))
 
 
