@@ -104,8 +104,9 @@ module.exports = (sequelize, DataTypes) => {
 
 /* I checked my database my references look correct , I thought it
 was how the order of my migrations were and maybe that was the fix
-but wasn't the order that matter. I was looking at some documentation
+but it wasn't the order that mattered. I was looking at some documentation
 but most of it seemed out of date and I also looked at the sequelize-cheatsheet.pdf
-and the way how the assosiations examples look seem correct with how I have it pretty consfued on what the issue could be.
+and the way how the assosiations examples look match with how I have it. I'm pretty
+consfued on what the issue could be
 
 */
