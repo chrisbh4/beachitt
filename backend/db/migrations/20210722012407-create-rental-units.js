@@ -39,7 +39,7 @@ module.exports = {
       },
       distanceFromBeach: {
         allowNull:false,
-        type: Sequelize.DECIMAL(2,2)
+        type: Sequelize.DECIMAL(10,0)
       },
       lat: {
         allowNull:false,

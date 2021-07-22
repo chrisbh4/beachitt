@@ -17,11 +17,11 @@ router.get('/' , asyncHandler(async( _req , res )=>{
 
 
 router.post('/new', requireAuth , asyncHandler( async ( req ,res )=>{
-  const {title,  city,  distanceFromBeach, lat, lng,
-    pool, price , rentalUnitDescription, rooms, state, zipcode, } = req.body
+  const {title, ownerId ,  city,  distanceFromBeach, lat, lng,
+    pool, price , rentalUnitDescription, bathrooms, unitType , rooms, state, zipcode,totalRentals } = req.body
 
-    const newUnit = await RentalUnits.create({title,  city,  distanceFromBeach, lat, lng,  pool, price ,
-      rentalUnitDescription, rooms, state, zipcode})
+    const newUnit = await RentalUnits.create({title,ownerId,  city,  distanceFromBeach, lat, lng,  pool, price ,
+      rentalUnitDescription, bathrooms , unitType , rooms , state, zipcode , totalRentals})
 
     await setTokenCookie(res , newUnit )
 
