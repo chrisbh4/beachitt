@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 // import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import { getRentalUnits } from '../../store/rentalUnits'
 
 function RentalUnitsPage (){
@@ -20,7 +21,11 @@ function RentalUnitsPage (){
     // console.log('RENTAL-UNITS: ',rentalUnits)
 
     return(
+
         <div>
+            {/* <nav>
+                <NavLink to='/units/new'>Register New Unit</NavLink>
+            </nav> */}
             <h1>Beach Properties</h1>
 
             <div className='all-unit-container' >
