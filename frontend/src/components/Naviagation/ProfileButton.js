@@ -32,6 +32,7 @@ function ProfileButton({ user }) {
   return (
     <>
     <NavLink to='/units'>Show Units</NavLink>
+    <NavLink to="/new">New Unit</NavLink>
       <button onClick={openMenu}>
         <i class="fas fa-paper-plane"></i>
       </button>
