@@ -18,7 +18,7 @@ router.get('/', asyncHandler(async (_req, res) => {
 
 router.get('/:id', asyncHandler(async (req, res) => {
   const unit = await RentalUnits.findByPk(req.params.id)
-  res.json({ unit })
+  res.json( unit )
 
 }))
 
@@ -51,7 +51,7 @@ router.put('/:id', requireAuth, asyncHandler(async( req, res )=>{
       unit.zipcode = req.body.zipcode;
 
   await unit.save()
-  return res.json({unit})
+  return res.json(unit)
 
 }))
 
