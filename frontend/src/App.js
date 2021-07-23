@@ -4,7 +4,9 @@ import { Route, Switch } from "react-router-dom";
 import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
+import RentalUnitsPage from "./components/RentalUnitsPage/index";
 import Navigation from "./components/Naviagation";
+import NewUnitForm from "./components/RentalUnitsPage/NewUnitForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,6 +25,12 @@ function App() {
           </Route>
           <Route path="/signup">
             <SignupFormPage />
+          </Route>
+          <Route  path="/units">
+            <RentalUnitsPage />
+          </Route>
+          <Route exact path="/new">
+            < NewUnitForm />
           </Route>
         </Switch>
       )}

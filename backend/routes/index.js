@@ -1,8 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const apiRouter = require('./api');
+const rentalUnitRouter = require('./api')
 
 router.use('/api', apiRouter);
+// router.use('/api',rentalUnitRouter)
+
+//* allows for url to not use api/units
+router.use('/', rentalUnitRouter);
 
 // Static routes
 // Serve React build files in production

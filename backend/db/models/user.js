@@ -48,9 +48,10 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
   });
-  User.associate = function(models) {
-    // associations can be defined here
-  };
+  // User.associate = function(models) {
+  //   // associations can be defined here
+  //   User.hasMany(models.RentalUnits , {foreignKey: 'id'})
+  // };
   User.prototype.toSafeObject = function() { // remember, this cannot be an arrow function
     const { id, username, email } = this; // context will be the User instance
     return { id, username, email };
@@ -91,5 +92,21 @@ module.exports = (sequelize, DataTypes) => {
     return await User.scope('currentUser').findByPk(user.id);
   };
 
+  User.associate = function(models) {
+    // associations can be defined here
+    User.hasMany(models.RentalUnits , {foreignKey: 'ownerId'})
+  };
   return User;
+
+
 };
+
+
+/* I checked my database my references look correct , I thought it
+was how the order of my migrations were and maybe that was the fix
+but it wasn't the order that mattered. I was looking at some documentation
+but most of it seemed out of date and I also looked at the sequelize-cheatsheet.pdf
+and the way how the assosiations examples look match with how I have it. I'm pretty
+consfued on what the issue could be
+
+*/
