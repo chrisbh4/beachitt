@@ -2,7 +2,7 @@ import {csrfFetch} from "./csrf"
 
 const LOAD = 'units/LOAD';
 const ADD_ONE = 'units/ADD_ONE';
-
+const DELETE_UNIT= 'units/DELETE_UNIT';
 const load = units => ({
     type: LOAD,
     units,
@@ -13,6 +13,10 @@ const load = units => ({
     unit,
   });
 
+  const deleteRentalUnit = (unitId)=>({
+    type: DELETE_UNIT,
+    unitId,
+  })
 
 export const getRentalUnits = () => async dispatch => {
     const rentalUnitCollection = await csrfFetch(`/api/units`);
@@ -67,7 +71,11 @@ export const createRentalUnit = (payload) => async dispatch =>{
           [action.unit.id]:action.unit
         };
         return newState;
-
+      }
+      case DELETE_UNIT:{
+        const newState = {...state};
+        delete newState[action.unitId];
+        return newState
       }
       default:
         return state;
