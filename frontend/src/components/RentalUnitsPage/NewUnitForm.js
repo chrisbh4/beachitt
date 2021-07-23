@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {createRentalUnit} from "../../store/rentalUnits"
 
@@ -6,6 +6,8 @@ import {createRentalUnit} from "../../store/rentalUnits"
 
 function NewUnitForm() {
     const dispatch = useDispatch();
+    const sessionUserId = useSelector(state => state.session.user.id);
+
     const [title, setTitle] = useState("")
     const [city, setCity] = useState("")
     const [distanceFromBeach, setDistanceFromBeach] = useState("")
@@ -19,9 +21,8 @@ function NewUnitForm() {
     const [rooms, setRooms] = useState(1)
     const [state, setState] = useState("")
     const [zipcode, setZipcode] = useState("")
-    const [totalRentals] = useState(0)
-    const [] = useState("")
-    const sessionUserId = useSelector(state => state.session.user.id);
+    // const [totalRentals] = useState(0)
+    // const [] = useState("")
     const ownerId = sessionUserId;
 /*
     to grab the current user and be able to set values to other variables
@@ -63,16 +64,31 @@ function NewUnitForm() {
             lng,
             price,
             rentalUnitDescription,
-            totalRentals
+            totalRentals: 0
         };
-
         let newUnit = dispatch(createRentalUnit(payload));
-
         if(newUnit){
             return newUnit
         }
-
+        reset();
     }
+
+    const reset = () => {
+		    setTitle("")
+            setCity("")
+            setState("")
+            setZipcode("")
+            setDistanceFromBeach("")
+            setRooms("")
+            setBathrooms("")
+            setPool("")
+            setUnitType("")
+            setLat("")
+            setLng("")
+            setPrice("")
+            setRentalUnitDescription("")
+
+	};
 
     return (
         <div>
@@ -134,37 +150,41 @@ function NewUnitForm() {
                         value={pool}
                         max="3"
                     ></input>
-                    {/* <select name="unitType"
-                            value={unitType}
-                    >
-                        <option onChange={unitType}>
-                            House
-                        </option>
-                        <option onChange={unitType}>
-                            Apartment
-                        </option>
-                        <option onChange={unitType} >
-                            Single Room
-                        </option>
-                    </select> */}
-                    {/* <input
-                        type="radio"
-                        value={"house"}
-                        onClick={updateUnityType}>
-                            House
+                <div className="unit-type">
+
+                <label htmlFor="house">House</label>
+					<input
+						onChange={updateUnityType}
+						value={"house"}
+						type="radio"
+                        id="hosue"
+                        checked={unitType === 'house'}
+						// id="house"
+                        >
                     </input>
-                    <input
-                        type="radio"
-                        value={"apartment"}
-                        onClick={updateUnityType}>
-                            Apartment
+                <label htmlFor="apartment">Apartment</label>
+					<input
+						onChange={updateUnityType}
+						value={"apartment"}
+						type="radio"
+                        id="apartment"
+                        checked={unitType === 'apartment'}
+                        // disabled={unitType === "apartment"}
+
+						// id="house"
+                        >
                     </input>
-                    <input
-                        type="radio"
-                        value={"single room"}
-                        onClick={updateUnityType}>
-                            Single Room
-                    </input> */}
+                <label htmlFor="singleRoom">Single Room</label>
+					<input
+
+						onChange={updateUnityType}
+                        checked={unitType === 'single room'}
+						value={"single room"}
+						type="radio"
+						id="singleRoom"
+                        >
+                    </input>
+                        </div>
                     <label>Latitude: </label>
                     <input
                         type="text"
