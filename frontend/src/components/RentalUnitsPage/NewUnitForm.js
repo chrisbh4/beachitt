@@ -66,10 +66,11 @@ function NewUnitForm() {
             rentalUnitDescription,
             totalRentals: 0
         };
-        let newUnit = dispatch(createRentalUnit(payload));
-        if(newUnit){
-            return newUnit
-        }
+        // let newUnit = dispatch(createRentalUnit(payload));
+        // if(newUnit){
+        //     return newUnit
+        // }
+        dispatch(createRentalUnit(payload));
         reset();
     }
 
@@ -87,7 +88,8 @@ function NewUnitForm() {
             setLng("")
             setPrice("")
             setRentalUnitDescription("")
-
+            
+            throw alert("Rental Unit Submited")
 	};
 
     return (
