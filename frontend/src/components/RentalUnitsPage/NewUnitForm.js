@@ -22,6 +22,12 @@ function NewUnitForm() {
     const [totalRentals] = useState(0)
     const [] = useState("")
 
+/*
+    const sessionUser = useSelector(state => state.session.user);
+    to grab the current user and be able to set values to other variables
+*/
+
+
 
     const updateTitle = (e) => setTitle(e.target.value);
     const updateCity = (e) => setCity(e.target.value);
