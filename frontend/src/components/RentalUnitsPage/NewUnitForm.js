@@ -21,9 +21,9 @@ function NewUnitForm() {
     const [zipcode, setZipcode] = useState("")
     const [totalRentals] = useState(0)
     const [] = useState("")
-
+    const sessionUserId = useSelector(state => state.session.user.id);
+    const ownerId = sessionUserId;
 /*
-    const sessionUser = useSelector(state => state.session.user);
     to grab the current user and be able to set values to other variables
 */
 
@@ -50,6 +50,7 @@ function NewUnitForm() {
 
         const payload = {
             title,
+            ownerId,
             city,
             state,
             zipcode,
