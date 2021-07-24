@@ -36,6 +36,7 @@ router.post('/new', requireAuth, asyncHandler(async (req, res) => {
 
 router.put('/:id', requireAuth, asyncHandler(async( req, res )=>{
   const unit = await RentalUnits.findByPk(req.params.id);
+
       unit.title = req.body.title;
       unit.city = req.body.city;
       unit.distanceFromBeach = req.body.distanceFromBeach;
@@ -51,7 +52,7 @@ router.put('/:id', requireAuth, asyncHandler(async( req, res )=>{
       unit.zipcode = req.body.zipcode;
 
   await unit.save()
-  return res.json(unit)
+  return res.json({unit})
 
 }))
 
