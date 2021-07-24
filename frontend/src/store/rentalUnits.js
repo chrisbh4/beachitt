@@ -75,7 +75,7 @@ export const createRentalUnit = (payload) => async dispatch =>{
 
 
   const initialState = {
-    units:[],
+
   };
 
 
@@ -128,7 +128,7 @@ export const createRentalUnit = (payload) => async dispatch =>{
           return newState;
         })
       }
-
+      break
       default:
         return state;
     }

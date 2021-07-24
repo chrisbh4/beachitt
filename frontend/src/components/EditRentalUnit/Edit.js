@@ -1,14 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import {createRentalUnit} from "../../store/rentalUnits"
+import { useHistory, useParams } from 'react-router-dom';
+import { editRentalUnit, getRentalUnits , deleteRentalUnit } from "../../store/rentalUnits";
 
 
+function EditUnitForm(){
 
-function NewUnitForm() {
-    const dispatch = useDispatch();
+    const { id } = useParams();
+    const dispatch = useDispatch()
     const history = useHistory()
-    const sessionUserId = useSelector(state => state.session.user.id);
+    //  trying to get rentalUnits from the currentstate from the id of the clicked on unit
+    //  const rentalUnit = useSelector(state => state.rentalUnit[id]);
+
+    // console.log(id)
+
+    const rentalUnit = useSelector((state)=>(state.rentalUnit[id]))
+    //! Need to use rentalUnit?.title
+        // checks if rentalUnit.title exsist in the rentalUnit
+    console.log(rentalUnit?.ownerId)
+
+    // console.log(rentalUnits.title)
+
+    useEffect(()=>{
+        dispatch(getRentalUnits())
+    },[dispatch])
+
+// ! editRentalUnit()
+    // useEffect(()=>{
+    //     dispatch(editRentalUnit())
+    // },[dispatch])
+
+
+
+
 
     const [title, setTitle] = useState("")
     const [city, setCity] = useState("")
@@ -23,13 +47,6 @@ function NewUnitForm() {
     const [rooms, setRooms] = useState(1)
     const [state, setState] = useState("")
     const [zipcode, setZipcode] = useState("")
-    // const [totalRentals] = useState(0)
-    // const [] = useState("")
-    const ownerId = sessionUserId;
-/*
-    to grab the current user and be able to set values to other variables
-*/
-
 
 
     const updateTitle = (e) => setTitle(e.target.value);
@@ -48,12 +65,22 @@ function NewUnitForm() {
     const updateZipcode = (e) => setZipcode(e.target.value);
 
 
+    const handleDelete = async (e)=>{
+        e.preventDefault();
+
+        dispatch(deleteRentalUnit(rentalUnit.id))
+        history.push('/units')
+        throw alert("Rental Unit Removed :(")
+
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+const unitId = rentalUnit?.id
+
         const payload = {
             title,
-            ownerId,
             city,
             state,
             zipcode,
@@ -66,57 +93,42 @@ function NewUnitForm() {
             lng,
             price,
             rentalUnitDescription,
-            totalRentals: 0
+
         };
         // let newUnit = dispatch(createRentalUnit(payload));
         // if(newUnit){
         //     return newUnit
         // }
-        dispatch(createRentalUnit(payload));
+        dispatch(editRentalUnit(payload, unitId));
+        history.push('/units')
+        throw alert("Rental Unit Updated :)")
         // reset();
-        history.push("/units")
-        throw alert("Rental Unit Submited")
-
     }
 
-    // const reset = () => {
-	// 	    setTitle("")
-    //         setCity("")
-    //         setState("")
-    //         setZipcode("")
-    //         setDistanceFromBeach("")
-    //         setRooms("")
-    //         setBathrooms("")
-    //         setPool("")
-    //         setUnitType("")
-    //         setLat("")
-    //         setLng("")
-    //         setPrice("")
-    //         setRentalUnitDescription("")
-
-	// };
 
     return (
         <div>
-            <h2>New Rental Unit Form</h2>
-            <div className="newUnitForm-container">
+            <h2>Update Rental Unit Form</h2>
+            <p>Please fill in all fields :) </p>
+            <div className="editUnitForm-container">
                 <form
                     onSubmit={handleSubmit}
-                >
+                    >
                     <label>Title: </label>
-                    <input
-                        type="text"
-                        onChange={updateTitle}
-                        value={title}
-                    ></input>
-                    <div className="address-container">
-                        <label>City: </label>
+                        <input
+                            type="text"
+                            onChange={updateTitle}
+                            value={title}
+                            placeholder={rentalUnit?.title}
+                        ></input>
+                     <div className="address-container">
+                     <label>City: </label>
                         <input
                             type="text"
                             onChange={updateCity}
                             value={city}
                         ></input>
-                        <label>State: </label>
+                       <label>State: </label>
                         <input
                             type="text"
                             onChange={updateState}
@@ -215,6 +227,10 @@ function NewUnitForm() {
                         value={rentalUnitDescription}
                     ></textarea>
                     <button type="submit">Submit</button>
+                    <button
+                    type="submit"
+                     onClick={handleDelete}
+                    >Delete</button>
                 </form>
             </div>
         </div>
@@ -222,4 +238,4 @@ function NewUnitForm() {
 }
 
 
-export default NewUnitForm;
+export default EditUnitForm;
