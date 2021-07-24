@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // import { NavLink } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { getRentalUnits } from '../../store/rentalUnits'
+import '../RentalUnitsPage/UnitsPage.css'
 
 function RentalUnitsPage (){
 
