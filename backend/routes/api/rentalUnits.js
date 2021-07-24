@@ -34,7 +34,7 @@ router.post('/new', requireAuth, asyncHandler(async (req, res) => {
   return res.json({ newUnit });
 }))
 
-router.put('/:id', requireAuth, asyncHandler(async( req, res )=>{
+router.put('/edit/:id', requireAuth, asyncHandler(async( req, res )=>{
   const unit = await RentalUnits.findByPk(req.params.id);
 
       unit.title = req.body.title;
@@ -58,7 +58,7 @@ router.put('/:id', requireAuth, asyncHandler(async( req, res )=>{
 
 
 
-router.delete('/:id', requireAuth, asyncHandler(async (req, res) => {
+router.delete('/edit/:id', requireAuth, asyncHandler(async (req, res) => {
   const rentalUnit = await RentalUnits.findByPk(req.params.id);
 
   if (!rentalUnit) new Error(' Cannot find Rental Unit ');

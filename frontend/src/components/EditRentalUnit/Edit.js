@@ -33,20 +33,20 @@ function EditUnitForm(){
 
 
 
-
-    const [title, setTitle] = useState("")
-    const [city, setCity] = useState("")
-    const [distanceFromBeach, setDistanceFromBeach] = useState("")
-    const [lat, setLat] = useState("")
-    const [lng, setLng] = useState("")
-    const [price, setPrice] = useState("")
-    const [pool, setPool] = useState("")
-    const [rentalUnitDescription, setRentalUnitDescription] = useState("")
-    const [bathrooms, setBathrooms] = useState(1)
-    const [unitType, setUnitType] = useState("")
-    const [rooms, setRooms] = useState(1)
-    const [state, setState] = useState("")
-    const [zipcode, setZipcode] = useState("")
+    // allows for empty inputs and sends non-updated data with the updated data
+    const [title, setTitle] = useState(rentalUnit?.title)
+    const [city, setCity] = useState(rentalUnit?.city)
+    const [distanceFromBeach, setDistanceFromBeach] = useState(rentalUnit?.distanceFromBeach)
+    const [lat, setLat] = useState(rentalUnit?.lat)
+    const [lng, setLng] = useState(rentalUnit?.lng)
+    const [price, setPrice] = useState(rentalUnit?.price)
+    const [pool, setPool] = useState(rentalUnit?.pool)
+    const [rentalUnitDescription, setRentalUnitDescription] = useState(rentalUnit?.rentalUnitDescription)
+    const [bathrooms, setBathrooms] = useState(rentalUnit?.bathrooms)
+    const [unitType, setUnitType] = useState(rentalUnit?.unitType)
+    const [rooms, setRooms] = useState(rentalUnit?.rooms)
+    const [state, setState] = useState(rentalUnit?.state)
+    const [zipcode, setZipcode] = useState(rentalUnit?.zipcode)
 
 
     const updateTitle = (e) => setTitle(e.target.value);
@@ -58,7 +58,6 @@ function EditUnitForm(){
     const updatePool = (e) => setPool(e.target.value);
     const updateRentalUnitDescription = (e) => setRentalUnitDescription(e.target.value);
     const updateBathrooms = (e) => setBathrooms(e.target.value);
-    // need a unitType for a drowdown
     const updateUnityType = (e) => setUnitType(e.target.value);
     const updateRooms = (e) => setRooms(e.target.value);
     const updateState = (e) => setState(e.target.value);

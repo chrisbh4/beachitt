@@ -72,10 +72,12 @@ function NewUnitForm() {
         // if(newUnit){
         //     return newUnit
         // }
-        dispatch(createRentalUnit(payload));
+      const unit =  dispatch(createRentalUnit(payload));
         // reset();
-        history.push("/units")
-        throw alert("Rental Unit Submited")
+        if(unit){
+            history.push("/units")
+            throw alert("Rental Unit Submited")
+        }
 
     }
 

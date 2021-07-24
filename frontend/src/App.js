@@ -9,6 +9,7 @@ import RentalUnitsPage from "./components/RentalUnitsPage/index";
 import Navigation from "./components/Naviagation";
 import NewUnitForm from "./components/RentalUnitsPage/NewUnitForm";
 import EditUnitForm from "./components/EditRentalUnit/Edit";
+import GetRentalUnitPage from "./components/UnitPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -35,12 +36,16 @@ function App() {
           <Route exact path="/units">
             <RentalUnitsPage />
           </Route>
+          <Route path = "/units/:id">
+            <GetRentalUnitPage />
+          </Route>
           <Route  path="/new">
             < NewUnitForm />
           </Route>
-          <Route  path = "/units/:id">
+          <Route  path = "/units/edit/:id">
             <EditUnitForm />
           </Route>
+
         </Switch>
       )}
     </>
