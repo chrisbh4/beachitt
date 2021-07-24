@@ -187,14 +187,10 @@ const unitId = rentalUnit?.id
 						type="radio"
                         id="apartment"
                         checked={unitType === 'apartment'}
-                        // disabled={unitType === "apartment"}
-
-						// id="house"
                         >
                     </input>
                 <label htmlFor="singleRoom">Single Room</label>
 					<input
-
 						onChange={updateUnityType}
                         checked={unitType === 'single room'}
 						value={"single room"}
