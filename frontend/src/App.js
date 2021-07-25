@@ -51,7 +51,7 @@ function App() {
           <Route  path="/new">
             < NewUnitForm />
           </Route>
-          <Route  path ="/units/:id">
+          <Route  path ="/units/edit/:id">
             <EditUnitForm />
           </Route>
         </Switch>

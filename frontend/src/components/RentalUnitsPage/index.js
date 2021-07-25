@@ -39,7 +39,7 @@ function RentalUnitsPage (){
                             <h3>
                             <Link
                                 className="unit-titel"
-                            to={`/units/${unit.id}`}>
+                            to={`/units/edit/${unit.id}`}>
                                 {unit.title}</Link>
                             </h3>
                             <div className="unit-location">
@@ -58,7 +58,7 @@ function RentalUnitsPage (){
                                 <ul className="unit-descripiton-container">
                                     <div className="unit-item-container">
                                         <i class="fas fa-umbrella-beach"></i>
-                                        <li className="unit-item">Price: {unit.price} /per night</li>
+                                        <li className="unit-item">Price:${unit.price} /per night</li>
                                     </div>
                                     <div className="unit-item-container">
                                         <i class="fas fa-umbrella-beach"></i>

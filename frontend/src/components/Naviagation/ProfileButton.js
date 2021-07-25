@@ -57,6 +57,7 @@ function ProfileButton({ user }) {
       <i class="fas fa-umbrella-beach"></i>
       </button>
 {/* Profile Menu */}
+      </nav>
       {showMenu && (
         <ul className="profile-dropdown">
           <li> {user.username}</li>
@@ -66,7 +67,6 @@ function ProfileButton({ user }) {
           </li>
         </ul>
       )}
-      </nav>
     </>
 
   );

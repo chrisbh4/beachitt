@@ -1,0 +1,26 @@
+.form-placement{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.newUnitForm-container{
+    padding:20px;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    background-color: blanchedalmond;
+    border: 2px solid black;
+    border-radius: 15%;
+    width: 80%;
+}
+
+.form-title{
+    text-align: center;
+}
+
+.new-form{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}

@@ -23,6 +23,7 @@ function EditUnitForm(){
 
     useEffect(()=>{
         dispatch(getRentalUnits())
+
     },[dispatch])
 
 // ! editRentalUnit()
@@ -106,14 +107,15 @@ const unitId = rentalUnit?.id
 
 
     return (
-        <div>
-            <h2>Update Rental Unit Form</h2>
-            <p>Please fill in all fields :) </p>
+        <div className="form-placement">
+            <h2 className="form-title">Update Rental Unit Form</h2>
+            <p className="form-title">Please fill in all fields :) </p>
             <div className="editUnitForm-container">
                 <form
+                    className="edit-form"
                     onSubmit={handleSubmit}
                     >
-                    <label>Title: </label>
+                    <label >Title: </label>
                         <input
                             type="text"
                             onChange={updateTitle}
