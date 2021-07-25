@@ -99,18 +99,21 @@ function NewUnitForm() {
 	// };
 
     return (
-        <div>
-            <h2>New Rental Unit Form</h2>
+        <div className="form-placement">
+            <h2 className="form-title">New Rental Unit Form</h2>
             <div className="newUnitForm-container">
                 <form
+                    className="new-form"
                     onSubmit={handleSubmit}
                 >
+                <div className="titel-input">
                     <label>Title: </label>
                     <input
                         type="text"
                         onChange={updateTitle}
                         value={title}
-                    ></input>
+                        ></input>
+                        </div>
                     <div className="address-container">
                         <label>City: </label>
                         <input

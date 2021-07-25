@@ -1,4 +1,17 @@
+.editUnitForm-container{
+    padding:20px;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    background-color: blanchedalmond;
+    border: 2px solid black;
+    border-radius: 15%;
+    width: 80%;
+}
 
-*{
-    color:black
+
+.edit-form{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
