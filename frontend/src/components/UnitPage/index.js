@@ -21,7 +21,7 @@ function GetRentalUnitPage (){
             <h4>Unit Description:</h4>
                 <p>Location: {unit?.city}, {unit?.state}, {unit?.zipcode} </p>
                 <p>Distance From Beach: {unit?.distanceFromBeach} miles </p>
-                <p>Price: {unit?.price} /per night</p>
+                <p>Price:$ {unit?.price} /per night</p>
                 <p>Number of Rooms:{unit?.rooms} </p>
                 <p>Number of Bathrooms:{unit?.bathrooms} </p>
                 <p>{unit?.rentalUnitDescription}</p>

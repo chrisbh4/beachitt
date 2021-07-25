@@ -23,6 +23,7 @@ function EditUnitForm(){
 
     useEffect(()=>{
         dispatch(getRentalUnits())
+
     },[dispatch])
 
 // ! editRentalUnit()
@@ -99,7 +100,7 @@ const unitId = rentalUnit?.id
         //     return newUnit
         // }
         dispatch(editRentalUnit(payload, unitId));
-        // history.push('/units')
+        history.push('/units')
         throw alert("Rental Unit Updated :)")
         // reset();
     }
