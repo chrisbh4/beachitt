@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 // import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 // import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { getRentalUnits } from '../../store/rentalUnits'
+import '../RentalUnitsPage/UnitsPage.css'
 
 function RentalUnitsPage (){
 
@@ -32,7 +34,9 @@ function RentalUnitsPage (){
                 {rentalUnits.map((unit)=>{
                     return(
                         <div key={unit.id}>
-                            <h3>{unit.title}</h3>
+                            <h3>
+                            <Link to={`/units/${unit.id}`}>{unit.title}</Link>
+                            </h3>
                             <div className="unit-Info">
                                 <h4>Unit Description:</h4>
                                 <p>Location: {unit.city}, {unit.state}, {unit.zipcode} </p>

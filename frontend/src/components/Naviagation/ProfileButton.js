@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import * as sessionActions from '../../store/session';
 
 function ProfileButton({ user }) {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
 
@@ -27,26 +28,31 @@ function ProfileButton({ user }) {
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
+    history.push('/')
   };
 
   return (
     <>
-    <NavLink to='/units'>Show Units</NavLink>
-    <NavLink to="/new">New Unit</NavLink>
+    <nav className="nav-Container">
+    <NavLink exact to="/">Home</NavLink>
+    <NavLink exact to="/units">Show Rentals</NavLink>
+    <NavLink exact to="/new">New Rental Unit</NavLink>
       <button onClick={openMenu}>
-        <i className="fas fa-paper-plane"></i>
+      <i class="fas fa-umbrella-beach"></i>
       </button>
-
+{/* Profile Menu */}
       {showMenu && (
         <ul className="profile-dropdown">
-          <li>{user.username}</li>
+          <li> {user.username}</li>
           <li>{user.email}</li>
           <li>
             <button onClick={logout}>Log Out</button>
           </li>
         </ul>
       )}
+      </nav>
     </>
+
   );
 }
 

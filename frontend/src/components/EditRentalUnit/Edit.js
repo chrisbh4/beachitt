@@ -1,35 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import {createRentalUnit} from "../../store/rentalUnits"
-import '../RentalUnitsPage/NewUnit.css'
+import { useHistory, useParams } from 'react-router-dom';
+import { editRentalUnit, getRentalUnits , deleteRentalUnit } from "../../store/rentalUnits";
+import '../EditRentalUnit/EditRentalUnit.css'
 
+function EditUnitForm(){
 
-function NewUnitForm() {
-    const dispatch = useDispatch();
+    const { id } = useParams();
+    const dispatch = useDispatch()
     const history = useHistory()
-    const sessionUserId = useSelector(state => state.session.user.id);
+    //  trying to get rentalUnits from the currentstate from the id of the clicked on unit
+    //  const rentalUnit = useSelector(state => state.rentalUnit[id]);
 
-    const [title, setTitle] = useState("")
-    const [city, setCity] = useState("")
-    const [distanceFromBeach, setDistanceFromBeach] = useState("")
-    const [lat, setLat] = useState("")
-    const [lng, setLng] = useState("")
-    const [price, setPrice] = useState("")
-    const [pool, setPool] = useState("")
-    const [rentalUnitDescription, setRentalUnitDescription] = useState("")
-    const [bathrooms, setBathrooms] = useState(1)
-    const [unitType, setUnitType] = useState("")
-    const [rooms, setRooms] = useState(1)
-    const [state, setState] = useState("")
-    const [zipcode, setZipcode] = useState("")
-    // const [totalRentals] = useState(0)
-    // const [] = useState("")
-    const ownerId = sessionUserId;
-/*
-    to grab the current user and be able to set values to other variables
-*/
+    // console.log(id)
 
+    const rentalUnit = useSelector((state)=>(state.rentalUnit[id]))
+    //! Need to use rentalUnit?.title
+        // checks if rentalUnit.title exsist in the rentalUnit
+    console.log(rentalUnit?.ownerId)
+
+    // console.log(rentalUnits.title)
+
+    useEffect(()=>{
+        dispatch(getRentalUnits())
+    },[dispatch])
+
+// ! editRentalUnit()
+    // useEffect(()=>{
+    //     dispatch(editRentalUnit())
+    // },[dispatch])
+
+
+
+
+    // allows for empty inputs and sends non-updated data with the updated data
+    const [title, setTitle] = useState(rentalUnit?.title)
+    const [city, setCity] = useState(rentalUnit?.city)
+    const [distanceFromBeach, setDistanceFromBeach] = useState(rentalUnit?.distanceFromBeach)
+    const [lat, setLat] = useState(rentalUnit?.lat)
+    const [lng, setLng] = useState(rentalUnit?.lng)
+    const [price, setPrice] = useState(rentalUnit?.price)
+    const [pool, setPool] = useState(rentalUnit?.pool)
+    const [rentalUnitDescription, setRentalUnitDescription] = useState(rentalUnit?.rentalUnitDescription)
+    const [bathrooms, setBathrooms] = useState(rentalUnit?.bathrooms)
+    const [unitType, setUnitType] = useState(rentalUnit?.unitType)
+    const [rooms, setRooms] = useState(rentalUnit?.rooms)
+    const [state, setState] = useState(rentalUnit?.state)
+    const [zipcode, setZipcode] = useState(rentalUnit?.zipcode)
 
 
     const updateTitle = (e) => setTitle(e.target.value);
@@ -41,19 +58,28 @@ function NewUnitForm() {
     const updatePool = (e) => setPool(e.target.value);
     const updateRentalUnitDescription = (e) => setRentalUnitDescription(e.target.value);
     const updateBathrooms = (e) => setBathrooms(e.target.value);
-    // need a unitType for a drowdown
     const updateUnityType = (e) => setUnitType(e.target.value);
     const updateRooms = (e) => setRooms(e.target.value);
     const updateState = (e) => setState(e.target.value);
     const updateZipcode = (e) => setZipcode(e.target.value);
 
 
+    const handleDelete = async (e)=>{
+        e.preventDefault();
+
+        dispatch(deleteRentalUnit(rentalUnit.id))
+        history.push('/units')
+        throw alert("Rental Unit Removed :(")
+
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+const unitId = rentalUnit?.id
+
         const payload = {
             title,
-            ownerId,
             city,
             state,
             zipcode,
@@ -66,59 +92,42 @@ function NewUnitForm() {
             lng,
             price,
             rentalUnitDescription,
-            totalRentals: 0
+
         };
         // let newUnit = dispatch(createRentalUnit(payload));
         // if(newUnit){
         //     return newUnit
         // }
-      const unit =  dispatch(createRentalUnit(payload));
+        dispatch(editRentalUnit(payload, unitId));
+        history.push('/units')
+        throw alert("Rental Unit Updated :)")
         // reset();
-        if(unit){
-            history.push("/units")
-            throw alert("Rental Unit Submited")
-        }
-
     }
 
-    // const reset = () => {
-	// 	    setTitle("")
-    //         setCity("")
-    //         setState("")
-    //         setZipcode("")
-    //         setDistanceFromBeach("")
-    //         setRooms("")
-    //         setBathrooms("")
-    //         setPool("")
-    //         setUnitType("")
-    //         setLat("")
-    //         setLng("")
-    //         setPrice("")
-    //         setRentalUnitDescription("")
-
-	// };
 
     return (
         <div>
-            <h2>New Rental Unit Form</h2>
-            <div className="newUnitForm-container">
+            <h2>Update Rental Unit Form</h2>
+            <p>Please fill in all fields :) </p>
+            <div className="editUnitForm-container">
                 <form
                     onSubmit={handleSubmit}
-                >
+                    >
                     <label>Title: </label>
-                    <input
-                        type="text"
-                        onChange={updateTitle}
-                        value={title}
-                    ></input>
-                    <div className="address-container">
-                        <label>City: </label>
+                        <input
+                            type="text"
+                            onChange={updateTitle}
+                            value={title}
+                            placeholder={rentalUnit?.title}
+                        ></input>
+                     <div className="address-container">
+                     <label>City: </label>
                         <input
                             type="text"
                             onChange={updateCity}
                             value={city}
                         ></input>
-                        <label>State: </label>
+                       <label>State: </label>
                         <input
                             type="text"
                             onChange={updateState}
@@ -177,14 +186,10 @@ function NewUnitForm() {
 						type="radio"
                         id="apartment"
                         checked={unitType === 'apartment'}
-                        // disabled={unitType === "apartment"}
-
-						// id="house"
                         >
                     </input>
                 <label htmlFor="singleRoom">Single Room</label>
 					<input
-
 						onChange={updateUnityType}
                         checked={unitType === 'single room'}
 						value={"single room"}
@@ -217,6 +222,10 @@ function NewUnitForm() {
                         value={rentalUnitDescription}
                     ></textarea>
                     <button type="submit">Submit</button>
+                    <button
+                    type="submit"
+                     onClick={handleDelete}
+                    >Delete</button>
                 </form>
             </div>
         </div>
@@ -224,4 +233,4 @@ function NewUnitForm() {
 }
 
 
-export default NewUnitForm;
+export default EditUnitForm;
