@@ -5,6 +5,7 @@ import ProfileButton from './ProfileButton';
 import '../Naviagation/Navigation.css';
 
 function Navigation({ isLoaded }){
+  
   const sessionUser = useSelector(state => state.session.user);
 
   let sessionLinks;
@@ -25,12 +26,19 @@ function Navigation({ isLoaded }){
   }
 
   return (
-    <ul>
-      <li>
-        <NavLink exact to="/">Home</NavLink>
+    <>
         {isLoaded && sessionLinks}
-      </li>
-    </ul>
+
+          <div className="top-rentals">
+            <h2>Most Rented Rentals</h2>
+          </div>
+          <div className="top-rated">
+            <h2>Highest Rated Rental </h2>
+          </div>
+          <div className="cheapest">
+            <h2>Most Budget Friendly</h2>
+          </div>
+    </>
   );
 }
 

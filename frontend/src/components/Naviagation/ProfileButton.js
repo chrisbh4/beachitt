@@ -33,12 +33,14 @@ function ProfileButton({ user }) {
 
   return (
     <>
-    <NavLink to='/units'>Show Units</NavLink>
-    <NavLink to="/new">New Unit</NavLink>
+    <nav className="nav-Container">
+    <NavLink exact to="/">Home</NavLink>
+    <NavLink exact to="/units">Show Rentals</NavLink>
+    <NavLink exact to="/new">New Rental Unit</NavLink>
       <button onClick={openMenu}>
       <i class="fas fa-umbrella-beach"></i>
       </button>
-
+{/* Profile Menu */}
       {showMenu && (
         <ul className="profile-dropdown">
           <li> {user.username}</li>
@@ -48,7 +50,9 @@ function ProfileButton({ user }) {
           </li>
         </ul>
       )}
+      </nav>
     </>
+
   );
 }
 
