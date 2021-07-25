@@ -1,8 +1,26 @@
-/* *{
-    color:black
-} */
+
+button{
+    border-radius: 30px;
+    background-color: rgb(245, 192, 145);
+
+}
 
 
-label{
-    color:red
+.login-container{
+    width: 100%;
+   display: flex;
+   justify-content: center;
+
+}
+
+
+
+
+.login-button{
+    margin-left: 20px;
+}
+
+
+.login-label{
+font-size: larger;
 }
