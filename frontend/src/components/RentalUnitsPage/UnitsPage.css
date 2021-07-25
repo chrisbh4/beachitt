@@ -17,6 +17,10 @@
 .unit-titel:hover{
     font-size: xx-large;
 }
+.unit-titel:visited{
+    color: black;
+
+}
 
 .unit-location{
     width: 100%;
