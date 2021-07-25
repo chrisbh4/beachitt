@@ -1,1 +1,69 @@
+/* <i class="fas fa-umbrella-beach"></i> */
 
+.unitsPage-h1{
+    /* width: 100%; */
+    text-align: center;
+}
+
+.unit-div h3{
+    text-align: center;
+}
+
+
+.unit-titel{
+    font-size: large;
+    text-decoration: none;
+}
+.unit-titel:hover{
+    font-size: xx-large;
+}
+
+.unit-location{
+    width: 100%;
+}
+
+
+.unit-headers{
+    font-size: larger;
+    margin-left: 25px;
+}
+
+
+.all-unit-container{
+    width: 100%;
+    display: flex;
+
+    flex-direction: column;
+    align-items: center;
+
+
+}
+
+.unit-div{
+    background-color: blanchedalmond;
+    border: 1px solid black;
+    border-radius: 3%;
+    width: 45%;
+}
+
+
+.unit-item-container{
+    display: flex;
+
+}
+
+
+.unit-item{
+    margin-left: 5px;
+}
+
+
+.unit-descripiton-container{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.unit-textbox{
+    width: 85%;
+}
