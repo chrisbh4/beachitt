@@ -46,31 +46,31 @@ function RentalUnitsPage (){
                                 <h4 className='unit-headers'>Location Description:</h4>
                                 <ul>
                                 <div className="unit-item-container">
-                                        <i class="fas fa-umbrella-beach"></i>
+                                        <i className="fas fa-umbrella-beach"></i>
                                     <li className="unit-item"> Location: {unit.city}, {unit.state}, {unit.zipcode} </li>
                                     </div>
                                     <div className="unit-item-container">
-                                        <i class="fas fa-umbrella-beach"></i>
+                                        <i className="fas fa-umbrella-beach"></i>
                                     <li className="unit-item">Distance From Beach: {unit.distanceFromBeach} mile/s </li>
                                     </div>
                                 </ul>
                                     <h4 className='unit-headers'>Unit Description:</h4>
                                 <ul className="unit-descripiton-container">
                                     <div className="unit-item-container">
-                                        <i class="fas fa-umbrella-beach"></i>
+                                        <i className="fas fa-umbrella-beach"></i>
                                         <li className="unit-item">Price:${unit.price} /per night</li>
                                     </div>
                                     <div className="unit-item-container">
-                                        <i class="fas fa-umbrella-beach"></i>
+                                        <i className="fas fa-umbrella-beach"></i>
                                         <li className="unit-item">Number of Rooms:{unit.rooms} </li>
                                     </div>
                                     <div className="unit-item-container">
-                                        <i class="fas fa-umbrella-beach"></i>
+                                        <i className="fas fa-umbrella-beach"></i>
                                         <li className="unit-item">Number of Bathrooms:{unit.bathrooms} </li>
 
                                     </div>
                                     <div className="unit-item-container unit-textbox">
-                                        <i class="fas fa-umbrella-beach"></i>
+                                        <i className="fas fa-umbrella-beach"></i>
                                         <li className="unit-item">{unit.rentalUnitDescription}</li>
                                     </div>
 

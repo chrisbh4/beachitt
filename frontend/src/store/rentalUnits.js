@@ -136,7 +136,6 @@ export const createRentalUnit = (payload) => async dispatch =>{
           [action.review.id]: action.review
         }
       }
-      break
       default:
         return state;
     }
