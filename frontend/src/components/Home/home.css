@@ -1,0 +1,14 @@
+
+
+.home-page{
+    width: 100%;
+
+}
+
+
+.home-sections{
+    width: 100%;
+    display: flex;
+justify-content: center;
+padding-top: 170px;
+}

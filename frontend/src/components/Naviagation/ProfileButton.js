@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import { NavLink, useHistory } from "react-router-dom";
 import * as sessionActions from '../../store/session';
-
+import '../Naviagation/Navigation.css';
 function ProfileButton({ user }) {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -34,9 +34,15 @@ function ProfileButton({ user }) {
   return (
     <>
     <nav className="nav-Container">
-    <NavLink exact to="/">Home</NavLink>
-    <NavLink exact to="/units">Show Rentals</NavLink>
-    <NavLink exact to="/new">New Rental Unit</NavLink>
+    <button>
+           <NavLink exact to="/">Home</NavLink>
+        </button>
+        <button>
+        <NavLink to="/units">Rental Units</NavLink>
+          </button>
+          <button>
+        <NavLink to="/new">New Rental Unit</NavLink>
+          </button>
       <button onClick={openMenu}>
       <i class="fas fa-umbrella-beach"></i>
       </button>
