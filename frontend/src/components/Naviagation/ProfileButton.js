@@ -33,7 +33,7 @@ function ProfileButton({ user }) {
 
   return (
     <>
-    <nav className="nav-Container">
+    <nav className="nav-container">
     <button>
            <NavLink
               exact to="/"

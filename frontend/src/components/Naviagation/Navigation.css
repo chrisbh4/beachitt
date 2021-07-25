@@ -1,17 +1,21 @@
-/* *{
-    color:black
-} */
+
 .notSignedIn-container{
     position: relative;
     background-color: rgb(230, 135, 51);
     padding:10px ;
     top: -7px;
-    width: 100%;
+    left:-8.5px;
+    width: 1520px;
 }
 
-.nav-Container{
-    width: 95%;
+.nav-container{
+    width:1520px;
     display: flex;
+    position: relative;
+    background-color: rgb(230, 135, 51);
+    padding:10px ;
+    top: -7px;
+    left:-8.5px;
     justify-content: space-around;
 }
 
