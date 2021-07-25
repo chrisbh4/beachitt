@@ -1,1 +1,24 @@
 
+
+.signup-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    font-size: larger;
+    /* height: 50px; */
+}
+
+
+.signup-submit{
+    margin-top: 15px;
+    font-size: 17px;
+    width: 7.5%;
+
+}
+
+
+.signup-div input{
+    margin: 5px 5px;
+}
