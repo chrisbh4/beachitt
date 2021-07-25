@@ -10,11 +10,11 @@ import Navigation from "./components/Naviagation";
 import NewUnitForm from "./components/RentalUnitsPage/NewUnitForm";
 import EditUnitForm from "./components/EditRentalUnit/Edit";
 import GetRentalUnitPage from "./components/UnitPage";
-
+import HomePage from "./components/Home/home";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
-  const sessionUser = useSelector(state => state.session.user);
+
 
 
   useEffect(() => {
@@ -24,9 +24,7 @@ function App() {
 
 
 
-  const demoLogin = () => {
-    return dispatch(sessionActions.login({ credential: 'Demo-lition', password: 'password' }))
-}
+
 
 
   return (
@@ -34,6 +32,9 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+          <Route exact path="/">
+          <HomePage />
+          </Route>
           <Route path="/login">
             <LoginFormPage />
           </Route>
@@ -43,18 +44,18 @@ function App() {
           <Route exact path="/units">
             <RentalUnitsPage />
           </Route>
-          <Route path = "/units/:id">
+          {/* if uncommented EditUnitForm is not displayed */}
+          {/* <Route path = "/units/:id">
             <GetRentalUnitPage />
-          </Route>
+          </Route> */}
           <Route  path="/new">
             < NewUnitForm />
           </Route>
-          <Route  path = "/units/edit/:id">
+          <Route  path ="/units/:id">
             <EditUnitForm />
           </Route>
         </Switch>
       )}
-
     </>
   );
 }
