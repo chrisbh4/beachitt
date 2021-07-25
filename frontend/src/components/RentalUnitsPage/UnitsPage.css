@@ -13,8 +13,10 @@
 .unit-titel{
     font-size: large;
     text-decoration: none;
+    color: black;
 }
 .unit-titel:hover{
+    color: black;
     font-size: xx-large;
 }
 .unit-titel:visited{

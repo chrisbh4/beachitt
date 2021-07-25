@@ -39,7 +39,7 @@ function RentalUnitsPage (){
                             <h3>
                             <Link
                                 className="unit-titel"
-                            to={`/units/${unit.id}`}>
+                            to={`/units/edit/${unit.id}`}>
                                 {unit.title}</Link>
                             </h3>
                             <div className="unit-location">
