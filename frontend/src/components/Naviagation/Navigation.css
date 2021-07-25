@@ -1,3 +1,21 @@
 *{
     color:black
 }
+
+
+.nav-Container{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+
+.nav-notSignedIn{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+body{
+    background-color:rgb(81, 187, 223);
+}

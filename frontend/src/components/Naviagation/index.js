@@ -1,12 +1,16 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
-import '../Naviagation/Navigation.css';
 
+import * as sessionActions from "../../store/session"
 function Navigation({ isLoaded }){
-  
+  const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
+
+  const demoLogin = () => {
+    return dispatch(sessionActions.login({ credential: 'Demo-lition', password: 'password' }))
+}
 
   let sessionLinks;
   if (sessionUser) {
@@ -17,10 +21,24 @@ function Navigation({ isLoaded }){
   } else {
     sessionLinks = (
       <>
+        <nav className="nav-notSignedIn">
+        <button>
+           <NavLink exact to="/">Home</NavLink>
+        </button>
+          <button>
         <NavLink to="/login">Log In</NavLink>
+          </button>
+          <button
+      onClick={demoLogin}
+      hidden={sessionUser}
+      >Demo User</button>
+          <button>
         <NavLink to="/signup">Sign Up</NavLink>
+          </button>
+          <button>
         <NavLink to="/units">Rental units</NavLink>
-
+          </button>
+        </nav>
       </>
     );
   }
@@ -28,16 +46,6 @@ function Navigation({ isLoaded }){
   return (
     <>
         {isLoaded && sessionLinks}
-
-          <div className="top-rentals">
-            <h2>Most Rented Rentals</h2>
-          </div>
-          <div className="top-rated">
-            <h2>Highest Rated Rental </h2>
-          </div>
-          <div className="cheapest">
-            <h2>Most Budget Friendly</h2>
-          </div>
     </>
   );
 }

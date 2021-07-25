@@ -54,12 +54,7 @@ function App() {
           </Route>
         </Switch>
       )}
-      <button
-      onClick={demoLogin}
-      hidden={sessionUser}
-      >
-        Demo User
-      </button>
+
     </>
   );
 }

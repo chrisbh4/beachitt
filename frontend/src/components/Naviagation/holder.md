@@ -1,22 +1,9 @@
-    {/* <div className="nav-container" >
-        <nav>
-        <button>
-           <NavLink exact to="/">Home</NavLink>
-        </button>
-          <button>
-        <NavLink to="/login">Log In</NavLink>
-          </button>
-          <button
-      onClick={demoLogin}
-      hidden={sessionUser}
-      >Demo User</button>
-          <button>
-        <NavLink to="/signup">Sign Up</NavLink>
-          </button>
-          <button>
-        <NavLink to="/units">Rental units</NavLink>
-          </button>
-        </nav>
-      </div>
-      
-      </div> */}
+ <div className="top-rentals">
+            <h2>Most Rented Rentals</h2>
+          </div>
+          <div className="top-rated">
+            <h2>Highest Rated Rental </h2>
+          </div>
+          <div className="cheapest">
+            <h2>Most Budget Friendly</h2>
+          </div>
