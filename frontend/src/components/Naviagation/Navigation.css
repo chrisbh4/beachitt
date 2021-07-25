@@ -19,3 +19,7 @@
 body{
     background-color:rgb(81, 187, 223);
 }
+
+.navLink{
+    text-decoration: none;
+}

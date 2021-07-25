@@ -35,13 +35,23 @@ function ProfileButton({ user }) {
     <>
     <nav className="nav-Container">
     <button>
-           <NavLink exact to="/">Home</NavLink>
+           <NavLink
+              exact to="/"
+              className="navLink"
+            >Home</NavLink>
+
         </button>
         <button>
-        <NavLink to="/units">Rental Units</NavLink>
+        <NavLink
+            to="/units"
+            className="navLink"
+          >Rental Units</NavLink>
           </button>
           <button>
-        <NavLink to="/new">New Rental Unit</NavLink>
+        <NavLink
+            to="/new"
+            className="navLink"
+          >New Rental Unit</NavLink>
           </button>
       <button onClick={openMenu}>
       <i class="fas fa-umbrella-beach"></i>

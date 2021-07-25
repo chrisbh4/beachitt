@@ -23,21 +23,34 @@ function Navigation({ isLoaded }){
     sessionLinks = (
       <>
         <nav className="nav-notSignedIn">
-        <button>
-           <NavLink exact to="/">Home</NavLink>
+        <button >
+           <NavLink
+            exact to="/"
+            className="navLink"
+           >Home</NavLink>
         </button>
           <button>
-        <NavLink to="/login">Log In</NavLink>
+        <NavLink
+            to="/login"
+            className="navLink"
+          >Log In</NavLink>
           </button>
           <button
       onClick={demoLogin}
       hidden={sessionUser}
       >Demo User</button>
           <button>
-        <NavLink to="/signup">Sign Up</NavLink>
+        <NavLink
+          to="/signup"
+          className="navLink"
+
+        >Sign Up</NavLink>
           </button>
           <button>
-        <NavLink to="/units">Rental units</NavLink>
+        <NavLink
+          to="/units"
+          className="navLink"
+           >Rental units</NavLink>
           </button>
         </nav>
       </>
