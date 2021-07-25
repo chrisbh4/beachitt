@@ -22,18 +22,20 @@ function Navigation({ isLoaded }){
   } else {
     sessionLinks = (
       <>
+      <div className="notSignedIn-container">
+
         <nav className="nav-notSignedIn">
         <button >
            <NavLink
             exact to="/"
             className="navLink"
-           >Home</NavLink>
+            >Home</NavLink>
         </button>
           <button>
         <NavLink
             to="/login"
             className="navLink"
-          >Log In</NavLink>
+            >Log In</NavLink>
           </button>
           <button
       onClick={demoLogin}
@@ -44,15 +46,16 @@ function Navigation({ isLoaded }){
           to="/signup"
           className="navLink"
 
-        >Sign Up</NavLink>
+          >Sign Up</NavLink>
           </button>
           <button>
         <NavLink
           to="/units"
           className="navLink"
-           >Rental units</NavLink>
+          >Rental units</NavLink>
           </button>
         </nav>
+          </div>
       </>
     );
   }
