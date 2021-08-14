@@ -1,6 +1,6 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
-const { RentalUnits } = require('../../db/models')
+const { RentalUnits , Images} = require('../../db/models')
 const { requireAuth, setTokenCookie } = require('../../utils/auth')
 // import { csrfProtection } from '../../utils/utils';
 // const newUnitValidation = require('../../utils/validation')
@@ -13,6 +13,10 @@ const router = express.Router();
 router.get('/', asyncHandler(async (_req, res) => {
   const allRentalUnits = await RentalUnits.findAll()
   return res.json(allRentalUnits)
+  //  const allImages = await Images.findAll()
+  // Need to fix the frontend/store to be able to render the images
+  // Postman works grabbing both allRentalUnits and allImages
+  // return res.json({allRentalUnits:allRentalUnits, allImages:allImages})
 }));
 
 
