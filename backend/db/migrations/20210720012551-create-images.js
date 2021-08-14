@@ -10,7 +10,8 @@ module.exports = {
       },
       rentalUnitId: {
         allowNull:false,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references:{model:'RentalUnits'}
       },
       url: {
         allowNull:false,
