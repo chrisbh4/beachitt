@@ -19,32 +19,32 @@ module.exports = {
         email: faker.internet.email(),
         username: 'FakeUser2',
         hashedPassword: bcrypt.hashSync(faker.internet.password()),
-      },
-      {
-        email: 'Lbj@23.LA',
-        username: 'theking',
-        hashedPassword: bcrypt.hashSync('king'),
-      },
-      {
-        email: 'Dwade@WadeCounty.Heat',
-        username: 'dwade',
-        hashedPassword: bcrypt.hashSync('dwade'),
-      },
-      {
-        email: faker.internet.email(),
-        username: 'jordan',
-        hashedPassword: bcrypt.hashSync('thegoat'),
-      },
-      {
-        email: faker.internet.email(),
-        username: 'kb23',
-        hashedPassword: bcrypt.hashSync('kobe'),
-      },
-      {
-        email: 'chris@chris.com',
-        username: 'chris',
-        hashedPassword: bcrypt.hashSync('password'),
       }
+      // {
+      //   email: 'Lbj@23.LA',
+      //   username: 'theking',
+      //   hashedPassword: bcrypt.hashSync('king'),
+      // },
+      // {
+      //   email: 'Dwade@WadeCounty.Heat',
+      //   username: 'dwade',
+      //   hashedPassword: bcrypt.hashSync('dwade'),
+      // },
+      // {
+      //   email: faker.internet.email(),
+      //   username: 'jordan',
+      //   hashedPassword: bcrypt.hashSync('thegoat'),
+      // },
+      // {
+      //   email: faker.internet.email(),
+      //   username: 'kb23',
+      //   hashedPassword: bcrypt.hashSync('kobe'),
+      // },
+      // {
+      //   email: 'chris@chris.com',
+      //   username: 'chris',
+      //   hashedPassword: bcrypt.hashSync('password'),
+      // }
     ], {});
   },
 

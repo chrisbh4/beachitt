@@ -9,9 +9,23 @@ const { requireAuth, setTokenCookie } = require('../../utils/auth')
 const router = express.Router();
 //* requireAuth: middleware that is used to make sure only logged in users can hit certain routes
 
+/*
+  [x] You need to reference the the correct relationship for rentalunit and images rentaUnitId
+  [x] in the /get route I have to include Images because it will grab all the images
+     that have the same ID to the RetanlUnit being dispalyed
+  [x] even with the /:id route all the images will be pulled along as as well
+        ex :
+          const rentalUnit = await RentalUnits.findByPk(req.params.id, {
+          include: [Image, Review, User]
+  [] with the images /post route just need to make it link from the rentalUnit.id to the rentalUnitId row
+*/
+
 
 router.get('/', asyncHandler(async (_req, res) => {
-  const allRentalUnits = await RentalUnits.findAll()
+  const allRentalUnits = await RentalUnits.findAll({
+    include: [Images]
+  })
+  // console.log(allRentalUnits.Images)
   return res.json(allRentalUnits)
   //  const allImages = await Images.findAll()
   // Need to fix the frontend/store to be able to render the images
@@ -21,10 +35,21 @@ router.get('/', asyncHandler(async (_req, res) => {
 
 
 router.get('/:id', asyncHandler(async (req, res) => {
-  const unit = await RentalUnits.findByPk(req.params.id)
+  const unit = await RentalUnits.findByPk(req.params.id,{
+    include:[Images]
+  })
+  console.log(unit.Images)
   res.json( unit )
 
 }))
+
+/*
+  GET:
+    iterate through my database array by grabbing each TEXT and placing that text inside a src for an image container
+
+    POST:
+       on that input container run a .split(',') on every comma to seprate all the urls and push those text into an array to be stored
+*/
 
 router.post('/new', requireAuth, asyncHandler(async (req, res) => {
   const { title, ownerId, city, distanceFromBeach, lat, lng,
