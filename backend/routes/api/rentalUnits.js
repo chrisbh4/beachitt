@@ -80,7 +80,9 @@ router.put('/edit/:id', requireAuth, asyncHandler(async( req, res )=>{
 
 
 router.delete('/edit/:id', requireAuth, asyncHandler(async (req, res) => {
-  const rentalUnit = await RentalUnits.findByPk(req.params.id);
+  const rentalUnit = await RentalUnits.findByPk(req.params.id,{
+    include:[Images]
+  });
 
   if (!rentalUnit) new Error(' Cannot find Rental Unit ');
 

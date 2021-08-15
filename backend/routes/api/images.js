@@ -19,10 +19,20 @@ router.post('/', asyncHandler(async (req, res) => {
     const { rentalUnitId, url} = req.body
 
     const newImage = await Images.create({
-        rentalUnitId , url
+        rentalUnitId , url 
     })
 
     return res.json({newImage})
+}))
+
+router.delete('/:id', asyncHandler(async(req,res)=>{
+    const image = await Images.findByPk(req.params.id)
+
+    if (!rentalUnit) new Error(' Cannot find Image you are selecting to delete ');
+
+    await image.destory()
+    return
+
 }))
 
 module.exports = router;
