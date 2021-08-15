@@ -43,14 +43,6 @@ router.get('/:id', asyncHandler(async (req, res) => {
 
 }))
 
-/*
-  GET:
-    iterate through my database array by grabbing each TEXT and placing that text inside a src for an image container
-
-    POST:
-       on that input container run a .split(',') on every comma to seprate all the urls and push those text into an array to be stored
-*/
-
 router.post('/new', requireAuth, asyncHandler(async (req, res) => {
   const { title, ownerId, city, distanceFromBeach, lat, lng,
     pool, price, rentalUnitDescription, bathrooms, unitType, rooms, state, zipcode, totalRentals } = req.body
