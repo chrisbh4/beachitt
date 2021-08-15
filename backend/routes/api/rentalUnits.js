@@ -23,8 +23,15 @@ const router = express.Router();
 
 router.get('/', asyncHandler(async (_req, res) => {
   const allRentalUnits = await RentalUnits.findAll({
-    include: [Images]
+     include:[Images]
+    //  where:{
+    //    rentalUnitId:req.params.id
+    //  }
   })
+  const image = await Images.findAll({
+    rentalUnitId: req.params.id
+  })
+  console.log(image)
   // console.log(allRentalUnits.Images)
   return res.json(allRentalUnits)
   //  const allImages = await Images.findAll()
@@ -38,8 +45,16 @@ router.get('/:id', asyncHandler(async (req, res) => {
   const unit = await RentalUnits.findByPk(req.params.id,{
     include:[Images]
   })
-  console.log(unit.Images)
-  res.json( unit )
+
+  res.json(unit)
+  // const image = await Images.findAll({
+  //   where:{
+  //     rentalUnitId:req.params.id
+  //   }
+  // })
+
+  // res.json( image )
+
 
 }))
 
@@ -87,10 +102,19 @@ router.delete('/edit/:id', requireAuth, asyncHandler(async (req, res) => {
     // }}
   );
 
-  if (!rentalUnit) new Error(' Cannot find Rental Unit ');
+  // grabs all the images by the rentalUnit
+  // const image = await Images.findAll({
+  //   where:{
+  //     rentalUnitId:req.params.id
+  //   }
+  // })
 
+
+
+  if (!rentalUnit) new Error(' Cannot find Rental Unit ');
+  await image.destroy()
   await rentalUnit.destroy()
-  return
+  return 
 }))
 
 module.exports = router;
