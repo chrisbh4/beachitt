@@ -21,18 +21,25 @@ const router = express.Router();
 */
 
 
-router.get('/', asyncHandler(async (_req, res) => {
+router.get('/', asyncHandler(async (req, res) => {
   const allRentalUnits = await RentalUnits.findAll({
      include:[Images]
-    //  where:{
-    //    rentalUnitId:req.params.id
-    //  }
   })
-  const image = await Images.findAll({
-    rentalUnitId: req.params.id
-  })
-  console.log(image)
+  // const image = await Images.findAll({
+  //   rentalUnitId: req.params.id
+  // })
+  // console.log(image)
   // console.log(allRentalUnits.Images)
+
+
+  // Iterating through the unit's images array and grabs the id
+  //  allRentalUnits.forEach((el)=>{
+  //   let tester = el.Images[0].url
+  //   console.log(tester)
+  // })
+
+
+
   return res.json(allRentalUnits)
   //  const allImages = await Images.findAll()
   // Need to fix the frontend/store to be able to render the images
@@ -46,14 +53,19 @@ router.get('/:id', asyncHandler(async (req, res) => {
     include:[Images]
   })
 
-  res.json(unit)
-  // const image = await Images.findAll({
-  //   where:{
-  //     rentalUnitId:req.params.id
-  //   }
+
+  // console.log('Unit Image Url :   ',unit.Images[1].url)
+
+  //Iterates through the unit's images and grabs their id
+  //   unit.Images.forEach((img)=>{
+  //   let count = 0
+  //     count += 1
+  //   let iteratedImage = img.id
+  //   console.log('Unit Images IDs :   ',iteratedImage)
   // })
 
-  // res.json( image )
+  res.json(unit)
+
 
 
 }))
@@ -95,11 +107,9 @@ router.put('/edit/:id', requireAuth, asyncHandler(async( req, res )=>{
 
 
 router.delete('/edit/:id', requireAuth, asyncHandler(async (req, res) => {
-  const rentalUnit = await RentalUnits.findByPk(req.params.id
-    // include:[Images],
-    // where:{
-    //   rentalUnitId:req.params
-    // }}
+  const rentalUnit = await RentalUnits.findByPk(req.params.id,{
+    include:[Images]}
+
   );
 
   // grabs all the images by the rentalUnit
@@ -109,12 +119,20 @@ router.delete('/edit/:id', requireAuth, asyncHandler(async (req, res) => {
   //   }
   // })
 
-
-
   if (!rentalUnit) new Error(' Cannot find Rental Unit ');
-  await image.destroy()
+
+  //Iterates through the unit's images and grabs their id
+  //   rentalUnit.Images.forEach((img)=>{
+  //   let count = 0
+  //     count += 1
+  //   let iteratedImage = img.id
+  //   console.log('Unit Images IDs :   ',iteratedImage)
+  //   await iteratedImage.destroy()
+  // })
+
+  // await image.destroy()
   await rentalUnit.destroy()
-  return 
+  return
 }))
 
 module.exports = router;

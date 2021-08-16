@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       rentalUnitId: {
-        allowNull:false,
+        allowNull:true,
         type: Sequelize.INTEGER,
         references:{model:'RentalUnits'}
       },
@@ -31,6 +31,3 @@ module.exports = {
     return queryInterface.dropTable('Images');
   }
 };
-
-
-

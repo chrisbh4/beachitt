@@ -25,24 +25,24 @@ router.post('/', asyncHandler(async (req, res) => {
     return res.json({newImage})
 }))
 
-// router.delete('/:id', asyncHandler(async(req,res)=>{
-//         grabs image by its id from the url
-//     const image = await Images.findByPk(req.params.id)
+router.delete('/:id', asyncHandler(async(req,res)=>{
+        // grabs image by its id from the url
+    // const image = await Images.findByPk(req.params.id)
 
-//         grabs image by its rentalUnitId from the url
-//     const image = await Images.findAll({
-//     where:{
-//       rentalUnitId:req.params.id
-//     }
-//   })
-//   console.log('This is the Image ID:   ',image)
-//     // recieving an empty array []
-//     if (!image) new Error(' Cannot find Image you are selecting to delete ');
+        // grabs image by its rentalUnitId from the url
+    const image = await Images.findAll({
+    where:{
+      rentalUnitId:req.params.id
+    }
+  })
+  // console.log('This is the Image ID:   ',image)
+    // recieving an empty array []
+    if (!image) new Error(' Cannot find Image you are selecting to delete ');
 
-//     await image.destroy()
-//     return
+    await image.destroy()
+    return
 
-// }))
+}))
 
 
 
@@ -76,3 +76,5 @@ grabs the image with matching unit.id of images.rentalUnitId
 */
 
 module.exports = router;
+
+
