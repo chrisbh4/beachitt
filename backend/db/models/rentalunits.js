@@ -24,10 +24,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   RentalUnits.associate = function(models) {
     // associations can be defined here
-    //! what is this error Error:
-          //* RentalUnits.belongsTo called with something that's not a subclass of Sequelize.Model
-    RentalUnits.belongsTo(models.User , {foreignKey: 'ownerId'})
 
+    RentalUnits.belongsTo(models.User , {foreignKey: 'ownerId'})
+    RentalUnits.hasMany(models.Images, {foreignKey: 'rentalUnitId'})
   };
   return RentalUnits;
 };
