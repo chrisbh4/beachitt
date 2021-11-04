@@ -16,6 +16,7 @@ const { ValidationError } = require('sequelize');
 //! App.use Section
 app.use(morgan('dev'));
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 
@@ -91,3 +92,7 @@ app.use((err, _req, res, _next) => {
 
 
   module.exports = app;
+
+
+
+  
