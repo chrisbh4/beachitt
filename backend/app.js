@@ -38,11 +38,7 @@ app.use(
       secure: isProduction,
       sameSite: isProduction && "Lax",
       httpOnly: true,
-<<<<<<< HEAD
     },
-=======
-    }, 
->>>>>>> a8823c4dc9ae654ba176b796c67e7070a7cbbbcb
   })
 );
 
