@@ -12,7 +12,7 @@ function HomePage() {
         <h1 className="beach-it">
         <i className="fas fa-umbrella-beach"></i>
             Beachitt</h1>
-            <div className="home-page">
+            <div className="home-page ">
                 <div className="top-rentals">
                     <h2 className="home-sections">Most Rented Rentals</h2>
 
