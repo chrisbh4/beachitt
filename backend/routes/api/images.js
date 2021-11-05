@@ -1,8 +1,8 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 // const router = require('.');
-const Images = require('../../db/models');
-const RentalUnits = require('../../db/models');
+const {Images} = require('../../db/models');
+// const RentalUnits = require('../../db/models');
 
 
 const router = express.Router();
@@ -17,19 +17,21 @@ const router = express.Router();
 
 * Left Off on :
     - route is not posting could be caused from poorly build db or its missing a piece in the api route
-    
+
 */
 
+router.get('/', asyncHandler(async( req, res )=>{
+    res.send("Image route")
+}))
 
 
 
 
 
-
-router.post('/new', asyncHandler( async( req, res )=>{
-    const {image} = req.body;
-    const newImage = await Images.create({image});
-    return res.json({newImage})
+router.post('/new', asyncHandler( async(req, res)=>{
+    const {url, rentalUnitId} = req.body;
+    const newImage = await Images.create({rentalUnitId,url});
+    return res.json({newImage});
 
 }))
 
