@@ -3,11 +3,12 @@ const router = require('express').Router();
 const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
 const rentalUnitsRouter = require('./rentalUnits')
+const userImages = require('./images')
 
 router.use('/session', sessionRouter);
 router.use('/units', rentalUnitsRouter);
+router.use('/images', userImages)
 router.use('/users', usersRouter);
-
 
 
 
