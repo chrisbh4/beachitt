@@ -4,6 +4,7 @@ const { RentalUnits } = require('../../db/models')
 const { requireAuth, setTokenCookie } = require('../../utils/auth')
 // import { csrfProtection } from '../../utils/utils';
 // const newUnitValidation = require('../../utils/validation')
+const { singleMulterUpload , singlePublicFileUpload} = require("../../awsS3")
 
 
 const router = express.Router();

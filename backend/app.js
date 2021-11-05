@@ -16,6 +16,7 @@ const { ValidationError } = require('sequelize');
 //! App.use Section
 app.use(morgan('dev'));
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 
@@ -32,15 +33,15 @@ app.use(helmet({
 
 // Set the _csrf token and create req.csrfToken method
 // need to comment out to use postman
-app.use(
-  csurf({
-    cookie: {
-      secure: isProduction,
-      sameSite: isProduction && "Lax",
-      httpOnly: true,
-    },
-  })
-);
+// app.use(
+//   csurf({
+//     cookie: {
+//       secure: isProduction,
+//       sameSite: isProduction && "Lax",
+//       httpOnly: true,
+//     },
+//   })
+// );
 
 //! End of Security middleware section
 
