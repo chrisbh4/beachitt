@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import {createRentalUnit} from "../../store/rentalUnits"
+import {createRentalUnit, createImage} from "../../store/rentalUnits"
+
 import '../RentalUnitsPage/NewUnit.css'
 
 
@@ -13,6 +14,7 @@ function NewUnitForm() {
     const [title, setTitle] = useState("")
     const [city, setCity] = useState("")
     const [distanceFromBeach, setDistanceFromBeach] = useState("")
+    const [image, setImage] = useState("")
     const [lat, setLat] = useState("")
     const [lng, setLng] = useState("")
     const [price, setPrice] = useState("")
@@ -35,6 +37,7 @@ function NewUnitForm() {
     const updateTitle = (e) => setTitle(e.target.value);
     const updateCity = (e) => setCity(e.target.value);
     const updateDistanceFromBeach = (e) => setDistanceFromBeach(e.target.value);
+    const updateImage = (e) => setImage(e.target.value);
     const updateLat = (e) => setLat(e.target.value);
     const updateLng = (e) => setLng(e.target.value);
     const updatePrice = (e) => setPrice(e.target.value);
@@ -68,13 +71,19 @@ function NewUnitForm() {
             rentalUnitDescription,
             totalRentals: 0
         };
+
+        const imagePayload = {
+            image
+        };
+
+        const newImage = dispatch(createImage(imagePayload))
         // let newUnit = dispatch(createRentalUnit(payload));
         // if(newUnit){
         //     return newUnit
         // }
       const unit =  dispatch(createRentalUnit(payload));
         // reset();
-        if(unit){
+        if(unit && newImage){
             history.push("/units")
             throw alert("Rental Unit Submited")
         }
@@ -111,7 +120,8 @@ function NewUnitForm() {
                     <input
                         type="text"
                         onChange={updateTitle}
-                        value={title}
+                        // value={title}
+                        value={"djfsdjfskdfj"}
                         ></input>
                         </div>
                     <div className="address-container">
@@ -119,19 +129,22 @@ function NewUnitForm() {
                         <input
                             type="text"
                             onChange={updateCity}
-                            value={city}
+                            // value={city}
+                            value={"djfsdjfskdfj"}
                         ></input>
                         <label>State: </label>
                         <input
                             type="text"
                             onChange={updateState}
-                            value={state}
+                            // value={state}
+                            value={"djfsdjfskdfj"}
                         ></input>
                         <label>Zipcode: </label>
                         <input
                             type="text"
                             onChange={updateZipcode}
-                            value={zipcode}
+                            // value={zipcode}
+                            value={"djfsdjfskdfj"}
                         ></input>
                     </div>
                     <h3>Unit Details & Descriptions</h3>
@@ -139,26 +152,30 @@ function NewUnitForm() {
                     <input
                         type="number"
                         onChange={updateDistanceFromBeach}
-                        value={distanceFromBeach}
+                        // value={distanceFromBeach}
+                        value={"djfsdjfskdfj"}
                     ></input>
                     <label>Rooms: </label>
                     <input
                         type="number"
                         onChange={updateRooms}
-                        value={rooms}
+                        // value={rooms}
+                        value={"djfsdjfskdfj"}
                         min="1"
                     ></input>
                     <label>Bathrooms: </label>
                     <input
                         type="number"
                         onChange={updateBathrooms}
-                        value={bathrooms}
+                        // value={bathrooms}
+                        value={"djfsdjfskdfj"}
                     ></input>
                     <label>Pool (yes or no): </label>
                     <input
                         type="text"
                         onChange={updatePool}
-                        value={pool}
+                        // value={pool}
+                        value={"djfsdjfskdfj"}
                         max="3"
                     ></input>
                 <div className="unit-type">
@@ -166,7 +183,8 @@ function NewUnitForm() {
                 <label htmlFor="house">House</label>
 					<input
 						onChange={updateUnityType}
-						value={"house"}
+						// value={"house"}
+                        value={"djfsdjfskdfj"}
 						type="radio"
                         id="hosue"
                         checked={unitType === 'house'}
@@ -176,7 +194,8 @@ function NewUnitForm() {
                 <label htmlFor="apartment">Apartment</label>
 					<input
 						onChange={updateUnityType}
-						value={"apartment"}
+						// value={"apartment"}
+                        value={"djfsdjfskdfj"}
 						type="radio"
                         id="apartment"
                         checked={unitType === 'apartment'}
@@ -190,7 +209,8 @@ function NewUnitForm() {
 
 						onChange={updateUnityType}
                         checked={unitType === 'single room'}
-						value={"single room"}
+						// value={"single room"}
+                        value={"djfsdjfskdfj"}
 						type="radio"
 						id="singleRoom"
                         >
@@ -199,25 +219,35 @@ function NewUnitForm() {
                     <label>Latitude: </label>
                     <input
                         type="text"
-                        value={lat}
+                        // value={lat}
+                        value={"123456"}
                         onChange={updateLat}
                     ></input>
                     <label>Longitude: </label>
                     <input
                         type="text"
-                        value={lng}
+                        // value={lng}
+                        value={"123456"}
                         onChange={updateLng}
                     ></input>
                     <label>Price Per Night: $ </label>
                     <input
                         type="text"
-                        value={price}
+                        // value={price}
+                        value={"1234"}
                         onChange={updatePrice}
+                    ></input>
+                    <label>Price Per Night: $ </label>
+                    <input
+                        type="file"
+                        value={image}
+                        onChange={updateImage}
                     ></input>
                     <label>Unit Description: </label>
                     <textarea
                         onChange={updateRentalUnitDescription}
-                        value={rentalUnitDescription}
+                        // value={rentalUnitDescription}
+                        value={"djfsdjfskdfj"}
                     ></textarea>
                     <button type="submit">Submit</button>
                 </form>

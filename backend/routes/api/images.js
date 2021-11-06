@@ -49,6 +49,8 @@ router.delete('/:id', asyncHandler( async( req , res )=>{
 
 router.post('/new', asyncHandler( async(req, res)=>{
     const {url, rentalUnitId} = req.body;
+    console.log(req.body)
+    debugger
     const newImage = await Images.create({rentalUnitId,url});
     return res.json({newImage});
 
