@@ -1,6 +1,7 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 // const router = require('.');
+const {dataAdjuster} = require('../../utils/utils')
 const {Images} = require('../../db/models');
 // const RentalUnits = require('../../db/models');
 
@@ -20,18 +21,48 @@ const router = express.Router();
 
 */
 
+
+
 router.get('/', asyncHandler(async( req, res )=>{
-    res.send("Image route")
+    const allImages = await Images.findAll()
+
+    const images = dataAdjuster(allImages)
+
+    res.json({images})
+
+}))
+
+router.get('/:id', asyncHandler( async( req , res )=>{
+    const image = await Images.findByPk(req.params.id);
+    return res.json({image})
+
 }))
 
 
+router.delete('/:id', asyncHandler( async( req , res )=>{
+    const image = await Images.findByPk(req.params.id);
+    await image.destroy()
+    return res.json("Image succesfully deleted")
 
+}))
 
 
 router.post('/new', asyncHandler( async(req, res)=>{
     const {url, rentalUnitId} = req.body;
     const newImage = await Images.create({rentalUnitId,url});
     return res.json({newImage});
+
+}))
+
+
+
+router.put('/:id', asyncHandler( async( req , res )=>{
+    const image = await Images.findByPk(req.params.id);
+
+    image.url = req.body.url;
+    await image.save();
+
+    return res.json({image})
 
 }))
 
