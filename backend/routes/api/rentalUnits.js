@@ -1,6 +1,6 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
-const { RentalUnits } = require('../../db/models')
+const { RentalUnits, Images} = require('../../db/models')
 const { requireAuth, setTokenCookie } = require('../../utils/auth')
 // import { csrfProtection } from '../../utils/utils';
 // const newUnitValidation = require('../../utils/validation')
@@ -12,6 +12,7 @@ const router = express.Router();
 
 
 router.get('/', asyncHandler(async (_req, res) => {
+  // const allRentalUnits = await RentalUnits.findAll({include:[Images]})
   const allRentalUnits = await RentalUnits.findAll()
   return res.json(allRentalUnits)
 }));

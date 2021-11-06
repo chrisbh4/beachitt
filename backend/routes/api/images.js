@@ -1,6 +1,7 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 // const router = require('.');
+const {dataAdjuster} = require('../../utils/utils')
 const {Images} = require('../../db/models');
 // const RentalUnits = require('../../db/models');
 
@@ -20,8 +21,15 @@ const router = express.Router();
 
 */
 
+
+
 router.get('/', asyncHandler(async( req, res )=>{
-    res.send("Image route")
+    const allImages = await Images.findAll()
+
+    const images = dataAdjuster(allImages)
+
+    res.json({images})
+
 }))
 
 

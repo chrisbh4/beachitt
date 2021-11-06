@@ -8,6 +8,19 @@ const asyncHandler = (handler) => {
     }
 }
 
+const dataAdjuster = (obj) =>{
+    const organizedData = {}
+    obj.forEach((data)=>{
+        if(!organizedData[data.id]){
+            organizedData[data.id] = data;
+        }else{
+            return
+        }
+    })
+
+    return organizedData
+}
 
 
-module.exports = { csrfProtection, asyncHandler }
+
+module.exports = { csrfProtection, asyncHandler, dataAdjuster }
