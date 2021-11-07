@@ -121,7 +121,7 @@ function NewUnitForm() {
                         type="text"
                         onChange={updateTitle}
                         // value={title}
-                        value={"djfsdjfskdfj"}
+                        value={"Test unit for images"}
                         ></input>
                         </div>
                     <div className="address-container">
@@ -153,14 +153,14 @@ function NewUnitForm() {
                         type="number"
                         onChange={updateDistanceFromBeach}
                         // value={distanceFromBeach}
-                        value={"djfsdjfskdfj"}
+                        value={"1"}
                     ></input>
                     <label>Rooms: </label>
                     <input
                         type="number"
                         onChange={updateRooms}
                         // value={rooms}
-                        value={"djfsdjfskdfj"}
+                        value={"1"}
                         min="1"
                     ></input>
                     <label>Bathrooms: </label>
@@ -168,7 +168,7 @@ function NewUnitForm() {
                         type="number"
                         onChange={updateBathrooms}
                         // value={bathrooms}
-                        value={"djfsdjfskdfj"}
+                        value={"1"}
                     ></input>
                     <label>Pool (yes or no): </label>
                     <input
