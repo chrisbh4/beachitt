@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import {createRentalUnit, createImage} from "../../store/rentalUnits"
+import {createRentalUnit} from "../../store/rentalUnits"
 
 import '../RentalUnitsPage/NewUnit.css'
 
@@ -114,8 +114,7 @@ function NewUnitForm() {
                     <input
                         type="text"
                         onChange={updateTitle}
-                        // value={title}
-                        value={"Test unit for images"}
+                        value={title}
                         ></input>
                         </div>
                     <div className="address-container">
@@ -123,22 +122,19 @@ function NewUnitForm() {
                         <input
                             type="text"
                             onChange={updateCity}
-                            // value={city}
-                            value={"djfsdjfskdfj"}
+                            value={city}
                         ></input>
                         <label>State: </label>
                         <input
                             type="text"
                             onChange={updateState}
-                            // value={state}
-                            value={"djfsdjfskdfj"}
+                            value={state}
                         ></input>
                         <label>Zipcode: </label>
                         <input
                             type="text"
                             onChange={updateZipcode}
-                            // value={zipcode}
-                            value={"djfsdjfskdfj"}
+                            value={zipcode}
                         ></input>
                     </div>
                     <h3>Unit Details & Descriptions</h3>
@@ -146,30 +142,26 @@ function NewUnitForm() {
                     <input
                         type="number"
                         onChange={updateDistanceFromBeach}
-                        // value={distanceFromBeach}
-                        value={"1"}
+                        value={distanceFromBeach}
                     ></input>
                     <label>Rooms: </label>
                     <input
                         type="number"
                         onChange={updateRooms}
-                        // value={rooms}
-                        value={"1"}
+                        value={rooms}
                         min="1"
                     ></input>
                     <label>Bathrooms: </label>
                     <input
                         type="number"
                         onChange={updateBathrooms}
-                        // value={bathrooms}
-                        value={"1"}
+                        value={bathrooms}
                     ></input>
                     <label>Pool (yes or no): </label>
                     <input
                         type="text"
                         onChange={updatePool}
-                        // value={pool}
-                        value={"djfsdjfskdfj"}
+                        value={pool}
                         max="3"
                     ></input>
                 <div className="unit-type">
@@ -177,8 +169,7 @@ function NewUnitForm() {
                 <label htmlFor="house">House</label>
 					<input
 						onChange={updateUnityType}
-						// value={"house"}
-                        value={"djfsdjfskdfj"}
+						value={"house"}
 						type="radio"
                         id="hosue"
                         checked={unitType === 'house'}
@@ -188,14 +179,10 @@ function NewUnitForm() {
                 <label htmlFor="apartment">Apartment</label>
 					<input
 						onChange={updateUnityType}
-						// value={"apartment"}
-                        value={"djfsdjfskdfj"}
+						value={"apartment"}
 						type="radio"
                         id="apartment"
                         checked={unitType === 'apartment'}
-                        // disabled={unitType === "apartment"}
-
-						// id="house"
                         >
                     </input>
                 <label htmlFor="singleRoom">Single Room</label>
@@ -203,8 +190,7 @@ function NewUnitForm() {
 
 						onChange={updateUnityType}
                         checked={unitType === 'single room'}
-						// value={"single room"}
-                        value={"djfsdjfskdfj"}
+						value={"single room"}
 						type="radio"
 						id="singleRoom"
                         >
@@ -213,22 +199,19 @@ function NewUnitForm() {
                     <label>Latitude: </label>
                     <input
                         type="text"
-                        // value={lat}
-                        value={"123456"}
+                        value={lat}
                         onChange={updateLat}
                     ></input>
                     <label>Longitude: </label>
                     <input
                         type="text"
-                        // value={lng}
-                        value={"123456"}
+                        value={lng}
                         onChange={updateLng}
                     ></input>
                     <label>Price Per Night: $ </label>
                     <input
                         type="text"
-                        // value={price}
-                        value={"1234"}
+                        value={price}
                         onChange={updatePrice}
                     ></input>
                     <label>Price Per Night: $ </label>
@@ -240,8 +223,7 @@ function NewUnitForm() {
                     <label>Unit Description: </label>
                     <textarea
                         onChange={updateRentalUnitDescription}
-                        // value={rentalUnitDescription}
-                        value={"djfsdjfskdfj"}
+                        value={rentalUnitDescription}
                     ></textarea>
                     <button type="submit">Submit</button>
                 </form>
