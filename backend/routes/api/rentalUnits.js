@@ -24,7 +24,8 @@ router.get('/:id', asyncHandler(async (req, res) => {
 
 }))
 
-router.post('/new', requireAuth, asyncHandler(async (req, res) => {
+// router.post('/new', requireAuth, asyncHandler(async (req, res) => {
+router.post('/new',  asyncHandler(async (req, res) => {
   const { title, ownerId, city, distanceFromBeach, lat, lng,
     pool, price, rentalUnitDescription, bathrooms, unitType, rooms, state, zipcode, totalRentals, url } = req.body
 

@@ -69,21 +69,15 @@ function NewUnitForm() {
             lng,
             price,
             rentalUnitDescription,
-            totalRentals: 0
+            totalRentals: 0,
+            url:image
         };
 
-        const imagePayload = {
-            image
-        };
 
-        const newImage = dispatch(createImage(imagePayload))
-        // let newUnit = dispatch(createRentalUnit(payload));
-        // if(newUnit){
-        //     return newUnit
-        // }
+
       const unit =  dispatch(createRentalUnit(payload));
         // reset();
-        if(unit && newImage){
+        if(unit){
             history.push("/units")
             throw alert("Rental Unit Submited")
         }

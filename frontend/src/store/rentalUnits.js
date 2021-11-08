@@ -78,19 +78,19 @@ export const createRentalUnit = (payload) => async dispatch =>{
 }
 
 //* creates a single image
-export const createImage = (payload) => async dispatch =>{
-  const res = await csrfFetch('/api/images/new',{
-    method: 'POST',
-    header:{"Content-Type": "application/json"},
-    body: JSON.stringify(payload)
-  });
+// export const createImage = (payload) => async dispatch =>{
+//   const res = await csrfFetch('/api/images/new',{
+//     method: 'POST',
+//     header:{"Content-Type": "application/json"},
+//     body: JSON.stringify(payload)
+//   });
 
-  const image = await res.json();
+//   const image = await res.json();
 
-  if(image.ok) dispatch(addUnit(image))
+//   if(image.ok) dispatch(addUnit(image))
 
-  return image
-}
+//   return image
+// }
 
 
 
