@@ -26,11 +26,11 @@ router.get('/:id', asyncHandler(async (req, res) => {
 
 router.post('/new', requireAuth, asyncHandler(async (req, res) => {
   const { title, ownerId, city, distanceFromBeach, lat, lng,
-    pool, price, rentalUnitDescription, bathrooms, unitType, rooms, state, zipcode, totalRentals } = req.body
+    pool, price, rentalUnitDescription, bathrooms, unitType, rooms, state, zipcode, totalRentals, url } = req.body
 
   const newUnit = await RentalUnits.create({
     title, ownerId, city, distanceFromBeach, lat, lng, pool, price,
-    rentalUnitDescription, bathrooms, unitType, rooms, state, zipcode, totalRentals
+    rentalUnitDescription, bathrooms, unitType, rooms, state, zipcode, totalRentals, url
   });
 
   return res.json({ newUnit });
@@ -52,6 +52,7 @@ router.put('/edit/:id', requireAuth, asyncHandler(async( req, res )=>{
       unit.rooms = req.body.rooms;
       unit.state = req.body.state;
       unit.zipcode = req.body.zipcode;
+      unit.url = req.body.url;
 
   await unit.save()
   return res.json({unit})

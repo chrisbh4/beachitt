@@ -8,9 +8,9 @@ module.exports = {
 
       Example:
       */
-   return queryInterface.bulkInsert('Reviews', [
-    {}
-   ], {});
+  //  return queryInterface.bulkInsert('Reviews', [
+  //   {}
+  //  ], {});
   },
 
   down: (queryInterface, Sequelize) => {
@@ -20,6 +20,6 @@ module.exports = {
 
       Example:
       */
-   return queryInterface.bulkDelete('Reviews', null, {});
+  //  return queryInterface.bulkDelete('Reviews', null, {});
   }
 };
