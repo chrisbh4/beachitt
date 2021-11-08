@@ -48,6 +48,7 @@ function EditUnitForm(){
     const [rooms, setRooms] = useState(rentalUnit?.rooms)
     const [state, setState] = useState(rentalUnit?.state)
     const [zipcode, setZipcode] = useState(rentalUnit?.zipcode)
+    const [url, setUrl] = useState(rentalUnit?.url)
 
 
     const updateTitle = (e) => setTitle(e.target.value);

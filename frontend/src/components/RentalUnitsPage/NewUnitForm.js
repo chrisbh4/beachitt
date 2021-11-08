@@ -14,7 +14,7 @@ function NewUnitForm() {
     const [title, setTitle] = useState("")
     const [city, setCity] = useState("")
     const [distanceFromBeach, setDistanceFromBeach] = useState("")
-    const [image, setImage] = useState("")
+    const [url, setUrl] = useState("")
     const [lat, setLat] = useState("")
     const [lng, setLng] = useState("")
     const [price, setPrice] = useState("")
@@ -37,7 +37,7 @@ function NewUnitForm() {
     const updateTitle = (e) => setTitle(e.target.value);
     const updateCity = (e) => setCity(e.target.value);
     const updateDistanceFromBeach = (e) => setDistanceFromBeach(e.target.value);
-    const updateImage = (e) => setImage(e.target.value);
+    const updateUrl = (e) => setUrl(e.target.value);
     const updateLat = (e) => setLat(e.target.value);
     const updateLng = (e) => setLng(e.target.value);
     const updatePrice = (e) => setPrice(e.target.value);
@@ -70,7 +70,7 @@ function NewUnitForm() {
             price,
             rentalUnitDescription,
             totalRentals: 0,
-            url:image
+            url
         };
 
 
@@ -217,8 +217,8 @@ function NewUnitForm() {
                     <label>Price Per Night: $ </label>
                     <input
                         type="file"
-                        value={image}
-                        onChange={updateImage}
+                        value={url}
+                        onChange={updateUrl}
                     ></input>
                     <label>Unit Description: </label>
                     <textarea
