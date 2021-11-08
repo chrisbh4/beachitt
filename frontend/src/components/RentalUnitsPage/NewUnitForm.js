@@ -214,7 +214,7 @@ function NewUnitForm() {
                         value={price}
                         onChange={updatePrice}
                     ></input>
-                    <label>Price Per Night: $ </label>
+                    <label>Image : </label>
                     <input
                         type="file"
                         value={url}

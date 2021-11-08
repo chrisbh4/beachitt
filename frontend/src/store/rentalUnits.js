@@ -64,10 +64,33 @@ export const getSingleUnit = (unitId)=> async dispatch =>{
 }
 
 export const createRentalUnit = (payload) => async dispatch =>{
+  const formData = new FormData();
+  const {title,ownerId,city,state,zipcode,distanceFromBeach,rooms,bathrooms,pool,unitType,lat,lng, price, rentalUnitDescription ,totalRental ,url } = payload
+  formData.append(title)
+  formData.append(ownerId)
+  formData.append(city)
+  formData.append(state)
+  formData.append(zipcode)
+  formData.append(distanceFromBeach)
+  formData.append(rooms)
+  formData.append(bathrooms)
+  formData.append(pool)
+  formData.append(unitType)
+  formData.append(lat)
+  formData.append(lng)
+  formData.append(price)
+  formData.append(rentalUnitDescription)
+  formData.append(totalRental)
+
+  if (url) formData.append(url);
+
+
   const res = await csrfFetch('/api/units/new',{
     method: 'POST',
-    header:{"Content-Type": "application/json"},
-    body: JSON.stringify(payload)
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    body: formData,
   });
 
   const newUnit = await res.json();
