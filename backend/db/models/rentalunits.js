@@ -20,13 +20,14 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         min: 0
       }
-    }
+    },
+    url: DataTypes.TEXT
   }, {});
   RentalUnits.associate = function(models) {
     // associations can be defined here
 
     RentalUnits.belongsTo(models.User , {foreignKey: 'ownerId'})
-    RentalUnits.hasMany(models.Images, {foreignKey: 'rentalUnitId'})
+
     RentalUnits.hasMany(models.Reviews,{foreignKey:'rentalUnitId'})
   };
   return RentalUnits;

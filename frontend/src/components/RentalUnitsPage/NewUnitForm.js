@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {createRentalUnit} from "../../store/rentalUnits"
+
 import '../RentalUnitsPage/NewUnit.css'
 
 
@@ -13,6 +14,7 @@ function NewUnitForm() {
     const [title, setTitle] = useState("")
     const [city, setCity] = useState("")
     const [distanceFromBeach, setDistanceFromBeach] = useState("")
+    const [url, setUrl] = useState("")
     const [lat, setLat] = useState("")
     const [lng, setLng] = useState("")
     const [price, setPrice] = useState("")
@@ -35,6 +37,7 @@ function NewUnitForm() {
     const updateTitle = (e) => setTitle(e.target.value);
     const updateCity = (e) => setCity(e.target.value);
     const updateDistanceFromBeach = (e) => setDistanceFromBeach(e.target.value);
+    const updateUrl = (e) => setUrl(e.target.files[0]);
     const updateLat = (e) => setLat(e.target.value);
     const updateLng = (e) => setLng(e.target.value);
     const updatePrice = (e) => setPrice(e.target.value);
@@ -50,6 +53,7 @@ function NewUnitForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const totalRentals =0;
 
         const payload = {
             title,
@@ -66,13 +70,14 @@ function NewUnitForm() {
             lng,
             price,
             rentalUnitDescription,
-            totalRentals: 0
+            totalRentals,
+            url
         };
-        // let newUnit = dispatch(createRentalUnit(payload));
-        // if(newUnit){
-        //     return newUnit
-        // }
+
+
+
       const unit =  dispatch(createRentalUnit(payload));
+      debugger
         // reset();
         if(unit){
             history.push("/units")
@@ -180,9 +185,6 @@ function NewUnitForm() {
 						type="radio"
                         id="apartment"
                         checked={unitType === 'apartment'}
-                        // disabled={unitType === "apartment"}
-
-						// id="house"
                         >
                     </input>
                 <label htmlFor="singleRoom">Single Room</label>
@@ -213,6 +215,12 @@ function NewUnitForm() {
                         type="text"
                         value={price}
                         onChange={updatePrice}
+                    ></input>
+                    <label>Image : </label>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={updateUrl}
                     ></input>
                     <label>Unit Description: </label>
                     <textarea
