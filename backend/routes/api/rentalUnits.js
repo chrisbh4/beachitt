@@ -24,13 +24,29 @@ router.get('/:id', asyncHandler(async (req, res) => {
 
 }))
 
+
+
 // router.post('/new', requireAuth, asyncHandler(async (req, res) => {
 router.post('/new', singleMulterUpload('url'),  asyncHandler(async (req, res) => {
+  console.log(req.file)
+  debugger
   const { title, ownerId, city, distanceFromBeach, lat, lng,
-    pool, price, rentalUnitDescription, bathrooms, unitType, rooms, state, zipcode, totalRentals } = req.body
-  const file = req.file;
+    pool, price, rentalUnitDescription, bathrooms, unitType, rooms, state, zipcode } = req.body;
 
-  const url = await singlePublicFileUpload(file)
+  const file = req.file;
+  const url = req.body.url;
+  const totalRentals = 0;
+
+
+  
+  // * req.file is coming back undefined so that means the form/data conversion isn't happening either from the store or from the middleware
+  console.log(req.body.url);
+  console.log('--------------');
+  console.log(req.file);
+  console.log('--------------');
+
+  debugger
+  // const url = await singlePublicFileUpload(file)
 
   const newUnit = await RentalUnits.create({
     title, ownerId, city, distanceFromBeach, lat, lng, pool, price,

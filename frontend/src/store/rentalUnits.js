@@ -66,35 +66,36 @@ export const getSingleUnit = (unitId)=> async dispatch =>{
 export const createRentalUnit = (payload) => async dispatch =>{
   const formData = new FormData();
   const {title,ownerId,city,state,zipcode,distanceFromBeach,rooms,bathrooms,pool,unitType,lat,lng, price, rentalUnitDescription ,totalRental ,url } = payload
-  formData.append(title)
-  formData.append(ownerId)
-  formData.append(city)
-  formData.append(state)
-  formData.append(zipcode)
-  formData.append(distanceFromBeach)
-  formData.append(rooms)
-  formData.append(bathrooms)
-  formData.append(pool)
-  formData.append(unitType)
-  formData.append(lat)
-  formData.append(lng)
-  formData.append(price)
-  formData.append(rentalUnitDescription)
-  formData.append(totalRental)
+  formData.append("title",title)
+  formData.append("ownerId",ownerId)
+  formData.append("city",city)
+  formData.append("state",state)
+  formData.append("zipcode",zipcode)
+  formData.append("distanceFromBeach",distanceFromBeach)
+  formData.append("rooms",rooms)
+  formData.append("bathrooms",bathrooms)
+  formData.append("pool", pool)
+  formData.append("unitType",unitType)
+  formData.append("lat", lat)
+  formData.append("lng",lng)
+  formData.append("price",price)
+  formData.append("rentalUnitDescription", rentalUnitDescription)
+  formData.append("totalRentals", 0)
 
-  if (url) formData.append(url);
+  if (url) formData.append("url",url);
 
-
-  const res = await csrfFetch('/api/units/new',{
-    method: 'POST',
+  debugger
+  const res = await csrfFetch(`/api/units/new`, {
+    method: "POST",
     headers: {
       "Content-Type": "multipart/form-data",
     },
     body: formData,
   });
 
-  const newUnit = await res.json();
 
+  const newUnit = await res.json();
+  debugger
   if(newUnit.ok) dispatch(addUnit(newUnit))
 
   return newUnit

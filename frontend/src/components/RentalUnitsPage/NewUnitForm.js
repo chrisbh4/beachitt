@@ -53,6 +53,7 @@ function NewUnitForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const totalRentals =0;
 
         const payload = {
             title,
@@ -69,13 +70,14 @@ function NewUnitForm() {
             lng,
             price,
             rentalUnitDescription,
-            totalRentals: 0,
+            totalRentals,
             url
         };
 
 
 
       const unit =  dispatch(createRentalUnit(payload));
+      debugger
         // reset();
         if(unit){
             history.push("/units")
