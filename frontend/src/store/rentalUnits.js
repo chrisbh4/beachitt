@@ -26,10 +26,32 @@ const load = units => ({
   })
 
 export const editRentalUnit = (payload ,unitId)=> async dispatch =>{
+
+  const formData = new FormData();
+  const {title,city,state,zipcode,distanceFromBeach,rooms,bathrooms,pool,unitType,lat,lng, price, rentalUnitDescription ,url } = payload
+  formData.append("title",title)
+  formData.append("city",city)
+  formData.append("state",state)
+  formData.append("zipcode",zipcode)
+  formData.append("distanceFromBeach",distanceFromBeach)
+  formData.append("rooms",rooms)
+  formData.append("bathrooms",bathrooms)
+  formData.append("pool", pool)
+  formData.append("unitType",unitType)
+  formData.append("lat", lat)
+  formData.append("lng",lng)
+  formData.append("price",price)
+  formData.append("rentalUnitDescription", rentalUnitDescription)
+
+
+  if (url) formData.append("url",url);
+
   const res = await csrfFetch(`/api/units/edit/${unitId}`,{
-    method:'PUT',
-    headers:{ "Content-Type" : "application/json"},
-    body: JSON.stringify(payload)
+    method: "PUT",
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    body: formData,
   });
 
   const rentalUnit = await res.json();

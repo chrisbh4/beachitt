@@ -46,19 +46,14 @@ router.post('/new', singleMulterUpload("url"),  asyncHandler(async (req, res) =>
 
     // const file  = req.file
 
-    const awsResult = await singlePublicFileUpload(req.file)
-
-    // console.log(awsResult)
-
-  const url = awsResult
-  const totalRentals = 0;
+    const url = await singlePublicFileUpload(req.file)
+    const totalRentals = 0;
 
 
 
 
   // * req.file is coming back undefined so that means the form/data conversion isn't happening either from the store or from the middleware
 
-  // const url = await singlePublicFileUpload(file)
 
   const newUnit = await RentalUnits.create({
     title, ownerId, city, distanceFromBeach, lat, lng, pool, price,
@@ -68,8 +63,14 @@ router.post('/new', singleMulterUpload("url"),  asyncHandler(async (req, res) =>
   return res.json({ newUnit });
 }))
 
-router.put('/edit/:id', requireAuth, asyncHandler(async( req, res )=>{
+router.put('/edit/:id', singleMulterUpload("url"), asyncHandler(async( req, res )=>{
   const unit = await RentalUnits.findByPk(req.params.id);
+
+  const file = req.file;
+  if(file.buffer) unit.url = await singlePublicFileUpload(file);
+
+
+
 
       unit.title = req.body.title;
       unit.city = req.body.city;
@@ -84,7 +85,9 @@ router.put('/edit/:id', requireAuth, asyncHandler(async( req, res )=>{
       unit.rooms = req.body.rooms;
       unit.state = req.body.state;
       unit.zipcode = req.body.zipcode;
-      unit.url = req.body.url;
+
+
+
 
   await unit.save()
   return res.json({unit})

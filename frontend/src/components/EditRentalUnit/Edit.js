@@ -64,7 +64,8 @@ function EditUnitForm(){
     const updateRooms = (e) => setRooms(e.target.value);
     const updateState = (e) => setState(e.target.value);
     const updateZipcode = (e) => setZipcode(e.target.value);
-    const updateUrl = (e) => setUrl(e.target.value);
+    const updateUrl = (e) => setUrl(e.target.files[0]);
+
 
 
     const handleDelete = async (e)=>{
@@ -221,12 +222,12 @@ const unitId = rentalUnit?.id
                         value={price}
                         onChange={updatePrice}
                     ></input>
-                        {/* <label>Image : </label>
+                       <label>Image : </label>
                     <input
                         type="file"
-                        value={url}
+                        accept="image/*"
                         onChange={updateUrl}
-                    ></input> */}
+                    ></input>
                     <label>Unit Description: </label>
                     <textarea
                         onChange={updateRentalUnitDescription}
