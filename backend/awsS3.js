@@ -31,13 +31,13 @@ AWS.config.update({accessKeyId, secretAccessKey, region})
 // --------------------------- Public UPLOAD ------------------------
 
 const singlePublicFileUpload = async (file) => {
-  // const { originalname, mimetype, buffer } = await file;
-  const {  buffer } = await file;
-  debugger
-  // const path = require("path");
+  const { originalname, mimetype, buffer } = await file;
+
+
+  const path = require("path");
   // name of the file in your S3 bucket will be the date in ms plus the extension name
-  // const Key = new Date().getTime().toString() + path.extname(originalname);
-  const Key = new Date().getTime().toString()
+  const Key = new Date().getTime().toString() + path.extname(originalname);
+
   const uploadParams = {
     Bucket: bucketName,
     Key,
@@ -45,10 +45,9 @@ const singlePublicFileUpload = async (file) => {
     ACL: "public-read",
   };
 
-  debugger
+
   const result = await s3.upload(uploadParams).promise();
 
-  debugger
   // save the name of the file in your bucket as the key in your database to retrieve for later
   return result.Location;
 };

@@ -37,7 +37,7 @@ function NewUnitForm() {
     const updateTitle = (e) => setTitle(e.target.value);
     const updateCity = (e) => setCity(e.target.value);
     const updateDistanceFromBeach = (e) => setDistanceFromBeach(e.target.value);
-    const updateUrl = (e) => setUrl(e.target.value);
+    const updateUrl = (e) => setUrl(e.target.files[0]);
     const updateLat = (e) => setLat(e.target.value);
     const updateLng = (e) => setLng(e.target.value);
     const updatePrice = (e) => setPrice(e.target.value);
@@ -219,7 +219,7 @@ function NewUnitForm() {
                     <label>Image : </label>
                     <input
                         type="file"
-                        value={url}
+                        accept="image/*"
                         onChange={updateUrl}
                     ></input>
                     <label>Unit Description: </label>
