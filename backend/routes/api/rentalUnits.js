@@ -21,29 +21,51 @@ router.get('/', asyncHandler(async (_req, res) => {
 router.get('/:id', asyncHandler(async (req, res) => {
   const unit = await RentalUnits.findByPk(req.params.id)
   res.json( unit )
-
 }))
 
 
+/*
 
+* the issue is coming from the middle ware
+* req.file =
+ {
+  fieldname: 'image',
+  originalname: 'seed-2.png',
+  encoding: '7bit',
+  mimetype: 'image/png',
+  buffer: <Buffer 89 50 4e 47 0d 0a 1a 0a 00 00 00 0d 49 48 44 52 00 00 00 f0 00 00 00 f0 08 03 00 00 00 09 8b 19 a0 00 00 03 00 50 4c 54 45 00 00 00 c3 c3 c3 66 5f 58 ... 12551 more bytes>,
+  size: 12601
+}
+
+*/
 // router.post('/new', requireAuth, asyncHandler(async (req, res) => {
-router.post('/new', singleMulterUpload('url'),  asyncHandler(async (req, res) => {
+router.post('/new', singleMulterUpload('image'),  asyncHandler(async (req, res) => {
   console.log(req.file)
   debugger
   const { title, ownerId, city, distanceFromBeach, lat, lng,
     pool, price, rentalUnitDescription, bathrooms, unitType, rooms, state, zipcode } = req.body;
 
-  const file = req.file;
+    const file  = {
+      buffer:req.body.url
+    }
+
+
+    const awsResult = await singlePublicFileUpload(file)
+
+    console.log(awsResult)
+
+  // const file = req.file;
   const url = req.body.url;
   const totalRentals = 0;
 
 
-  
+
+
   // * req.file is coming back undefined so that means the form/data conversion isn't happening either from the store or from the middleware
-  console.log(req.body.url);
-  console.log('--------------');
-  console.log(req.file);
-  console.log('--------------');
+  // console.log(req.body.url);
+  // console.log('--------------');
+  // console.log(req.file);
+  // console.log('--------------');
 
   debugger
   // const url = await singlePublicFileUpload(file)

@@ -80,7 +80,7 @@ export const createRentalUnit = (payload) => async dispatch =>{
   formData.append("lng",lng)
   formData.append("price",price)
   formData.append("rentalUnitDescription", rentalUnitDescription)
-  formData.append("totalRentals", 0)
+  formData.append("totalRentals", totalRental)
 
   if (url) formData.append("url",url);
 
