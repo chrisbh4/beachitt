@@ -7,23 +7,20 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
-        references:{model:'Users'}
       },
       comment: {
         allowNull:false,
-        type: Sequelize.STRING
-      },
-      rating: {
-        allowNull:false,
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING(250)
       },
       rentalUnitId: {
         allowNull:false,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references:{model:'RentalUnits'}
       },
       userId: {
         allowNull:false,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references:{model:'Users'}
       },
       createdAt: {
         allowNull: false,

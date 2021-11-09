@@ -57,7 +57,8 @@ module.exports = {
       },
       pool: {
         allowNull:false,
-        type: Sequelize.STRING('10')
+        type: Sequelize.STRING(10)
+        // type: Sequelize.STRING('10')
       },
       price: {
         allowNull:false,

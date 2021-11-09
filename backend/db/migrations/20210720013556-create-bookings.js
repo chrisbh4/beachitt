@@ -10,19 +10,23 @@ module.exports = {
       },
       userId: {
         allowNull:false,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references:{model:'Users'}
       },
       startDate: {
         allowNull:false,
-        type: Sequelize.DATEONLY
+        // type: Sequelize.DATEONLY
+        type: Sequelize.TEXT
       },
       endDate: {
         allowNull:false,
-        type: Sequelize.DATEONLY
+        // type: Sequelize.DATEONLY
+        type: Sequelize.TEXT
       },
       rentalUnitId: {
         allowNull:false,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references:{model:'RentalUnits'}
       },
       createdAt: {
         allowNull: false,
