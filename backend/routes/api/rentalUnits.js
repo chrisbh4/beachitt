@@ -1,6 +1,6 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
-const { RentalUnits, Images} = require('../../db/models')
+const { RentalUnits} = require('../../db/models')
 const { requireAuth, setTokenCookie } = require('../../utils/auth')
 // import { csrfProtection } from '../../utils/utils';
 // const newUnitValidation = require('../../utils/validation')
