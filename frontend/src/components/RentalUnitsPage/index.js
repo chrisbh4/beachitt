@@ -10,11 +10,12 @@ function RentalUnitsPage (){
 
     const dispatch = useDispatch();
 
-     const rentalUnits = useSelector((state)=> Object.values(state.rentalUnit))
-    // const rentalUnits = useSelector((state)=> state.rentalUnit)
+    //  const rentalUnits = useSelector((state)=> Object.values(state.rentalUnit))
+    const rentalUnits = useSelector((state)=> Object.values(state.rentalUnit))
 
 
     console.log('RENTAL-UNITS: ',rentalUnits)
+    // console.log('RENTAL-UNITS: ',rentalUnits)
 
 
     useEffect(()=>{

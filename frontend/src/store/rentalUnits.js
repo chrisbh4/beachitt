@@ -70,11 +70,12 @@ export const deleteRentalUnit = (unitId)=> async dispatch=>{
 
 }
 
-export const getRentalUnits = () => async dispatch => {
-    const rentalUnitCollection = await csrfFetch(`/api/units`);
-    const rentalUnits = await rentalUnitCollection.json();
 
-    // console.log('rentalUnits From store: ', rentalUnits )
+//* grabs all units
+export const getRentalUnits = () => async dispatch => {
+    const res = await csrfFetch(`/api/units`);
+    const rentalUnits = await res.json();
+
       dispatch(load(rentalUnits))
   };
 
@@ -148,17 +149,7 @@ export const createRentalUnit = (payload) => async dispatch =>{
   const rentalUnitReducer = ( state = initialState , action )=>{
     switch( action.type ){
       case LOAD:{
-        const allRentalUnits ={
-          // took out the ...state since it was spreading in an empty array
-        };
-        action.units.forEach( unit =>{
-          allRentalUnits[unit.id] = unit
-        })
-        return {
-          ...allRentalUnits
-          // ...allRentalUnits,
-          // ...state,
-        }
+        return {...state, ...action.units}
       }
       case ADD_ONE:{
         const newState ={

@@ -3,6 +3,7 @@ const asyncHandler = require('express-async-handler');
 const { RentalUnits } = require('../../db/models')
 const { requireAuth, setTokenCookie } = require('../../utils/auth')
 // import { csrfProtection } from '../../utils/utils';
+const { dataAdjuster} = require('../../utils/utils')
 // const newUnitValidation = require('../../utils/validation')
 const { singleMulterUpload , singlePublicFileUpload} = require("../../awsS3")
 
@@ -14,7 +15,10 @@ const router = express.Router();
 router.get('/', asyncHandler(async (_req, res) => {
   // const allRentalUnits = await RentalUnits.findAll({include:[Images]})
   const allRentalUnits = await RentalUnits.findAll()
-  return res.json(allRentalUnits)
+  const rentalUnits = dataAdjuster(allRentalUnits)
+  return res.json(rentalUnits)
+
+  // return res.json(allRentalUnits)
 }));
 
 
