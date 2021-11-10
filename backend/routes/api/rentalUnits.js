@@ -50,7 +50,8 @@ router.post('/new', singleMulterUpload("url"),  asyncHandler(async (req, res) =>
 
     // const file  = req.file
 
-    const url = await singlePublicFileUpload(req.file)
+    // const url = await singlePublicFileUpload(req.file)
+    const url ="uncomment code above";
     const totalRentals = 0;
 
 
@@ -106,7 +107,7 @@ router.delete('/edit/:id', requireAuth, asyncHandler(async (req, res) => {
   if (!rentalUnit) new Error(' Cannot find Rental Unit ');
 
   await rentalUnit.destroy()
-  return
+  return res.send("unit has been deleted")
 }))
 
 module.exports = router;
