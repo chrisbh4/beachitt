@@ -1,7 +1,7 @@
 import React , {useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getRentalUnits, getSingleUnit } from '../../store/rentalUnits';
+import { getRentalUnits, getSingleUnit } from '../../../store/rentalUnits';
 
 function GetRentalUnitPage (){
     const dispatch = useDispatch();
@@ -17,6 +17,7 @@ function GetRentalUnitPage (){
     return (
         <div>
             <h2>{unit?.title}</h2>
+
         <div className="unit-details">
             <h4>Unit Description:</h4>
                 <p>Location: {unit?.city}, {unit?.state}, {unit?.zipcode} </p>

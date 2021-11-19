@@ -6,24 +6,24 @@ import { Link } from 'react-router-dom';
 import { getRentalUnits } from '../../store/rentalUnits'
 import '../RentalUnitsPage/UnitsPage.css'
 
-function RentalUnitsPage (){
+function RentalUnitsPage() {
 
     const dispatch = useDispatch();
 
     //  const rentalUnits = useSelector((state)=> Object.values(state.rentalUnit))
-    const rentalUnits = useSelector((state)=> Object.values(state.rentalUnit))
+    const rentalUnits = useSelector((state) => Object.values(state.rentalUnit))
 
 
-    console.log('RENTAL-UNITS: ',rentalUnits)
+    console.log('RENTAL-UNITS: ', rentalUnits)
     // console.log('RENTAL-UNITS: ',rentalUnits)
 
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(getRentalUnits())
-    },[dispatch])
+    }, [dispatch])
     // console.log('RENTAL-UNITS: ',rentalUnits)
 
-    return(
+    return (
 
         <div>
             {/* <nav>
@@ -32,30 +32,38 @@ function RentalUnitsPage (){
             <h1 className="unitsPage-h1">Beach Properties</h1>
 
             <div className='all-unit-container' >
-                {rentalUnits.map((unit)=>{
-                    return(
+                {rentalUnits.map((unit) => {
+                    return (
                         <div
                             className="unit-div"
                             key={unit.id}>
+
+                            <div>
+                                <img src={`${unit.url}`} ></img>
+                            </div>
+
                             <h3>
-                            <Link
-                                className="unit-titel"
-                            to={`/units/edit/${unit.id}`}>
-                                {unit.title}</Link>
+                                <Link
+                                    className="unit-titel"
+                                    to={`/units/edit/${unit.id}`}>
+                                    {unit.title}</Link>
                             </h3>
+
+
+
                             <div className="unit-location">
                                 <h4 className='unit-headers'>Location Description:</h4>
                                 <ul>
-                                <div className="unit-item-container">
+                                    <div className="unit-item-container">
                                         <i className="fas fa-umbrella-beach"></i>
-                                    <li className="unit-item"> Location: {unit.city}, {unit.state}, {unit.zipcode} </li>
+                                        <li className="unit-item"> Location: {unit.city}, {unit.state}, {unit.zipcode} </li>
                                     </div>
                                     <div className="unit-item-container">
                                         <i className="fas fa-umbrella-beach"></i>
-                                    <li className="unit-item">Distance From Beach: {unit.distanceFromBeach} mile/s </li>
+                                        <li className="unit-item">Distance From Beach: {unit.distanceFromBeach} mile/s </li>
                                     </div>
                                 </ul>
-                                    <h4 className='unit-headers'>Unit Description:</h4>
+                                <h4 className='unit-headers'>Unit Description:</h4>
                                 <ul className="unit-descripiton-container">
                                     <div className="unit-item-container">
                                         <i className="fas fa-umbrella-beach"></i>
