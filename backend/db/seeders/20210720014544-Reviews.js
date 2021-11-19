@@ -8,9 +8,13 @@ module.exports = {
 
       Example:
       */
-  //  return queryInterface.bulkInsert('Reviews', [
-  //   {}
-  //  ], {});
+   return queryInterface.bulkInsert('Reviews', [
+    {comment:"test seed", rentalUnitId:1,userId:1,createdAt: new Date() , updatedAt: new Date() },
+    {comment:"test seed", rentalUnitId:1,userId:1,createdAt: new Date() , updatedAt: new Date() },
+    {comment:"test seed", rentalUnitId:1,userId:2,createdAt: new Date() , updatedAt: new Date() },
+    {comment:"test seed", rentalUnitId:1,userId:2,createdAt: new Date() , updatedAt: new Date() },
+    {comment:"test seed", rentalUnitId:1,userId:1,createdAt: new Date() , updatedAt: new Date() }
+   ], {});
   },
 
   down: (queryInterface, Sequelize) => {
@@ -20,6 +24,6 @@ module.exports = {
 
       Example:
       */
-  //  return queryInterface.bulkDelete('Reviews', null, {});
+   return queryInterface.bulkDelete('Reviews', null, {});
   }
 };

@@ -70,11 +70,12 @@ export const deleteRentalUnit = (unitId)=> async dispatch=>{
 
 }
 
-export const getRentalUnits = () => async dispatch => {
-    const rentalUnitCollection = await csrfFetch(`/api/units`);
-    const rentalUnits = await rentalUnitCollection.json();
 
-    // console.log('rentalUnits From store: ', rentalUnits )
+//* grabs all units
+export const getRentalUnits = () => async dispatch => {
+    const res = await csrfFetch(`/api/units`);
+    const rentalUnits = await res.json();
+
       dispatch(load(rentalUnits))
   };
 
@@ -143,22 +144,10 @@ export const createRentalUnit = (payload) => async dispatch =>{
 
   const initialState = {};
 
-
-
   const rentalUnitReducer = ( state = initialState , action )=>{
     switch( action.type ){
       case LOAD:{
-        const allRentalUnits ={
-          // took out the ...state since it was spreading in an empty array
-        };
-        action.units.forEach( unit =>{
-          allRentalUnits[unit.id] = unit
-        })
-        return {
-          ...allRentalUnits
-          // ...allRentalUnits,
-          // ...state,
-        }
+        return {...state, ...action.units}
       }
       case ADD_ONE:{
         const newState ={
@@ -170,28 +159,9 @@ export const createRentalUnit = (payload) => async dispatch =>{
       case DELETE_UNIT:{
         const newState = {...state};
         delete newState[action.unitId]
-        return newState
+        return {...newState}
       }
       case EDIT_UNIT:{
-        // const newState = {...state};
-        // newState.allRentalUnits.forEach(( unit )=>{
-        //   if( unit.id === action.unit.unit.id){
-        //     unit.title = action.unit.unit.title;
-        //     unit.city = action.unit.unit.city;
-        //     unit.distanceFromBeach = action.unit.unit.distanceFromBeach;
-        //     unit.lat = action.unit.unit.lat;
-        //     unit.lng = action.unit.unit.lng;
-        //     unit.pool = action.unit.unit.pool;
-        //     unit.price = action.unit.unit.price;
-        //     unit.rentalUnitDescription = action.unit.unit.rentalUnitDescription;
-        //     unit.bathrooms = action.unit.unit.bathrooms;
-        //     unit.unitType = action.unit.unit.unitType;
-        //     unit.rooms = action.unit.unit.rooms;
-        //     unit.state = action.unit.unit.state;
-        //     unit.zipcode = action.unit.unit.zipcode;
-        //   }
-        //   return newState;
-        // })
         return{
           ...state,
           [action.review.id]: action.review

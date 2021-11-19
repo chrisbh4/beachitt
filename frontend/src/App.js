@@ -9,7 +9,7 @@ import RentalUnitsPage from "./components/RentalUnitsPage/index";
 import Navigation from "./components/Naviagation";
 import NewUnitForm from "./components/RentalUnitsPage/NewUnitForm";
 import EditUnitForm from "./components/EditRentalUnit/Edit";
-// import GetRentalUnitPage from "./components/UnitPage";
+import GetRentalUnitPage from "./components/RentalUnitsPage/UnitPage";
 import HomePage from "./components/Home/home";
 function App() {
   const dispatch = useDispatch();
@@ -45,9 +45,9 @@ function App() {
             <RentalUnitsPage />
           </Route>
           {/* if uncommented EditUnitForm is not displayed */}
-          {/* <Route path = "/units/:id">
+          <Route path = "/units/:id">
             <GetRentalUnitPage />
-          </Route> */}
+          </Route>
           <Route  path="/new">
             < NewUnitForm />
           </Route>
