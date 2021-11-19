@@ -35,56 +35,74 @@ function RentalUnitsPage() {
                 {rentalUnits.map((unit) => {
                     return (
                         <div
+
                             className="unit-div"
                             key={unit.id}>
 
                             <div>
-                                <img src={`${unit.url}`} ></img>
+
+                                <Link
+                                to={`/units/${unit.id}`}>
+
+                                <img
+                                class='mx-auto'
+                                src={`${unit.url}`}>
+                                </img>
+                                </Link>
+
                             </div>
 
-                            <h3>
+                            <div class='flex justify-center' >
+                                <div class='relative top-0.5 text-sm'>
+                            <i
+                            className="fas fa-umbrella-beach"
+                            ></i>
+                            </div>
+                            <h2 class='ml-2.5'>
                                 <Link
                                     className="unit-titel"
                                     to={`/units/edit/${unit.id}`}>
                                     {unit.title}</Link>
-                            </h3>
+                            </h2>
+
+                            </div>
 
 
 
                             <div className="unit-location">
-                                <h4 className='unit-headers'>Location Description:</h4>
-                                <ul>
-                                    <div className="unit-item-container">
-                                        <i className="fas fa-umbrella-beach"></i>
-                                        <li className="unit-item"> Location: {unit.city}, {unit.state}, {unit.zipcode} </li>
+                                <div class='text-center' >
+
+                                    <div className="unit-item-container" class='justify-center flex' >
+                                        <p className="unit-item"> Location: {unit.city}, {unit.state}, {unit.zipcode} </p>
                                     </div>
-                                    <div className="unit-item-container">
-                                        <i className="fas fa-umbrella-beach"></i>
-                                        <li className="unit-item">Distance From Beach: {unit.distanceFromBeach} mile/s </li>
+                                    <div className="unit-item-container" class='justify-center flex' >
+                                        <p className="unit-item">Distance From Beach: {unit.distanceFromBeach} mile/s </p>
                                     </div>
-                                </ul>
-                                <h4 className='unit-headers'>Unit Description:</h4>
-                                <ul className="unit-descripiton-container">
-                                    <div className="unit-item-container">
+
+                                {/* <h4 className='unit-headers'>Unit Description:</h4>
+                                <ul className="unit-descripiton-container"> */}
+                                    {/* <div className="unit-item-container">
                                         <i className="fas fa-umbrella-beach"></i>
                                         <li className="unit-item">Price:${unit.price} /per night</li>
+                                    </div> */}
+
+                                    <div className="unit-item-container" class='justify-center flex'>
+
+                                        <p className="unit-item">Number of Rooms:{unit.rooms} </p>
                                     </div>
-                                    <div className="unit-item-container">
-                                        <i className="fas fa-umbrella-beach"></i>
-                                        <li className="unit-item">Number of Rooms:{unit.rooms} </li>
-                                    </div>
-                                    <div className="unit-item-container">
+
+                                    {/* <div className="unit-item-container">
                                         <i className="fas fa-umbrella-beach"></i>
                                         <li className="unit-item">Number of Bathrooms:{unit.bathrooms} </li>
+                                    </div> */}
 
-                                    </div>
-                                    <div className="unit-item-container unit-textbox">
+                                    {/* <div className="unit-item-container unit-textbox">
                                         <i className="fas fa-umbrella-beach"></i>
                                         <li className="unit-item">{unit.rentalUnitDescription}</li>
-                                    </div>
+                                    </div> */}
 
 
-                                </ul>
+                                </div>
                             </div>
 
                         </div>

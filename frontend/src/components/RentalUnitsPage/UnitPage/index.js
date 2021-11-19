@@ -15,10 +15,10 @@ function GetRentalUnitPage (){
     },[dispatch])
 
     return (
-        <div>
+        <div >
             <h2>{unit?.title}</h2>
 
-        <div className="unit-details">
+        <div className="unit-details" >
             <h4>Unit Description:</h4>
                 <p>Location: {unit?.city}, {unit?.state}, {unit?.zipcode} </p>
                 <p>Distance From Beach: {unit?.distanceFromBeach} miles </p>
@@ -27,7 +27,14 @@ function GetRentalUnitPage (){
                 <p>Number of Bathrooms:{unit?.bathrooms} </p>
                 <p>{unit?.rentalUnitDescription}</p>
             </div>
+
+            <div>
+                <button>Book</button>
+                <button>Go Back</button>
+            </div>
+            {/* End of Container */}
         </div>
+
     )
 
 }
