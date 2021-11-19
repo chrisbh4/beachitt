@@ -46,7 +46,10 @@ function RentalUnitsPage() {
 
                                 <img
                                 class='mx-auto'
-                                src={`${unit.url}`}>
+                                src={`${unit.url}`}
+                                alt={`${unit.title}`}
+                                >
+
                                 </img>
                                 </Link>
 
