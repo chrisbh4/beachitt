@@ -7,10 +7,13 @@ import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
 import RentalUnitsPage from "./components/RentalUnitsPage/index";
 import Navigation from "./components/Naviagation";
+import HomePage from "./components/Home/home";
 import NewUnitForm from "./components/RentalUnitsPage/NewUnitForm";
 import EditUnitForm from "./components/EditRentalUnit/Edit";
 import GetRentalUnitPage from "./components/RentalUnitsPage/UnitPage";
-import HomePage from "./components/Home/home";
+import NewReviewForm from "./components/Reviews/NewReviewForm"
+import EditReviewForm from "./components/Reviews/EditReview";
+
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -53,6 +56,13 @@ function App() {
           </Route>
           <Route  path ="/units/edit/:id">
             <EditUnitForm />
+          </Route>
+
+          <Route path='/reviews/new'>
+            <NewReviewForm />
+          </Route>
+          <Route path='/reviews/:id/edit'>
+            <EditReviewForm />
           </Route>
         </Switch>
       )}
