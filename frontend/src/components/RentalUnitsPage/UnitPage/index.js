@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getRentalUnits, getSingleUnit } from '../../../store/rentalUnits';
+import { getRentalUnits } from '../../../store/rentalUnits';
 
 function GetRentalUnitPage() {
     const dispatch = useDispatch();
@@ -9,12 +9,12 @@ function GetRentalUnitPage() {
     const unit = useSelector(state => state?.rentalUnit[id])
     const userId = useSelector(state => state?.session.user.id)
     const unitReviews = unit?.Reviews;
-    console.log("Unit owner :", unit?.ownerId)
-    // console.log("Unit owner :", unitReviews[0])
+    console.log("Unit owner :", unitReviews)
+
 
     useEffect(() => {
         dispatch(getRentalUnits())
-        // dispatch(getSingleUnit())
+
     }, [dispatch])
 
 
@@ -51,7 +51,7 @@ const displayReviews = () =>{
             <>
             <div id="review-row" class="text-black grid grid-cols-2">
                 <div id="review-username" class="text-center">
-                    <p>username</p>
+                    <p>{review.username}</p>
                 </div>
                 <div id="review-comment" class="text-center">
                     {editReview(review)}
@@ -93,7 +93,6 @@ const editReview = (review) => {
     return (
         <div>
             <div class='justify-center flex pt-5 '  >
-
                 <div id='unit-detail-image' class='w-7/12 '>
                     <img class='min-h-full  ' src={`${unit?.url}`} alt={unit?.title} ></img>
                 </div>
@@ -135,15 +134,23 @@ const editReview = (review) => {
             </div>
 
             {/* Reviews will be a grid */}
-            <div class=' w-full bg-gray-200 h-40 mt-3 '>
+            <div class=' w-full bg-gray-200 h-60 mt-3 overflow-scroll '>
+
+                <div class='overflow-scroll'>
+
+                <div class='text-center pt-3 pb-4'>
+                    {/* <button ><a href='/reviews/new'>Leave a Review</a></button> */}
+                    <button ><a href='/'>Leave a Review</a></button>
+                </div>
                 <div class='flex justify-around'>
                 <p class='underline font-medium text-3xl '>Username </p>
                 <p class='underline font-medium text-3xl '>Comment </p>
                 </div>
+
                 {displayReviews()}
 
             </div>
-
+            </div>
             {/* End of Container */}
         </div>
 

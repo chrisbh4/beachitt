@@ -9,11 +9,11 @@ module.exports = {
       Example:
       */
    return queryInterface.bulkInsert('Reviews', [
-    {comment:"test seed", rentalUnitId:1,userId:1,createdAt: new Date() , updatedAt: new Date() },
-    {comment:"test seed", rentalUnitId:1,userId:1,createdAt: new Date() , updatedAt: new Date() },
-    {comment:"test seed", rentalUnitId:1,userId:2,createdAt: new Date() , updatedAt: new Date() },
-    {comment:"test seed", rentalUnitId:1,userId:2,createdAt: new Date() , updatedAt: new Date() },
-    {comment:"test seed", rentalUnitId:1,userId:1,createdAt: new Date() , updatedAt: new Date() }
+    {comment:"test seed", rentalUnitId:1,userId:1,username:"demo",createdAt: new Date() , updatedAt: new Date() },
+    {comment:"test seed", rentalUnitId:1,userId:1,username:"demo",createdAt: new Date() , updatedAt: new Date() },
+    {comment:"test seed", rentalUnitId:1,userId:2,username:"demo",createdAt: new Date() , updatedAt: new Date() },
+    {comment:"test seed", rentalUnitId:1,userId:2,username:"demo",createdAt: new Date() , updatedAt: new Date() },
+    {comment:"test seed", rentalUnitId:1,userId:1,username:"demo",createdAt: new Date() , updatedAt: new Date() }
    ], {});
   },
 
