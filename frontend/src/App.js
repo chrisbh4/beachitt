@@ -48,13 +48,13 @@ function App() {
             <RentalUnitsPage />
           </Route>
           {/* if uncommented EditUnitForm is not displayed */}
-          <Route path = "/units/:id">
+          <Route path="/units/:id">
             <GetRentalUnitPage />
           </Route>
           <Route  path="/new">
             < NewUnitForm />
           </Route>
-          <Route  path ="/units/edit/:id">
+          <Route  path="/units/edit/:id">
             <EditUnitForm />
           </Route>
 

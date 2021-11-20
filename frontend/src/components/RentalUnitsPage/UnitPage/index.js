@@ -17,16 +17,18 @@ function GetRentalUnitPage() {
 
     }, [dispatch])
 
+    console.log(unit?.id)
+    const unitId = unit?.id
 
+    //* Edit Unit route Id is coming up as undefined might need to pass in a prop
 
-const editOrBook = () => {
-        if (userId === unit?.ownerId) {
+    const editOrBook = () => {
+        if (userId && userId === unit?.ownerId) {
             return (
                 <>
                     <button
-                        class=" p-5"
-                    >
-                        <a href={`/units/${unit?.id}/edit`}>Edit</a>
+                        class=" p-5">
+                        <a href={`/units/edit/${unitId}`}>Edit</a>
                     </button>
                 </>
             )
@@ -35,60 +37,60 @@ const editOrBook = () => {
             return (
                 // <button ><a href={`/bookings`}>Book a trip</a></button>
                 <>
-                <button
-                    class=" p-5"
-                ><a href={`/`}>Book a trip</a></button>
+                    <button
+                        class=" p-5"
+                    ><a href={`/`}>Book a trip</a></button>
                 </>
             )
         }
     }
 
-// * Dispaly Reviews Functionality
+    // * Dispaly Reviews Functionality
 
-const displayReviews = () =>{
-  return  unitReviews?.map((review)=>{
-        return(
-            <>
-            <div id="review-row" class="text-black grid grid-cols-2">
-                <div id="review-username" class="text-center">
-                    <p>{review.username}</p>
-                </div>
-                <div id="review-comment" class="text-center">
-                    {editReview(review)}
-                </div>
-            </div>
-            </>
+    const displayReviews = () => {
+        return unitReviews?.map((review) => {
+            return (
+                <>
+                    <div id="review-row" class="text-black grid grid-cols-2">
+                        <div id="review-username" class="text-center">
+                            <p>{review.username}</p>
+                        </div>
+                        <div id="review-comment" class="text-center">
+                            {editReview(review)}
+                        </div>
+                    </div>
+                </>
 
-        )
-    })
+            )
+        })
 
-}
-
-//* Edit Review functionality
-
-const editReview = (review) => {
-    if( userId ===  review.userId ){
-        return (
-            <div class="flex justify-center">
-            <p class="pl-3 relattive left-2">{review.comment}</p>
-            {/* <button><a href={`/reviews/${review.id}`}>Edit</a> </button> */}
-            <div class='relative left-3'>
-
-            <button><a href={`/`}>Edit</a> </button>
-            </div>
-            </div>
-        )
-    }else{
-        return(
-            <p>{review.comment}</p>
-        )
     }
-}
 
-//* add username in the comment model it will grab the email and split on the @
-// const getReviewUsername = () =>{
-//     if()
-// }
+    //* Edit Review functionality
+
+    const editReview = (review) => {
+        if (userId === review.userId) {
+            return (
+                <div class="flex justify-center">
+                    <p class="pl-3 relattive left-2">{review.comment}</p>
+
+                    <div class='relative left-3'>
+                        <button><a href={`/reviews/${review.id}/edit`}>Edit</a> </button>
+                    </div>
+
+                </div>
+            )
+        } else {
+            return (
+                <p>{review.comment}</p>
+            )
+        }
+    }
+
+    //* add username in the comment model it will grab the email and split on the @
+    // const getReviewUsername = () =>{
+    //     if()
+    // }
 
     return (
         <div>
@@ -117,7 +119,7 @@ const editReview = (review) => {
                     <div class='flex justify-around relative top-1/4 z-' >
                         <button> <a class=' p-5' href='/units'>Go Back</a> </button>
                         <>
-                        {editOrBook()}
+                            {editOrBook()}
                         </>
                     </div>
                 </div>
@@ -138,18 +140,18 @@ const editReview = (review) => {
 
                 <div class='overflow-scroll'>
 
-                <div class='text-center pt-3 pb-4'>
-                    {/* <button ><a href='/reviews/new'>Leave a Review</a></button> */}
-                    <button ><a href='/'>Leave a Review</a></button>
-                </div>
-                <div class='flex justify-around'>
-                <p class='underline font-medium text-3xl '>Username </p>
-                <p class='underline font-medium text-3xl '>Comment </p>
-                </div>
+                    <div class='text-center pt-3 pb-4'>
+                        <button ><a href='/reviews/new'>Leave a Review</a></button>
+                        {/* <button ><a href='/'>Leave a Review</a></button> */}
+                    </div>
+                    <div class='flex justify-around'>
+                        <p class='underline font-medium text-3xl '>Username </p>
+                        <p class='underline font-medium text-3xl '>Comment </p>
+                    </div>
 
-                {displayReviews()}
+                    {displayReviews()}
 
-            </div>
+                </div>
             </div>
             {/* End of Container */}
         </div>
