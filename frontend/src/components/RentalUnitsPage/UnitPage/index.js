@@ -9,13 +9,15 @@ function GetRentalUnitPage() {
     const unit = useSelector(state => state?.rentalUnit[id])
     const userId = useSelector(state => state?.session.user.id)
     const unitReviews = unit?.Reviews;
-    console.log("Unit :", unitReviews[2])
     console.log("Unit owner :", unit?.ownerId)
+    // console.log("Unit owner :", unitReviews[0])
 
     useEffect(() => {
         dispatch(getRentalUnits())
-        dispatch(getSingleUnit())
+        // dispatch(getSingleUnit())
     }, [dispatch])
+
+
 
 const editOrBook = () => {
         if (userId === unit?.ownerId) {
@@ -41,17 +43,18 @@ const editOrBook = () => {
         }
     }
 
+// * Dispaly Reviews Functionality
 
 const displayReviews = () =>{
   return  unitReviews?.map((review)=>{
         return(
             <>
             <div id="review-row" class="text-black grid grid-cols-2">
-                <div id="review-username" class="text-centers">
+                <div id="review-username" class="text-center">
                     <p>username</p>
                 </div>
-                <div id="review-comment" class="text-centers">
-                    <p>{review.comment}</p>
+                <div id="review-comment" class="text-center">
+                    {editReview(review)}
                 </div>
             </div>
             </>
@@ -60,6 +63,32 @@ const displayReviews = () =>{
     })
 
 }
+
+//* Edit Review functionality
+
+const editReview = (review) => {
+    if( userId ===  review.userId ){
+        return (
+            <div class="flex justify-center">
+            <p class="pl-3 relattive left-2">{review.comment}</p>
+            {/* <button><a href={`/reviews/${review.id}`}>Edit</a> </button> */}
+            <div class='relative left-3'>
+
+            <button><a href={`/`}>Edit</a> </button>
+            </div>
+            </div>
+        )
+    }else{
+        return(
+            <p>{review.comment}</p>
+        )
+    }
+}
+
+//* add username in the comment model it will grab the email and split on the @
+// const getReviewUsername = () =>{
+//     if()
+// }
 
     return (
         <div>
@@ -97,7 +126,6 @@ const displayReviews = () =>{
 
                 {/* Google Maps goes here */}
 
-                {/*  Unit Reviews componenet goes here  */}
 
 
             </div>
