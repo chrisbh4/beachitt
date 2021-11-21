@@ -75,7 +75,9 @@ function GetRentalUnitPage() {
                     <p class="pl-3 relattive left-2">{review.comment}</p>
 
                     <div class='relative left-3'>
-                        <button><a href={`/reviews/${review.id}/edit`}>Edit</a> </button>
+                        <a href={`/reviews/${review.id}/edit`}><button>Edit</button>
+                        </a>
+
                     </div>
 
                 </div>
