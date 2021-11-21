@@ -60,6 +60,24 @@ function EditUnitForm() {
 
     console.log('title', title)
 
+    useEffect (()=>{
+        setTitle(rentalUnit?.title);
+        setCity(rentalUnit?.city);
+        setDistanceFromBeach(rentalUnit?.distanceFromBeach);
+        setLng(rentalUnit?.lng)
+        setLat(rentalUnit?.lat)
+        setPrice(rentalUnit?.price);
+        setPool(rentalUnit?.pool);
+        setRentalUnitDescription(rentalUnit?.rentalUnitDescription);
+        setBathrooms(rentalUnit?.bathrooms);
+        setUnitType(rentalUnit?.unitType)
+        setRooms(rentalUnit?.rooms);
+        setState(rentalUnit?.state);
+        setZipcode(rentalUnit?.zipcode);
+        setUrl(rentalUnit?.url);
+
+    },[rentalUnit?.title,rentalUnit?.city,rentalUnit?.distanceFromBeach,rentalUnit?.lat,rentalUnit?.lng,rentalUnit?.price,rentalUnit?.pool,
+        rentalUnit?.rentalUnitDescription,rentalUnit?.bathrooms,rentalUnit?.unitType, rentalUnit?.rooms, rentalUnit?.state,rentalUnit?.zipcode,rentalUnit?.url])
 
     const updateTitle = (e) => setTitle(e.target.value);
     const updateCity = (e) => setCity(e.target.value);
