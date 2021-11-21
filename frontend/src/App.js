@@ -47,20 +47,26 @@ function App() {
           <Route exact path="/units">
             <RentalUnitsPage />
           </Route>
+
           {/* if uncommented EditUnitForm is not displayed */}
-          <Route path="/units/:id">
+
+          <Route exact path="/units/:id">
             <GetRentalUnitPage />
           </Route>
+
           <Route  path="/new">
             < NewUnitForm />
           </Route>
+
           <Route  path="/units/edit/:id">
             <EditUnitForm />
           </Route>
 
+{/* Review Routes */}
           <Route path='/reviews/new'>
             <NewReviewForm />
           </Route>
+
           <Route path='/reviews/:id/edit'>
             <EditReviewForm />
           </Route>

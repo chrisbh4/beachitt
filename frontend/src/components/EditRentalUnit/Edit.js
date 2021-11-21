@@ -131,6 +131,7 @@ const unitId = rentalUnit?.id
                         <input
                             type="text"
                             onChange={updateCity}
+                            placeholder={rentalUnit?.city}
                             value={city}
                         ></input>
                        <label>State: </label>
@@ -138,12 +139,14 @@ const unitId = rentalUnit?.id
                             type="text"
                             onChange={updateState}
                             value={state}
+                            placeholder={rentalUnit?.state}
                         ></input>
                         <label>Zipcode: </label>
                         <input
                             type="text"
                             onChange={updateZipcode}
                             value={zipcode}
+                            placeholder={rentalUnit?.zipcode}
                         ></input>
                     </div>
                     <h3>Unit Details & Descriptions</h3>
@@ -152,18 +155,21 @@ const unitId = rentalUnit?.id
                         type="number"
                         onChange={updateDistanceFromBeach}
                         value={distanceFromBeach}
+                        placeholder={rentalUnit?.distanceFromBeach}
                     ></input>
                     <label>Rooms: </label>
                     <input
                         type="number"
                         onChange={updateRooms}
                         value={rooms}
+                        placeholder={rentalUnit?.rooms}
                         min="1"
                     ></input>
                     <label>Bathrooms: </label>
                     <input
                         type="number"
                         onChange={updateBathrooms}
+                        placeholder={rentalUnit?.bathrooms}
                         value={bathrooms}
                     ></input>
                     <label>Pool (yes or no): </label>
@@ -171,6 +177,7 @@ const unitId = rentalUnit?.id
                         type="text"
                         onChange={updatePool}
                         value={pool}
+                        placeholder={rentalUnit?.pool}
                         max="3"
                     ></input>
                 <div className="unit-type">
@@ -209,18 +216,21 @@ const unitId = rentalUnit?.id
                         type="text"
                         value={lat}
                         onChange={updateLat}
+                        placeholder={rentalUnit?.lat}
                     ></input>
                     <label>Longitude: </label>
                     <input
                         type="text"
                         value={lng}
                         onChange={updateLng}
+                        placeholder={rentalUnit?.lng}
                     ></input>
                     <label>Price Per Night: $ </label>
                     <input
                         type="text"
                         value={price}
                         onChange={updatePrice}
+                        placeholder={rentalUnit?.price}
                     ></input>
                        <label>Image : </label>
                     <input
@@ -232,6 +242,7 @@ const unitId = rentalUnit?.id
                     <textarea
                         onChange={updateRentalUnitDescription}
                         value={rentalUnitDescription}
+                        placeholder={rentalUnit?.rentalUnitDescription}
                     ></textarea>
                     <button type="submit">Submit</button>
                     <button

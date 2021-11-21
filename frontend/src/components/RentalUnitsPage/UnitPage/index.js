@@ -23,7 +23,7 @@ function GetRentalUnitPage() {
     //* Edit Unit route Id is coming up as undefined might need to pass in a prop
 
     const editOrBook = () => {
-        if (userId && userId === unit?.ownerId) {
+        if (userId > 0 && userId === unit?.ownerId) {
             return (
                 <>
                     <button
