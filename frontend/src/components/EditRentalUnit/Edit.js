@@ -21,6 +21,11 @@ function EditUnitForm() {
 
     // console.log(rentalUnits.title)
 
+    /*
+    * Edit placeholders/data is not being saved inside it's variables on the first render
+    * need to look into the useEffect and be able to hold the data after a page refresh
+    */
+
     useEffect(() => {
         dispatch(getRentalUnits())
 
@@ -49,6 +54,8 @@ function EditUnitForm() {
     const [state, setState] = useState(rentalUnit?.state)
     const [zipcode, setZipcode] = useState(rentalUnit?.zipcode)
     const [url, setUrl] = useState(rentalUnit?.url)
+
+    console.log('title', title)
 
 
     const updateTitle = (e) => setTitle(e.target.value);
@@ -99,14 +106,10 @@ function EditUnitForm() {
             url
 
         };
-        // let newUnit = dispatch(createRentalUnit(payload));
-        // if(newUnit){
-        //     return newUnit
-        // }
+
         dispatch(editRentalUnit(payload, unitId));
         history.push('/units')
         throw alert("Rental Unit Updated :)")
-        // reset();
     }
 
 

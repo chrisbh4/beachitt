@@ -47,14 +47,17 @@ router.post('/new', singleMulterUpload("url"),  asyncHandler(async (req, res) =>
   });
 
   return res.json({ newUnit });
-  
+
 }))
 
 router.put('/edit/:id', singleMulterUpload("url"), asyncHandler(async( req, res )=>{
   const unit = await RentalUnits.findByPk(req.params.id);
 
   const file = req.file;
+  console.log('file :', file)
+
   if(file.buffer) unit.url = await singlePublicFileUpload(file);
+  
 
 
 
