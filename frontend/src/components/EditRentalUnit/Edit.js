@@ -9,6 +9,7 @@ function EditUnitForm() {
     const { id } = useParams();
     const dispatch = useDispatch()
     const history = useHistory()
+
     //  trying to get rentalUnits from the currentstate from the id of the clicked on unit
     //  const rentalUnit = useSelector(state => state.rentalUnit[id]);
 
@@ -24,6 +25,8 @@ function EditUnitForm() {
     /*
     * Edit placeholders/data is not being saved inside it's variables on the first render
     * need to look into the useEffect and be able to hold the data after a page refresh
+    *
+    * place a useEffect with the setData variable inside to be able to update the useState variables after a second page render
     */
 
     useEffect(() => {
