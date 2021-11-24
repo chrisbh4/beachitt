@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
-import {  useParams } from 'react-router-dom';
+import {  useParams, useHistory } from 'react-router-dom';
 import { createReview } from '../../store/reviews';
 import "../Reviews/Reviews.css"
 
@@ -8,7 +8,7 @@ import "../Reviews/Reviews.css"
 
 function NewReviewForm (){
     const dispatch = useDispatch();
-    // const history = useHistory();
+    const history = useHistory();
     const {id} = useParams();
 
     const userId = useSelector((state)=> state.session.user.id)
@@ -16,9 +16,6 @@ function NewReviewForm (){
     const [comment , setComment] = useState("");
 
     const updateComment = (e) => setComment(e.target.value);
-
-
-
 
 
     const handleSubmit = async (e) =>{
@@ -34,6 +31,7 @@ function NewReviewForm (){
         const data = dispatch(createReview(payload));
 
         if(data.errors) return data.errors;
+        history.push(`/units/2`);
         return data;
     };
 
@@ -54,6 +52,8 @@ function NewReviewForm (){
                         type="text"
                         onChange={updateComment}
                     ></input>
+
+                    <button type="submit">Submit</button>
                 </form>
             </div>
         </div>

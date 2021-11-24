@@ -143,7 +143,7 @@ function GetRentalUnitPage() {
                 <div class='overflow-scroll'>
 
                     <div class='text-center pt-3 pb-4'>
-                        <button ><a href='/reviews/new'>Leave a Review</a></button>
+                        <button ><a href={`/${unit?.id}/reviews/new`}>Leave a Review</a></button>
                         {/* <button ><a href='/'>Leave a Review</a></button> */}
                     </div>
                     <div class='flex justify-around'>
