@@ -73,7 +73,6 @@ function GetRentalUnitPage() {
             return (
                 <div class="flex justify-center">
                     <p class="pl-3 relattive left-2">{review.comment}</p>
-
                     <div class='relative left-3'>
                         <a href={`/reviews/${review.id}/edit`}><button>Edit</button>
                         </a>

@@ -10,11 +10,12 @@ function EditReviewForm() {
     // const history = useHistory();
 
 
+
     //* change useState to hold current Review that was selected
     const comment = useState("");
-    const rentalUnitId = useState("")
-    const userId = useState("")
-    const username = useState("")
+    const rentalUnitId = useState("");
+    const userId = useState("");
+    const username = useState("");
 
 
     const handleSubmit = async (e) => {
@@ -39,7 +40,12 @@ function EditReviewForm() {
             <h1>Edit Review Form</h1>
             <form
                 onSubmit={handleSubmit}>
-
+                    <label>Comment</label>
+                    <input
+                    type='text'
+                    // placeholder={}
+                    >
+                    </input>
                 </form>
         </div>
     )
