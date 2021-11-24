@@ -77,31 +77,14 @@ function NewUnitForm() {
 
 
       const unit =  dispatch(createRentalUnit(payload));
-      debugger
-        // reset();
+
         if(unit){
-            history.push("/units")
-            throw alert("Rental Unit Submited")
+            history.push("/units");
+            alert("Rental Unit Submited");
+            // return unit
         }
 
     }
-
-    // const reset = () => {
-	// 	    setTitle("")
-    //         setCity("")
-    //         setState("")
-    //         setZipcode("")
-    //         setDistanceFromBeach("")
-    //         setRooms("")
-    //         setBathrooms("")
-    //         setPool("")
-    //         setUnitType("")
-    //         setLat("")
-    //         setLng("")
-    //         setPrice("")
-    //         setRentalUnitDescription("")
-
-	// };
 
     return (
         <div className="form-placement">
@@ -171,7 +154,7 @@ function NewUnitForm() {
                 <label htmlFor="house">House</label>
 					<input
 						onChange={updateUnityType}
-						value={"house"}
+						value="house"
 						type="radio"
                         id="hosue"
                         checked={unitType === 'house'}
@@ -181,7 +164,7 @@ function NewUnitForm() {
                 <label htmlFor="apartment">Apartment</label>
 					<input
 						onChange={updateUnityType}
-						value={"apartment"}
+						value="apartment"
 						type="radio"
                         id="apartment"
                         checked={unitType === 'apartment'}
