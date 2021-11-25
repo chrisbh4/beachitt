@@ -1,13 +1,31 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 // import { useHistory } from 'react-router-dom';
 import { editRentalUnit } from "../../store/rentalUnits"
+import { getReview } from '../../store/reviews';
 
 
 
 function EditReviewForm() {
     const dispatch = useDispatch();
+    const review = useSelector((state)=> state.reviews)
+    console.log('------')
+    console.log(review)
+
+
     // const history = useHistory();
+    const {id} = useParams();
+
+
+
+// * store thunk is not grabbing the single review 
+    useEffect(()=>{
+        debugger
+        dispatch(getReview(id))
+        debugger
+    },[dispatch])
+
 
 
 
