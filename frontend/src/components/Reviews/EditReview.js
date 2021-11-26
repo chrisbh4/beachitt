@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useHistory } from 'react-router-dom';
-import { getReview, editReview } from '../../store/reviews';
+import { getReview, editReview, deleteReview } from '../../store/reviews';
 
 
 
@@ -42,8 +42,6 @@ function EditReviewForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-
-
         const payload = {
             comment,
             rentalUnitId,
@@ -57,6 +55,13 @@ function EditReviewForm() {
         history.push(`/units/${review.rentalUnitId}`)
         return data;
     };
+
+    const handleDelete = async (e)=>{
+        e.preventDefault();
+        dispatch(deleteReview(id));
+        alert("Review Delete");
+        history.push(`/units/${review.rentalUnitId}`)
+    }
 
 
     return (
@@ -74,6 +79,7 @@ function EditReviewForm() {
 
                     {/* maybe place button outside of form for styling */}
                     <button type='submit'>Submit</button>
+                    <button onClick={handleDelete}>Delete</button>
 
                 </form>
 
