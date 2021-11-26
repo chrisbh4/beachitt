@@ -11,20 +11,20 @@ function EditReviewForm() {
     const dispatch = useDispatch();
     const review = useSelector((state)=> state.reviews)
     console.log('------')
-    console.log(review)
+    console.log(review.comment)
 
 
     // const history = useHistory();
     const {id} = useParams();
+    console.log(id);
 
 
-
-// * store thunk is not grabbing the single review 
+// * store thunk is not grabbing the single review
     useEffect(()=>{
-        debugger
+        // debugger
         dispatch(getReview(id))
-        debugger
-    },[dispatch])
+        // debugger
+    },[dispatch,id])
 
 
 

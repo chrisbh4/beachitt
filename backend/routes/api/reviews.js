@@ -16,8 +16,8 @@ router.get('/', asyncHandler( async ( req , res )=>{
 
 }))
 
-router.get('/:id', asyncHandler( async ( req , res )=>{
 
+router.get('/:id', asyncHandler( async ( req , res )=>{
     const review = await Reviews.findByPk(req.params.id);
     return res.json({review})
     // return res.json(review})
