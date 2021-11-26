@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getRentalUnits } from '../../../store/rentalUnits';
+import {deleteReview} from "../../../store/reviews"
 
 function GetRentalUnitPage() {
     const dispatch = useDispatch();
@@ -17,6 +18,14 @@ function GetRentalUnitPage() {
 
     }, [dispatch])
 
+    const handleDelete = async (e)=>{
+        e.preventDefault();
+        dispatch(deleteReview(id));
+        alert("Review Delete");
+        // history.push(`/units/${review.rentalUnitId}`)
+        return "Review has been Deleted"
+    }
+
     console.log(unit?.id)
     const unitId = unit?.id
 
@@ -30,6 +39,7 @@ function GetRentalUnitPage() {
                         class=" p-5">
                         <a href={`/units/edit/${unitId}`}>Edit</a>
                     </button>
+
                 </>
             )
         } else {
@@ -77,6 +87,8 @@ function GetRentalUnitPage() {
                         <a href={`/reviews/${review.id}/edit`}><button>Edit</button>
                         </a>
 
+                            {/* Delete Route is recieving an undefined ID so the review ID isn't being touched */}
+                        <button class='relative left-4' onClick={handleDelete}>Delete</button>
                     </div>
 
                 </div>
@@ -137,7 +149,7 @@ function GetRentalUnitPage() {
             </div>
 
             {/* Reviews will be a grid */}
-            <div class=' w-full bg-gray-200 h-60 mt-3 overflow-scroll '>
+            <div class=' w-full bg-gray-200 h-60 mt-3 overflow-scroll p-10 mb-6'>
 
                 <div class='overflow-scroll'>
 
