@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-// import { useHistory } from 'react-router-dom';
-import { editRentalUnit } from "../../store/rentalUnits"
-import { getReview } from '../../store/reviews';
+import { useHistory } from 'react-router-dom';
+import { getReview, editReview } from '../../store/reviews';
 
 
 
 function EditReviewForm() {
     const dispatch = useDispatch();
+    const history = useHistory();
     const review = useSelector((state)=> state.reviews)
     console.log('------')
-    console.log(review.comment)
+    console.log(review)
 
 
     // const history = useHistory();
@@ -30,14 +30,19 @@ function EditReviewForm() {
 
 
     //* change useState to hold current Review that was selected
-    const comment = useState("");
-    const rentalUnitId = useState("");
-    const userId = useState("");
-    const username = useState("");
+    const [comment, setComment] = useState(review.comment);
+    const [rentalUnitId] = useState(review.rentalUnitId);
+    const [userId] = useState(review.userId);
+    const [username] = useState(review.username);
+
+
+    const updateComment = ((e)=> setComment(e.target.value))
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+
 
         const payload = {
             comment,
@@ -46,9 +51,10 @@ function EditReviewForm() {
             username
         };
 
-        const data = await dispatch(editRentalUnit(payload));
+        const data = await dispatch(editReview(payload,id));
         if (data.errors) return data.errors;
-
+        alert("Review has been submited.")
+        history.push(`/units/${review.rentalUnitId}`)
         return data;
     };
 
@@ -61,10 +67,16 @@ function EditReviewForm() {
                     <label>Comment</label>
                     <input
                     type='text'
-                    // placeholder={}
+                    onChange={updateComment}
+                    placeholder={review.comment}
                     >
                     </input>
+
+                    {/* maybe place button outside of form for styling */}
+                    <button type='submit'>Submit</button>
+
                 </form>
+
         </div>
     )
 }
