@@ -147,6 +147,9 @@ function GetRentalUnitPage() {
 
             <div class=' w-full bg-gray-200 h-full mt-3 flex flex-col justify-center items-center '>
                 {/* <h1>Google Maps</h1> */}
+
+
+                {/* pass in the unit.lat & unit.lng */}
                 <MapContainer />
             </div>
 
