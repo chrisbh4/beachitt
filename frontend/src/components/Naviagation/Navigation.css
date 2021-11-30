@@ -3,8 +3,6 @@
     position: relative;
     background-color: rgb(230, 135, 51);
     padding:10px ;
-    top: -7px;
-    left:-8.5px;
     width: 100%
 }
 
@@ -14,8 +12,6 @@
     position: relative;
     background-color: rgb(230, 135, 51);
     padding:10px ;
-    top: -7px;
-    left:-8.5px;
     justify-content: space-around;
 }
 
