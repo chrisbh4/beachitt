@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getRentalUnits } from '../../../store/rentalUnits';
 import {deleteReview} from "../../../store/reviews"
+import MapContainer from '../../Maps';
 
 function GetRentalUnitPage() {
     const dispatch = useDispatch();
@@ -144,8 +145,9 @@ function GetRentalUnitPage() {
 
             </div>
 
-            <div class=' w-full bg-gray-200 h-40 mt-3 flex flex-col justify-center items-center '>
-                <h1>Google Maps</h1>
+            <div class=' w-full bg-gray-200 h-full mt-3 flex flex-col justify-center items-center '>
+                {/* <h1>Google Maps</h1> */}
+                <MapContainer />
             </div>
 
             {/* Reviews will be a grid */}
