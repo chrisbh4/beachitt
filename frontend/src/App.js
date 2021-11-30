@@ -13,6 +13,7 @@ import EditUnitForm from "./components/EditRentalUnit/Edit";
 import GetRentalUnitPage from "./components/RentalUnitsPage/UnitPage";
 import NewReviewForm from "./components/Reviews/NewReviewForm"
 import EditReviewForm from "./components/Reviews/EditReview";
+import MapContainer from "./components/Maps";
 
 function App() {
   const dispatch = useDispatch();
@@ -70,6 +71,10 @@ function App() {
           <Route path='/reviews/:id/edit'>
             <EditReviewForm />
           </Route>
+
+        <Route path='/map'>
+          <MapContainer />
+        </Route>
         </Switch>
       )}
     </>

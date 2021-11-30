@@ -3,12 +3,14 @@ const router = require('express').Router();
 const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
 const rentalUnitsRouter = require('./rentalUnits')
+const mapsRouter = require('./maps')
 
 const rentalReview = require('./reviews')
 
 router.use('/session', sessionRouter);
 router.use('/units', rentalUnitsRouter);
 router.use('/reviews', rentalReview);
+router.use('/maps', mapsRouter)
 router.use('/users', usersRouter);
 
 
