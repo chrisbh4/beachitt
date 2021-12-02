@@ -11,7 +11,8 @@ function GetRentalUnitPage() {
     const unit = useSelector(state => state?.rentalUnit[id])
     const userId = useSelector(state => state?.session.user.id)
     const unitReviews = unit?.Reviews;
-    console.log("Unit owner :", unitReviews)
+    const unitLat = unit?.lat;
+    const unitLng = unit?.lng;
 
 
     useEffect(() => {
@@ -24,7 +25,7 @@ function GetRentalUnitPage() {
         dispatch(deleteReview(id));
         alert("Review Delete");
         // history.push(`/units/${review.rentalUnitId}`)
-        return "Review has been Deleted"
+        return "Review has been Deleted";
     }
 
     console.log(unit?.id)
@@ -150,7 +151,7 @@ function GetRentalUnitPage() {
 
 
                 {/* pass in the unit.lat & unit.lng */}
-                <MapContainer />
+                <MapContainer lat={unitLat} lng={unitLng} />
             </div>
 
             {/* Reviews will be a grid */}

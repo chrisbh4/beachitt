@@ -9,7 +9,11 @@ const containerStyle = {
 
 
 
-const Maps = ({ apiKey }) => {
+const Maps = ({ apiKey, lat, lng }) => {
+
+
+  console.log("Maps lat:", lat)
+  console.log("Maps lng:", lng)
 
   /*
   * Change the center's lat n lng values to the prop lat n lng values
@@ -22,14 +26,17 @@ const Maps = ({ apiKey }) => {
 
   const center = {
   // center just displays the surrounding the location regardless if the values point to a specific postion
+  // lat,
+  // lng
     lat:37.81358706903506,
     lng:-122.29268228273963
-
   };
 
   const position = {
     lat:37.750564273620256,
     lng:-122.20302337511453
+    // lat,
+    // lng
   }
 
   const { isLoaded } = useJsApiLoader({

@@ -13,9 +13,12 @@ import Maps from './Maps';
 */
 
 
-const MapContainer = () => {
+const MapContainer = ({lat,lng}) => {
   const key = useSelector((state) => state.mapApi.key);
   const dispatch = useDispatch();
+
+  const unitLat = lat;
+  const unitLng = lng;
 
   useEffect(() => {
     if (!key) {
@@ -28,7 +31,7 @@ const MapContainer = () => {
   }
 
   return (
-    <Maps apiKey={key} />
+    <Maps apiKey={key} lat={unitLat} lng={unitLng} />
   );
 
 };
