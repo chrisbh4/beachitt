@@ -11,29 +11,26 @@ const containerStyle = {
 
 const Maps = ({ apiKey, lat, lng }) => {
 
-  // * look into lat n lng to see if it is a string or a number because the maps is failing
+  const unitLat = Number(lat);
+  const unitLng = Number(lng);
 
-  console.log("Maps lat:", lat)
-  console.log("Maps lng:", lng)
+
 
   /*
   * Change the center's lat n lng values to the prop lat n lng values
   * create a marker that holds its lat n lng values from the passed in props
     - Link : https://developers.google.com/maps/documentation/javascript/adding-a-google-map#step_2_add_a_map_with_a_marker
-
   */
-
-
 
   const center = {
   // center just displays the surrounding the location regardless if the values point to a specific postion
-  lat,
-  lng
+  lat:unitLat,
+  lng:unitLng
   };
 
   const position = {
-    lat,
-    lng
+    lat:unitLat,
+  lng:unitLng
   }
 
   const { isLoaded } = useJsApiLoader({
