@@ -25,8 +25,8 @@ function RentalUnitsPage() {
 
     return (
 
-        <div>
-            
+        <>
+
             {/* <nav>
                 <NavLink to='/units/new'>Register New Unit</NavLink>
             </nav> */}
@@ -117,7 +117,7 @@ function RentalUnitsPage() {
 
 
 
-        </div>
+        </>
 
     )
 }
