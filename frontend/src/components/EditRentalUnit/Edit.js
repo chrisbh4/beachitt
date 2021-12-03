@@ -197,7 +197,7 @@ function EditUnitForm() {
                         value={bathrooms}
                     ></input>
 
-                    <label>Pool (yes or no): </label>
+                    <label>Pool : </label>
 
                     <div class='flex pb-2'>
                         <div>
