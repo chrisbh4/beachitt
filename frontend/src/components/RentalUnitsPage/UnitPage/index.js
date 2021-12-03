@@ -11,6 +11,8 @@ function GetRentalUnitPage() {
     const unit = useSelector(state => state?.rentalUnit[id])
     const userId = useSelector(state => state?.session.user.id)
     const unitReviews = unit?.Reviews;
+
+    console.log("reviews",unitReviews)
     const unitLat = unit?.lat;
     const unitLng = unit?.lng;
 
@@ -22,13 +24,18 @@ function GetRentalUnitPage() {
 
     const handleDelete = async (e)=>{
         e.preventDefault();
+        //* Need to fix the id that is being brough in
+        /*
+        * I can pass in the single reviews into their own componenet to be able to render the delete button
+            - inside the Review componenet I can grab the single id of the review and then use a useEffect on the Unit Page to have a data refresh when the reviews are updated
+
+        */
         dispatch(deleteReview(id));
         alert("Review Delete");
-        // history.push(`/units/${review.rentalUnitId}`)
         return "Review has been Deleted";
     }
 
-    console.log(unit?.id)
+    // console.log(unit?.id)
     const unitId = unit?.id
 
     //* Edit Unit route Id is coming up as undefined might need to pass in a prop
@@ -158,14 +165,15 @@ function GetRentalUnitPage() {
             <div class=' w-full bg-gray-200 h-60 mt-3 overflow-scroll p-10 mb-6'>
 
                 <div class='overflow-scroll'>
+                    <h1 class='text-center text-3xl font-medium relative bottom-4 pt-3 '>Reviews </h1>
 
                     <div class='text-center pt-3 pb-4'>
                         <button ><a href={`/${unit?.id}/reviews/new`}>Leave a Review</a></button>
                         {/* <button ><a href='/'>Leave a Review</a></button> */}
                     </div>
                     <div class='flex justify-around'>
-                        <p class='underline font-medium text-3xl '>Username </p>
-                        <p class='underline font-medium text-3xl '>Comment </p>
+                        <p class='underline font-medium text-xl '>Username </p>
+                        <p class='underline font-medium text-xl '>Comment </p>
                     </div>
 
                     {displayReviews()}

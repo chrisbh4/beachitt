@@ -42,7 +42,8 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
+    /* justify-content: center; */
+    justify-content: space-evenly;
     padding: 15px;
 
 
@@ -52,10 +53,8 @@
     background-color: blanchedalmond;
     border: 1px solid black;
     border-radius: 3%;
-    width: 30%;
-    margin: 4.5px;
-
-    /* height: 30%; */
+    margin-bottom: 13.5px;
+    width: 360px;
 }
 
 
