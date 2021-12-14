@@ -12,7 +12,6 @@ const app = express();
 
 const { ValidationError } = require('sequelize');
 
-
 //! App.use Section
 app.use(morgan('dev'));
 app.use(cookieParser());
