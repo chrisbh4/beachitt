@@ -14,6 +14,7 @@ import GetRentalUnitPage from "./components/RentalUnitsPage/UnitPage";
 import NewReviewForm from "./components/Reviews/NewReviewForm"
 import EditReviewForm from "./components/Reviews/EditReview";
 import MapContainer from "./components/Maps";
+import BookingCal from "./components/Booking-Cal";
 
 function App() {
   const dispatch = useDispatch();
@@ -74,6 +75,9 @@ function App() {
 
         <Route path='/map'>
           <MapContainer />
+        </Route>
+        <Route path='/cal'>
+          <BookingCal/>
         </Route>
         </Switch>
       )}
