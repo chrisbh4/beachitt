@@ -26,10 +26,10 @@ function BookingCal(){
 
     const handleClick = (e) =>{
 
-        let data = e.join('').split("(Pacific Standard Time)")
+        let dates = e.join('').split("(Pacific Standard Time)")
 
-        const startArray = data[0].split(' ')
-        const endArray = data[1].split(' ')
+        const startArray = dates[0].split(' ')
+        const endArray = dates[1].split(' ')
 
         const startDateObj = {
             weekday: startArray[0],
@@ -49,8 +49,6 @@ function BookingCal(){
 
         console.log(startDateObj)
         console.log(endDateObj)
-        // console.log(new Date())
-
 
         // setStart(data[0])
         // setEnd(data[1])

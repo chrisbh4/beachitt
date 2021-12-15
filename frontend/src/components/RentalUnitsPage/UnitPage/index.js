@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getRentalUnits } from '../../../store/rentalUnits';
-import {deleteReview} from "../../../store/reviews"
+import { deleteReview } from "../../../store/reviews"
 import MapContainer from '../../Maps';
 import BookingCal from '../../Booking-Cal';
 
@@ -13,7 +13,7 @@ function GetRentalUnitPage() {
     const userId = useSelector(state => state?.session.user.id)
     const unitReviews = unit?.Reviews;
 
-    console.log("reviews",unitReviews)
+    console.log("reviews", unitReviews)
     const unitLat = unit?.lat;
     const unitLng = unit?.lng;
 
@@ -23,7 +23,7 @@ function GetRentalUnitPage() {
 
     }, [dispatch])
 
-    const handleDelete = async (e)=>{
+    const handleDelete = async (e) => {
         e.preventDefault();
         //* Need to fix the id that is being brough in
         /*
@@ -97,7 +97,7 @@ function GetRentalUnitPage() {
                         <a href={`/reviews/${review.id}/edit`}><button>Edit</button>
                         </a>
 
-                            {/* Delete Route is recieving an undefined ID so the review ID isn't being touched */}
+                        {/* Delete Route is recieving an undefined ID so the review ID isn't being touched */}
                         <button class='relative left-4' onClick={handleDelete}>Delete</button>
                     </div>
 
@@ -181,10 +181,12 @@ function GetRentalUnitPage() {
 
                 </div>
             </div>
-            
+
             <div>
-                    <BookingCal />
-                </div>
+                <BookingCal />
+            </div>
+
+            
             {/* End of Container */}
         </div>
 
