@@ -76,9 +76,11 @@ function App() {
         <Route path='/map'>
           <MapContainer />
         </Route>
-        <Route path='/cal'>
+
+        {/* <Route path='/cal'>
           <BookingCal/>
-        </Route>
+        </Route> */}
+        
         </Switch>
       )}
     </>

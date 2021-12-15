@@ -47,8 +47,8 @@ function BookingCal(){
             time:endArray[4]
         }
 
-        // console.log(startDateObj)
-        // console.log(endDateObj)
+        console.log(startDateObj)
+        console.log(endDateObj)
         // console.log(new Date())
 
 
