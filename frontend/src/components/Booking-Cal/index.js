@@ -20,13 +20,14 @@ function BookingCal(){
     const handleClick =async (e) =>{
 
         //* Will need this later after figuring out how to remove extra {}
-        // let data = {}
-        // data['start'] = e[0]
-        // data['end'] = e[1]
-        console.log(e.join('').split("{}"))
+        let data = e.join('').split("(Pacific Standard Time)")
 
-        // let test = e.join('').split(')');
-        // console.log(test)
+
+        const startArray = data[0].split(' ')
+        const endArray = data[1].split(' ')
+
+        console.log(startArray)
+        console.log(endArray)
 
         setStart(e[0])
         setEnd(e[1])
