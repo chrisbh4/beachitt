@@ -23,7 +23,7 @@ router.get('/', asyncHandler(async (_req, res) => {
 
 
 router.get('/:id', asyncHandler(async (req, res) => {
-  const unit = await RentalUnits.findByPk(req.params.id,{include:[Bookings]})
+  const unit = await RentalUnits.findByPk(req.params.id,{include:[Reviews,Bookings]})
   res.json( unit )
 }))
 
