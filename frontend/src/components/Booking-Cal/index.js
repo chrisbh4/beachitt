@@ -8,6 +8,9 @@ import 'react-calendar/dist/Calendar.css';
 Inside the console the selected dates are being shown but with an empty Object I need to be able to remove that empty object at the end of both dates and be able to hold the selected dates as a
 string so I can upload the splitted strings as seperated data parts that will be uploaded as day,month,year for both startDate and endDate
 
+! Problem : I was recieving an empty object for each day selected
+! Solution : I had to join the array together , then split the string by a unique char to be able to have individual selected dates and it's data.
+
 */
 
 
@@ -21,7 +24,6 @@ function BookingCal(){
 
         //* Will need this later after figuring out how to remove extra {}
         let data = e.join('').split("(Pacific Standard Time)")
-
 
         const startArray = data[0].split(' ')
         const endArray = data[1].split(' ')
