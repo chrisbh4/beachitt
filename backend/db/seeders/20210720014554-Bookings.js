@@ -29,8 +29,17 @@ module.exports = {
 /*
 
 * Backend
-  - get all bookings for Single Rental Unit
-    - Route will take in a id that belongs to the unit
+  -"GET" get all bookings for Single Rental Unit
+    - Need to include Bookings when that Single Unit gets loaded from its API
+
+  - "POST"
+    - Need the User's ID , Unit.Id to be able to identify who it belongs too
+    - create new booking on booking of the backend
+
+  - "PUT"
+
+
+
 
 
 */

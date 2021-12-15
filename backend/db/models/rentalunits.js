@@ -29,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     RentalUnits.belongsTo(models.User , {foreignKey: 'ownerId'})
 
     RentalUnits.hasMany(models.Reviews,{foreignKey:'rentalUnitId'})
+    RentalUnits.hasMany(models.Bookings,{foreignKey:'rentalUnitId'})
   };
   return RentalUnits;
 };

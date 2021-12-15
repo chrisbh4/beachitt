@@ -182,11 +182,11 @@ function GetRentalUnitPage() {
                 </div>
             </div>
 
-            <div>
+            <div class='pb-20'>
                 <BookingCal />
             </div>
 
-            
+
             {/* End of Container */}
         </div>
 
