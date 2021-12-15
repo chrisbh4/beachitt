@@ -18,38 +18,43 @@ string so I can upload the splitted strings as seperated data parts that will be
 
 function BookingCal(){
 
-    const [start , setStart] = useState([]);
-    const [end, setEnd] = useState([]);
+    // const [start , setStart] = useState([]);
+    // const [end, setEnd] = useState([]);
     // data['start'] = 0;
 
 
 
-    const handleClick =async (e) =>{
+    const handleClick = (e) =>{
 
-        //* Will need this later after figuring out how to remove extra {}
         let data = e.join('').split("(Pacific Standard Time)")
 
         const startArray = data[0].split(' ')
         const endArray = data[1].split(' ')
 
         const startDateObj = {
-            day:startArray[2],
+            weekday: startArray[0],
             month:startArray[1],
-            year:startArray[3]
-
+            day:startArray[2],
+            year:startArray[3],
+            time:startArray[4]
         }
-        console.log(startDateObj)
-        console.log(startArray)
-        console.log(endArray)
 
-        setStart(data[0])
-        setEnd(data[1])
+        const endDateObj = {
+            weekday:endArray[0],
+            month:endArray[1],
+            day:endArray[2],
+            year:endArray[3],
+            time:endArray[4]
+        }
+
+        console.log(startDateObj)
+        console.log(endDateObj)
+
+
+        // setStart(data[0])
+        // setEnd(data[1])
     }
 
-    console.log(start);
-    console.log(end);
-
-    // console.log(data)
 
     return(
         <div class='flex justify-center'>
