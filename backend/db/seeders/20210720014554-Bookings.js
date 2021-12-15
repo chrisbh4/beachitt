@@ -24,3 +24,13 @@ module.exports = {
    return queryInterface.bulkDelete('Bookings', null, {});
   }
 };
+
+
+/*
+
+* Backend
+  - get all bookings for Single Rental Unit
+    - Route will take in a id that belongs to the unit
+
+
+*/
