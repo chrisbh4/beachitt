@@ -18,21 +18,14 @@ function BookingCal(){
     // data['start'] = 0;
 
     const handleClick =async (e) =>{
-        let data = {}
 
-        data['start'] = e[0]
-        data['end'] = e[1]
+        //* Will need this later after figuring out how to remove extra {}
+        // let data = {}
+        // data['start'] = e[0]
+        // data['end'] = e[1]
 
-        console.log(data)
-
-        // console.log(e)
-        // e.preventDefault();
-        // let arr1 =
         setStart(e[0])
-        // let arr2 =
         setEnd(e[1])
-        // console.log(arr1)
-        // console.log(arr2)
     }
     // console.log(data)
 
