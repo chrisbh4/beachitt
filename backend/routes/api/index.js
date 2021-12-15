@@ -4,14 +4,17 @@ const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
 const rentalUnitsRouter = require('./rentalUnits')
 const mapsRouter = require('./maps')
+const bookingsRouter = require('./bookings')
 
 const rentalReview = require('./reviews')
 
 router.use('/session', sessionRouter);
+router.use('/bookings', bookingsRouter)
 router.use('/units', rentalUnitsRouter);
 router.use('/reviews', rentalReview);
 router.use('/maps', mapsRouter)
 router.use('/users', usersRouter);
+
 
 
 
