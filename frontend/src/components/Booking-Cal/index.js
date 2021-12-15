@@ -47,8 +47,9 @@ function BookingCal(){
             time:endArray[4]
         }
 
-        console.log(startDateObj)
-        console.log(endDateObj)
+        // console.log(startDateObj)
+        // console.log(endDateObj)
+        // console.log(new Date())
 
 
         // setStart(data[0])
@@ -56,9 +57,10 @@ function BookingCal(){
     }
 
 
+
     return(
         <div class='flex justify-center'>
-            <Calendar selectRange={true}  onChange={handleClick}/>
+            <Calendar selectRange={true}  onChange={handleClick} minDate={new Date()}/>
         </div>
     )
 }

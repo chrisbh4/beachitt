@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { getRentalUnits } from '../../../store/rentalUnits';
 import {deleteReview} from "../../../store/reviews"
 import MapContainer from '../../Maps';
+import BookingCal from '../../Booking-Cal';
 
 function GetRentalUnitPage() {
     const dispatch = useDispatch();
@@ -180,6 +181,10 @@ function GetRentalUnitPage() {
 
                 </div>
             </div>
+            
+            <div>
+                    <BookingCal />
+                </div>
             {/* End of Container */}
         </div>
 
