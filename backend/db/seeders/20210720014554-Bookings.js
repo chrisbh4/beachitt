@@ -9,7 +9,8 @@ module.exports = {
       Example:
       */
    return queryInterface.bulkInsert('Bookings', [
-     {userId:1, startDate:"test date", endDate:"test date", rentalUnitId:1,createdAt: new Date() , updatedAt: new Date() }
+     {userId:1, startDate:"test date", endDate:"test date", rentalUnitId:1,createdAt: new Date() , updatedAt: new Date() },
+     {userId:1, startDate:"12-20-2021", endDate:"12-20-2021", rentalUnitId:1,createdAt: new Date() , updatedAt: new Date() }
     ], {});
   },
 
