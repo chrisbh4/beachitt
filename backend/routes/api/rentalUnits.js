@@ -47,17 +47,16 @@ router.post('/new', singleMulterUpload("url"),  asyncHandler(async (req, res) =>
   });
 
   return res.json({ newUnit });
-  
+
 }))
 
 router.put('/edit/:id', singleMulterUpload("url"), asyncHandler(async( req, res )=>{
   const unit = await RentalUnits.findByPk(req.params.id);
 
   const file = req.file;
-  if(file.buffer) unit.url = await singlePublicFileUpload(file);
+  //console.log(req.file);
 
-
-
+  if(file) unit.url = await singlePublicFileUpload(file);
 
       unit.title = req.body.title;
       unit.city = req.body.city;
@@ -72,8 +71,6 @@ router.put('/edit/:id', singleMulterUpload("url"), asyncHandler(async( req, res 
       unit.rooms = req.body.rooms;
       unit.state = req.body.state;
       unit.zipcode = req.body.zipcode;
-
-
 
 
   await unit.save()

@@ -1,32 +1,40 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { editRentalUnit, getRentalUnits , deleteRentalUnit } from "../../store/rentalUnits";
+import { editRentalUnit, getRentalUnits, deleteRentalUnit } from "../../store/rentalUnits";
 import '../EditRentalUnit/EditRentalUnit.css'
 
-function EditUnitForm(){
+function EditUnitForm() {
 
     const { id } = useParams();
     const dispatch = useDispatch()
     const history = useHistory()
+
     //  trying to get rentalUnits from the currentstate from the id of the clicked on unit
     //  const rentalUnit = useSelector(state => state.rentalUnit[id]);
 
     // console.log(id)
 
-    const rentalUnit = useSelector((state)=>(state.rentalUnit[id]))
+    const rentalUnit = useSelector((state) => (state.rentalUnit[id]))
     //! Need to use rentalUnit?.title
-        // checks if rentalUnit.title exsist in the rentalUnit
+    // checks if rentalUnit.title exsist in the rentalUnit
     console.log(rentalUnit?.ownerId)
 
     // console.log(rentalUnits.title)
 
-    useEffect(()=>{
+    /*
+    * Edit placeholders/data is not being saved inside it's variables on the first render
+    * need to look into the useEffect and be able to hold the data after a page refresh
+    *
+    * place a useEffect with the setData variable inside to be able to update the useState variables after a second page render
+    */
+
+    useEffect(() => {
         dispatch(getRentalUnits())
 
-    },[dispatch])
+    }, [dispatch])
 
-// ! editRentalUnit()
+    // ! editRentalUnit()
     // useEffect(()=>{
     //     dispatch(editRentalUnit())
     // },[dispatch])
@@ -50,6 +58,26 @@ function EditUnitForm(){
     const [zipcode, setZipcode] = useState(rentalUnit?.zipcode)
     const [url, setUrl] = useState(rentalUnit?.url)
 
+    console.log('title', title)
+
+    useEffect (()=>{
+        setTitle(rentalUnit?.title);
+        setCity(rentalUnit?.city);
+        setDistanceFromBeach(rentalUnit?.distanceFromBeach);
+        setLng(rentalUnit?.lng)
+        setLat(rentalUnit?.lat)
+        setPrice(rentalUnit?.price);
+        setPool(rentalUnit?.pool);
+        setRentalUnitDescription(rentalUnit?.rentalUnitDescription);
+        setBathrooms(rentalUnit?.bathrooms);
+        setUnitType(rentalUnit?.unitType)
+        setRooms(rentalUnit?.rooms);
+        setState(rentalUnit?.state);
+        setZipcode(rentalUnit?.zipcode);
+        setUrl(rentalUnit?.url);
+
+    },[rentalUnit?.title,rentalUnit?.city,rentalUnit?.distanceFromBeach,rentalUnit?.lat,rentalUnit?.lng,rentalUnit?.price,rentalUnit?.pool,
+        rentalUnit?.rentalUnitDescription,rentalUnit?.bathrooms,rentalUnit?.unitType, rentalUnit?.rooms, rentalUnit?.state,rentalUnit?.zipcode,rentalUnit?.url])
 
     const updateTitle = (e) => setTitle(e.target.value);
     const updateCity = (e) => setCity(e.target.value);
@@ -68,7 +96,7 @@ function EditUnitForm(){
 
 
 
-    const handleDelete = async (e)=>{
+    const handleDelete = async (e) => {
         e.preventDefault();
 
         dispatch(deleteRentalUnit(rentalUnit.id))
@@ -80,7 +108,7 @@ function EditUnitForm(){
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-const unitId = rentalUnit?.id
+        const unitId = rentalUnit?.id
 
         const payload = {
             title,
@@ -99,14 +127,10 @@ const unitId = rentalUnit?.id
             url
 
         };
-        // let newUnit = dispatch(createRentalUnit(payload));
-        // if(newUnit){
-        //     return newUnit
-        // }
+
         dispatch(editRentalUnit(payload, unitId));
         history.push('/units')
         throw alert("Rental Unit Updated :)")
-        // reset();
     }
 
 
@@ -118,32 +142,35 @@ const unitId = rentalUnit?.id
                 <form
                     className="edit-form"
                     onSubmit={handleSubmit}
-                    >
+                >
                     <label >Title: </label>
-                        <input
-                            type="text"
-                            onChange={updateTitle}
-                            value={title}
-                            placeholder={rentalUnit?.title}
-                        ></input>
-                     <div className="address-container">
-                     <label>City: </label>
+                    <input
+                        type="text"
+                        onChange={updateTitle}
+                        value={title}
+                        placeholder={rentalUnit?.title}
+                    ></input>
+                    <div className="address-container">
+                        <label>City: </label>
                         <input
                             type="text"
                             onChange={updateCity}
+                            placeholder={rentalUnit?.city}
                             value={city}
                         ></input>
-                       <label>State: </label>
+                        <label>State: </label>
                         <input
                             type="text"
                             onChange={updateState}
                             value={state}
+                            placeholder={rentalUnit?.state}
                         ></input>
                         <label>Zipcode: </label>
                         <input
                             type="text"
                             onChange={updateZipcode}
                             value={zipcode}
+                            placeholder={rentalUnit?.zipcode}
                         ></input>
                     </div>
                     <h3>Unit Details & Descriptions</h3>
@@ -152,77 +179,106 @@ const unitId = rentalUnit?.id
                         type="number"
                         onChange={updateDistanceFromBeach}
                         value={distanceFromBeach}
+                        placeholder={rentalUnit?.distanceFromBeach}
                     ></input>
                     <label>Rooms: </label>
                     <input
                         type="number"
                         onChange={updateRooms}
                         value={rooms}
+                        placeholder={rentalUnit?.rooms}
                         min="1"
                     ></input>
                     <label>Bathrooms: </label>
                     <input
                         type="number"
                         onChange={updateBathrooms}
+                        placeholder={rentalUnit?.bathrooms}
                         value={bathrooms}
                     ></input>
-                    <label>Pool (yes or no): </label>
-                    <input
-                        type="text"
-                        onChange={updatePool}
-                        value={pool}
-                        max="3"
-                    ></input>
-                <div className="unit-type">
 
-                <label htmlFor="house">House</label>
-					<input
-						onChange={updateUnityType}
-						value={"house"}
-						type="radio"
-                        id="hosue"
-                        checked={unitType === 'house'}
-						// id="house"
-                        >
-                    </input>
-                <label htmlFor="apartment">Apartment</label>
-					<input
-						onChange={updateUnityType}
-						value={"apartment"}
-						type="radio"
-                        id="apartment"
-                        checked={unitType === 'apartment'}
-                        >
-                    </input>
-                <label htmlFor="singleRoom">Single Room</label>
-					<input
-						onChange={updateUnityType}
-                        checked={unitType === 'single room'}
-						value={"single room"}
-						type="radio"
-						id="singleRoom"
-                        >
-                    </input>
+                    <label>Pool : </label>
+
+                    <div class='flex pb-2'>
+                        <div>
+                            <input
+                                onChange={updatePool}
+                                value={"yes"}
+                                type="radio"
+                                id="yes"
+                            >
+                            </input>
+                            <label htmlFor="yes">Yes</label>
                         </div>
+
+                        <div class='ml-3'>
+                            <input
+                                onChange={updatePool}
+                                value={"no"}
+                                type="radio"
+                                id="no"
+                            >
+                            </input>
+                            <label htmlFor="no">No</label>
+                        </div>
+                    </div>
+
+
+
+                    <div className="unit-type" class='pb-2'>
+                        <label htmlFor="house">House</label>
+                        <input
+                            onChange={updateUnityType}
+                            value={"house"}
+                            type="radio"
+                            id="house"
+                            checked={unitType === 'house'}
+                        // id="house"
+                        >
+                        </input>
+
+
+                        <label htmlFor="apartment">Apartment</label>
+                        <input
+                            onChange={updateUnityType}
+                            value={"apartment"}
+                            type="radio"
+                            id="apartment"
+                            checked={unitType === 'apartment'}
+                        >
+                        </input>
+                        <label htmlFor="singleRoom">Single Room</label>
+                        <input
+                            onChange={updateUnityType}
+                            checked={unitType === 'single room'}
+                            value={"single room"}
+                            type="radio"
+                            id="singleRoom"
+                        >
+                        </input>
+                    </div>
                     <label>Latitude: </label>
                     <input
                         type="text"
                         value={lat}
                         onChange={updateLat}
+                        placeholder={rentalUnit?.lat}
                     ></input>
                     <label>Longitude: </label>
                     <input
                         type="text"
                         value={lng}
                         onChange={updateLng}
+                        placeholder={rentalUnit?.lng}
                     ></input>
                     <label>Price Per Night: $ </label>
                     <input
                         type="text"
                         value={price}
                         onChange={updatePrice}
+                        placeholder={rentalUnit?.price}
                     ></input>
-                       <label>Image : </label>
+                    <label>Image : </label>
                     <input
                         type="file"
                         accept="image/*"
@@ -232,11 +288,12 @@ const unitId = rentalUnit?.id
                     <textarea
                         onChange={updateRentalUnitDescription}
                         value={rentalUnitDescription}
+                        placeholder={rentalUnit?.rentalUnitDescription}
                     ></textarea>
                     <button type="submit">Submit</button>
                     <button
-                    type="submit"
-                     onClick={handleDelete}
+                        type="submit"
+                        onClick={handleDelete}
                     >Delete</button>
                 </form>
             </div>

@@ -2,7 +2,9 @@
 
 .unitsPage-h1{
     /* width: 100%; */
+    margin-top: 12.5px;
     text-align: center;
+    font-size: xx-large;
 }
 
 .unit-div h3{
@@ -15,10 +17,10 @@
     text-decoration: none;
     color: black;
 }
-.unit-titel:hover{
+/* .unit-titel:hover{
     color: black;
     font-size: xx-large;
-}
+} */
 .unit-titel:visited{
     color: black;
 
@@ -38,9 +40,11 @@
 .all-unit-container{
     width: 100%;
     display: flex;
-
-    flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
+    /* justify-content: center; */
+    justify-content: space-evenly;
+    padding: 15px;
 
 
 }
@@ -49,7 +53,8 @@
     background-color: blanchedalmond;
     border: 1px solid black;
     border-radius: 3%;
-    width: 45%;
+    margin-bottom: 13.5px;
+    width: 360px;
 }
 
 

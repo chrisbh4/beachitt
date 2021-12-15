@@ -15,7 +15,7 @@ function RentalUnitsPage() {
 
 
     console.log('RENTAL-UNITS: ', rentalUnits)
-    // console.log('RENTAL-UNITS: ',rentalUnits)
+
 
 
     useEffect(() => {
@@ -25,10 +25,12 @@ function RentalUnitsPage() {
 
     return (
 
-        <div>
+        <>
+
             {/* <nav>
                 <NavLink to='/units/new'>Register New Unit</NavLink>
             </nav> */}
+
             <h1 className="unitsPage-h1">Beach Properties</h1>
 
             <div className='all-unit-container' >
@@ -46,7 +48,10 @@ function RentalUnitsPage() {
 
                                 <img
                                 class='mx-auto'
-                                src={`${unit.url}`}>
+                                src={`${unit.url}`}
+                                alt={`${unit.title}`}
+                                >
+
                                 </img>
                                 </Link>
 
@@ -112,7 +117,7 @@ function RentalUnitsPage() {
 
 
 
-        </div>
+        </>
 
     )
 }
