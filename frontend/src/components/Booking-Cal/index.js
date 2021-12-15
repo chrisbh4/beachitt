@@ -23,10 +23,18 @@ function BookingCal(){
         // let data = {}
         // data['start'] = e[0]
         // data['end'] = e[1]
+        console.log(e.join('').split("{}"))
+
+        // let test = e.join('').split(')');
+        // console.log(test)
 
         setStart(e[0])
         setEnd(e[1])
     }
+
+    // console.log(start);
+    // console.log(end);
+
     // console.log(data)
 
     return(
