@@ -54,11 +54,16 @@ function BookingCal(){
         // setEnd(data[1])
     }
 
+    const handleSubmit = (e) =>{
+        
+    }
+
 
 
     return(
         <div class='flex justify-center'>
             <Calendar selectRange={true}  onChange={handleClick} minDate={new Date()}/>
+            <button>Book This Trip</button>
         </div>
     )
 }
