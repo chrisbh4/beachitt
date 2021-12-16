@@ -1,6 +1,8 @@
 import React, {useState} from "react";
+import {useDispatch} from "react-redux"
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
+import {fetchAddBooking} from "../../store/bookings"
 
 
 /* Progress Table
@@ -18,8 +20,8 @@ string so I can upload the splitted strings as seperated data parts that will be
 
 function BookingCal(){
 
-    // const [start , setStart] = useState([]);
-    // const [end, setEnd] = useState([]);
+    const [start , setStart] = useState('');
+    const [end, setEnd] = useState('');
     // data['start'] = 0;
 
 
@@ -47,15 +49,17 @@ function BookingCal(){
             time:endArray[4]
         }
 
-        console.log(startDateObj)
+        const startDateStringConverter = `${startArray[3]}-${startArray[1]}-${startArray[2]}`
+        const endDateStringConverter = `${endArray[3]}-${endArray[1]}-${endArray[2]}`
+
+        console.log(startDateStringConverter)
         console.log(endDateObj)
 
-        // setStart(data[0])
-        // setEnd(data[1])
+
     }
 
     const handleSubmit = (e) =>{
-        
+
     }
 
 
@@ -63,7 +67,7 @@ function BookingCal(){
     return(
         <div class='flex justify-center'>
             <Calendar selectRange={true}  onChange={handleClick} minDate={new Date()}/>
-            <button>Book This Trip</button>
+            {/* <button>Book This Trip</button> */}
         </div>
     )
 }
