@@ -9,7 +9,7 @@ const bookingsRouter = require('./bookings')
 const rentalReview = require('./reviews')
 
 router.use('/session', sessionRouter);
-router.use('/bookings', bookingsRouter)
+router.use('/bookings',bookingsRouter)
 router.use('/units', rentalUnitsRouter);
 router.use('/reviews', rentalReview);
 router.use('/maps', mapsRouter)
