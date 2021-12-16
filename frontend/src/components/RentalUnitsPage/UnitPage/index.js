@@ -13,7 +13,6 @@ function GetRentalUnitPage() {
     const userId = useSelector(state => state?.session.user.id)
     const unitReviews = unit?.Reviews;
 
-    console.log("reviews", unitReviews)
     const unitLat = unit?.lat;
     const unitLng = unit?.lng;
 
@@ -164,7 +163,6 @@ function GetRentalUnitPage() {
 
             {/* Reviews will be a grid */}
             <div class=' w-full bg-gray-200 h-60 mt-3 overflow-scroll p-10 mb-6'>
-
                 <div class='overflow-scroll'>
                     <h1 class='text-center text-3xl font-medium relative bottom-4 pt-3 '>Reviews </h1>
 
@@ -182,8 +180,10 @@ function GetRentalUnitPage() {
                 </div>
             </div>
 
+{/* need to pass in the calendar props */}
+
             <div class='pb-20'>
-                <BookingCal />
+                <BookingCal  userId={userId} unitId={unit?.id}/>
             </div>
 
 

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {useDispatch, useSelector} from "react-redux"
+import {useDispatch} from "react-redux"
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import {fetchAddBooking} from "../../store/bookings"
@@ -18,13 +18,17 @@ string so I can upload the splitted strings as seperated data parts that will be
 */
 
 
-function BookingCal({userId, rentalunitId}){
+function BookingCal({userId, unitId}){
     const dispatch = useDispatch();
     const [startDate , setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
 
-    console.log(startDate)
-    console.log(endDate)
+
+    console.log('user ',userId);
+    console.log('unit ',unitId);
+
+    // console.log(startDate)
+    // console.log(endDate)
 
 
 
@@ -68,19 +72,22 @@ function BookingCal({userId, rentalunitId}){
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
-        const payload = {startDate, endDate ,userId, rentalunitId}
+        console.log("button has been clicked")
+        const payload = {startDate, endDate ,userId, rentalUnitId:unitId}
         await dispatch(fetchAddBooking(payload))
 
         alert("Your trip has been Booked");
-
-    }
+    };
 
 
 
     return(
         <div class='flex justify-center '>
             <Calendar selectRange={true}  onChange={handleClick} minDate={new Date()}/>
-            <button onSubmit={handleSubmit} >Book This Trip</button>
+            <div>
+
+            <button type="submit" onClick={handleSubmit} >Book This Trip</button>
+            </div>
         </div>
     )
 }
