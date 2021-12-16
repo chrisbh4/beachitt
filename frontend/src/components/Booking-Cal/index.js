@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {useDispatch} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import {fetchAddBooking} from "../../store/bookings"
@@ -18,11 +18,11 @@ string so I can upload the splitted strings as seperated data parts that will be
 */
 
 
-function BookingCal(){
+function BookingCal({userId, rentalunitId}){
+    const dispatch = useDispatch();
+    const [startDate , setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
 
-    const [start , setStart] = useState('');
-    const [end, setEnd] = useState('');
-    // data['start'] = 0;
 
 
 
@@ -33,41 +33,49 @@ function BookingCal(){
         const startArray = dates[0].split(' ')
         const endArray = dates[1].split(' ')
 
-        const startDateObj = {
-            weekday: startArray[0],
-            month:startArray[1],
-            day:startArray[2],
-            year:startArray[3],
-            time:startArray[4]
-        }
+        // const startDateObj = {
+        //     weekday: startArray[0],
+        //     month:startArray[1],
+        //     day:startArray[2],
+        //     year:startArray[3],
+        //     time:startArray[4]
+        // }
 
-        const endDateObj = {
-            weekday:endArray[0],
-            month:endArray[1],
-            day:endArray[2],
-            year:endArray[3],
-            time:endArray[4]
-        }
+        // const endDateObj = {
+        //     weekday:endArray[0],
+        //     month:endArray[1],
+        //     day:endArray[2],
+        //     year:endArray[3],
+        //     time:endArray[4]
+        // }
 
         const startDateStringConverter = `${startArray[3]}-${startArray[1]}-${startArray[2]}`
         const endDateStringConverter = `${endArray[3]}-${endArray[1]}-${endArray[2]}`
 
-        console.log(startDateStringConverter)
-        console.log(endDateObj)
+        // console.log(startDateStringConverter)
+        setStartDate(startDateStringConverter);
+        setEndDate(endDateStringConverter);
+
 
 
     }
 
-    const handleSubmit = (e) =>{
+
+
+
+    const handleSubmit = async (e) =>{
+        const payload = {startDate, endDate ,userId, rentalunitId}
+
+        await dispatch(fetchAddBooking(payload))
 
     }
 
 
 
     return(
-        <div class='flex justify-center'>
+        <div class='flex justify-center '>
             <Calendar selectRange={true}  onChange={handleClick} minDate={new Date()}/>
-            {/* <button>Book This Trip</button> */}
+            <button onSubmit={handleSubmit} >Book This Trip</button>
         </div>
     )
 }
