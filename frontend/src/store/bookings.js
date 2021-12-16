@@ -1,21 +1,22 @@
 
-const ADD_ONE = 'booking/ADD_ONE';
-const DELETE_UNIT= 'booking/DELETE_UNIT';
-const EDIT_UNIT= 'booking/EDIT_UNIT';
+const ADD_BOOKING = 'booking/ADD_BOOKING';
+const DELETE_BOOKING= 'booking/DELETE_BOOKING';
+const EDIT_BOOKING= 'booking/EDIT_BOOKING';
 
 
   const addBooking = booking => ({
-    type: ADD_ONE,
+    type: ADD_BOOKING,
     booking,
   });
 
-  const deletebooking = (bookingId)=>({
-    type: DELETE_booking,
+
+  const deleteBooking = (bookingId)=>({
+    type: DELETE_BOOKING,
     bookingId,
   })
 
   const editbooking = (bookingId)=>({
-    type:EDIT_booking,
+    type:EDIT_BOOKING,
     bookingId,
   })
 
@@ -39,9 +40,7 @@ export const fetchEditBooking = async(payload, bookingId) =>{
         body:JSON.stringify(payload),
         headers:{"Content-Type":"application/JSON"}
     })
-
     const data = res.json();
-
     if(data.ok) dispatch(editBooking(data))
     return data
 };
