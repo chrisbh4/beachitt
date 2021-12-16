@@ -5,7 +5,6 @@ const DELETE_BOOKING= 'booking/DELETE_BOOKING';
 const EDIT_BOOKING= 'booking/EDIT_BOOKING';
 
 
-//! Ask why This file throws a dipsatch not defined but in /store/reviews I'm not importing a dispatch but it still works?
 
 
   const addBooking = booking => ({
@@ -25,7 +24,7 @@ const EDIT_BOOKING= 'booking/EDIT_BOOKING';
   })
 
 
-export const fetchAddBooking = async(payload) =>{
+export const fetchAddBooking = (payload)=> async(dispatch) =>{
     const res = await csrfFetch('/api/bookings/new',{
         method:"POST",
         body:JSON.stringify(payload),
@@ -38,7 +37,7 @@ export const fetchAddBooking = async(payload) =>{
 };
 
 
-export const fetchEditBooking = async(payload, bookingId) =>{
+export const fetchEditBooking =(payload, bookingId)=> async (dispatch) =>{
     const res = await csrfFetch(`/api/bookings/${bookingId}`,{
         method:"PUT",
         body:JSON.stringify(payload),
@@ -52,7 +51,7 @@ export const fetchEditBooking = async(payload, bookingId) =>{
 };
 
 
-export const fetchDeleteBooking = async (bookingId)=>{
+export const fetchDeleteBooking = (bookingId) => async(dispatch) =>{
     const res = await csrfFetch(`/api/bookings/${bookingId}`,{
         method:"DELETE"
     })
@@ -62,6 +61,7 @@ export const fetchDeleteBooking = async (bookingId)=>{
     if(data.ok) dispatch(deleteBooking(data));
     return data
 };
+
 
 const initialState = {};
 
