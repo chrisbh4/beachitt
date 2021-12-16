@@ -1,6 +1,6 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
-const { RentalUnits, Reviews } = require('../../db/models')
+const { RentalUnits, Reviews, Bookings } = require('../../db/models')
 const { requireAuth, setTokenCookie } = require('../../utils/auth')
 // import { csrfProtection } from '../../utils/utils';
 const { dataAdjuster} = require('../../utils/utils')
@@ -15,6 +15,7 @@ const router = express.Router();
 router.get('/', asyncHandler(async (_req, res) => {
 
   const allRentalUnits = await RentalUnits.findAll({include:[Reviews]})
+  // const allRentalUnits = await RentalUnits.findAll({include:[{Reviews}, {Bookings}]})
   const rentalUnits = dataAdjuster(allRentalUnits)
   return res.json(rentalUnits)
 
@@ -22,7 +23,7 @@ router.get('/', asyncHandler(async (_req, res) => {
 
 
 router.get('/:id', asyncHandler(async (req, res) => {
-  const unit = await RentalUnits.findByPk(req.params.id,{include:[Reviews]})
+  const unit = await RentalUnits.findByPk(req.params.id,{include:[Reviews,Bookings]})
   res.json( unit )
 }))
 

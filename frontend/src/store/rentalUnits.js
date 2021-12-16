@@ -107,7 +107,6 @@ export const createRentalUnit = (payload) => async dispatch =>{
 
   if (url) formData.append("url",url);
 
-  // debugger
   const res = await csrfFetch(`/api/units/new`, {
     method: "POST",
     headers: {
@@ -117,7 +116,7 @@ export const createRentalUnit = (payload) => async dispatch =>{
   });
 
   const newUnit = await res.json();
-  // debugger
+
   if(newUnit.ok) dispatch(addUnit(newUnit))
 
   return newUnit
