@@ -7,23 +7,19 @@ const router = express.Router();
 
 router.get('/:id', asyncHandler(async( req, res)=>{
     const booking = await Bookings.findByPk(req.params.id)
+    if(booking) res.json({booking});
+    
 
-
-    res.json({booking})
-
-
-
-
-}))
+}));
 
 router.post('/new', asyncHandler( async ( req, res )=>{
     const { userId , startDate , endDate , rentalUnitId } = req.body;
-    const booking =  await Bookings.create(userId, startDate, endDate ,rentalUnitId);
+    const booking =  await Bookings.create({userId, startDate, endDate ,rentalUnitId});
     res.json({booking});
 }))
 
 
-router.put('/:id', asyncHandler( async (req ,res) =>{
+router.put('/:id', asyncHandler( async(req ,res) =>{
     const booking = await Bookings.findByPk(req.params.id);
     booking.startDate = req.body.startDate;
     booking.endDate = req.body.endDate;
