@@ -102,10 +102,7 @@ const reviewsReducer = (state = initialState, action) => {
       const newState = { ...state };
       newState[action.review.id] = action.review;
       return { ...newState }
-      // return{
-      //   ...state,
-      //   [action.review.id]: action.review
-      // }
+
     }
     default:
       return state;
