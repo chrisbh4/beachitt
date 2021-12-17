@@ -3,6 +3,7 @@ import {useDispatch} from "react-redux"
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import {fetchAddBooking} from "../../store/bookings"
+import { getRentalUnits} from "../../store/rentalUnits"
 
 
 /* Progress Table
@@ -75,8 +76,9 @@ function BookingCal({userId, unitId}){
         console.log("button has been clicked")
         const payload = {startDate, endDate ,userId, rentalUnitId:unitId}
         await dispatch(fetchAddBooking(payload))
-
+        await dispatch(getRentalUnits());
         alert("Your trip has been Booked");
+
     };
 
 
