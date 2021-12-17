@@ -12,6 +12,8 @@ function GetRentalUnitPage() {
     const unit = useSelector(state => state?.rentalUnit[id])
     const userId = useSelector(state => state?.session.user.id)
     const unitReviews = unit?.Reviews;
+    const unitBookings = unit?.Bookings;
+    console.log(unitBookings)
 
     const unitLat = unit?.lat;
     const unitLng = unit?.lng;
@@ -64,7 +66,7 @@ function GetRentalUnitPage() {
         }
     }
 
-    // * Dispaly Reviews Functionality
+//* Reviews / button functionality
 
     const displayReviews = () => {
         return unitReviews?.map((review) => {
@@ -83,9 +85,8 @@ function GetRentalUnitPage() {
             )
         })
 
-    }
+    };
 
-    //* Edit Review functionality
 
     const editReview = (review) => {
         if (userId === review.userId) {
@@ -105,6 +106,60 @@ function GetRentalUnitPage() {
         } else {
             return (
                 <p>{review.comment}</p>
+            )
+        }
+    };
+
+
+
+    //* Bookings / button functionality
+
+      const displayBookings = () => {
+        return unitBookings?.map((booking) => {
+            return (
+                <>
+                    <div id="review-row" class="text-black grid grid-cols-2">
+                    {/* <div id="review-row" class="text-black "> */}
+
+
+                        <div id="review-username" class="text-center ">
+                            <p>{booking.startDate}</p>
+                        </div>
+                        <div id="review-comment" class="text-center">
+                            {editBooking(booking)}
+                        </div>
+                    </div>
+                </>
+
+            )
+        })
+
+    }
+
+
+    const editBooking = (booking) => {
+        if (userId === booking.userId) {
+            return (
+                <div class="flex justify-center">
+                       <div class='flex flex-row '>
+                            {/* <p key={booking.id} id="start-date">{booking.starDate}</p> */}
+                             <p key={booking.id} id="end-date">{booking.endDate}</p>
+                            </div>
+
+                        {/* Buttons */}
+                    <div class='relative left-3'>
+                        <a href={`/bookings/${booking.id}/edit`}><button>Edit</button>
+                        </a>
+                        <button class='relative left-4' onClick={handleDelete}>Delete</button>
+                    </div>
+                </div>
+            )
+        } else {
+            return (
+                <div >
+                <p key={booking.id}>{booking.endDate}</p>
+                {/* <p>Start-date</p> */}
+                </div>
             )
         }
     }
@@ -185,6 +240,21 @@ function GetRentalUnitPage() {
             <div class='pb-20'>
                 <BookingCal  userId={userId} unitId={unit?.id}/>
             </div>
+
+                 {/* Bookings will be a grid */}
+                 <div class=' w-full bg-gray-200 h-60 mt-3 overflow-scroll p-10 mb-6'>
+                <div class='overflow-scroll'>
+
+                    <div class='flex justify-evenly'>
+                        <p class='underline font-medium text-xl '>Start Date </p>
+                        <p class='underline font-medium text-xl '>End Date </p>
+                    </div>
+
+                    {displayBookings()}
+
+                </div>
+            </div>
+
 
 
             {/* End of Container */}

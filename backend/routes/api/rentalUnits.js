@@ -14,7 +14,7 @@ const router = express.Router();
 
 router.get('/', asyncHandler(async (_req, res) => {
 
-  const allRentalUnits = await RentalUnits.findAll({include:[Reviews]})
+  const allRentalUnits = await RentalUnits.findAll({include:[Reviews,Bookings]})
   // const allRentalUnits = await RentalUnits.findAll({include:[{Reviews}, {Bookings}]})
   const rentalUnits = dataAdjuster(allRentalUnits)
   return res.json(rentalUnits)
@@ -28,12 +28,8 @@ router.get('/:id', asyncHandler(async (req, res) => {
 }))
 
 
-/*
 
-
-
-*/
-// router.post('/new', requireAuth, asyncHandler(async (req, res) => {
+//! router.post('/new', requireAuth, asyncHandler(async (req, res) => {
 router.post('/new', singleMulterUpload("url"),  asyncHandler(async (req, res) => {
 
   const { title, ownerId, city, distanceFromBeach, lat, lng,

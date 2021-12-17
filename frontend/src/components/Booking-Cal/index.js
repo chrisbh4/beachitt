@@ -24,8 +24,8 @@ function BookingCal({userId, unitId}){
     const [endDate, setEndDate] = useState('');
 
 
-    console.log('user ',userId);
-    console.log('unit ',unitId);
+    // console.log('user ',userId);
+    // console.log('unit ',unitId);
 
     // console.log(startDate)
     // console.log(endDate)
