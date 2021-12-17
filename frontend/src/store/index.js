@@ -8,6 +8,8 @@ import mapsReducer from './maps';
 
 
 
+
+
 const rootReducer = combineReducers({
     session: sessionReducer,
     rentalUnit: rentalUnitReducer,

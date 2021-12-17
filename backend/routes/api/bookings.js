@@ -16,8 +16,9 @@ router.get('/', asyncHandler(async( req, res)=>{
 router.get('/:id', asyncHandler(async( req, res)=>{
     const booking = await Bookings.findByPk(req.params.id)
     if(booking) res.json({booking});
+    // return res.json({msg:"Booking does not exist"})
+    res.end()
 
-    res.json({msg:"Booking does not exist"})
 }));
 
 router.post('/new', asyncHandler( async ( req, res )=>{

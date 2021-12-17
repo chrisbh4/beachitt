@@ -11,10 +11,9 @@ import {fetchBooking , fetchEditBooking , fetchDeleteBooking} from "../../store/
 function EditBookingPage(){
 
     const {id} = useParams();
-    console.log(id)
     const dispatch = useDispatch();
     const history = useHistory();
-    const booking = useSelector((state)=> state.bookings)
+    const booking = useSelector((state)=> state.bookings);
 
     useEffect(()=>{
         dispatch(fetchBooking(id))
@@ -31,7 +30,6 @@ function EditBookingPage(){
 
 
     const handleClick = (e) =>{
-
         let dates = e.join('').split("(Pacific Standard Time)")
         const startArray = dates[0].split(' ')
         const endArray = dates[1].split(' ')
@@ -53,7 +51,7 @@ function EditBookingPage(){
         await dispatch(fetchEditBooking(payload))
         // await dispatch(getRentalUnits());
         alert("Your trip has been updated.");
-        history.push(`/units/${rentalUnitId}`)
+        // history.push(`/units/${rentalUnitId}`)
 
     };
 

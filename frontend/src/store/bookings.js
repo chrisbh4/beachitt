@@ -7,9 +7,9 @@ const EDIT_BOOKING= 'booking/EDIT_BOOKING';
 
 
 
-const loadBooking = bookingId =>({
+const loadBooking = booking =>({
     type:LOAD_BOOKING,
-    bookingId,
+    booking,
 })
 
   const addBooking = booking => ({
@@ -29,11 +29,13 @@ const loadBooking = bookingId =>({
   })
 
 
-  export const fetchBooking = (bookingId) => async dispatch => {
+  export const fetchBooking = (bookingId) => async (dispatch) => {
+
     const res = await csrfFetch(`/api/bookings/${bookingId}`);
     const data = await res.json();
-
-    if (data.ok) dispatch(loadBooking(data))
+    // debugger
+    if(data.ok) dispatch(loadBooking(data))
+    debugger
     return data
 
   };
@@ -84,6 +86,7 @@ const bookingsReducer = (state = initialState , action) => {
     switch(action.type){
         case LOAD_BOOKING:{
             return { ...state ,...action.bookings}
+            // return {...state, [action.booking.id]:action.booking}
         }
         case ADD_BOOKING:{
             return {...state, [action.booking.id]:action.booking};
@@ -105,4 +108,4 @@ const bookingsReducer = (state = initialState , action) => {
 
 
 
-  export default bookingsReducer
+  export default bookingsReducer;
