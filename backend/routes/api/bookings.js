@@ -12,6 +12,7 @@ router.get('/', asyncHandler(async( req, res)=>{
     res.json({msg:"No bookings"})
 }));
 
+
 router.get('/:id', asyncHandler(async( req, res)=>{
     const booking = await Bookings.findByPk(req.params.id)
     if(booking) res.json({booking});

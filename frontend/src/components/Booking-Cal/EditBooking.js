@@ -11,6 +11,7 @@ import {fetchBooking , fetchEditBooking , fetchDeleteBooking} from "../../store/
 function EditBookingPage(){
 
     const {id} = useParams();
+    console.log(id)
     const dispatch = useDispatch();
     const history = useHistory();
     const booking = useSelector((state)=> state.bookings)
@@ -24,6 +25,9 @@ function EditBookingPage(){
     const [endDate, setEndDate] = useState(booking.endDate);
     const userId = booking.userId;
     const rentalUnitId = booking.rentalUnitId;
+
+
+    console.log("booking:",booking)
 
 
     const handleClick = (e) =>{
@@ -45,7 +49,7 @@ function EditBookingPage(){
     const handleSubmit = async (e) =>{
         e.preventDefault();
         console.log("button has been clicked")
-        const payload = {startDate, endDate ,userId, rentalUnitId}
+        const payload = {id,startDate, endDate ,userId, rentalUnitId}
         await dispatch(fetchEditBooking(payload))
         // await dispatch(getRentalUnits());
         alert("Your trip has been updated.");

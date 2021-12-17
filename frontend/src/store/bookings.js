@@ -33,7 +33,7 @@ const loadBooking = bookingId =>({
     const res = await csrfFetch(`/api/bookings/${bookingId}`);
     const data = await res.json();
 
-    if (data) dispatch(loadBooking(data))
+    if (data.ok) dispatch(loadBooking(data))
     return data
 
   };
@@ -83,7 +83,7 @@ const initialState = {};
 const bookingsReducer = (state = initialState , action) => {
     switch(action.type){
         case LOAD_BOOKING:{
-            return {...state, ...action.booking}
+            return { ...state ,...action.bookings}
         }
         case ADD_BOOKING:{
             return {...state, [action.booking.id]:action.booking};
