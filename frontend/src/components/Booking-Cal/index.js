@@ -25,14 +25,6 @@ function BookingCal({userId, unitId}){
     const [endDate, setEndDate] = useState('');
 
 
-    // console.log('user ',userId);
-    // console.log('unit ',unitId);
-
-    // console.log(startDate)
-    // console.log(endDate)
-
-
-
 
     const handleClick = (e) =>{
 
@@ -60,7 +52,6 @@ function BookingCal({userId, unitId}){
         const startDateStringConverter = `${startArray[3]}-${startArray[1]}-${startArray[2]}`
         const endDateStringConverter = `${endArray[3]}-${endArray[1]}-${endArray[2]}`
 
-        // console.log(startDateStringConverter)
         setStartDate(startDateStringConverter);
         setEndDate(endDateStringConverter);
 

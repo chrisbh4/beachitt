@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getRentalUnits } from '../../../store/rentalUnits';
 import { deleteReview } from "../../../store/reviews"
+import { fetchDeleteBooking } from '../../../store/bookings';
 import MapContainer from '../../Maps';
 import BookingCal from '../../Booking-Cal';
 
@@ -24,18 +25,32 @@ function GetRentalUnitPage() {
 
     }, [dispatch])
 
-    const handleDelete = async (e) => {
-        e.preventDefault();
+
+
+
+    // const handleBookingDelete =  async (e) => {
+    //     e.preventDefault();
+
+    //     dispatch(fetchDeleteBooking(id));
+    //     dispatch(getRentalUnits())
+    //     alert("Booking has been deleted");
+    //     return
+    // }
+
+
+    const handleReviewDelete = async (e) => {
+        // e.preventDefault();
         //* Need to fix the id that is being brough in
         /*
         * I can pass in the single reviews into their own componenet to be able to render the delete button
             - inside the Review componenet I can grab the single id of the review and then use a useEffect on the Unit Page to have a data refresh when the reviews are updated
-
         */
         dispatch(deleteReview(id));
+        dispatch(getRentalUnits())
         alert("Review Delete");
         return "Review has been Deleted";
     }
+
 
     // console.log(unit?.id)
     const unitId = unit?.id
@@ -98,7 +113,7 @@ function GetRentalUnitPage() {
                         </a>
 
                         {/* Delete Route is recieving an undefined ID so the review ID isn't being touched */}
-                        <button class='relative left-4' onClick={handleDelete}>Delete</button>
+                        {/* <button class='relative left-4' onClick={handleReviewDelete}>Delete</button> */}
                     </div>
 
                 </div>
@@ -150,7 +165,7 @@ function GetRentalUnitPage() {
                     <div class='relative left-3'>
                         <a href={`/bookings/${booking.id}/edit`}><button>Edit</button>
                         </a>
-                        <button class='relative left-4' onClick={handleDelete}>Delete</button>
+                        {/* <button class='relative left-4' onClick={handleBookingDelete(booking.id)}>Delete</button> */}
                     </div>
                 </div>
             )
