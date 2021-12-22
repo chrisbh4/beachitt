@@ -19,7 +19,6 @@ function EditBookingPage(){
 
     useEffect(()=>{
     dispatch(fetchBooking(id))
-
     },[dispatch,id])
 
 
@@ -28,10 +27,6 @@ function EditBookingPage(){
     const userId = booking.userId;
     const rentalUnitId = booking.rentalUnitId;
 
-
-    console.log("booking id:", id)
-    console.log("logged in user Id :",loggedInUser)
-    console.log("booking:",booking)
 
 
     const handleClick = (e) =>{
@@ -55,7 +50,7 @@ function EditBookingPage(){
         await dispatch(fetchEditBooking(payload, id))
         // await dispatch(getRentalUnits());
         alert("Your trip has been updated.");
-        // history.push(`/units/${rentalUnitId}`)
+        history.push(`/units/${rentalUnitId}`)
 
     };
 
