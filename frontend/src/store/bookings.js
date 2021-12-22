@@ -34,8 +34,10 @@ const loadBooking = booking =>({
     const res = await csrfFetch(`/api/bookings/${bookingId}`);
     const data = await res.json();
 
-    if(data.ok) dispatch(loadBooking(data))
-    // debugger
+    if(data.ok){
+        dispatch(loadBooking(data))
+    }
+    debugger
     return data.booking
 
   };
@@ -99,6 +101,8 @@ const bookingsReducer = (state = initialState , action) => {
         }
         case LOAD_BOOKING:{
             // const fake = [{name:"fake booking state"}]
+            const stateData = action.booking;
+            debugger
             return { ...state, [action.booking.id]:action.booking}
         }
         default:
