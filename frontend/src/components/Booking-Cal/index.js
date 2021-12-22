@@ -67,7 +67,7 @@ function BookingCal({userId, unitId}){
         console.log("button has been clicked")
         const payload = {startDate, endDate ,userId, rentalUnitId:unitId}
         await dispatch(fetchAddBooking(payload))
-        await dispatch(getRentalUnits());
+        // await dispatch(getRentalUnits());
         alert("Your trip has been Booked");
 
     };

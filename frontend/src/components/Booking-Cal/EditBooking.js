@@ -16,10 +16,11 @@ function EditBookingPage(){
     const history = useHistory();
     const loggedInUser = useSelector((state)=> state.session.user.id);
     const booking = useSelector((state)=> state.bookings);
+    const fake = useSelector((state)=> state);
+    console.log(fake)
 
     useEffect(()=>{
-        dispatch(fetchBooking(id))
-        debugger
+    dispatch(fetchBooking(id))
 
     },[dispatch,id])
 

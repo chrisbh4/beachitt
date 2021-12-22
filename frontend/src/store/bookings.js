@@ -10,7 +10,7 @@ const EDIT_BOOKING= 'booking/EDIT_BOOKING';
 const loadBooking = booking =>({
     type:LOAD_BOOKING,
     booking,
-})
+});
 
   const addBooking = booking => ({
     type: ADD_BOOKING,
@@ -35,7 +35,7 @@ const loadBooking = booking =>({
     const data = await res.json();
 
     if(data.ok) dispatch(loadBooking(data))
-    debugger
+    // debugger
     return data.booking
 
   };
@@ -84,10 +84,6 @@ const initialState = {};
 
 const bookingsReducer = (state = initialState , action) => {
     switch(action.type){
-        case LOAD_BOOKING:{
-            // const fake = [{name:"fake booking state"}]
-            return { ...state, ...action.booking}
-        }
         case ADD_BOOKING:{
             return {...state, [action.booking.id]:action.booking};
         }
@@ -100,6 +96,10 @@ const bookingsReducer = (state = initialState , action) => {
             const newState = {...state};
             delete newState[action.booking.id];
             return newState
+        }
+        case LOAD_BOOKING:{
+            // const fake = [{name:"fake booking state"}]
+            return { ...state, [action.booking.id]:action.booking}
         }
         default:
             return state;
