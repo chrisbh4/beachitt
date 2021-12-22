@@ -48,7 +48,6 @@ function EditBookingPage(){
         console.log("button has been clicked")
         const payload = {id,startDate, endDate ,userId, rentalUnitId}
         await dispatch(fetchEditBooking(payload, id))
-        // await dispatch(getRentalUnits());
         alert("Your trip has been updated.");
         history.push(`/units/${rentalUnitId}`)
 
@@ -59,7 +58,6 @@ function EditBookingPage(){
     const handleBookingDelete =  async (e) => {
         e.preventDefault();
         dispatch(fetchDeleteBooking(id));
-        // dispatch(getRentalUnits())
         alert("Trip has been canceled");
         history.push(`/units/${rentalUnitId}`)
         return

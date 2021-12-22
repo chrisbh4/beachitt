@@ -22,9 +22,9 @@ const loadBooking = booking =>({
     bookingId,
   })
 
-  const editBooking = (bookingId)=>({
+  const editBooking = (booking)=>({
     type:EDIT_BOOKING,
-    bookingId,
+    booking,
   })
 
 
@@ -91,7 +91,7 @@ const bookingsReducer = (state = initialState , action) => {
         }
         case EDIT_BOOKING:{
             const newState = {...state};
-            newState[action.bookng.id] = action.booking;
+            newState[action.booking.id] = action.booking;
             return newState;
         }
         case DELETE_BOOKING:{
