@@ -10,10 +10,12 @@ import {fetchBooking , fetchEditBooking , fetchDeleteBooking} from "../../store/
 
 function EditBookingPage(){
 
+
     const {id} = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
     const booking = useSelector((state)=> state.bookings);
+    const loggedInUser = useSelector((state)=> state.session.user.id);
 
     useEffect(()=>{
         dispatch(fetchBooking(id))
@@ -26,6 +28,9 @@ function EditBookingPage(){
     const rentalUnitId = booking.rentalUnitId;
 
 
+    console.log("booking id:", id)
+    console.log("logged in user Id :",loggedInUser)
+    console.log("booking userId :",userId)
     console.log("booking:",booking)
 
 

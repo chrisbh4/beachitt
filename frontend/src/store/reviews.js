@@ -33,6 +33,7 @@ export const getReview = (id) => async dispatch => {
   const data = await res.json();
 
   if (data) dispatch(load(data.review))
+  debugger
   return data.review
 
 };
