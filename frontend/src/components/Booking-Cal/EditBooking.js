@@ -14,11 +14,13 @@ function EditBookingPage(){
     const {id} = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
-    const booking = useSelector((state)=> state.bookings);
     const loggedInUser = useSelector((state)=> state.session.user.id);
+    const booking = useSelector((state)=> state.bookings);
 
     useEffect(()=>{
         dispatch(fetchBooking(id))
+        debugger
+
     },[dispatch,id])
 
 
@@ -30,7 +32,6 @@ function EditBookingPage(){
 
     console.log("booking id:", id)
     console.log("logged in user Id :",loggedInUser)
-    console.log("booking userId :",userId)
     console.log("booking:",booking)
 
 
@@ -53,7 +54,7 @@ function EditBookingPage(){
         e.preventDefault();
         console.log("button has been clicked")
         const payload = {id,startDate, endDate ,userId, rentalUnitId}
-        await dispatch(fetchEditBooking(payload))
+        await dispatch(fetchEditBooking(payload, id))
         // await dispatch(getRentalUnits());
         alert("Your trip has been updated.");
         // history.push(`/units/${rentalUnitId}`)

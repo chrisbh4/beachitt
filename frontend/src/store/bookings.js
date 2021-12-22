@@ -35,8 +35,8 @@ const loadBooking = booking =>({
     const data = await res.json();
 
     if(data.ok) dispatch(loadBooking(data))
-    // debugger
-    return data
+    debugger
+    return data.booking
 
   };
 
@@ -85,7 +85,7 @@ const initialState = {};
 const bookingsReducer = (state = initialState , action) => {
     switch(action.type){
         case LOAD_BOOKING:{
-            const fake = [{name:"fake booking state"}]
+            // const fake = [{name:"fake booking state"}]
             return { ...state, ...action.booking}
         }
         case ADD_BOOKING:{
