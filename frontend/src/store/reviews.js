@@ -43,7 +43,6 @@ export const getReview = (id) => async dispatch => {
   const data = await res.json();
 
   if (data) dispatch(load(data.booking))
-  debugger
   return data.booking
 
 };

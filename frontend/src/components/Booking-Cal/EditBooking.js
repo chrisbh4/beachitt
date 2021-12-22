@@ -10,6 +10,14 @@ import { getReview } from "../../store/reviews"
 
 
 function EditBookingPage(){
+    /*
+
+    * the booking reducer is being imported correctly to the combineReducer method "/store/index.js"
+    * initialState is correct because when sent fake data it renders inside the state
+    * None of the thunks are being show inside the react state's Inspector
+    ! My  idea is that my action.Type is not correct and that I'm spreading in bad data
+
+    */
 
 
     const {id} = useParams();
@@ -22,7 +30,7 @@ function EditBookingPage(){
 
     useEffect(()=>{
     dispatch(fetchBooking(id))
-    dispatch(getReview(id))
+    // dispatch(getReview(id))
 
     },[dispatch,id])
 
