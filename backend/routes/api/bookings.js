@@ -19,7 +19,7 @@ router.get('/:id', asyncHandler(async( req, res)=>{
 
     // return res.json({msg:"Booking does not exist"})
     res.end()
-    // return booking
+     return booking
 
 }));
 

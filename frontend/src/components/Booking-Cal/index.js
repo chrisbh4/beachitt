@@ -40,7 +40,7 @@ function BookingCal({userId, unitId}){
         //     year:startArray[3],
         //     time:startArray[4]
         // }
-
+ 
         // const endDateObj = {
         //     weekday:endArray[0],
         //     month:endArray[1],

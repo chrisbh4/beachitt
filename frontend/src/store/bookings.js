@@ -6,9 +6,10 @@ const DELETE_BOOKING= 'booking/DELETE_BOOKING';
 const EDIT_BOOKING= 'booking/EDIT_BOOKING';
 
 
+// * The Reducer is working since the initial state is rendering but the THUNK is not loading inside the state
 
 const loadBooking = booking =>({
-    type:LOAD_BOOKING,
+    type: LOAD_BOOKING,
     booking,
 });
 
@@ -30,14 +31,13 @@ const loadBooking = booking =>({
 
 
   export const fetchBooking = (bookingId) => async (dispatch) => {
-
     const res = await csrfFetch(`/api/bookings/${bookingId}`);
     const data = await res.json();
 
     if(data.ok){
-        dispatch(loadBooking(data))
+        dispatch(loadBooking(data.booking))
     }
-    debugger
+    // debugger
     return data.booking
 
   };
@@ -64,9 +64,9 @@ export const fetchEditBooking =(payload, bookingId)=> async (dispatch) =>{
     })
 
     const data = await res.json();
-
     if(data.ok) dispatch(editBooking(data))
     return data
+
 };
 
 
@@ -82,7 +82,7 @@ export const fetchDeleteBooking = (bookingId) => async(dispatch) =>{
 };
 
 
-const initialState = {};
+const initialState = {msg:"fake state"};
 
 const bookingsReducer = (state = initialState , action) => {
     switch(action.type){
@@ -102,7 +102,7 @@ const bookingsReducer = (state = initialState , action) => {
         case LOAD_BOOKING:{
             // const fake = [{name:"fake booking state"}]
             const stateData = action.booking;
-            debugger
+            // debugger
             return { ...state, [action.booking.id]:action.booking}
         }
         default:

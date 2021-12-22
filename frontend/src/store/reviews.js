@@ -28,13 +28,23 @@ const deleteReviewState = review => ({
 })
 
 
+// export const getReview = (id) => async dispatch => {
+//   const res = await csrfFetch(`/api/reviews/${id}`);
+//   const data = await res.json();
+
+//   if (data) dispatch(load(data.review))
+//   debugger
+//   return data.review
+
+// };
+
 export const getReview = (id) => async dispatch => {
-  const res = await csrfFetch(`/api/reviews/${id}`);
+  const res = await csrfFetch(`/api/bookings/${id}`);
   const data = await res.json();
 
-  if (data) dispatch(load(data.review))
+  if (data) dispatch(load(data.booking))
   debugger
-  return data.review
+  return data.booking
 
 };
 

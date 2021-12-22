@@ -15,7 +15,7 @@ const rootReducer = combineReducers({
     rentalUnit: rentalUnitReducer,
     reviews: reviewsReducer,
     bookings: bookingsReducer,
-    mapApi:mapsReducer,
+    mapApi:mapsReducer
 });
 
 
