@@ -66,6 +66,13 @@ function EditBookingPage(){
     }
 
 
+    const handleBackButton =  async (e) => {
+        e.preventDefault();
+        history.push(`/units/${rentalUnitId}`)
+        return
+    }
+
+
 
 
 
@@ -78,7 +85,8 @@ function EditBookingPage(){
         <div>
 
         <button type="submit" onClick={handleSubmit} >Update</button>
-        <button type="submit" onClick={handleBookingDelete} >Cancel</button>
+        <button type="submit" onClick={handleBookingDelete} >Delete</button>
+        <button type="submit" onClick={handleBackButton} >Go Back</button>
         </div>
     </div>
     )

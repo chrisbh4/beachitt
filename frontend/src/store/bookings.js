@@ -46,7 +46,7 @@ export const fetchAddBooking = (payload)=> async(dispatch) =>{
     })
 
     const data = await res.json();
-    if(data.ok) dispatch(addBooking(data))
+    if(res.ok) dispatch(addBooking(data))
 
     return data
 };
@@ -60,7 +60,7 @@ export const fetchEditBooking =(payload, bookingId)=> async (dispatch) =>{
     })
 
     const data = await res.json();
-    if(data.ok) dispatch(editBooking(data))
+    if(res.ok) dispatch(editBooking(data))
 
     return data
 
@@ -73,7 +73,7 @@ export const fetchDeleteBooking = (bookingId) => async(dispatch) =>{
     })
 
     const data = await res.json();
-    if(data.ok) dispatch(deleteBooking(data));
+    if(res.ok) dispatch(deleteBooking(data));
 
     return data
 };
@@ -96,7 +96,7 @@ const bookingsReducer = (state = initialState , action) => {
         }
         case DELETE_BOOKING:{
             const newState = {...state};
-            delete newState[action.booking.id];
+            delete newState[action.bookingId];
             return newState
         }
         default:
