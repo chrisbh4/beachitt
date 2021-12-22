@@ -4,20 +4,11 @@ import {useDispatch, useSelector} from "react-redux"
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import {fetchBooking , fetchEditBooking , fetchDeleteBooking} from "../../store/bookings";
-import { getReview } from "../../store/reviews"
 // import { getRentalUnits } from "../../store/rentalUnits";
 
 
 
 function EditBookingPage(){
-    /*
-
-    * the booking reducer is being imported correctly to the combineReducer method "/store/index.js"
-    * initialState is correct because when sent fake data it renders inside the state
-    * None of the thunks are being show inside the react state's Inspector
-    ! My  idea is that my action.Type is not correct and that I'm spreading in bad data
-
-    */
 
 
     const {id} = useParams();
@@ -25,12 +16,9 @@ function EditBookingPage(){
     const history = useHistory();
     const loggedInUser = useSelector((state)=> state.session.user.id);
     const booking = useSelector((state)=> state.bookings);
-    // const fake = useSelector((state)=> state);
-    // console.log(fake)
 
     useEffect(()=>{
     dispatch(fetchBooking(id))
-    // dispatch(getReview(id))
 
     },[dispatch,id])
 
@@ -50,7 +38,6 @@ function EditBookingPage(){
         let dates = e.join('').split("(Pacific Standard Time)")
         const startArray = dates[0].split(' ')
         const endArray = dates[1].split(' ')
-
 
         const startDateStringConverter = `${startArray[3]}-${startArray[1]}-${startArray[2]}`
         const endDateStringConverter = `${endArray[3]}-${endArray[1]}-${endArray[2]}`
