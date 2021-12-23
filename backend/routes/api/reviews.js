@@ -15,8 +15,6 @@ const reviewValiation =[
 ]
 
 router.get('/', asyncHandler( async ( req , res )=>{
-
-
     const data = await Reviews.findAll();
     const reviews = dataAdjuster(data);
 

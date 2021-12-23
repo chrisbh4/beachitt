@@ -77,8 +77,8 @@ router.post('/new', singleMulterUpload("url"),unitValidations,  asyncHandler(asy
   const { title, ownerId, city, distanceFromBeach, lat, lng,
     pool, price, rentalUnitDescription, bathrooms, unitType, rooms, state, zipcode } = req.body;
 
-    // const url = await singlePublicFileUpload(req.file)
-    const url = "this is a test image";
+    const url = await singlePublicFileUpload(req.file)
+    // const url = "this is a test image";
     const totalRentals = 0;
 
   const newUnit = await RentalUnits.create({
