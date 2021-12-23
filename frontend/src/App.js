@@ -13,6 +13,7 @@ import EditUnitForm from "./components/EditRentalUnit/Edit";
 import GetRentalUnitPage from "./components/RentalUnitsPage/UnitPage";
 import NewReviewForm from "./components/Reviews/NewReviewForm"
 import EditReviewForm from "./components/Reviews/EditReview";
+import EditBookingPage from "./components/Booking-Cal/EditBooking";
 import MapContainer from "./components/Maps";
 
 
@@ -75,6 +76,11 @@ function App() {
 
         <Route path='/map'>
           <MapContainer />
+        </Route>
+
+
+        <Route path='/bookings/:id/edit'>
+         <EditBookingPage />
         </Route>
 
         </Switch>

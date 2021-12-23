@@ -1,11 +1,15 @@
 import {csrfFetch} from "./csrf";
 
+const LOAD_BOOKING = 'booking/LOAD_BOOKING';
 const ADD_BOOKING = 'booking/ADD_BOOKING';
 const DELETE_BOOKING= 'booking/DELETE_BOOKING';
 const EDIT_BOOKING= 'booking/EDIT_BOOKING';
 
 
-
+const loadBooking = booking =>({
+    type: LOAD_BOOKING,
+    booking,
+});
 
   const addBooking = booking => ({
     type: ADD_BOOKING,
@@ -18,10 +22,20 @@ const EDIT_BOOKING= 'booking/EDIT_BOOKING';
     bookingId,
   })
 
-  const editBooking = (bookingId)=>({
+  const editBooking = (booking)=>({
     type:EDIT_BOOKING,
-    bookingId,
+    booking,
   })
+
+
+  export const fetchBooking = (bookingId) => async (dispatch) => {
+    const res = await csrfFetch(`/api/bookings/${bookingId}`);
+    const data = await res.json();
+
+    if(data) dispatch(loadBooking(data.booking))
+    return data.booking
+
+  };
 
 
 export const fetchAddBooking = (payload)=> async(dispatch) =>{
@@ -32,7 +46,8 @@ export const fetchAddBooking = (payload)=> async(dispatch) =>{
     })
 
     const data = await res.json();
-    if(data.ok) dispatch(addBooking(data))
+    if(res.ok) dispatch(addBooking(data))
+
     return data
 };
 
@@ -45,9 +60,10 @@ export const fetchEditBooking =(payload, bookingId)=> async (dispatch) =>{
     })
 
     const data = await res.json();
+    if(res.ok) dispatch(editBooking(data))
 
-    if(data.ok) dispatch(editBooking(data))
     return data
+
 };
 
 
@@ -57,8 +73,8 @@ export const fetchDeleteBooking = (bookingId) => async(dispatch) =>{
     })
 
     const data = await res.json();
+    if(res.ok) dispatch(deleteBooking(data));
 
-    if(data.ok) dispatch(deleteBooking(data));
     return data
 };
 
@@ -67,17 +83,20 @@ const initialState = {};
 
 const bookingsReducer = (state = initialState , action) => {
     switch(action.type){
+        case LOAD_BOOKING:{
+            return {...action.booking}
+        }
         case ADD_BOOKING:{
             return {...state, [action.booking.id]:action.booking};
         }
         case EDIT_BOOKING:{
             const newState = {...state};
-            newState[action.bookng.id] = action.booking;
+            newState[action.booking.id] = action.booking;
             return newState;
         }
         case DELETE_BOOKING:{
             const newState = {...state};
-            delete newState[action.booking.id];
+            delete newState[action.bookingId];
             return newState
         }
         default:
@@ -87,4 +106,4 @@ const bookingsReducer = (state = initialState , action) => {
 
 
 
-  export default bookingsReducer
+  export default bookingsReducer;

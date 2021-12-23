@@ -8,12 +8,14 @@ import mapsReducer from './maps';
 
 
 
+
+
 const rootReducer = combineReducers({
     session: sessionReducer,
     rentalUnit: rentalUnitReducer,
     reviews: reviewsReducer,
     bookings: bookingsReducer,
-    mapApi:mapsReducer,
+    mapApi:mapsReducer
 });
 
 

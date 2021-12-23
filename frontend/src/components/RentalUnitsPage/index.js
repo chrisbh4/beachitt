@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
-// import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-// import { NavLink } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { getRentalUnits } from '../../store/rentalUnits'
 import '../RentalUnitsPage/UnitsPage.css'
@@ -9,8 +7,6 @@ import '../RentalUnitsPage/UnitsPage.css'
 function RentalUnitsPage() {
 
     const dispatch = useDispatch();
-
-    //  const rentalUnits = useSelector((state)=> Object.values(state.rentalUnit))
     const rentalUnits = useSelector((state) => Object.values(state.rentalUnit))
 
 
@@ -21,7 +17,7 @@ function RentalUnitsPage() {
     useEffect(() => {
         dispatch(getRentalUnits())
     }, [dispatch])
-    // console.log('RENTAL-UNITS: ',rentalUnits)
+
 
     return (
 

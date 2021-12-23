@@ -31,11 +31,12 @@ const deleteReviewState = review => ({
 export const getReview = (id) => async dispatch => {
   const res = await csrfFetch(`/api/reviews/${id}`);
   const data = await res.json();
+  if (data) dispatch(load(data.review));
 
-  if (data) dispatch(load(data.review))
   return data.review
-
 };
+
+
 
 
 export const createReview = (payload) => async (dispatch) => {
@@ -48,8 +49,8 @@ export const createReview = (payload) => async (dispatch) => {
   });
 
   const data = await res.json()
-
   if (data.ok) dispatch(addReviewState(data))
+
   return data
 };
 
@@ -63,9 +64,9 @@ export const editReview = (payload, reviewId) => async (dispatch) => {
     body: JSON.stringify(payload)
   });
 
-  const data = await res.json()
+  const data = await res.json();
+  if (data.ok) dispatch(editReviewState(data));
 
-  if (data.ok) dispatch(editReviewState(data))
   return data
 }
 
@@ -88,14 +89,14 @@ const initialState = {};
 const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_REVIEW: {
-      return { ...state, [action.review.id]: action.review }
+      return { ...state, [action.review.id]: action.review };
     }
     case LOAD: {
-      return { ...state, ...action.reviews }
+      return { ...state, ...action.reviews };
     }
     case DELETE_REVIEW: {
       const newState = { ...state };
-      delete newState[action.unitId]
+      delete newState[action.unitId];
       return { newState }
     }
     case EDIT_REVIEW: {
