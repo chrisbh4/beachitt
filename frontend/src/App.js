@@ -41,18 +41,12 @@ function App() {
           <Route exact path="/">
           <HomePage />
           </Route>
-          <Route path="/login">
-            <LoginFormPage />
-          </Route>
-          <Route path="/signup">
-            <SignupFormPage />
-          </Route>
+
           <Route exact path="/units">
             <RentalUnitsPage />
           </Route>
 
-          {/* if uncommented EditUnitForm is not displayed */}
-
+{/* if uncommented EditUnitForm is not displayed */}
           <Route exact path="/units/:id">
             <GetRentalUnitPage />
           </Route>
@@ -77,7 +71,6 @@ function App() {
         <Route path='/map'>
           <MapContainer />
         </Route>
-
 
         <Route path='/bookings/:id/edit'>
          <EditBookingPage />
