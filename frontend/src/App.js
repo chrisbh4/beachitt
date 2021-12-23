@@ -55,9 +55,9 @@ function App() {
             < NewUnitForm />
           </Route>
 
-          <Route  path="/units/edit/:id">
+          {/* <Route  path="/units/edit/:id">
             <EditUnitForm />
-          </Route>
+          </Route> */}
 
 {/* Review Routes */}
           <Route path='/:id/reviews/new'>

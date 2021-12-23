@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { NavLink, useHistory } from "react-router-dom";
 import * as sessionActions from '../../store/session';
 import '../Naviagation/Navigation.css';
+import NewUnitModal from "../RentalUnitsPage/NewUnitModal";
 function ProfileButton({ user }) {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -50,12 +51,13 @@ function ProfileButton({ user }) {
           >Rental Units</NavLink>
         </button>
 
-        <button>
+        {/* <button>
           <NavLink
             to="/new"
             className="navLink"
           >New Rental Unit</NavLink>
-        </button>
+        </button> */}
+        <NewUnitModal />
 
 
           {/* <i class="fas fa-umbrella-beach"></i> */}

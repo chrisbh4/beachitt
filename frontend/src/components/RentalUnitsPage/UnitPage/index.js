@@ -6,6 +6,7 @@ import { deleteReview } from "../../../store/reviews"
 import { fetchDeleteBooking } from '../../../store/bookings';
 import MapContainer from '../../Maps';
 import BookingCal from '../../Booking-Cal';
+import EditUnitModal from '../../EditRentalUnit/EditModal';
 
 function GetRentalUnitPage() {
     const dispatch = useDispatch();
@@ -57,14 +58,13 @@ function GetRentalUnitPage() {
 
     //* Edit Unit route Id is coming up as undefined might need to pass in a prop
 
-    const editOrBook = () => {
+    const bookOrEditUnit = () => {
         if (userId > 0 && userId === unit?.ownerId) {
             return (
                 <>
-                    <button
-                        class=" p-5">
-                        <a href={`/units/edit/${unitId}`}>Edit</a>
-                    </button>
+                    <div>
+                    <EditUnitModal/>
+                    </div>
 
                 </>
             )
@@ -211,7 +211,7 @@ function GetRentalUnitPage() {
                     <div class='flex justify-around relative top-1/4 z-' >
                         <button> <a class=' p-5' href='/units'>Go Back</a> </button>
                         <>
-                            {editOrBook()}
+                            {bookOrEditUnit()}
                         </>
                     </div>
                 </div>
