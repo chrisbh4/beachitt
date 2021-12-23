@@ -10,7 +10,7 @@ import Navigation from "./components/Naviagation";
 import HomePage from "./components/Home/home";
 import GetRentalUnitPage from "./components/RentalUnitsPage/SingleUnitPage";
 import NewUnitForm from "./components/RentalUnitsPage/NewUnit/NewUnitForm";
-import EditUnitForm from "./components/RentalUnitsPage/EditRentalUnit/Edit";
+import EditUnitForm from "./components/RentalUnitsPage/EditUnit/Edit";
 import EditReviewForm from "./components/Reviews/EditReview";
 import EditBookingPage from "./components/Booking-Cal/EditBooking";
 import MapContainer from "./components/Maps";
