@@ -2,7 +2,8 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
-import LoginFormModal from '../LoginModalForm';
+import LoginFormModal from '../LoginModal';
+import SignUpFormModal from '../SignupFormPage/SignUpModal';
 
 import * as sessionActions from "../../store/session"
 
@@ -52,13 +53,15 @@ function Navigation({ isLoaded }) {
             </button>
 
 
-            <button>
+            {/* <button>
               <NavLink
                 to="/signup"
                 className="navLink"
 
               >Sign Up</NavLink>
-            </button>
+            </button> */}
+
+            <SignUpFormModal />
 
 
             <button>
