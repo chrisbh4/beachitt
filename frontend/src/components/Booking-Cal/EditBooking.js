@@ -39,17 +39,17 @@ function EditBookingPage(){
 
         setStartDate(startDateStringConverter);
         setEndDate(endDateStringConverter);
-
-    }
-
+        return
+    };
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
         console.log("button has been clicked")
         const payload = {id,startDate, endDate ,userId, rentalUnitId}
         await dispatch(fetchEditBooking(payload, id))
-        alert("Your trip has been updated.");
+        // alert("Your trip has been updated.");
         history.push(`/units/${rentalUnitId}`)
+        return
 
     };
 
@@ -58,7 +58,7 @@ function EditBookingPage(){
     const handleBookingDelete =  async (e) => {
         e.preventDefault();
         dispatch(fetchDeleteBooking(id));
-        alert("Trip has been canceled");
+        // alert("Trip has been canceled");
         history.push(`/units/${rentalUnitId}`)
         return
     }
@@ -69,11 +69,6 @@ function EditBookingPage(){
         history.push(`/units/${rentalUnitId}`)
         return
     }
-
-
-
-
-
 
 
 
