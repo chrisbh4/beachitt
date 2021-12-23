@@ -7,7 +7,7 @@ function EditUnitModal() {
 
   return (
     <>
-      <button onClick={() => setShowModal(true)}>Edit Modal</button>
+      <button onClick={() => setShowModal(true)}>Edit Your Rental</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <EditUnitForm />

@@ -60,9 +60,9 @@ function App() {
           </Route> */}
 
 {/* Review Routes */}
-          <Route path='/:id/reviews/new'>
+          {/* <Route path='/:id/reviews/new'>
             <NewReviewForm />
-          </Route>
+          </Route> */}
 
           <Route path='/reviews/:id/edit'>
             <EditReviewForm />

@@ -10,7 +10,7 @@ function RentalUnitsPage() {
     const rentalUnits = useSelector((state) => Object.values(state.rentalUnit))
 
 
-    console.log('RENTAL-UNITS: ', rentalUnits)
+    // console.log('RENTAL-UNITS: ', rentalUnits)
 
 
 

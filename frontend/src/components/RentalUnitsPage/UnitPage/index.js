@@ -7,6 +7,10 @@ import { fetchDeleteBooking } from '../../../store/bookings';
 import MapContainer from '../../Maps';
 import BookingCal from '../../Booking-Cal';
 import EditUnitModal from '../../EditRentalUnit/EditModal';
+import NewReviewModal from "../../Modals/Reviews/NewModal.js"
+import EditReviewModal from '../../Modals/Reviews/EditModal';
+import EditBookingModal from '../../Modals/Bookings/EditModal';
+// import EditReviewModal from "../../Modals/Reviews"
 
 function GetRentalUnitPage() {
     const dispatch = useDispatch();
@@ -109,8 +113,8 @@ function GetRentalUnitPage() {
                 <div class="flex justify-center">
                     <p class="pl-3 relattive left-2">{review.comment}</p>
                     <div class='relative left-3'>
-                        <a href={`/reviews/${review.id}/edit`}><button>Edit</button>
-                        </a>
+                        {/* <a href={`/reviews/${review.id}/edit`}><button>Edit</button></a> */}
+                        <EditReviewModal />
 
                         {/* Delete Route is recieving an undefined ID so the review ID isn't being touched */}
                         {/* <button class='relative left-4' onClick={handleReviewDelete}>Delete</button> */}
@@ -163,8 +167,9 @@ function GetRentalUnitPage() {
 
                         {/* Buttons */}
                     <div class='relative left-3'>
-                        <a href={`/bookings/${booking.id}/edit`}><button>Edit</button>
-                        </a>
+                        {/* <a href={`/bookings/${booking.id}/edit`}><button>Edit</button>
+                        </a> */}
+                        <EditBookingModal />
                         {/* <button class='relative left-4' onClick={handleBookingDelete(booking.id)}>Delete</button> */}
                     </div>
                 </div>
@@ -237,7 +242,8 @@ function GetRentalUnitPage() {
                     <h1 class='text-center text-3xl font-medium relative bottom-4 pt-3 '>Reviews </h1>
 
                     <div class='text-center pt-3 pb-4'>
-                        <button ><a href={`/${unit?.id}/reviews/new`}>Leave a Review</a></button>
+                        {/* <button ><a href={`/${unit?.id}/reviews/new`}>Leave a Review</a></button> */}
+                        <NewReviewModal />
                         {/* <button ><a href='/'>Leave a Review</a></button> */}
                     </div>
                     <div class='flex justify-around'>
