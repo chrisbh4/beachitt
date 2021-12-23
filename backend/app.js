@@ -33,15 +33,15 @@ app.use(helmet({
 // Set the _csrf token and create req.csrfToken method
 //* need to comment out to use postman
 
-app.use(
-  csurf({
-    cookie: {
-      secure: isProduction,
-      sameSite: isProduction && "Lax",
-      httpOnly: true,
-    },
-  })
-);
+// app.use(
+//   csurf({
+//     cookie: {
+//       secure: isProduction,
+//       sameSite: isProduction && "Lax",
+//       httpOnly: true,
+//     },
+//   })
+// );
 
 //! End of Security middleware section
 

@@ -13,26 +13,23 @@ const { singleMulterUpload , singlePublicFileUpload} = require("../../awsS3")
 const router = express.Router();
 //* requireAuth: middleware that is used to make sure only logged in users can hit certain routes
 
-const newUnitValidator = [
+const unitValidations = [
  check("title")
-  .notEmpty()
-  .isString()
-  .withMessage("Must enter a title."),
+  .isLength({min:2})
+  .withMessage("Must enter a title greater than 2 characters."),
  check("city")
-  .notEmpty()
+  .isLength({min:2})
+  .isString()
   .withMessage("Must enter a city name."),
  check("distanceFromBeach")
-  .notEmpty()
   .isInt()
-  .withMessage("Must enter a number"),
+  .withMessage("Must enter a distance number"),
  check("lat")
-  .notEmpty()
-  .isInt()
-  .withMessage("Must enter a number"),
+  .isLength({min:4})
+  .withMessage("Must longer than 4 digits"),
  check("lng")
-   .notEmpty()
-  .isInt()
-  .withMessage("Must enter a number"),
+ .isLength({min:4})
+ .withMessage("Must longer than 4 digits"),
  check("pool")
   .notEmpty()
   .withMessage("Must select yes or no"),
@@ -42,15 +39,17 @@ const newUnitValidator = [
  check("rentalUnitDescription")
   .notEmpty(),
  check("rooms")
-  .notEmpty(),
+  .notEmpty()
   .withMessage("Must enter an amount of rooms."),
  check("state")
  .isLength({min:2,max:2})
 .withMessage("Enter state initials."),
  check("zipcode")
- .notEmpty()
  .isInt()
  .withMessage("Must enter a zipcode."),
+ check("unitType")
+ .notEmpty()
+ .withMessage("Must select a unit type"),
   handleValidationErrors
 ];
 
@@ -73,12 +72,13 @@ router.get('/:id', asyncHandler(async (req, res) => {
 
 
 //! router.post('/new', requireAuth, asyncHandler(async (req, res) => {
-router.post('/new', singleMulterUpload("url"),  asyncHandler(async (req, res) => {
+router.post('/new', singleMulterUpload("url"),unitValidations,  asyncHandler(async (req, res) => {
 
   const { title, ownerId, city, distanceFromBeach, lat, lng,
     pool, price, rentalUnitDescription, bathrooms, unitType, rooms, state, zipcode } = req.body;
 
-    const url = await singlePublicFileUpload(req.file)
+    // const url = await singlePublicFileUpload(req.file)
+    const url = "this is a test image";
     const totalRentals = 0;
 
   const newUnit = await RentalUnits.create({
@@ -90,7 +90,7 @@ router.post('/new', singleMulterUpload("url"),  asyncHandler(async (req, res) =>
 
 }))
 
-router.put('/edit/:id', singleMulterUpload("url"), asyncHandler(async( req, res )=>{
+router.put('/edit/:id', singleMulterUpload("url"),unitValidations, asyncHandler(async( req, res )=>{
   const unit = await RentalUnits.findByPk(req.params.id);
 
   const file = req.file;
