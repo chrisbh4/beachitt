@@ -14,28 +14,43 @@ const router = express.Router();
 //* requireAuth: middleware that is used to make sure only logged in users can hit certain routes
 
 const newUnitValidator = [
- check('title')
+ check("title")
+  .notEmpty()
+  .isString()
+  .withMessage("Must enter a title."),
+ check("city")
+  .notEmpty()
+  .withMessage("Must enter a city name."),
+ check("distanceFromBeach")
+  .notEmpty()
+  .isInt()
+  .withMessage("Must enter a number"),
+ check("lat")
+  .notEmpty()
+  .isInt()
+  .withMessage("Must enter a number"),
+ check("lng")
+   .notEmpty()
+  .isInt()
+  .withMessage("Must enter a number"),
+ check("pool")
+  .notEmpty()
+  .withMessage("Must select yes or no"),
+ check("price")
+ .isFloat({min:1})
+ .withMessage("Must enter a price between: $150.00-$100,000.00"),
+ check("rentalUnitDescription")
   .notEmpty(),
- check('city')
+ check("rooms")
   .notEmpty(),
- check('distanceFromBeach')
-  .notEmpty(),
- check('lat')
-  .notEmpty(),
- check('lng')
-  .notEmpty(),
- check('pool')
-  .notEmpty(),
- check('price')
-  .notEmpty(),
- check('rentalUnitDescription')
-  .notEmpty(),
- check('rooms')
-  .notEmpty(),
- check('state')
-  .notEmpty(),
- check('zipcode')
-  .notEmpty(),
+  .withMessage("Must enter an amount of rooms."),
+ check("state")
+ .isLength({min:2,max:2})
+.withMessage("Enter state initials."),
+ check("zipcode")
+ .notEmpty()
+ .isInt()
+ .withMessage("Must enter a zipcode."),
   handleValidationErrors
 ];
 
