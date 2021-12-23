@@ -5,13 +5,12 @@ import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 
 import * as sessionActions from "./store/session";
-import RentalUnitsPage from "./components/RentalUnitsPage/index";
+import RentalUnitsPage from "./components/RentalUnitsPage/AllUnits";
 import Navigation from "./components/Naviagation";
 import HomePage from "./components/Home/home";
-import NewUnitForm from "./components/RentalUnitsPage/NewUnitForm";
-import EditUnitForm from "./components/EditRentalUnit/Edit";
-import GetRentalUnitPage from "./components/RentalUnitsPage/UnitPage";
-import NewReviewForm from "./components/Reviews/NewReviewForm"
+import GetRentalUnitPage from "./components/RentalUnitsPage/SingleUnitPage";
+import NewUnitForm from "./components/RentalUnitsPage/NewUnit/NewUnitForm";
+import EditUnitForm from "./components/RentalUnitsPage/EditRentalUnit/Edit";
 import EditReviewForm from "./components/Reviews/EditReview";
 import EditBookingPage from "./components/Booking-Cal/EditBooking";
 import MapContainer from "./components/Maps";

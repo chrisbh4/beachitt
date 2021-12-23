@@ -6,7 +6,7 @@ import { deleteReview } from "../../../store/reviews"
 import { fetchDeleteBooking } from '../../../store/bookings';
 import MapContainer from '../../Maps';
 import BookingCal from '../../Booking-Cal';
-import EditUnitModal from '../../EditRentalUnit/EditModal';
+import EditUnitModal from '../../Modals/Units/EditModal';
 import NewReviewModal from "../../Modals/Reviews/NewModal.js"
 import EditReviewModal from '../../Modals/Reviews/EditModal';
 import EditBookingModal from '../../Modals/Bookings/EditModal';

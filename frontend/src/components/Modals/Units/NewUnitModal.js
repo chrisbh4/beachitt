@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { Modal } from '../../context/Modal';
-import NewUnitForm from './NewUnitForm';
+import { Modal } from '../../../context/Modal';
+// import NewUnitForm from '../../../components/RentalUnitsPage/NewUnit/NewUnitForm';
+// import NewUnitForm from '../../RentalUnitsPage/NewUnit/NewUnitForm';
+import NewUnitForm from "../../RentalUnitsPage/NewUnit/NewUnitForm"
+
 
 function NewUnitModal() {
   const [showModal, setShowModal] = useState(false);

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getRentalUnits } from '../../store/rentalUnits'
-import '../RentalUnitsPage/UnitsPage.css'
+import { getRentalUnits } from '../../../store/rentalUnits'
+import "../../RentalUnitsPage/UnitsPage.css"
 
 function RentalUnitsPage() {
 
