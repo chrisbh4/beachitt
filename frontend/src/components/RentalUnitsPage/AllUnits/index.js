@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getRentalUnits } from '../../../store/rentalUnits'
@@ -8,24 +8,42 @@ function RentalUnitsPage() {
 
     const dispatch = useDispatch();
     const rentalUnits = useSelector((state) => Object.values(state.rentalUnit))
+    const state = useSelector((state) => Object.values(state.rentalUnit))
 
+    const [allUnits , setUnits] = useState([]);
 
-    // console.log('RENTAL-UNITS: ', rentalUnits)
+    // useEffect(() => {
+    //     dispatch(getRentalUnits())
 
+    //     setUnits(rentalUnits)
 
+    // }, [dispatch, rentalUnits])
+
+    console.log(rentalUnits)
 
     useEffect(() => {
         dispatch(getRentalUnits())
+
     }, [dispatch])
+
+    // console.log(allUnits)
+
+
+/*
+
+     useEffect(()=>{
+         setComment(review?.comment)
+         setRating(review.rating)
+        setImage(review.image)
+    },[review.rating, review.comment, review.image])
+
+*/
+
 
 
     return (
 
         <>
-
-            {/* <nav>
-                <NavLink to='/units/new'>Register New Unit</NavLink>
-            </nav> */}
 
             <h1 className="unitsPage-h1">Beach Properties</h1>
 
