@@ -13,7 +13,7 @@ function NewUnitModal() {
       <button onClick={() => setShowModal(true)}>Register your rental</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <NewUnitForm />
+          <NewUnitForm  />
         </Modal>
       )}
     </>

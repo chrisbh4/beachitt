@@ -80,8 +80,8 @@ function NewUnitForm() {
         const unit = dispatch(createRentalUnit(payload));
 
         if (unit) {
-            // history.push("/units");
-            alert("Rental Unit Submited");
+            history.push("/units");
+            // alert("Rental Unit Submited");
             return unit
         }
 
