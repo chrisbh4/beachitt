@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import {createRentalUnit} from "../../store/rentalUnits"
+import { createRentalUnit } from "../../store/rentalUnits"
 
 import '../RentalUnitsPage/NewUnit.css'
 
@@ -28,9 +28,9 @@ function NewUnitForm() {
     // const [totalRentals] = useState(0)
     // const [] = useState("")
     const ownerId = sessionUserId;
-/*
-    to grab the current user and be able to set values to other variables
-*/
+    /*
+        to grab the current user and be able to set values to other variables
+    */
 
 
 
@@ -53,7 +53,7 @@ function NewUnitForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const totalRentals =0;
+        const totalRentals = 0;
 
         const payload = {
             title,
@@ -76,32 +76,15 @@ function NewUnitForm() {
 
 
 
-      const unit =  dispatch(createRentalUnit(payload));
-      debugger
-        // reset();
-        if(unit){
-            history.push("/units")
-            throw alert("Rental Unit Submited")
+        const unit = dispatch(createRentalUnit(payload));
+
+        if (unit) {
+            history.push("/units");
+            alert("Rental Unit Submited");
+            // return unit
         }
 
     }
-
-    // const reset = () => {
-	// 	    setTitle("")
-    //         setCity("")
-    //         setState("")
-    //         setZipcode("")
-    //         setDistanceFromBeach("")
-    //         setRooms("")
-    //         setBathrooms("")
-    //         setPool("")
-    //         setUnitType("")
-    //         setLat("")
-    //         setLng("")
-    //         setPrice("")
-    //         setRentalUnitDescription("")
-
-	// };
 
     return (
         <div className="form-placement">
@@ -111,14 +94,14 @@ function NewUnitForm() {
                     className="new-form"
                     onSubmit={handleSubmit}
                 >
-                <div className="titel-input">
-                    <label>Title: </label>
-                    <input
-                        type="text"
-                        onChange={updateTitle}
-                        value={title}
+                    <div className="titel-input">
+                        <label>Title: </label>
+                        <input
+                            type="text"
+                            onChange={updateTitle}
+                            value={title}
                         ></input>
-                        </div>
+                    </div>
                     <div className="address-container">
                         <label>City: </label>
                         <input
@@ -159,46 +142,51 @@ function NewUnitForm() {
                         onChange={updateBathrooms}
                         value={bathrooms}
                     ></input>
-                    <label>Pool (yes or no): </label>
+                    <label>Pool : </label>
                     <input
                         type="text"
                         onChange={updatePool}
                         value={pool}
                         max="3"
                     ></input>
-                <div className="unit-type">
+                    <div className="unit-type">
 
-                <label htmlFor="house">House</label>
-					<input
-						onChange={updateUnityType}
-						value={"house"}
-						type="radio"
-                        id="hosue"
-                        checked={unitType === 'house'}
-						// id="house"
-                        >
-                    </input>
-                <label htmlFor="apartment">Apartment</label>
-					<input
-						onChange={updateUnityType}
-						value={"apartment"}
-						type="radio"
-                        id="apartment"
-                        checked={unitType === 'apartment'}
-                        >
-                    </input>
-                <label htmlFor="singleRoom">Single Room</label>
-					<input
-
-						onChange={updateUnityType}
-                        checked={unitType === 'single room'}
-						value={"single room"}
-						type="radio"
-						id="singleRoom"
-                        >
-                    </input>
+                        <div class='pb-1 pt-2'>
+                            <label >Unity Type: </label>
                         </div>
-                    <label>Latitude: </label>
+
+
+                        <input
+                            onChange={updateUnityType}
+                            value="house"
+                            type="radio"
+                            id="hosue"
+                            checked={unitType === 'house'}
+                        // id="house"
+                        >
+                        </input>
+                        <label htmlFor="house" class='pr-2'>House</label>
+                        <input
+                            onChange={updateUnityType}
+                            value="apartment"
+                            type="radio"
+                            id="apartment"
+                            checked={unitType === 'apartment'}
+                        >
+                        </input>
+                        <label htmlFor="apartment" class='pr-2'>Apartment</label>
+                        <input
+
+                            onChange={updateUnityType}
+                            checked={unitType === 'single room'}
+                            value={"single room"}
+                            type="radio"
+                            id="singleRoom"
+                        >
+                        </input>
+                        <label htmlFor="singleRoom" class='pr-2'>Single Room</label>
+                    </div>
+                    <label class='pt-2'>Latitude: </label>
                     <input
                         type="text"
                         value={lat}

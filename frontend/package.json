@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.4.0",
+    "@react-google-maps/api": "^2.7.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
@@ -19,7 +20,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-     "test": "craco test",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

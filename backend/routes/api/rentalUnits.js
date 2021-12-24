@@ -1,7 +1,9 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
-const { RentalUnits, Reviews } = require('../../db/models')
+const { RentalUnits, Reviews, Bookings } = require('../../db/models')
 const { requireAuth, setTokenCookie } = require('../../utils/auth')
+const {check} = require('express-validator');
+const {handleValidationErrors} = require('../../utils/validation')
 // import { csrfProtection } from '../../utils/utils';
 const { dataAdjuster} = require('../../utils/utils')
 // const newUnitValidation = require('../../utils/validation')
@@ -11,10 +13,37 @@ const { singleMulterUpload , singlePublicFileUpload} = require("../../awsS3")
 const router = express.Router();
 //* requireAuth: middleware that is used to make sure only logged in users can hit certain routes
 
+const newUnitValidator = [
+ check('title')
+  .notEmpty(),
+ check('city')
+  .notEmpty(),
+ check('distanceFromBeach')
+  .notEmpty(),
+ check('lat')
+  .notEmpty(),
+ check('lng')
+  .notEmpty(),
+ check('pool')
+  .notEmpty(),
+ check('price')
+  .notEmpty(),
+ check('rentalUnitDescription')
+  .notEmpty(),
+ check('rooms')
+  .notEmpty(),
+ check('state')
+  .notEmpty(),
+ check('zipcode')
+  .notEmpty(),
+  handleValidationErrors
+];
+
+
 
 router.get('/', asyncHandler(async (_req, res) => {
-
-  const allRentalUnits = await RentalUnits.findAll({include:[Reviews]})
+  const allRentalUnits = await RentalUnits.findAll({include:[Reviews,Bookings]})
+  // const allRentalUnits = await RentalUnits.findAll({include:[{Reviews}, {Bookings}]})
   const rentalUnits = dataAdjuster(allRentalUnits)
   return res.json(rentalUnits)
 
@@ -22,17 +51,13 @@ router.get('/', asyncHandler(async (_req, res) => {
 
 
 router.get('/:id', asyncHandler(async (req, res) => {
-  const unit = await RentalUnits.findByPk(req.params.id,{include:[Reviews]})
+  const unit = await RentalUnits.findByPk(req.params.id,{include:[Reviews,Bookings]})
   res.json( unit )
 }))
 
 
-/*
 
-
-
-*/
-// router.post('/new', requireAuth, asyncHandler(async (req, res) => {
+//! router.post('/new', requireAuth, asyncHandler(async (req, res) => {
 router.post('/new', singleMulterUpload("url"),  asyncHandler(async (req, res) => {
 
   const  title = "dd"
@@ -67,10 +92,9 @@ router.put('/edit/:id', singleMulterUpload("url"), asyncHandler(async( req, res 
   const unit = await RentalUnits.findByPk(req.params.id);
 
   const file = req.file;
-  if(file.buffer) unit.url = await singlePublicFileUpload(file);
+  //console.log(req.file);
 
-
-
+  if(file) unit.url = await singlePublicFileUpload(file);
 
       unit.title = req.body.title;
       unit.city = req.body.city;
@@ -85,8 +109,6 @@ router.put('/edit/:id', singleMulterUpload("url"), asyncHandler(async( req, res 
       unit.rooms = req.body.rooms;
       unit.state = req.body.state;
       unit.zipcode = req.body.zipcode;
-
-
 
 
   await unit.save()

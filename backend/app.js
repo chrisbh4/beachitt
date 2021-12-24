@@ -12,7 +12,6 @@ const app = express();
 
 const { ValidationError } = require('sequelize');
 
-
 //! App.use Section
 app.use(morgan('dev'));
 app.use(cookieParser());
@@ -32,7 +31,8 @@ app.use(helmet({
 }));
 
 // Set the _csrf token and create req.csrfToken method
-// need to comment out to use postman
+//* need to comment out to use postman
+
 app.use(
   csurf({
     cookie: {

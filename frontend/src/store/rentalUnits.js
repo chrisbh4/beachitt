@@ -76,10 +76,11 @@ export const getRentalUnits = () => async dispatch => {
       dispatch(load(rentalUnits))
   };
 export const getSingleUnit = (unitId)=> async dispatch =>{
-  const rentalUnit = await csrfFetch(`/units/${unitId}`);
-
+  const rentalUnit = await csrfFetch(`/api/units/${unitId}`);
     const unit = await rentalUnit.json();
+
     dispatch(load(unit))
+    return unit
 }
 
 
@@ -130,7 +131,7 @@ export const createRentalUnit = (payload) => async dispatch =>{
 
   const newUnit = await res.json();
 
-  if(newUnit) dispatch(addUnit(newUnit))
+  if(newUnit.ok) dispatch(addUnit(newUnit))
 
   return newUnit
 }

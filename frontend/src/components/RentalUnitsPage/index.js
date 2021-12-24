@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
-// import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-// import { NavLink } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { getRentalUnits } from '../../store/rentalUnits'
 import '../RentalUnitsPage/UnitsPage.css'
@@ -9,26 +7,26 @@ import '../RentalUnitsPage/UnitsPage.css'
 function RentalUnitsPage() {
 
     const dispatch = useDispatch();
-
-    //  const rentalUnits = useSelector((state)=> Object.values(state.rentalUnit))
     const rentalUnits = useSelector((state) => Object.values(state.rentalUnit))
 
 
     console.log('RENTAL-UNITS: ', rentalUnits)
-    // console.log('RENTAL-UNITS: ',rentalUnits)
+
 
 
     useEffect(() => {
         dispatch(getRentalUnits())
     }, [dispatch])
-    // console.log('RENTAL-UNITS: ',rentalUnits)
+
 
     return (
 
-        <div>
+        <>
+
             {/* <nav>
                 <NavLink to='/units/new'>Register New Unit</NavLink>
             </nav> */}
+
             <h1 className="unitsPage-h1">Beach Properties</h1>
 
             <div className='all-unit-container' >
@@ -46,7 +44,10 @@ function RentalUnitsPage() {
 
                                 <img
                                 class='mx-auto'
-                                src={`${unit.url}`}>
+                                src={`${unit.url}`}
+                                alt={`${unit.title}`}
+                                >
+
                                 </img>
                                 </Link>
 
@@ -112,7 +113,7 @@ function RentalUnitsPage() {
 
 
 
-        </div>
+        </>
 
     )
 }

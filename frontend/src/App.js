@@ -7,10 +7,16 @@ import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
 import RentalUnitsPage from "./components/RentalUnitsPage/index";
 import Navigation from "./components/Naviagation";
+import HomePage from "./components/Home/home";
 import NewUnitForm from "./components/RentalUnitsPage/NewUnitForm";
 import EditUnitForm from "./components/EditRentalUnit/Edit";
 import GetRentalUnitPage from "./components/RentalUnitsPage/UnitPage";
-import HomePage from "./components/Home/home";
+import NewReviewForm from "./components/Reviews/NewReviewForm"
+import EditReviewForm from "./components/Reviews/EditReview";
+import EditBookingPage from "./components/Booking-Cal/EditBooking";
+import MapContainer from "./components/Maps";
+
+
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -44,16 +50,39 @@ function App() {
           <Route exact path="/units">
             <RentalUnitsPage />
           </Route>
+
           {/* if uncommented EditUnitForm is not displayed */}
-          <Route path = "/units/:id">
+
+          <Route exact path="/units/:id">
             <GetRentalUnitPage />
           </Route>
+
           <Route  path="/new">
             < NewUnitForm />
           </Route>
-          <Route  path ="/units/edit/:id">
+
+          <Route  path="/units/edit/:id">
             <EditUnitForm />
           </Route>
+
+{/* Review Routes */}
+          <Route path='/:id/reviews/new'>
+            <NewReviewForm />
+          </Route>
+
+          <Route path='/reviews/:id/edit'>
+            <EditReviewForm />
+          </Route>
+
+        <Route path='/map'>
+          <MapContainer />
+        </Route>
+
+
+        <Route path='/bookings/:id/edit'>
+         <EditBookingPage />
+        </Route>
+
         </Switch>
       )}
     </>

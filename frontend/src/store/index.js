@@ -2,11 +2,20 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import sessionReducer from './session';
 import rentalUnitReducer from './rentalUnits';
+import reviewsReducer from './reviews';
+import bookingsReducer from './bookings';
+import mapsReducer from './maps';
+
+
+
 
 
 const rootReducer = combineReducers({
     session: sessionReducer,
     rentalUnit: rentalUnitReducer,
+    reviews: reviewsReducer,
+    bookings: bookingsReducer,
+    mapApi:mapsReducer
 });
 
 
