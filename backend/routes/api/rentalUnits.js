@@ -35,10 +35,23 @@ router.get('/:id', asyncHandler(async (req, res) => {
 // router.post('/new', requireAuth, asyncHandler(async (req, res) => {
 router.post('/new', singleMulterUpload("url"),  asyncHandler(async (req, res) => {
 
-  const { title, ownerId, city, distanceFromBeach, lat, lng,
-    pool, price, rentalUnitDescription, bathrooms, unitType, rooms, state, zipcode } = req.body;
+  const  title = "dd"
+  const ownerId = 1
+  const city = "dd"
+  const distanceFromBeach = 4344
+  const lat = 4344
+  const lng = 4344
+  const pool = "dd"
+  const price = 5
+  const rentalUnitDescription = "dd"
+  const bathrooms = 4
+  const unitType = "dd"
+  const rooms = 4
+  const state = "dd"
+  const zipcode = 34544
+  const url = "image"
 
-    const url = await singlePublicFileUpload(req.file)
+    // const url = await singlePublicFileUpload(req.file)
     const totalRentals = 0;
 
   const newUnit = await RentalUnits.create({
@@ -47,7 +60,7 @@ router.post('/new', singleMulterUpload("url"),  asyncHandler(async (req, res) =>
   });
 
   return res.json({ newUnit });
-  
+
 }))
 
 router.put('/edit/:id', singleMulterUpload("url"), asyncHandler(async( req, res )=>{

@@ -1,7 +1,7 @@
 import {csrfFetch} from "./csrf"
 
 const LOAD = 'units/LOAD';
-const ADD_ONE = 'units/ADD_ONE';
+
 const DELETE_UNIT= 'units/DELETE_UNIT';
 const EDIT_UNIT= 'units/EDIT_UNIT';
 
@@ -10,10 +10,7 @@ const load = units => ({
     units,
   });
 
-  const addUnit = unit => ({
-    type: ADD_ONE,
-    unit,
-  });
+
 
   const deleteUnit = (unitId)=>({
     type: DELETE_UNIT,
@@ -78,7 +75,6 @@ export const getRentalUnits = () => async dispatch => {
 
       dispatch(load(rentalUnits))
   };
-
 export const getSingleUnit = (unitId)=> async dispatch =>{
   const rentalUnit = await csrfFetch(`/units/${unitId}`);
 
@@ -86,9 +82,26 @@ export const getSingleUnit = (unitId)=> async dispatch =>{
     dispatch(load(unit))
 }
 
+
+
+
+
+
+
+const ADD_ONE = 'units/ADD_ONE';
+
+
+
+ // * addUnit action.type is not being loaded
+ const addUnit = unit => ({
+  type: ADD_ONE,
+  unit,
+});
+
+
 export const createRentalUnit = (payload) => async dispatch =>{
   const formData = new FormData();
-  const {title,ownerId,city,state,zipcode,distanceFromBeach,rooms,bathrooms,pool,unitType,lat,lng, price, rentalUnitDescription ,totalRental ,url } = payload
+  const {title,ownerId,city,state,zipcode,distanceFromBeach,rooms,bathrooms,pool,unitType,lat,lng, price, rentalUnitDescription ,totalRental ,url } = payload;
   formData.append("title",title)
   formData.append("ownerId",ownerId)
   formData.append("city",city)
@@ -107,7 +120,6 @@ export const createRentalUnit = (payload) => async dispatch =>{
 
   if (url) formData.append("url",url);
 
-  debugger
   const res = await csrfFetch(`/api/units/new`, {
     method: "POST",
     headers: {
@@ -116,28 +128,12 @@ export const createRentalUnit = (payload) => async dispatch =>{
     body: formData,
   });
 
-
   const newUnit = await res.json();
-  debugger
-  if(newUnit.ok) dispatch(addUnit(newUnit))
+
+  if(newUnit) dispatch(addUnit(newUnit))
 
   return newUnit
 }
-
-//* creates a single image
-// export const createImage = (payload) => async dispatch =>{
-//   const res = await csrfFetch('/api/images/new',{
-//     method: 'POST',
-//     header:{"Content-Type": "application/json"},
-//     body: JSON.stringify(payload)
-//   });
-
-//   const image = await res.json();
-
-//   if(image.ok) dispatch(addUnit(image))
-
-//   return image
-// }
 
 
 
@@ -152,9 +148,9 @@ export const createRentalUnit = (payload) => async dispatch =>{
       case ADD_ONE:{
         const newState ={
           ...state,
-          [action.unit.id]:action.unit
+        [action.unit.id]:action.unit
         };
-        return newState;
+        return {...newState};
       }
       case DELETE_UNIT:{
         const newState = {...state};

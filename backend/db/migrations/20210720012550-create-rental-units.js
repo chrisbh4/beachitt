@@ -43,12 +43,10 @@ module.exports = {
       },
       lat: {
         allowNull:false,
-        unique:true,
         type: Sequelize.STRING
       },
       lng: {
         allowNull:false,
-        unique:true,
         type: Sequelize.STRING
       },
       unitType: {
