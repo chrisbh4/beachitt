@@ -118,7 +118,9 @@ export const createRentalUnit = (payload) => async dispatch =>{
 
   const newUnit = await res.json();
 
-  if(newUnit.ok) dispatch(addUnit(newUnit))
+  //* ALWAYS CHECK FOR RES.OK
+  // ! IT IS NOT DATA.OK DATA IS NOT A RESPONSE!!!!
+  if(newUnit) dispatch(addUnit(newUnit))
 
   return newUnit
 }
