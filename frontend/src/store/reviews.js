@@ -49,7 +49,7 @@ export const createReview = (payload) => async (dispatch) => {
   });
 
   const data = await res.json()
-  if (data.ok) dispatch(addReviewState(data))
+  if (res.ok) dispatch(addReviewState(data))
 
   return data
 };
@@ -79,7 +79,7 @@ export const deleteReview = (reviewId) => async (dispatch) => {
 
   const data = await res.json();
 
-  if (data.ok) dispatch(deleteReviewState(data))
+  if (res.ok) dispatch(deleteReviewState(data))
   return data
 }
 
