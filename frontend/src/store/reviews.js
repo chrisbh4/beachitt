@@ -89,7 +89,7 @@ const initialState = {};
 const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_REVIEW: {
-      return { ...state, [action.review.id]: action.review };
+      return {[action.review.id]:action.review };
     }
     case LOAD: {
       return { ...state, ...action.reviews };

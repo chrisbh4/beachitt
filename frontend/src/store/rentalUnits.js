@@ -126,6 +126,13 @@ export const createRentalUnit = (payload) => async dispatch =>{
 }
 
 
+/*
+
+* The error is coming from the reducer
+  * - I need to be able to spread the new data in with the old
+  
+
+*/
 
 
 
@@ -137,10 +144,12 @@ export const createRentalUnit = (payload) => async dispatch =>{
         return {...state, ...action.units}
       }
       case ADD_ONE:{
-        const newState ={
-          ...state,
-          [action.unit.id]:action.unit
-        };
+        const newState = {...state}
+        newState[action.unit.id] = action.unit
+        // const newState ={
+        //   ...state,
+        //   [action.unit.id]:action.unit
+        // };
         return newState;
       }
       case DELETE_UNIT:{
