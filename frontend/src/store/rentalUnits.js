@@ -162,6 +162,7 @@ export const deleteRentalUnit = (unitId)=> async dispatch=>{
         return {...newState}
       }
       //* Edit functionality is removing the Reviews associated with the Unit
+      // Might need to spread the Reviews and Booking in with the data or see if they are being removed from the store???
       case EDIT:{
         const newState = {...state}
         newState[action.unit.id]=action.unit
