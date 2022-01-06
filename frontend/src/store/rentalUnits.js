@@ -20,9 +20,9 @@ const load = units => ({
     unitId,
   })
 
-  const editUnit = (unitId)=>({
+  const editUnit = (unit)=>({
     type:EDIT,
-    unitId,
+    unit,
   })
 
 

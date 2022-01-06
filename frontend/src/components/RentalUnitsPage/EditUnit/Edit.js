@@ -124,7 +124,7 @@ function EditUnitForm() {
         };
 
         dispatch(editRentalUnit(payload, unitId));
-        history.push('/units')
+        // history.push('/units')
         throw alert("Rental Unit Updated :)")
     }
 
