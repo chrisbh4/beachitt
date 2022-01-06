@@ -54,8 +54,10 @@ export const editRentalUnit = (payload ,unitId)=> async dispatch =>{
     body: formData,
   });
 
-  const rentalUnit = await res.json();
-  if(rentalUnit.ok) dispatch(editUnit(rentalUnit))
+  const data = await res.json();
+
+  if(res.ok) dispatch(editUnit(data))
+  return data
 
 }
 
@@ -64,9 +66,10 @@ export const deleteRentalUnit = (unitId)=> async dispatch=>{
     method:"DELETE"
   });
 
-  const rentalUnit = await res.json();
+  const data = await res.json();
 
-  if(rentalUnit.id.ok) dispatch(deleteUnit(rentalUnit))
+  if(res.ok) dispatch(deleteUnit(data))
+  return data
 
 }
 
@@ -74,9 +77,9 @@ export const deleteRentalUnit = (unitId)=> async dispatch=>{
 //* grabs all units
 export const getRentalUnits = () => async dispatch => {
     const res = await csrfFetch(`/api/units`);
-    const rentalUnits = await res.json();
+    const data = await res.json();
 
-      dispatch(load(rentalUnits))
+      dispatch(load(data))
   };
 
 export const getSingleUnit = (unitId)=> async dispatch =>{
@@ -116,13 +119,11 @@ export const createRentalUnit = (payload) => async dispatch =>{
     body: formData,
   });
 
-  const newUnit = await res.json();
+  const data = await res.json();
 
-  //* ALWAYS CHECK FOR RES.OK
-  // ! IT IS NOT DATA.OK DATA IS NOT A RESPONSE!!!!
-  if(newUnit) dispatch(addUnit(newUnit))
+  if(res.ok) dispatch(addUnit(data))
 
-  return newUnit
+  return data
 }
 
 
@@ -130,7 +131,7 @@ export const createRentalUnit = (payload) => async dispatch =>{
 
 * The error is coming from the reducer
   * - I need to be able to spread the new data in with the old
-  
+
 
 */
 
@@ -145,11 +146,7 @@ export const createRentalUnit = (payload) => async dispatch =>{
       }
       case ADD_ONE:{
         const newState = {...state}
-        newState[action.unit.id] = action.unit
-        // const newState ={
-        //   ...state,
-        //   [action.unit.id]:action.unit
-        // };
+        newState[action.unit.id] = action.unit;
         return newState;
       }
       case DELETE_UNIT:{
@@ -159,8 +156,7 @@ export const createRentalUnit = (payload) => async dispatch =>{
       }
       case EDIT_UNIT:{
         return{
-          ...state,
-          [action.review.id]: action.review
+          ...state,...action.unit
         }
       }
       default:
