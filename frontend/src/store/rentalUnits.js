@@ -1,9 +1,9 @@
 import {csrfFetch} from "./csrf"
 
 const LOAD = 'units/LOAD';
-const ADD_ONE = 'units/ADD_ONE';
-const DELETE_UNIT= 'units/DELETE_UNIT';
-const EDIT_UNIT= 'units/EDIT_UNIT';
+const ADD = 'units/ADD';
+const DELETE= 'units/DELETE';
+const EDIT= 'units/EDIT';
 
 const load = units => ({
     type: LOAD,
@@ -11,17 +11,17 @@ const load = units => ({
   });
 
   const addUnit = unit => ({
-    type: ADD_ONE,
+    type: ADD,
     unit,
   });
 
   const deleteUnit = (unitId)=>({
-    type: DELETE_UNIT,
+    type: DELETE,
     unitId,
   })
 
   const editUnit = (unitId)=>({
-    type:EDIT_UNIT,
+    type:EDIT,
     unitId,
   })
 
@@ -129,8 +129,7 @@ export const createRentalUnit = (payload) => async dispatch =>{
 
 /*
 
-* The error is coming from the reducer
-  * - I need to be able to spread the new data in with the old
+* Need to understand how my ADD thunk has two objects instead of just one
 
 
 */
@@ -144,17 +143,18 @@ export const createRentalUnit = (payload) => async dispatch =>{
       case LOAD:{
         return {...state, ...action.units}
       }
-      case ADD_ONE:{
+      case ADD:{
         const newState = {...state}
-        newState[action.unit.id] = action.unit;
-        return newState;
+        newState[action.unit.newUnit.id] = action.unit.newUnit;
+        return {...newState}
+        // return {...state,...action.unit}
       }
-      case DELETE_UNIT:{
+      case DELETE:{
         const newState = {...state};
         delete newState[action.unitId]
         return {...newState}
       }
-      case EDIT_UNIT:{
+      case EDIT:{
         return{
           ...state,...action.unit
         }
