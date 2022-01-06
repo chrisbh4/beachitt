@@ -86,9 +86,12 @@ router.post('/new', singleMulterUpload("url"),unitValidations,  asyncHandler(asy
     rentalUnitDescription, bathrooms, unitType, rooms, state, zipcode, totalRentals, url
   });
 
-  return res.json({ newUnit });
+  return res.json( newUnit );
+  // return res.json(newUnit)
 
 }))
+
+
 
 router.put('/edit/:id', singleMulterUpload("url"),unitValidations, asyncHandler(async( req, res )=>{
   const unit = await RentalUnits.findByPk(req.params.id);
@@ -113,7 +116,8 @@ router.put('/edit/:id', singleMulterUpload("url"),unitValidations, asyncHandler(
 
 
   await unit.save()
-  return res.json({unit})
+  // return res.json({unit})
+  return res.json(unit)
 
 }))
 

@@ -152,7 +152,9 @@ export const deleteRentalUnit = (unitId)=> async dispatch=>{
       }
       case ADD:{
         const newState = {...state}
-        newState[action.unit.newUnit.id] = action.unit.newUnit;
+        // removed extra object
+        newState[action.unit.id] = action.unit;
+        // newState[action.unit.newUnit.id] = action.unit.newUnit;
         return {...newState}
         // return {...state,...action.unit}
       }
