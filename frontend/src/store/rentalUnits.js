@@ -130,7 +130,9 @@ export const createRentalUnit = (payload) => async dispatch =>{
 /*
 
 * Need to understand how my ADD thunk has two objects instead of just one
-
+  1. Need to fix the POST api route return from
+  2. Grab the fetched response properly after its been jsonifyed
+  3. Key into the action correctly
 
 */
 
