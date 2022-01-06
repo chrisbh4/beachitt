@@ -13,14 +13,10 @@ function EditUnitForm() {
     //  trying to get rentalUnits from the currentstate from the id of the clicked on unit
     //  const rentalUnit = useSelector(state => state.rentalUnit[id]);
 
-    // console.log(id)
 
     const rentalUnit = useSelector((state) => (state.rentalUnit[id]))
     //! Need to use rentalUnit?.title
     // checks if rentalUnit.title exsist in the rentalUnit
-    console.log(rentalUnit?.ownerId)
-
-    // console.log(rentalUnits.title)
 
     /*
     * Edit placeholders/data is not being saved inside it's variables on the first render
@@ -58,7 +54,6 @@ function EditUnitForm() {
     const [zipcode, setZipcode] = useState(rentalUnit?.zipcode)
     const [url, setUrl] = useState(rentalUnit?.url)
 
-    console.log('title', title)
 
     useEffect (()=>{
         setTitle(rentalUnit?.title);

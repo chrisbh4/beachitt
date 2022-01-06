@@ -94,7 +94,6 @@ router.put('/edit/:id', singleMulterUpload("url"),unitValidations, asyncHandler(
   const unit = await RentalUnits.findByPk(req.params.id);
 
   const file = req.file;
-  //console.log(req.file);
 
   if(file) unit.url = await singlePublicFileUpload(file);
 

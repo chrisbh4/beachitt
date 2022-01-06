@@ -19,7 +19,6 @@ function GetRentalUnitPage() {
     const userId = useSelector(state => state?.session.user.id)
     const unitReviews = unit?.Reviews;
     const unitBookings = unit?.Bookings;
-    console.log(unitBookings)
 
     const unitLat = unit?.lat;
     const unitLng = unit?.lng;
@@ -57,7 +56,6 @@ function GetRentalUnitPage() {
     }
 
 
-    // console.log(unit?.id)
     const unitId = unit?.id
 
     //* Edit Unit route Id is coming up as undefined might need to pass in a prop

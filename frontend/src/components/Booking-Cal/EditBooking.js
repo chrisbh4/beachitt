@@ -44,7 +44,6 @@ function EditBookingPage(){
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
-        console.log("button has been clicked")
         const payload = {id,startDate, endDate ,userId, rentalUnitId}
         await dispatch(fetchEditBooking(payload, id))
         // alert("Your trip has been updated.");
