@@ -161,10 +161,14 @@ export const deleteRentalUnit = (unitId)=> async dispatch=>{
         delete newState[action.unitId]
         return {...newState}
       }
+      //* Edit functionality is removing the Reviews associated with the Unit
       case EDIT:{
-        return{
-          ...state,...action.unit
-        }
+        const newState = {...state}
+        newState[action.unit.id]=action.unit
+        return {...newState}
+        // return{
+        //   ...state,...action.unit
+        // }
       }
       default:
         return state;
