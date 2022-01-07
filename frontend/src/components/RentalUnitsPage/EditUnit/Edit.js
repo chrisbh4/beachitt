@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { editRentalUnit, getRentalUnits, deleteRentalUnit } from "../../../store/rentalUnits";
+import { editRentalUnit, getRentalUnits, deleteRentalUnit, getSingleUnit } from "../../../store/rentalUnits";
 import './EditRentalUnit.css'
 
 function EditUnitForm() {
@@ -23,12 +23,21 @@ function EditUnitForm() {
     * need to look into the useEffect and be able to hold the data after a page refresh
     *
     * place a useEffect with the setData variable inside to be able to update the useState variables after a second page render
+    *
+    *
+    * Edit form is only sending unit data and not reviews or bookings that belong to it
     */
 
-    useEffect(() => {
-        dispatch(getRentalUnits())
+    // useEffect(() => {
+    //     dispatch(getRentalUnits())
 
-    }, [dispatch])
+    // }, [dispatch])
+
+    useEffect(() => {
+        // dispatch(getRentalUnits())
+        dispatch(getSingleUnit(id))
+
+    }, [dispatch,id])
 
     // ! editRentalUnit()
     // useEffect(()=>{

@@ -33,16 +33,14 @@ const load = units => ({
   export const getRentalUnits = () => async dispatch => {
     const res = await csrfFetch(`/api/units`);
     const data = await res.json();
-
     dispatch(load(data))
   };
 
   export const getSingleUnit = (unitId)=> async dispatch =>{
-    const rentalUnit = await csrfFetch(`/api/units/${unitId}`);
-    const unit = await rentalUnit.json();
-
-    dispatch(load(unit))
-    return unit
+    const res = await csrfFetch(`/api/units/${unitId}`);
+    const data = await res.json();
+    if(res.ok) dispatch(load(data))
+    return data
   }
 
 
