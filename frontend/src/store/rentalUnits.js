@@ -1,6 +1,7 @@
 import {csrfFetch} from "./csrf"
 
 const LOAD = 'units/LOAD';
+const LOAD_ONE = 'units/LOAD_ONE';
 const ADD = 'units/ADD';
 const DELETE= 'units/DELETE';
 const EDIT= 'units/EDIT';
@@ -8,6 +9,12 @@ const EDIT= 'units/EDIT';
 const load = units => ({
     type: LOAD,
     units,
+  });
+
+
+const loadOne = unit => ({
+    type: LOAD_ONE,
+    unit,
   });
 
   const addUnit = unit => ({
@@ -39,7 +46,7 @@ const load = units => ({
   export const getSingleUnit = (unitId)=> async dispatch =>{
     const res = await csrfFetch(`/api/units/${unitId}`);
     const data = await res.json();
-    if(res.ok) dispatch(load(data))
+    if(res.ok) dispatch(loadOne(data))
     return data
   }
 
@@ -146,7 +153,10 @@ export const deleteRentalUnit = (unitId)=> async dispatch=>{
   const rentalUnitReducer = ( state = initialState , action )=>{
     switch( action.type ){
       case LOAD:{
-        return {...state, ...action.units}
+        return { ...action.units}
+      }
+      case LOAD_ONE:{
+        return { ...action.unit}
       }
       case ADD:{
         const newState = {...state}
@@ -164,7 +174,8 @@ export const deleteRentalUnit = (unitId)=> async dispatch=>{
       case EDIT:{
         const newState = {...state}
         newState[action.unit.id]=action.unit
-        return {...newState}
+        // return {...newState}
+        return {...action.unit}
         // return{
         //   ...state,...action.unit
         // }

@@ -14,7 +14,7 @@ function EditUnitForm() {
     //  const rentalUnit = useSelector(state => state.rentalUnit[id]);
 
 
-    const rentalUnit = useSelector((state) => (state.rentalUnit[id]))
+    const rentalUnit = useSelector((state) => (state.rentalUnit))
     //! Need to use rentalUnit?.title
     // checks if rentalUnit.title exsist in the rentalUnit
 

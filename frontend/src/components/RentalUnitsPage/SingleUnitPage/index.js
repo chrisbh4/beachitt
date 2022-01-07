@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getRentalUnits } from '../../../store/rentalUnits';
+import { getRentalUnits , getSingleUnit } from '../../../store/rentalUnits';
 import { deleteReview } from "../../../store/reviews"
 import { fetchDeleteBooking } from '../../../store/bookings';
 import MapContainer from '../../Maps';
@@ -15,7 +15,8 @@ import EditBookingModal from '../../Modals/Bookings/EditModal';
 function GetRentalUnitPage() {
     const dispatch = useDispatch();
     const { id } = useParams();
-    const unit = useSelector(state => state?.rentalUnit[id])
+    // const unit = useSelector(state => state?.rentalUnit[id])
+    const unit = useSelector(state => state?.rentalUnit)
     const userId = useSelector(state => state?.session.user.id)
     const unitReviews = unit?.Reviews;
     const unitBookings = unit?.Bookings;
@@ -23,12 +24,19 @@ function GetRentalUnitPage() {
     const unitLat = unit?.lat;
     const unitLng = unit?.lng;
 
+    console.log(unit.title)
+
+
+    // useEffect(() => {
+    //     dispatch(getRentalUnits())
+
+    // }, [dispatch])
 
     useEffect(() => {
-        dispatch(getRentalUnits())
+        // dispatch(getRentalUnits())
+        dispatch(getSingleUnit(id))
 
-    }, [dispatch])
-
+    }, [dispatch,id])
 
 
 
