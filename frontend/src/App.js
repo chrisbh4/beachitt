@@ -8,7 +8,7 @@ import * as sessionActions from "./store/session";
 import RentalUnitsPage from "./components/RentalUnitsPage/AllUnits";
 import Navigation from "./components/Naviagation";
 import HomePage from "./components/Home/home";
-import GetRentalUnitPage from "./components/RentalUnitsPage/SingleUnitPage";
+import GeetSingleUnitPage from "./components/RentalUnitsPage/SingleUnitPage";
 import NewUnitForm from "./components/RentalUnitsPage/NewUnit/NewUnitForm";
 import EditUnitForm from "./components/RentalUnitsPage/EditUnit/Edit";
 import EditReviewForm from "./components/Reviews/EditReview";
@@ -26,7 +26,7 @@ function App() {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
-  
+
   return (
     <>
       <Navigation isLoaded={isLoaded} />
@@ -42,7 +42,7 @@ function App() {
 
 {/* if uncommented EditUnitForm is not displayed */}
           <Route exact path="/units/:id">
-            <GetRentalUnitPage />
+            <GeetSingleUnitPage />
           </Route>
 
           <Route  path="/new">

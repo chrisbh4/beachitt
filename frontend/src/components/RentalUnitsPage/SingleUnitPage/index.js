@@ -12,7 +12,7 @@ import EditReviewModal from '../../Modals/Reviews/EditModal';
 import EditBookingModal from '../../Modals/Bookings/EditModal';
 // import EditReviewModal from "../../Modals/Reviews"
 
-function GetRentalUnitPage() {
+function GetSingleUnitPage() {
     const dispatch = useDispatch();
     const { id } = useParams();
     // const unit = useSelector(state => state?.rentalUnit[id])
@@ -296,4 +296,4 @@ function GetRentalUnitPage() {
 
 // * items-center : will vertically center items
 
-export default GetRentalUnitPage;
+export default GetSingleUnitPage;
