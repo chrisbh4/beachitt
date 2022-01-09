@@ -15,7 +15,6 @@ import EditBookingModal from '../../Modals/Bookings/EditModal';
 function GetSingleUnitPage() {
     const dispatch = useDispatch();
     const { id } = useParams();
-    // const unit = useSelector(state => state?.rentalUnit[id])
     const unit = useSelector(state => state?.rentalUnit)
     const userId = useSelector(state => state?.session.user.id)
     const unitReviews = unit?.Reviews;
@@ -24,30 +23,14 @@ function GetSingleUnitPage() {
     const unitLat = unit?.lat;
     const unitLng = unit?.lng;
 
-    console.log(unit.title)
 
 
-    // useEffect(() => {
-    //     dispatch(getRentalUnits())
-
-    // }, [dispatch])
 
     useEffect(() => {
         // dispatch(getRentalUnits())
         dispatch(getSingleUnit(id))
 
     }, [dispatch,id])
-
-
-
-    // const handleBookingDelete =  async (e) => {
-    //     e.preventDefault();
-
-    //     dispatch(fetchDeleteBooking(id));
-    //     dispatch(getRentalUnits())
-    //     alert("Booking has been deleted");
-    //     return
-    // }
 
 
     const handleReviewDelete = async (e) => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { editRentalUnit, getRentalUnits, deleteRentalUnit, getSingleUnit } from "../../../store/rentalUnits";
+import { editRentalUnit, deleteRentalUnit, getSingleUnit } from "../../../store/rentalUnits";
 import './EditRentalUnit.css'
 
 function EditUnitForm() {
@@ -133,8 +133,14 @@ function EditUnitForm() {
         };
 
         dispatch(editRentalUnit(payload, unitId));
+        /*
+        * Optimization notes
+            - dispatching the single Unit thunk (Line 141) easily refreshes the page to grab the reviews back from the database
+            * - Need to find a way on inserting the Unit's reviews with the newly updated data so the Reviews/Bookings will be in with the first state rendering instead of needing a second dispatch/page reresh
+        */
+        dispatch(getSingleUnit(id))
         // history.push('/units')
-        throw alert("Rental Unit Updated :)")
+        throw alert("Your rental unit has been updated.")
     }
 
 
