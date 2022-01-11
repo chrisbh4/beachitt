@@ -38,8 +38,11 @@ export const getReview = (id) => async dispatch => {
 
 
 /*
-  - Same bug as the units/store
-    Have to fix either the reducer's state spreading or it's coming from the route that contains an extra Key Name insdide the JS object
+  - New Reviews are not being spread into the Unit.Reviews instead only being placed in the State.reviews obj
+    - Find a way to access the Unit's reviews so it can update
+    - Find a way to have the Unit refresh it's data so its up to date
+      *( maybe use a setState inside a useEffect to be able to check but idk how that would grab new data from the url with only usuing react tools)
+
 */
 
 
@@ -93,10 +96,7 @@ const initialState = {};
 const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_REVIEW: {
-      //* Can delete if not being used
-      // let newState ={...state}
-      // newState[action.review.id]=action.review;
-      // return {...newState}
+
       return {[action.review.id]:action.review };
     }
     case LOAD: {
