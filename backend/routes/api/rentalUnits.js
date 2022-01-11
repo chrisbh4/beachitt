@@ -94,7 +94,7 @@ router.post('/new', singleMulterUpload("url"),unitValidations,  asyncHandler(asy
 
 
 router.put('/edit/:id', singleMulterUpload("url"),unitValidations, asyncHandler(async( req, res )=>{
-  const unit = await RentalUnits.findByPk(req.params.id);
+  const unit = await RentalUnits.findByPk(req.params.id,{include:[Reviews,Bookings]});
 
   const file = req.file;
 
