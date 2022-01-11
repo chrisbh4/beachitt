@@ -126,7 +126,25 @@ router.put('/edit/:id', singleMulterUpload("url"),unitValidations, asyncHandler(
 router.delete('/edit/:id', requireAuth, asyncHandler(async (req, res) => {
   const rentalUnit = await RentalUnits.findByPk(req.params.id);
 
-  if (!rentalUnit) new Error(' Cannot find Rental Unit ');
+  //* Find a better way on querying for all the Reviews/Bookings that belong to the rentalUnit
+  const unitReviews = await Reviews.findAll();
+  const unitBookings = await Bookings.findAll();
+
+  unitReviews.map((review) => {
+    if (review.rentalUnitId === rentalUnit.id) {
+        review.destroy()
+    }
+    return
+  })
+
+  unitBookings.map((booking) => {
+    if (booking.rentalUnitId === rentalUnit.id) {
+        booking.destroy()
+    }
+    return
+  })
+
+  if(!rentalUnit) new Error(' Cannot find Rental Unit ');
 
   await rentalUnit.destroy()
   return res.send("unit has been deleted")
