@@ -64,7 +64,6 @@ function BookingCal({userId, unitId}){
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
-        console.log("button has been clicked")
         const payload = {startDate, endDate ,userId, rentalUnitId:unitId}
         await dispatch(fetchAddBooking(payload))
         await dispatch(getRentalUnits());

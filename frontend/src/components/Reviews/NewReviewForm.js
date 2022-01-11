@@ -31,14 +31,10 @@ function NewReviewForm (){
         const data = dispatch(createReview(payload));
 
         if(data.errors) return data.errors;
-        history.push(`/units/2`);
+        // history.push(`/units/${id}`);
         return data;
     };
 
-
-
-
-//React JSX
     return (
         <div>
             <h1 class='text-center'>Leave a review</h1>

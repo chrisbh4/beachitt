@@ -5,13 +5,12 @@ import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 
 import * as sessionActions from "./store/session";
-import RentalUnitsPage from "./components/RentalUnitsPage/index";
+import RentalUnitsPage from "./components/RentalUnitsPage/AllUnits";
 import Navigation from "./components/Naviagation";
 import HomePage from "./components/Home/home";
-import NewUnitForm from "./components/RentalUnitsPage/NewUnitForm";
-import EditUnitForm from "./components/EditRentalUnit/Edit";
-import GetRentalUnitPage from "./components/RentalUnitsPage/UnitPage";
-import NewReviewForm from "./components/Reviews/NewReviewForm"
+import GeetSingleUnitPage from "./components/RentalUnitsPage/SingleUnitPage";
+import NewUnitForm from "./components/RentalUnitsPage/NewUnit/NewUnitForm";
+import EditUnitForm from "./components/RentalUnitsPage/EditUnit/Edit";
 import EditReviewForm from "./components/Reviews/EditReview";
 import EditBookingPage from "./components/Booking-Cal/EditBooking";
 import MapContainer from "./components/Maps";
@@ -28,11 +27,6 @@ function App() {
   }, [dispatch]);
 
 
-
-
-
-
-
   return (
     <>
       <Navigation isLoaded={isLoaded} />
@@ -41,34 +35,28 @@ function App() {
           <Route exact path="/">
           <HomePage />
           </Route>
-          <Route path="/login">
-            <LoginFormPage />
-          </Route>
-          <Route path="/signup">
-            <SignupFormPage />
-          </Route>
+
           <Route exact path="/units">
             <RentalUnitsPage />
           </Route>
 
-          {/* if uncommented EditUnitForm is not displayed */}
-
+{/* if uncommented EditUnitForm is not displayed */}
           <Route exact path="/units/:id">
-            <GetRentalUnitPage />
+            <GeetSingleUnitPage />
           </Route>
 
           <Route  path="/new">
             < NewUnitForm />
           </Route>
 
-          <Route  path="/units/edit/:id">
+          {/* <Route  path="/units/edit/:id">
             <EditUnitForm />
-          </Route>
+          </Route> */}
 
 {/* Review Routes */}
-          <Route path='/:id/reviews/new'>
+          {/* <Route path='/:id/reviews/new'>
             <NewReviewForm />
-          </Route>
+          </Route> */}
 
           <Route path='/reviews/:id/edit'>
             <EditReviewForm />
@@ -77,7 +65,6 @@ function App() {
         <Route path='/map'>
           <MapContainer />
         </Route>
-
 
         <Route path='/bookings/:id/edit'>
          <EditBookingPage />

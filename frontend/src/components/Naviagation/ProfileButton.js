@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { NavLink, useHistory } from "react-router-dom";
 import * as sessionActions from '../../store/session';
 import '../Naviagation/Navigation.css';
+import NewUnitModal from "../Modals/Units/NewUnitModal";
 function ProfileButton({ user }) {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -33,30 +34,39 @@ function ProfileButton({ user }) {
 
   return (
     <>
-    <nav className="nav-container">
-    <button>
-           <NavLink
-              exact to="/"
-              className="navLink"
-            >Home</NavLink>
+      <nav className="nav-container">
+
+        <button>
+          <NavLink
+            exact to="/"
+            className="navLink"
+          >Home</NavLink>
 
         </button>
+
         <button>
-        <NavLink
+          <NavLink
             to="/units"
             className="navLink"
           >Rental Units</NavLink>
-          </button>
-          <button>
-        <NavLink
+        </button>
+
+        {/* <button>
+          <NavLink
             to="/new"
             className="navLink"
           >New Rental Unit</NavLink>
-          </button>
-      <button onClick={openMenu}>
-      <i class="fas fa-umbrella-beach"></i>
-      </button>
-{/* Profile Menu */}
+        </button> */}
+        <NewUnitModal />
+
+
+          {/* <i class="fas fa-umbrella-beach"></i> */}
+        <button onClick={openMenu}>
+        Show Menu
+
+        </button>
+        {/* Profile Menu */}
+
       </nav>
       {showMenu && (
         <ul className="profile-dropdown">

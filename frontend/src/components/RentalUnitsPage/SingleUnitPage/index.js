@@ -1,41 +1,36 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getRentalUnits } from '../../../store/rentalUnits';
+import { getRentalUnits , getSingleUnit } from '../../../store/rentalUnits';
 import { deleteReview } from "../../../store/reviews"
 import { fetchDeleteBooking } from '../../../store/bookings';
 import MapContainer from '../../Maps';
 import BookingCal from '../../Booking-Cal';
+import EditUnitModal from '../../Modals/Units/EditModal';
+import NewReviewModal from "../../Modals/Reviews/NewModal.js"
+import EditReviewModal from '../../Modals/Reviews/EditModal';
+import EditBookingModal from '../../Modals/Bookings/EditModal';
+// import EditReviewModal from "../../Modals/Reviews"
 
-function GetRentalUnitPage() {
+function GetSingleUnitPage() {
     const dispatch = useDispatch();
     const { id } = useParams();
-    const unit = useSelector(state => state?.rentalUnit[id])
+    const unit = useSelector(state => state?.rentalUnit)
     const userId = useSelector(state => state?.session.user.id)
     const unitReviews = unit?.Reviews;
     const unitBookings = unit?.Bookings;
-    console.log(unitBookings)
 
     const unitLat = unit?.lat;
     const unitLng = unit?.lng;
 
 
+
+
     useEffect(() => {
-        dispatch(getRentalUnits())
+        // dispatch(getRentalUnits())
+        dispatch(getSingleUnit(id))
 
-    }, [dispatch])
-
-
-
-
-    // const handleBookingDelete =  async (e) => {
-    //     e.preventDefault();
-
-    //     dispatch(fetchDeleteBooking(id));
-    //     dispatch(getRentalUnits())
-    //     alert("Booking has been deleted");
-    //     return
-    // }
+    }, [dispatch,id])
 
 
     const handleReviewDelete = async (e) => {
@@ -52,19 +47,17 @@ function GetRentalUnitPage() {
     }
 
 
-    // console.log(unit?.id)
     const unitId = unit?.id
 
     //* Edit Unit route Id is coming up as undefined might need to pass in a prop
 
-    const editOrBook = () => {
+    const bookOrEditUnit = () => {
         if (userId > 0 && userId === unit?.ownerId) {
             return (
                 <>
-                    <button
-                        class=" p-5">
-                        <a href={`/units/edit/${unitId}`}>Edit</a>
-                    </button>
+                    <div>
+                    <EditUnitModal/>
+                    </div>
 
                 </>
             )
@@ -109,8 +102,8 @@ function GetRentalUnitPage() {
                 <div class="flex justify-center">
                     <p class="pl-3 relattive left-2">{review.comment}</p>
                     <div class='relative left-3'>
-                        <a href={`/reviews/${review.id}/edit`}><button>Edit</button>
-                        </a>
+                        {/* <a href={`/reviews/${review.id}/edit`}><button>Edit</button></a> */}
+                        <EditReviewModal />
 
                         {/* Delete Route is recieving an undefined ID so the review ID isn't being touched */}
                         {/* <button class='relative left-4' onClick={handleReviewDelete}>Delete</button> */}
@@ -163,8 +156,9 @@ function GetRentalUnitPage() {
 
                         {/* Buttons */}
                     <div class='relative left-3'>
-                        <a href={`/bookings/${booking.id}/edit`}><button>Edit</button>
-                        </a>
+                        {/* <a href={`/bookings/${booking.id}/edit`}><button>Edit</button>
+                        </a> */}
+                        <EditBookingModal />
                         {/* <button class='relative left-4' onClick={handleBookingDelete(booking.id)}>Delete</button> */}
                     </div>
                 </div>
@@ -211,7 +205,7 @@ function GetRentalUnitPage() {
                     <div class='flex justify-around relative top-1/4 z-' >
                         <button> <a class=' p-5' href='/units'>Go Back</a> </button>
                         <>
-                            {editOrBook()}
+                            {bookOrEditUnit()}
                         </>
                     </div>
                 </div>
@@ -237,7 +231,8 @@ function GetRentalUnitPage() {
                     <h1 class='text-center text-3xl font-medium relative bottom-4 pt-3 '>Reviews </h1>
 
                     <div class='text-center pt-3 pb-4'>
-                        <button ><a href={`/${unit?.id}/reviews/new`}>Leave a Review</a></button>
+                        {/* <button ><a href={`/${unit?.id}/reviews/new`}>Leave a Review</a></button> */}
+                        <NewReviewModal />
                         {/* <button ><a href='/'>Leave a Review</a></button> */}
                     </div>
                     <div class='flex justify-around'>
@@ -284,4 +279,4 @@ function GetRentalUnitPage() {
 
 // * items-center : will vertically center items
 
-export default GetRentalUnitPage;
+export default GetSingleUnitPage;

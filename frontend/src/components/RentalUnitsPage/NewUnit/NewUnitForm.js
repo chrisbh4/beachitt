@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { createRentalUnit } from "../../store/rentalUnits"
+import { createRentalUnit , getRentalUnits } from "../../../store/rentalUnits"
+import "../../RentalUnitsPage/NewUnit/NewUnit.css"
 
-import '../RentalUnitsPage/NewUnit.css'
+// import '../RentalUnitsPage/NewUnit.css'
 
 
 function NewUnitForm() {
@@ -80,8 +81,8 @@ function NewUnitForm() {
 
         if (unit) {
             history.push("/units");
-            alert("Rental Unit Submited");
-            // return unit
+            // alert("Rental Unit Submited");
+            return unit
         }
 
     }

@@ -7,18 +7,16 @@ const router = express.Router();
 
 router.get('/', asyncHandler(async( req, res)=>{
     const booking = await Bookings.findAll()
-    if(booking) res.json({booking});
+    if(booking) res.json(booking);
 
-    res.json({msg:"No bookings"})
+   return res.json({msg:"No bookings available."})
 }));
 
 
 router.get('/:id', asyncHandler(async( req, res)=>{
     const booking = await Bookings.findByPk(req.params.id)
     if(booking) res.json({booking});
-
-    // return res.json({msg:"Booking does not exist"})
-    res.end()
+    // res.end()
      return booking
 
 }));

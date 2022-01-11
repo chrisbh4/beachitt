@@ -1,31 +1,51 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getRentalUnits } from '../../store/rentalUnits'
-import '../RentalUnitsPage/UnitsPage.css'
+import { getRentalUnits } from '../../../store/rentalUnits'
+import "../../RentalUnitsPage/UnitsPage.css"
 
 function RentalUnitsPage() {
 
     const dispatch = useDispatch();
-    const rentalUnits = useSelector((state) => Object.values(state.rentalUnit))
+    const rentalUnits = useSelector((state) => Object.values(state?.rentalUnit))
+    const state = useSelector((state) => state.rentalUnit)
+
+    const [allUnits , setUnits] = useState([]);
+
+    // useEffect(() => {
+    //     dispatch(getRentalUnits())
+
+    //     setUnits(rentalUnits)
+
+    // }, [dispatch, rentalUnits])
 
 
-    console.log('RENTAL-UNITS: ', rentalUnits)
-
-
+    // Maybe set the old state inside the useEffect and check if it exsist state?.booking
+    // or
+    //! its because when the unit is being created the dispatch is never sent to the state so the state never knows when theirs a new data besides when the backend refreshes
 
     useEffect(() => {
         dispatch(getRentalUnits())
+
     }, [dispatch])
+
+
+
+/*
+
+     useEffect(()=>{
+         setComment(review?.comment)
+         setRating(review.rating)
+        setImage(review.image)
+    },[review.rating, review.comment, review.image])
+
+*/
+
 
 
     return (
 
         <>
-
-            {/* <nav>
-                <NavLink to='/units/new'>Register New Unit</NavLink>
-            </nav> */}
 
             <h1 className="unitsPage-h1">Beach Properties</h1>
 

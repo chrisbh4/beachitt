@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { editRentalUnit, getRentalUnits, deleteRentalUnit } from "../../store/rentalUnits";
-import '../EditRentalUnit/EditRentalUnit.css'
+import { editRentalUnit, deleteRentalUnit, getSingleUnit } from "../../../store/rentalUnits";
+import './EditRentalUnit.css'
 
 function EditUnitForm() {
 
@@ -13,26 +13,31 @@ function EditUnitForm() {
     //  trying to get rentalUnits from the currentstate from the id of the clicked on unit
     //  const rentalUnit = useSelector(state => state.rentalUnit[id]);
 
-    // console.log(id)
 
-    const rentalUnit = useSelector((state) => (state.rentalUnit[id]))
+    const rentalUnit = useSelector((state) => (state.rentalUnit))
     //! Need to use rentalUnit?.title
     // checks if rentalUnit.title exsist in the rentalUnit
-    console.log(rentalUnit?.ownerId)
-
-    // console.log(rentalUnits.title)
 
     /*
     * Edit placeholders/data is not being saved inside it's variables on the first render
     * need to look into the useEffect and be able to hold the data after a page refresh
     *
     * place a useEffect with the setData variable inside to be able to update the useState variables after a second page render
+    *
+    *
+    * Edit form is only sending unit data and not reviews or bookings that belong to it
     */
 
-    useEffect(() => {
-        dispatch(getRentalUnits())
+    // useEffect(() => {
+    //     dispatch(getRentalUnits())
 
-    }, [dispatch])
+    // }, [dispatch])
+
+    useEffect(() => {
+        // dispatch(getRentalUnits())
+        dispatch(getSingleUnit(id))
+
+    }, [dispatch,id])
 
     // ! editRentalUnit()
     // useEffect(()=>{
@@ -57,8 +62,10 @@ function EditUnitForm() {
     const [state, setState] = useState(rentalUnit?.state)
     const [zipcode, setZipcode] = useState(rentalUnit?.zipcode)
     const [url, setUrl] = useState(rentalUnit?.url)
+    const [reviews] = useState(rentalUnit.Reviews)
+    const [bookings] = useState(rentalUnit.Bookings)
 
-    console.log('title', title)
+
 
     useEffect (()=>{
         setTitle(rentalUnit?.title);
@@ -129,8 +136,14 @@ function EditUnitForm() {
         };
 
         dispatch(editRentalUnit(payload, unitId));
-        history.push('/units')
-        throw alert("Rental Unit Updated :)")
+        /*
+        * Optimization notes
+            - dispatching the single Unit thunk (Line 141) easily refreshes the page to grab the reviews back from the database
+            * - Need to find a way on inserting the Unit's reviews with the newly updated data so the Reviews/Bookings will be in with the first state rendering instead of needing a second dispatch/page reresh
+        */
+        dispatch(getSingleUnit(id))
+        // history.push('/units')
+        // throw alert("Your rental unit has been updated.")
     }
 
 

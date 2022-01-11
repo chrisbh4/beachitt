@@ -13,29 +13,43 @@ const { singleMulterUpload , singlePublicFileUpload} = require("../../awsS3")
 const router = express.Router();
 //* requireAuth: middleware that is used to make sure only logged in users can hit certain routes
 
-const newUnitValidator = [
- check('title')
+const unitValidations = [
+ check("title")
+  .isLength({min:2})
+  .withMessage("Must enter a title greater than 2 characters."),
+ check("city")
+  .isLength({min:2})
+  .isString()
+  .withMessage("Must enter a city name."),
+ check("distanceFromBeach")
+  .isInt()
+  .withMessage("Must enter a distance number"),
+ check("lat")
+  .isLength({min:4})
+  .withMessage("Must longer than 4 digits"),
+ check("lng")
+ .isLength({min:4})
+ .withMessage("Must longer than 4 digits"),
+ check("pool")
+  .notEmpty()
+  .withMessage("Must select yes or no"),
+ check("price")
+ .isFloat({min:1})
+ .withMessage("Must enter a price between: $150.00-$100,000.00"),
+ check("rentalUnitDescription")
   .notEmpty(),
- check('city')
-  .notEmpty(),
- check('distanceFromBeach')
-  .notEmpty(),
- check('lat')
-  .notEmpty(),
- check('lng')
-  .notEmpty(),
- check('pool')
-  .notEmpty(),
- check('price')
-  .notEmpty(),
- check('rentalUnitDescription')
-  .notEmpty(),
- check('rooms')
-  .notEmpty(),
- check('state')
-  .notEmpty(),
- check('zipcode')
-  .notEmpty(),
+ check("rooms")
+  .notEmpty()
+  .withMessage("Must enter an amount of rooms."),
+ check("state")
+ .isLength({min:2,max:2})
+.withMessage("Enter state initials."),
+ check("zipcode")
+ .isInt()
+ .withMessage("Must enter a zipcode."),
+ check("unitType")
+ .notEmpty()
+ .withMessage("Must select a unit type"),
   handleValidationErrors
 ];
 
@@ -58,25 +72,14 @@ router.get('/:id', asyncHandler(async (req, res) => {
 
 
 //! router.post('/new', requireAuth, asyncHandler(async (req, res) => {
-router.post('/new', singleMulterUpload("url"),  asyncHandler(async (req, res) => {
+router.post('/new', singleMulterUpload("url"),unitValidations,  asyncHandler(async (req, res) => {
 
-  const  title = "dd"
-  const ownerId = 1
-  const city = "dd"
-  const distanceFromBeach = 4344
-  const lat = 4344
-  const lng = 4344
-  const pool = "dd"
-  const price = 5
-  const rentalUnitDescription = "dd"
-  const bathrooms = 4
-  const unitType = "dd"
-  const rooms = 4
-  const state = "dd"
-  const zipcode = 34544
-  const url = "image"
 
-    // const url = await singlePublicFileUpload(req.file)
+  const { title, ownerId, city, distanceFromBeach, lat, lng,
+    pool, price, rentalUnitDescription, bathrooms, unitType, rooms, state, zipcode } = req.body;
+
+    const url = await singlePublicFileUpload(req.file)
+
     const totalRentals = 0;
 
   const newUnit = await RentalUnits.create({
@@ -84,15 +87,17 @@ router.post('/new', singleMulterUpload("url"),  asyncHandler(async (req, res) =>
     rentalUnitDescription, bathrooms, unitType, rooms, state, zipcode, totalRentals, url
   });
 
-  return res.json({ newUnit });
+  return res.json( newUnit );
+  // return res.json(newUnit)
 
 }))
 
-router.put('/edit/:id', singleMulterUpload("url"), asyncHandler(async( req, res )=>{
-  const unit = await RentalUnits.findByPk(req.params.id);
+
+
+router.put('/edit/:id', singleMulterUpload("url"),unitValidations, asyncHandler(async( req, res )=>{
+  const unit = await RentalUnits.findByPk(req.params.id,{include:[Reviews,Bookings]});
 
   const file = req.file;
-  //console.log(req.file);
 
   if(file) unit.url = await singlePublicFileUpload(file);
 
@@ -112,7 +117,8 @@ router.put('/edit/:id', singleMulterUpload("url"), asyncHandler(async( req, res 
 
 
   await unit.save()
-  return res.json({unit})
+  // return res.json({unit})
+  return res.json(unit)
 
 }))
 
@@ -121,7 +127,25 @@ router.put('/edit/:id', singleMulterUpload("url"), asyncHandler(async( req, res 
 router.delete('/edit/:id', requireAuth, asyncHandler(async (req, res) => {
   const rentalUnit = await RentalUnits.findByPk(req.params.id);
 
-  if (!rentalUnit) new Error(' Cannot find Rental Unit ');
+  //* Find a better way on querying for all the Reviews/Bookings that belong to the rentalUnit
+  const unitReviews = await Reviews.findAll();
+  const unitBookings = await Bookings.findAll();
+
+  unitReviews.map((review) => {
+    if (review.rentalUnitId === rentalUnit.id) {
+        review.destroy()
+    }
+    return
+  })
+
+  unitBookings.map((booking) => {
+    if (booking.rentalUnitId === rentalUnit.id) {
+        booking.destroy()
+    }
+    return
+  })
+
+  if(!rentalUnit) new Error(' Cannot find Rental Unit ');
 
   await rentalUnit.destroy()
   return res.send("unit has been deleted")

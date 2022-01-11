@@ -49,7 +49,7 @@ export const createReview = (payload) => async (dispatch) => {
   });
 
   const data = await res.json()
-  if (data.ok) dispatch(addReviewState(data))
+  if (res.ok) dispatch(addReviewState(data))
 
   return data
 };
@@ -79,7 +79,7 @@ export const deleteReview = (reviewId) => async (dispatch) => {
 
   const data = await res.json();
 
-  if (data.ok) dispatch(deleteReviewState(data))
+  if (res.ok) dispatch(deleteReviewState(data))
   return data
 }
 
@@ -89,7 +89,7 @@ const initialState = {};
 const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_REVIEW: {
-      return { ...state, [action.review.id]: action.review };
+      return {[action.review.id]:action.review };
     }
     case LOAD: {
       return { ...state, ...action.reviews };

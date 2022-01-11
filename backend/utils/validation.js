@@ -23,39 +23,9 @@ const handleValidationErrors = (req, _res, next) => {
 
 
 
-exports.validateCreate = [
-  title,
-  city,
-  distanceFromBeach,
-  lat,
-  lng,
-  pool,
-  price,
-  rentalUnitDescription,
-  rooms,
-  state,
-  zipcode,
-  handleValidationErrors,
-];
 
-exports.validateUpdate = [
-  id,
-  title,
-  city,
-  distanceFromBeach,
-  lat,
-  lng,
-  pool,
-  price,
-  rentalUnitDescription,
-  rooms,
-  state,
-  zipcode,
-  handleValidationErrors,
-];
 
 
 module.exports = {
-
   handleValidationErrors,
 };
