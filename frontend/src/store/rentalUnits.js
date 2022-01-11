@@ -90,9 +90,8 @@ const loadOne = unit => ({
 
 
   export const editRentalUnit = (payload ,unitId)=> async dispatch =>{
-
     const formData = new FormData();
-    const {title,city,state,zipcode,distanceFromBeach,rooms,bathrooms,pool,unitType,lat,lng, price, rentalUnitDescription ,url } = payload
+    const {title,city,state,zipcode,distanceFromBeach,rooms,bathrooms,pool,unitType,lat,lng, price, rentalUnitDescription ,url } = payload;
     formData.append("title",title)
     formData.append("city",city)
     formData.append("state",state)
@@ -118,10 +117,9 @@ const loadOne = unit => ({
     });
 
     const data = await res.json();
-
     if(res.ok) dispatch(editUnit(data))
-    return data
 
+    return data
   }
 
 

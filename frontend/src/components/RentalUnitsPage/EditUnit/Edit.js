@@ -62,6 +62,9 @@ function EditUnitForm() {
     const [state, setState] = useState(rentalUnit?.state)
     const [zipcode, setZipcode] = useState(rentalUnit?.zipcode)
     const [url, setUrl] = useState(rentalUnit?.url)
+    const [reviews] = useState(rentalUnit.Reviews)
+    const [bookings] = useState(rentalUnit.Bookings)
+
 
 
     useEffect (()=>{
