@@ -37,6 +37,10 @@ export const getReview = (id) => async dispatch => {
 };
 
 
+/*
+  - Same bug as the units/store
+    Have to fix either the reducer's state spreading or it's coming from the route that contains an extra Key Name insdide the JS object
+*/
 
 
 export const createReview = (payload) => async (dispatch) => {
