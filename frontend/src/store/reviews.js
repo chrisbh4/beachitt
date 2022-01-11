@@ -93,6 +93,10 @@ const initialState = {};
 const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_REVIEW: {
+      //* Can delete if not being used
+      // let newState ={...state}
+      // newState[action.review.id]=action.review;
+      // return {...newState}
       return {[action.review.id]:action.review };
     }
     case LOAD: {

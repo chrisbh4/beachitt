@@ -20,13 +20,13 @@ router.get('/', asyncHandler( async ( req , res )=>{
 
     return res.json({reviews})
 
+
 }))
 
 
 router.get('/:id', asyncHandler( async ( req , res )=>{
     const review = await Reviews.findByPk(req.params.id);
     return res.json({review})
-    // return res.json(review})
 }))
 
 
@@ -34,7 +34,8 @@ router.post('/new',reviewValiation, asyncHandler( async ( req , res )=>{
      const {comment, rentalUnitId, userId,username}= req.body;
      const review = await Reviews.create({comment,rentalUnitId,userId,username});
 
-    return res.json({review})
+    // return res.json({review})
+    return res.json(review)
 }))
 
 router.put('/:id', reviewValiation, asyncHandler( async ( req , res )=>{
