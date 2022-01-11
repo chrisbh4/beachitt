@@ -140,7 +140,7 @@ function EditUnitForm() {
         */
         dispatch(getSingleUnit(id))
         // history.push('/units')
-        throw alert("Your rental unit has been updated.")
+        // throw alert("Your rental unit has been updated.")
     }
 
 
