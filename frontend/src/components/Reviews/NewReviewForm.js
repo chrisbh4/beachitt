@@ -32,10 +32,12 @@ function NewReviewForm (){
         // const res =
         const data = dispatch(createReview(payload));
 
-        dispatch(getSingleUnit(id))
-        if(data.errors) return data.errors;
-        // history.push(`/units/${id}`);
-        return data;
+        if(!data.errors){
+            dispatch(getSingleUnit(id))
+            return data
+        }else{
+            return data.errors
+        }
     };
 
     return (
