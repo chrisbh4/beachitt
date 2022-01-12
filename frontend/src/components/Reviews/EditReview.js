@@ -57,8 +57,11 @@ function EditReviewForm({id}) {
 
     const handleDelete = async (e)=>{
         e.preventDefault();
+
         dispatch(deleteReview(id));
-        alert("Review Delete");
+        dispatch(getSingleUnit(rentalUnitId))
+        return {msg:"Review has been deleted"}
+        // alert("Review Delete");
         // history.push(`/units/${review.rentalUnitId}`)
     }
 

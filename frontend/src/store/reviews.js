@@ -72,7 +72,7 @@ export const editReview = (payload, reviewId) => async (dispatch) => {
   });
 
   const data = await res.json();
-  if (data.ok) dispatch(editReviewState(data));
+  if (res.ok) dispatch(editReviewState(data));
 
   return data
 }
