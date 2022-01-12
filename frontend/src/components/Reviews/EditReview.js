@@ -17,6 +17,8 @@ function EditReviewForm() {
         dispatch(getReview(id))
     },[dispatch,id])
 
+    console.log('--------')
+    console.log(review)
 
 
 
@@ -43,7 +45,7 @@ function EditReviewForm() {
         const data = await dispatch(editReview(payload,id));
         if (data.errors) return data.errors;
         alert("Review has been submited.")
-        history.push(`/units/${review.rentalUnitId}`)
+        // history.push(`/units/${review.rentalUnitId}`)
         return data;
     };
 
@@ -51,7 +53,7 @@ function EditReviewForm() {
         e.preventDefault();
         dispatch(deleteReview(id));
         alert("Review Delete");
-        history.push(`/units/${review.rentalUnitId}`)
+        // history.push(`/units/${review.rentalUnitId}`)
     }
 
 
