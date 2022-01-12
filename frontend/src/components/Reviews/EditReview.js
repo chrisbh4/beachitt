@@ -3,22 +3,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import { getReview, editReview, deleteReview } from '../../store/reviews';
+import {getSingleUnit} from "../../store/rentalUnits"
 
 
 
-function EditReviewForm() {
+function EditReviewForm({id}) {
     const dispatch = useDispatch();
     const history = useHistory();
     const review = useSelector((state)=> state.reviews)
-    const {id} = useParams();
+    // const {id} = useParams();
 
 // * store thunk is not grabbing the single review
     useEffect(()=>{
         dispatch(getReview(id))
     },[dispatch,id])
 
-    console.log('--------')
-    console.log(review)
+
 
 
 
@@ -27,6 +27,9 @@ function EditReviewForm() {
     const [rentalUnitId] = useState(review.rentalUnitId);
     const [userId] = useState(review.userId);
     const [username] = useState(review.username);
+
+    console.log('--------')
+    console.log(rentalUnitId)
 
 
     const updateComment = ((e)=> setComment(e.target.value))
@@ -43,7 +46,10 @@ function EditReviewForm() {
         };
 
         const data = await dispatch(editReview(payload,id));
+
         if (data.errors) return data.errors;
+
+        dispatch(getSingleUnit(rentalUnitId))
         alert("Review has been submited.")
         // history.push(`/units/${review.rentalUnitId}`)
         return data;

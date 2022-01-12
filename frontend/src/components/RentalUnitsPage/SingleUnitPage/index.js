@@ -96,6 +96,9 @@ function GetSingleUnitPage() {
     };
 
 
+    //* need to pass in the review.id into the EditReviewModal form so I can be able to access the specified ID
+    //* and set that ID inside my getReview() thunk then this will be able to grab the specified ID
+
     const editReview = (review) => {
         if (userId === review.userId) {
             return (
@@ -103,7 +106,7 @@ function GetSingleUnitPage() {
                     <p class="pl-3 relattive left-2">{review.comment}</p>
                     <div class='relative left-3'>
                         {/* <a href={`/reviews/${review.id}/edit`}><button>Edit</button></a> */}
-                        <EditReviewModal />
+                        <EditReviewModal reviewId={review.id}/>
 
                         {/* Delete Route is recieving an undefined ID so the review ID isn't being touched */}
                         {/* <button class='relative left-4' onClick={handleReviewDelete}>Delete</button> */}
