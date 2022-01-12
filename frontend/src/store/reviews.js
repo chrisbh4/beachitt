@@ -41,7 +41,7 @@ export const getReview = (id) => async dispatch => {
   - New Reviews are not being spread into the Unit.Reviews instead only being placed in the State.reviews obj
     - Find a way to access the Unit's reviews so it can update
     - Find a way to have the Unit refresh it's data so its up to date
-      *( maybe use a setState inside a useEffect to be able to check but idk how that would grab new data from the url with only usuing react tools)
+      * maybe use a setState inside a useEffect to be able to check but idk how that would grab new data from the url with only usuing react tools)
 
 */
 
@@ -90,6 +90,10 @@ export const deleteReview = (reviewId) => async (dispatch) => {
   return data
 }
 
+/*
+ key into the current state of Units ( state.rentalUnit.Reviews[action.review.id]=action.review)
+  Would have to build the createReview thunk inside the /store/units since it's state is what is being updated
+*/
 
 const initialState = {};
 
@@ -97,7 +101,8 @@ const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_REVIEW: {
 
-      return {[action.review.id]:action.review };
+      // return {[action.review.id]:action.review };
+      return {...action.review}
     }
     case LOAD: {
       return { ...state, ...action.reviews };
