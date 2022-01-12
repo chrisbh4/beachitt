@@ -55,6 +55,9 @@ function EditReviewForm({id}) {
         return data;
     };
 
+    //* Need to have the delete route update the new state after a review has been deleted
+    //  - delete dispatch never shows in the redux tools so does it ever get hit or not?
+
     const handleDelete = async (e)=>{
         e.preventDefault();
 
