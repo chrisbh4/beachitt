@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import { getReview, editReview, deleteReview } from '../../store/reviews';
-import {getSingleUnit} from "../../store/rentalUnits"
+import {getSingleUnit, getRentalUnits} from "../../store/rentalUnits"
 
 
 
@@ -58,14 +58,13 @@ function EditReviewForm({id}) {
     //* Need to have the delete route update the new state after a review has been deleted
     //  - delete dispatch never shows in the redux tools so does it ever get hit or not?
 
+    // Delete is not updating the state
     const handleDelete = async (e)=>{
         e.preventDefault();
 
         dispatch(deleteReview(id));
         dispatch(getSingleUnit(rentalUnitId))
-        return {msg:"Review has been deleted"}
-        // alert("Review Delete");
-        // history.push(`/units/${review.rentalUnitId}`)
+        return {msg:"Review has been deleted from the rental"}
     }
 
 

@@ -108,9 +108,10 @@ const reviewsReducer = (state = initialState, action) => {
       return { ...state, ...action.reviews };
     }
     case DELETE_REVIEW: {
+      // const newState = { ...state.rentalUnit.Reviews };
       const newState = { ...state };
       delete newState[action.unitId];
-      return { newState }
+      return { ...newState }
     }
     case EDIT_REVIEW: {
       const newState = { ...state };
