@@ -4,6 +4,7 @@ const LOAD = 'units/LOAD';
 const LOAD_ONE = 'units/LOAD_ONE';
 const ADD = 'units/ADD';
 const DELETE= 'units/DELETE';
+const DELETE_REVIEW= 'units/DELETE_REVIEW';
 const EDIT= 'units/EDIT';
 
 const load = units => ({
@@ -25,6 +26,11 @@ const loadOne = unit => ({
   const deleteUnit = (unitId)=>({
     type: DELETE,
     unitId,
+  })
+
+  const deleteUnitReview = (reviewId)=>({
+    type: DELETE_REVIEW,
+    reviewId,
   })
 
   const editUnit = (unit)=>({
@@ -135,6 +141,18 @@ export const deleteRentalUnit = (unitId)=> async dispatch=>{
   }
 
 
+
+  export const fetchDeleteReview = (reviewId) => async (dispatch) => {
+    const res = await csrfFetch(`/api/reviews/${reviewId}`, {
+      method: "DELETE"
+    });
+
+    const data = await res.json();
+
+    if (res.ok) dispatch(deleteUnitReview(data))
+    return data
+  }
+
 /*
 
 * Need to understand how my ADD thunk has two objects instead of just one
@@ -165,6 +183,11 @@ export const deleteRentalUnit = (unitId)=> async dispatch=>{
       case DELETE:{
         const newState = {...state};
         delete newState[action.unitId]
+        return {...newState}
+      }
+      case DELETE_REVIEW:{
+        const newState = {...state};
+        delete newState.Reviews[action.reviewsId]
         return {...newState}
       }
       //* Edit functionality is removing the Reviews associated with the Unit

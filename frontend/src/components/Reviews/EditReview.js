@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import { getReview, editReview, deleteReview } from '../../store/reviews';
+import { fetchDeleteReview } from '../../store/rentalUnits';
 import {getSingleUnit, getRentalUnits} from "../../store/rentalUnits"
 
 
@@ -11,6 +12,7 @@ function EditReviewForm({id}) {
     const dispatch = useDispatch();
     const history = useHistory();
     const review = useSelector((state)=> state.reviews)
+    const unitId = useSelector((state)=> state.rentalUnit.id)
     // const {id} = useParams();
 
 // * store thunk is not grabbing the single review
@@ -18,6 +20,7 @@ function EditReviewForm({id}) {
         dispatch(getReview(id))
     },[dispatch,id])
 
+    // grab the rental unit id the correct one
 
 
 
@@ -62,8 +65,11 @@ function EditReviewForm({id}) {
     const handleDelete = async (e)=>{
         e.preventDefault();
 
-        dispatch(deleteReview(id));
-        dispatch(getSingleUnit(rentalUnitId))
+        dispatch(fetchDeleteReview(id));
+
+        // if(!id){
+        //     dispatch(getSingleUnit(unitId))
+        // }
         return {msg:"Review has been deleted from the rental"}
     }
 
