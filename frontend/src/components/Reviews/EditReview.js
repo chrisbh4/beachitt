@@ -58,18 +58,23 @@ function EditReviewForm({id}) {
         return data;
     };
 
-    //* Need to have the delete route update the new state after a review has been deleted
-    //  - delete dispatch never shows in the redux tools so does it ever get hit or not?
 
-    // Delete is not updating the state
+
+    // Need to either have singleUnit dispatch after the delete to be able to have the correct updated data
+    // or
+    //* Have the the review be removed from the Unit's store so the useEffect will take place and have to update the Unit's state
+        //? maybe use a .then to try and wait for the deleteFunction to finish before the getSingleUnit fetch starts
+
+
     const handleDelete = async (e)=>{
         e.preventDefault();
 
-        dispatch(fetchDeleteReview(id));
-        dispatch(getSingleUnit(unitId))
+        dispatch(deleteReview(id));
 
-        // if(!id){
-        // }
+        if(!rentalUnitId){
+            // dispatch(getSingleUnit(unitId))
+            console.log("Delete condition worked")
+            }
         return {msg:"Review has been deleted from the rental"}
     }
 
