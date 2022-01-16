@@ -180,11 +180,10 @@ const rentalUnitReducer = (state = initialState, action) => {
     // iterating to check to find the correct review
     case DELETE_REVIEW: {
       const newState = { ...state };
-      // delete newState.Reviews[action.reviewsId]
       newState.Reviews.forEach((review) => {
         if (review.id == action.reviewId) {
-          // delete newState.Reviews.review.id
-          delete review[action.reviewId]
+          delete newState.Reviews.review
+          // delete review[action.reviewId]
         };
       })
       return {...newState }
