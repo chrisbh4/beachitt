@@ -91,11 +91,11 @@ export const deleteReview = (reviewId) => async (dispatch) => {
 }
 
 /*
- key into the current state of Units ( state.rentalUnit.Reviews[action.review.id]=action.review)
-  Would have to build the createReview thunk inside the /store/units since it's state is what is being updated
+  - attempted to access the Unit's review state from the reviews store
+  - tried to delete the review from the Unit's side of state
+      by filtering for the single review that matched with the revewId number
 
-  Reviews never updates the Unit's state after a review has been deleted
-  The state also does not update even when calling for the newlyFetched Data, maybe because I'm not awaiting the dispatch
+
 
 */
 
@@ -104,8 +104,6 @@ const initialState = {};
 const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_REVIEW: {
-
-      // return {[action.review.id]:action.review };
       return {...action.review}
     }
     case LOAD: {

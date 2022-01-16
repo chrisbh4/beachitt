@@ -66,9 +66,9 @@ function EditReviewForm({id}) {
         e.preventDefault();
 
         dispatch(fetchDeleteReview(id));
+        dispatch(getSingleUnit(unitId))
 
         // if(!id){
-        //     dispatch(getSingleUnit(unitId))
         // }
         return {msg:"Review has been deleted from the rental"}
     }

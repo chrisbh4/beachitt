@@ -153,14 +153,6 @@ export const fetchDeleteReview = (reviewId) => async (dispatch) => {
   return data
 }
 
-/*
-
-* Need to understand how my ADD thunk has two objects instead of just one
-  1. Need to fix the POST api route return from
-  2. Grab the fetched response properly after its been jsonifyed
-  3. Key into the action correctly
-
-*/
 
 
 
@@ -190,11 +182,12 @@ const rentalUnitReducer = (state = initialState, action) => {
       const newState = { ...state };
       // delete newState.Reviews[action.reviewsId]
       newState.Reviews.forEach((review) => {
-        if (review.id === action.reviewId) {
-          delete newState.Reviews.review.id
+        if (review.id == action.reviewId) {
+          // delete newState.Reviews.review.id
+          delete review[action.reviewId]
         };
       })
-      return { ...newState }
+      return {...newState }
     }
     case EDIT: {
       const newState = { ...state }
