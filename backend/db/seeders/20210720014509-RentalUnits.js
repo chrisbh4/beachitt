@@ -51,6 +51,11 @@ Cancun: lat:'21.280737', lng:'-86.823824'
 Spain : lat:'41.261808', lng:'1.993486'
 Italy : lat:'40.853294', lng:'14.305573'
 
+{title:'Bahamas' , ownerId:1 , city:''  ,state: ''  , zipcode:'956'  , rooms: 4 , bathrooms: 2, distanceFromBeach: 0,lat:'24.985591', lng:'-77.422430' , unitType: "house"  , pool: 'yes'  , price: '1,423' , rentalUnitDescription:'.'  , totalRentals: 0, url:'' , createdAt: new Date() , updatedAt: new Date()},
+{title:'Miami' , ownerId:1 , city:''  ,state: ''  , zipcode:'956'  , rooms: 4 , bathrooms: 2, distanceFromBeach: 0,lat:'25.889033' , lng:'-80.122014' , unitType: "house"  , pool: 'yes'  , price: '1,423' , rentalUnitDescription:'.'  , totalRentals: 0, url:'' , createdAt: new Date() , updatedAt: new Date()},
+{title:'Cancun' , ownerId:1 , city:''  ,state: ''  , zipcode:'956'  , rooms: 4 , bathrooms: 2, distanceFromBeach: 0,lat:'25.889033' , lng:'-80.122014' , unitType: "house"  , pool: 'yes'  , price: '1,423' , rentalUnitDescription:'.'  , totalRentals: 0, url:'' , createdAt: new Date() , updatedAt: new Date()},
+{title:'Spain' , ownerId:1 , city:''  ,state: ''  , zipcode:'956'  , rooms: 4 , bathrooms: 2, distanceFromBeach: 0,lat:'25.889033' , lng:'-80.122014' , unitType: "house"  , pool: 'yes'  , price: '1,423' , rentalUnitDescription:'.'  , totalRentals: 0, url:'' , createdAt: new Date() , updatedAt: new Date()},
+{title:'Italy' , ownerId:1 , city:''  ,state: ''  , zipcode:'956'  , rooms: 4 , bathrooms: 2, distanceFromBeach: 0,lat:'40.853294', lng:'14.305573' , unitType: "house"  , pool: 'yes'  , price: '1,423' , rentalUnitDescription:'.'  , totalRentals: 0, url:'' , createdAt: new Date() , updatedAt: new Date()},
 
 
 */
