@@ -23,9 +23,18 @@ function GetSingleUnitPage() {
     const unitLat = unit?.lat;
     const unitLng = unit?.lng;
 
+/*
+I need the post/put to log to the state and allow the new State to utitlize the useEffect and refresh its newly updated data
+ I can update the reviews using useState and UseEffect
+    1. const [unitReviews, setUnitReviews] = ([unit?.Reviews])
+        - saves the currently fetched review data
+    2. inside the useEffect place setUnitReviews(unit?.Reviews)
+        - updates the reviews vairable if there is new data parsed to the react state
 
+    * See if I can call on the dispatch from the store which will run it in order hopefully lol
+*/
 
-
+    // updates page when the single Unit has new data
     useEffect(() => {
         // dispatch(getRentalUnits())
         dispatch(getSingleUnit(id))

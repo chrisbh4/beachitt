@@ -97,6 +97,9 @@ export const deleteReview = (reviewId) => async (dispatch) => {
 
 
 
+      1. New State is not spreading into the state
+      2. Data is not being refreshed after state differiential
+
 */
 
 const initialState = {};
@@ -104,7 +107,8 @@ const initialState = {};
 const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_REVIEW: {
-      return {...action.review}
+
+      return {...state,...action.review}
     }
     case LOAD: {
       return { ...state, ...action.reviews };
@@ -113,7 +117,7 @@ const reviewsReducer = (state = initialState, action) => {
       // const newState = { ...state.rentalUnit.Reviews };
       const newState = { ...state };
       delete newState[action.unitId];
-      return { }
+      return {...newState }
     }
     case EDIT_REVIEW: {
       const newState = { ...state };

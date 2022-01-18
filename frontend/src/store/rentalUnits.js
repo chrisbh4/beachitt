@@ -181,7 +181,7 @@ const rentalUnitReducer = (state = initialState, action) => {
     case DELETE_REVIEW: {
       const newState = { ...state };
       newState.Reviews.forEach((review) => {
-        if (review.id == action.reviewId) {
+        if (review.id === action.reviewId) {
           delete newState.Reviews.review
           // delete review[action.reviewId]
         };
