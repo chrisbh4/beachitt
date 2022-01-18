@@ -7,7 +7,12 @@ import {fetchBooking , fetchEditBooking , fetchDeleteBooking} from "../../store/
 import {getSingleUnit} from "../../store/rentalUnits";
 
 
+/*
+    - Booking updates on POST but idk where the data refresh is coming from
+    - PUT needs to fetch for a data refresh for the unit page
+    - DELETE needs to fetch for a data refresh for the unit page
 
+*/
 
 function EditBookingPage(){
 
