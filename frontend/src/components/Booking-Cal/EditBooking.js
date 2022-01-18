@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from "react";
-import { useParams , useHistory} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux"
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import {fetchBooking , fetchEditBooking , fetchDeleteBooking} from "../../store/bookings";
+import {getSingleUnit} from "../../store/rentalUnits";
 
 
 
@@ -13,7 +14,6 @@ function EditBookingPage(){
 
     const {id} = useParams();
     const dispatch = useDispatch();
-    const history = useHistory();
     const loggedInUser = useSelector((state)=> state.session.user.id);
     const booking = useSelector((state)=> state.bookings);
 
@@ -45,10 +45,8 @@ function EditBookingPage(){
     const handleSubmit = async (e) =>{
         e.preventDefault();
         const payload = {id,startDate, endDate ,userId, rentalUnitId}
-        await dispatch(fetchEditBooking(payload, id))
-        // alert("Your trip has been updated.");
-        history.push(`/units/${rentalUnitId}`)
-        return
+        const data = await dispatch(fetchEditBooking(payload, id))
+        return data
 
     };
 
@@ -56,18 +54,19 @@ function EditBookingPage(){
 
     const handleBookingDelete =  async (e) => {
         e.preventDefault();
-        dispatch(fetchDeleteBooking(id));
+        await dispatch(fetchDeleteBooking(id));
+        dispatch(getSingleUnit(rentalUnitId));
         // alert("Trip has been canceled");
-        history.push(`/units/${rentalUnitId}`)
+        // history.push(`/units/${rentalUnitId}`)
         return
     }
 
 
-    const handleBackButton =  async (e) => {
-        e.preventDefault();
-        history.push(`/units/${rentalUnitId}`)
-        return
-    }
+    // const handleBackButton =  async (e) => {
+    //     e.preventDefault();
+    //     history.push(`/units/${rentalUnitId}`)
+    //     return
+    // }
 
 
 
@@ -78,7 +77,7 @@ function EditBookingPage(){
 
         <button type="submit" onClick={handleSubmit} >Update</button>
         <button type="submit" onClick={handleBookingDelete} >Delete</button>
-        <button type="submit" onClick={handleBackButton} >Go Back</button>
+        {/* <button type="submit" onClick={handleBackButton} >Go Back</button> */}
         </div>
     </div>
     )
