@@ -63,14 +63,15 @@ function EditReviewForm({id}) {
     // Need to either have singleUnit dispatch after the delete to be able to have the correct updated data
     // or
     //* Have the the review be removed from the Unit's store so the useEffect will take place and have to update the Unit's state
-        //* Missing piece is somewhere in the store/Units - DELETE_REVIEW case: 
+        //* Missing piece is somewhere in the store/Units - DELETE_REVIEW case:
         //? maybe use a .then to try and wait for the deleteFunction to finish before the getSingleUnit fetch starts
 
 
     const handleDelete = async (e)=>{
         e.preventDefault();
 
-        dispatch(deleteReview(id));
+        await dispatch(deleteReview(id));
+        dispatch(getSingleUnit(rentalUnitId));
 
         if(!rentalUnitId){
             // dispatch(getSingleUnit(unitId))

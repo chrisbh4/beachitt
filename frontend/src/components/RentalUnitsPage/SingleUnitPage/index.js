@@ -32,6 +32,16 @@ I need the post/put to log to the state and allow the new State to utitlize the 
         - updates the reviews vairable if there is new data parsed to the react state
 
     * See if I can call on the dispatch from the store which will run it in order hopefully lol
+
+        2 choices
+
+        1. Find a way to have the dispatches go in order how i want them too
+        
+        2. Rebuild how the reviews and bookings are being rendered
+            -GET 'api/reviews/unit/:id/review: filter through all reviews that belong to the rental unit ( Unit.id )
+                - findAll({where:{rentalUnitId:req.params.id}})
+                    - finds all reviews that have the same rentalUnitId as the paramaters
+            -POST/PUT/DELETE work perfectly find
 */
 
     // updates page when the single Unit has new data

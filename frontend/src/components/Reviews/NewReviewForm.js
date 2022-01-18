@@ -30,7 +30,7 @@ function NewReviewForm (){
         };
 
         // const res =
-        const data = dispatch(createReview(payload));
+        const data = await dispatch(createReview(payload));
 
         if(!data.errors){
             dispatch(getSingleUnit(id))
