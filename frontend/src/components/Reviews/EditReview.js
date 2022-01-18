@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import { getReview, editReview, deleteReview } from '../../store/reviews';
-import { fetchDeleteReview } from '../../store/rentalUnits';
 import {getSingleUnit, getRentalUnits} from "../../store/rentalUnits"
 
 

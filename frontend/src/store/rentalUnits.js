@@ -1,10 +1,9 @@
 import { csrfFetch } from "./csrf"
 
-const LOAD = 'units/LOAD';
+const LOAD = 'units/LOAD_ALL';
 const LOAD_ONE = 'units/LOAD_ONE';
 const ADD = 'units/ADD';
 const DELETE = 'units/DELETE';
-const DELETE_REVIEW = 'units/DELETE_REVIEW';
 const EDIT = 'units/EDIT';
 
 const load = units => ({
@@ -26,11 +25,6 @@ const addUnit = unit => ({
 const deleteUnit = (unitId) => ({
   type: DELETE,
   unitId,
-})
-
-const deleteUnitReview = (reviewId) => ({
-  type: DELETE_REVIEW,
-  reviewId,
 })
 
 const editUnit = (unit) => ({
@@ -140,22 +134,6 @@ export const deleteRentalUnit = (unitId) => async dispatch => {
   return data
 }
 
-
-
-export const fetchDeleteReview = (reviewId) => async (dispatch) => {
-  const res = await csrfFetch(`/api/reviews/${reviewId}`, {
-    method: "DELETE"
-  });
-
-  const data = await res.json();
-
-  if (res.ok) dispatch(deleteUnitReview(data))
-  return data
-}
-
-
-
-
 const initialState = {};
 
 const rentalUnitReducer = (state = initialState, action) => {
@@ -176,17 +154,6 @@ const rentalUnitReducer = (state = initialState, action) => {
       const newState = { ...state };
       delete newState[action.unitId]
       return { ...newState }
-    }
-    // iterating to check to find the correct review
-    case DELETE_REVIEW: {
-      const newState = { ...state };
-      newState.Reviews.forEach((review) => {
-        if (review.id === action.reviewId) {
-          delete newState.Reviews.review
-          // delete review[action.reviewId]
-        };
-      })
-      return {...newState }
     }
     case EDIT: {
       const newState = { ...state }

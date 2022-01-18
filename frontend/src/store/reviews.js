@@ -107,7 +107,6 @@ const initialState = {};
 const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_REVIEW: {
-
       return {...state,...action.review}
     }
     case LOAD: {
@@ -123,7 +122,6 @@ const reviewsReducer = (state = initialState, action) => {
       const newState = { ...state };
       newState[action.review.id] = action.review;
       return { ...newState }
-
     }
     default:
       return state;
