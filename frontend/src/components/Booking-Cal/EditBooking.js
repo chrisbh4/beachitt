@@ -8,6 +8,7 @@ import {getSingleUnit} from "../../store/rentalUnits";
 
 
 /*
+1/18/22
     - Booking updates on POST but idk where the data refresh is coming from
     - PUT needs to fetch for a data refresh for the unit page
     - DELETE needs to fetch for a data refresh for the unit page
@@ -16,7 +17,7 @@ import {getSingleUnit} from "../../store/rentalUnits";
 
 function EditBookingPage(){
 
-
+    //* This is grabbing the Unit ID not the Booking ID
     const {id} = useParams();
     const dispatch = useDispatch();
     const loggedInUser = useSelector((state)=> state.session.user.id);
@@ -61,17 +62,10 @@ function EditBookingPage(){
         e.preventDefault();
         await dispatch(fetchDeleteBooking(id));
         dispatch(getSingleUnit(rentalUnitId));
-        // alert("Trip has been canceled");
-        // history.push(`/units/${rentalUnitId}`)
-        return
+
+        return {msg:"Booking has been removed."}
     }
 
-
-    // const handleBackButton =  async (e) => {
-    //     e.preventDefault();
-    //     history.push(`/units/${rentalUnitId}`)
-    //     return
-    // }
 
 
 

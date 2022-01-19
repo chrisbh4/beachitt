@@ -66,9 +66,9 @@ function App() {
           <MapContainer />
         </Route>
 
-        <Route path='/bookings/:id/edit'>
+        {/* <Route path='/bookings/:id/edit'>
          <EditBookingPage />
-        </Route>
+        </Route> */}
 
         </Switch>
       )}

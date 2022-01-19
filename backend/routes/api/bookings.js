@@ -15,7 +15,7 @@ router.get('/', asyncHandler(async( req, res)=>{
 
 router.get('/:id', asyncHandler(async( req, res)=>{
     const booking = await Bookings.findByPk(req.params.id)
-    if(booking) res.json({booking});
+    if(booking) res.json(booking);
     // res.end()
      return booking
 
