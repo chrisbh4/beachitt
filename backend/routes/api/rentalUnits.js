@@ -73,12 +73,14 @@ router.get('/:id', asyncHandler(async (req, res) => {
 
 //! router.post('/new', requireAuth, asyncHandler(async (req, res) => {
 router.post('/new', singleMulterUpload("url"),unitValidations,  asyncHandler(async (req, res) => {
+  if(!req.file)let url = "failed image";
+
 
 
   const { title, ownerId, city, distanceFromBeach, lat, lng,
     pool, price, rentalUnitDescription, bathrooms, unitType, rooms, state, zipcode } = req.body;
 
-    const url = await singlePublicFileUpload(req.file)
+
 
     const totalRentals = 0;
 
