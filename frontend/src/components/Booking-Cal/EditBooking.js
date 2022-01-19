@@ -15,16 +15,20 @@ import {getSingleUnit} from "../../store/rentalUnits";
 
 */
 
-function EditBookingPage(){
-
+function EditBookingPage({bookingId}){
+    // const bookingId = bookingId;
     //* This is grabbing the Unit ID not the Booking ID
     const {id} = useParams();
     const dispatch = useDispatch();
     const loggedInUser = useSelector((state)=> state.session.user.id);
     const booking = useSelector((state)=> state.bookings);
 
+
+    console.log("-----")
+    console.log(bookingId)
+
     useEffect(()=>{
-    dispatch(fetchBooking(id))
+    dispatch(fetchBooking(bookingId))
     },[dispatch,id])
 
 

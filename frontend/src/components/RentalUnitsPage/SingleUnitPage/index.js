@@ -36,7 +36,7 @@ I need the post/put to log to the state and allow the new State to utitlize the 
         2 choices
 
         1. Find a way to have the dispatches go in order how i want them too
-        
+
         2. Rebuild how the reviews and bookings are being rendered
             -GET 'api/reviews/unit/:id/review: filter through all reviews that belong to the rental unit ( Unit.id )
                 - findAll({where:{rentalUnitId:req.params.id}})
@@ -180,7 +180,7 @@ I need the post/put to log to the state and allow the new State to utitlize the 
                     <div class='relative left-3'>
                         {/* <a href={`/bookings/${booking.id}/edit`}><button>Edit</button>
                         </a> */}
-                        <EditBookingModal />
+                        <EditBookingModal bookingId={booking.id}/>
                         {/* <button class='relative left-4' onClick={handleBookingDelete(booking.id)}>Delete</button> */}
                     </div>
                 </div>
