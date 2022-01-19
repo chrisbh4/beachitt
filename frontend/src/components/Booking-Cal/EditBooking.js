@@ -7,25 +7,12 @@ import {fetchBooking , fetchEditBooking , fetchDeleteBooking} from "../../store/
 import {getSingleUnit} from "../../store/rentalUnits";
 
 
-/*
-1/18/22
-    - Booking updates on POST but idk where the data refresh is coming from
-    - PUT needs to fetch for a data refresh for the unit page
-    - DELETE needs to fetch for a data refresh for the unit page
 
-*/
 
 function EditBookingPage({bookingId}){
-    // const bookingId = bookingId;
-    //* This is grabbing the Unit ID not the Booking ID
     const {id} = useParams();
     const dispatch = useDispatch();
-    const loggedInUser = useSelector((state)=> state.session.user.id);
     const booking = useSelector((state)=> state.bookings);
-
-
-    console.log("-----")
-    console.log("booking:",bookingId)
 
     useEffect(()=>{
     dispatch(fetchBooking(bookingId))
@@ -38,7 +25,6 @@ function EditBookingPage({bookingId}){
     const rentalUnitId = booking.rentalUnitId;
 
 
-
     const handleClick = (e) =>{
         let dates = e.join('').split("(Pacific Standard Time)")
         const startArray = dates[0].split(' ')
@@ -49,7 +35,7 @@ function EditBookingPage({bookingId}){
 
         setStartDate(startDateStringConverter);
         setEndDate(endDateStringConverter);
-        return
+        return {msg:"Start and End dates have been clicked."}
     };
 
     const handleSubmit = async (e) =>{
@@ -60,15 +46,12 @@ function EditBookingPage({bookingId}){
         return data
     };
 
-
-
     const handleBookingDelete =  async (e) => {
         e.preventDefault();
         await dispatch(fetchDeleteBooking(bookingId));
         dispatch(getSingleUnit(id));
         return {msg:"Booking has been removed."}
-    }
-
+    };
 
 
 
@@ -76,15 +59,13 @@ function EditBookingPage({bookingId}){
         <div class='flex justify-center '>
         <Calendar selectRange={true}  onChange={handleClick} minDate={new Date()}/>
         <div>
-
         <button type="submit" onClick={handleSubmit} >Update</button>
         <button type="submit" onClick={handleBookingDelete} >Delete</button>
-        {/* <button type="submit" onClick={handleBackButton} >Go Back</button> */}
         </div>
     </div>
     )
 
-}
+};
 
 
 
