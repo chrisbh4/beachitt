@@ -85,16 +85,15 @@ const initialState = {};
 const bookingsReducer = (state = initialState , action) => {
     switch(action.type){
         case LOAD_BOOKING:{
-            // return {...action.booking}
             return {...action.booking}
         }
         case ADD_BOOKING:{
-            return {...state, [action.booking.id]:action.booking};
+
+            const newState ={[action.booking.id]:action.booking};
+            return newState
         }
         case EDIT_BOOKING:{
-            const newState = {...state};
-            newState[action.booking.id] = action.booking;
-            return newState;
+            return{...action.booking}
         }
         case DELETE_BOOKING:{
             const newState = {...state};

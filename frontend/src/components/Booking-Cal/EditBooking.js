@@ -25,7 +25,7 @@ function EditBookingPage({bookingId}){
 
 
     console.log("-----")
-    console.log(bookingId)
+    console.log("booking:",bookingId)
 
     useEffect(()=>{
     dispatch(fetchBooking(bookingId))
@@ -56,17 +56,16 @@ function EditBookingPage({bookingId}){
         e.preventDefault();
         const payload = {id,startDate, endDate ,userId, rentalUnitId}
         const data = await dispatch(fetchEditBooking(payload, id))
+        dispatch(getSingleUnit(id));
         return data
-
     };
 
 
 
     const handleBookingDelete =  async (e) => {
         e.preventDefault();
-        await dispatch(fetchDeleteBooking(id));
-        dispatch(getSingleUnit(rentalUnitId));
-
+        await dispatch(fetchDeleteBooking(bookingId));
+        dispatch(getSingleUnit(id));
         return {msg:"Booking has been removed."}
     }
 
