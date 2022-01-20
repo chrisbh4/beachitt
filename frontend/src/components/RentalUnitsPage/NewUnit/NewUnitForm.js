@@ -26,6 +26,7 @@ function NewUnitForm() {
     const [rooms, setRooms] = useState(1)
     const [state, setState] = useState("")
     const [zipcode, setZipcode] = useState("")
+    const [errors, setErrors] = useState([]);
     // const [totalRentals] = useState(0)
     // const [] = useState("")
     const ownerId = sessionUserId;
@@ -77,15 +78,19 @@ function NewUnitForm() {
 
 
 
-        const unit = dispatch(createRentalUnit(payload));
+        const data = await dispatch(createRentalUnit(payload));
 
-        if (unit) {
-            history.push("/units");
-            // alert("Rental Unit Submited");
-            return unit
-        }
+        if (!data.errors) {
+            // history.push("/units")
+            return data
+        }else{
+            setErrors(data.errors)
+            return data.errors
+        };
 
     }
+
+    console.log(errors)
 
     return (
         <div className="form-placement">
@@ -95,6 +100,19 @@ function NewUnitForm() {
                     className="new-form"
                     onSubmit={handleSubmit}
                 >
+                             <div className="unit-errors" hidden={!errors.length} >
+                    {
+                    errors.map((error) => {
+                        if (error) {
+                            return (
+                                <p key={error.id}>{error}</p>
+                            )
+                        }
+                        return null;
+                    })
+                }
+                </div>
+
                     <div className="titel-input">
                         <label>Title: </label>
                         <input
