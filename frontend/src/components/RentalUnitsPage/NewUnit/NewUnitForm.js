@@ -5,7 +5,7 @@ import "../../RentalUnitsPage/NewUnit/NewUnit.css"
 
 
 
-function NewUnitForm() {
+function NewUnitForm({submitModal}) {
     const dispatch = useDispatch();
     const ownerId = useSelector(state => state.session.user.id);
 
@@ -71,6 +71,7 @@ function NewUnitForm() {
             return data.errors
         }
         else {
+            submitModal(false)
             return data
         };
     };
