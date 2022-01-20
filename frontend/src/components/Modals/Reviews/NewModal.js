@@ -11,7 +11,7 @@ function NewReviewModal() {
       <button onClick={() => setShowModal(true)}>Leave a review</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <NewReviewForm />
+          <NewReviewForm submitModal={setShowModal}/>
         </Modal>
       )}
     </>

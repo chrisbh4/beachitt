@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
-import {  useParams, useHistory } from 'react-router-dom';
+import {  useParams } from 'react-router-dom';
 import { createReview } from '../../store/reviews';
 import {getSingleUnit } from "../../store/rentalUnits"
 import "../Reviews/Reviews.css"
 
 
 
-function NewReviewForm (){
+function NewReviewForm ({submitModal}){
     const dispatch = useDispatch();
-    const history = useHistory();
     const {id} = useParams();
 
     const userId = useSelector((state)=> state.session.user.id)
@@ -34,6 +33,7 @@ function NewReviewForm (){
 
         if(!data.errors){
             dispatch(getSingleUnit(id))
+            submitModal(false)
             return data
         }else{
             setErrors(data.errors)

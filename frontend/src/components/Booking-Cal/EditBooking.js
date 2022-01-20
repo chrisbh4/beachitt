@@ -9,7 +9,7 @@ import {getSingleUnit} from "../../store/rentalUnits";
 
 
 
-function EditBookingPage({bookingId}){
+function EditBookingPage({bookingId , submitModal}){
     const {id} = useParams();
     const dispatch = useDispatch();
     const booking = useSelector((state)=> state.bookings);
@@ -43,6 +43,8 @@ function EditBookingPage({bookingId}){
         const payload = {id,startDate, endDate ,userId, rentalUnitId}
         const data = await dispatch(fetchEditBooking(payload, id))
         dispatch(getSingleUnit(id));
+        // await dispatch(getSingleUnit(id));
+        submitModal(false)
         return data
     };
 
@@ -50,6 +52,7 @@ function EditBookingPage({bookingId}){
         e.preventDefault();
         await dispatch(fetchDeleteBooking(bookingId));
         dispatch(getSingleUnit(id));
+        submitModal(false)
         return {msg:"Booking has been removed."}
     };
 

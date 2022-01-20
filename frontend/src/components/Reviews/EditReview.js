@@ -7,7 +7,7 @@ import {getSingleUnit, getRentalUnits} from "../../store/rentalUnits"
 
 
 
-function EditReviewForm({id}) {
+function EditReviewForm({id, submitModal}) {
     const dispatch = useDispatch();
     const review = useSelector((state)=> state.reviews)
 
@@ -43,6 +43,7 @@ function EditReviewForm({id}) {
         };
 
         dispatch(getSingleUnit(rentalUnitId))
+        submitModal(false);
         return data;
 
     };
@@ -62,11 +63,7 @@ function EditReviewForm({id}) {
 
         await dispatch(deleteReview(id));
         dispatch(getSingleUnit(rentalUnitId));
-
-        if(!rentalUnitId){
-            // dispatch(getSingleUnit(unitId))
-            console.log("Delete condition worked")
-            }
+        submitModal(false)
         return {msg:"Review has been deleted from the rental"}
     }
 

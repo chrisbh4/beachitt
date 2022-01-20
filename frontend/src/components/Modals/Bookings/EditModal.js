@@ -10,7 +10,7 @@ function EditBookingModal({bookingId}) {
       <button onClick={() => setShowModal(true)}>Edit Booking</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <EditBookingPage bookingId={bookingId}/>
+          <EditBookingPage bookingId={bookingId} submitModal={setShowModal}/>
         </Modal>
       )}
     </>
