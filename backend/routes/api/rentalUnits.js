@@ -43,6 +43,9 @@ const unitValidations = [
  check("state")
  .isLength({min:2,max:2})
  .withMessage("Enter state initials."),
+//  check("state")
+//  .isString()
+//  .withMessage("Must be letters Aa-zZ"),
  check("zipcode")
  .isInt()
  .withMessage("Must enter a valid zipcode."),

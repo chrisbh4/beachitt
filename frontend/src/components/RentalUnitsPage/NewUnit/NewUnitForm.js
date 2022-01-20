@@ -100,7 +100,7 @@ function NewUnitForm() {
                     className="new-form"
                     onSubmit={handleSubmit}
                 >
-                             <div className="unit-errors" hidden={!errors.length} >
+                             <div className="unit-errors"  hidden={!errors.length} >
                     {
                     errors.map((error) => {
                         if (error) {
