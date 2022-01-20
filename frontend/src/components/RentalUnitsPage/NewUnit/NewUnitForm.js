@@ -143,13 +143,40 @@ function NewUnitForm() {
                         onChange={updateBathrooms}
                         value={bathrooms}
                     ></input>
-                    <label>Pool : </label>
+
+                    {/* <label>Pool : </label>
                     <input
                         type="text"
                         onChange={updatePool}
                         value={pool}
                         max="3"
-                    ></input>
+                    ></input> */}
+
+                    <div className="">
+
+                        <div class='pb-1 pt-2'>
+                            <label >Pool: </label>
+                        </div>
+                        <input
+                            onChange={updatePool}
+                            value="yes"
+                            type="radio"
+                            id="pool-yes"
+                            checked={pool === 'yes'}
+                        >
+                        </input>
+                        <label htmlFor="pool-yes" class='pr-2'>Yes</label>
+
+                        <input
+                            onChange={updatePool}
+                            value="no"
+                            type="radio"
+                            id="pool-no"
+                            checked={pool === 'no'}
+                        >
+                        </input>
+                        <label htmlFor="pool-no" class='pr-2'>No</label>
+                    </div>
                     <div className="unit-type">
 
                         <div class='pb-1 pt-2'>
