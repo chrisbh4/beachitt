@@ -64,6 +64,7 @@ function EditUnitForm() {
     const [url, setUrl] = useState(rentalUnit?.url)
     const [reviews] = useState(rentalUnit.Reviews)
     const [bookings] = useState(rentalUnit.Bookings)
+    const [errors, setErrors] = useState([]);
 
 
 
@@ -82,6 +83,7 @@ function EditUnitForm() {
         setState(rentalUnit?.state);
         setZipcode(rentalUnit?.zipcode);
         setUrl(rentalUnit?.url);
+
 
     },[rentalUnit?.title,rentalUnit?.city,rentalUnit?.distanceFromBeach,rentalUnit?.lat,rentalUnit?.lng,rentalUnit?.price,rentalUnit?.pool,
         rentalUnit?.rentalUnitDescription,rentalUnit?.bathrooms,rentalUnit?.unitType, rentalUnit?.rooms, rentalUnit?.state,rentalUnit?.zipcode,rentalUnit?.url])
@@ -132,18 +134,23 @@ function EditUnitForm() {
             price,
             rentalUnitDescription,
             url
-
         };
 
-        dispatch(editRentalUnit(payload, unitId));
+        const data = await dispatch(editRentalUnit(payload, unitId));
+        if(data.errors){
+            setErrors(data.errors)
+            return data
+        }else{
+            dispatch(getSingleUnit(id))
+            return data
+        }
         /*
         * Optimization notes
             - dispatching the single Unit thunk (Line 141) easily refreshes the page to grab the reviews back from the database
             * - Need to find a way on inserting the Unit's reviews with the newly updated data so the Reviews/Bookings will be in with the first state rendering instead of needing a second dispatch/page reresh
+
+            * Create a pop up modal for form submitsions
         */
-        dispatch(getSingleUnit(id))
-        // history.push('/units')
-        // throw alert("Your rental unit has been updated.")
     }
 
 
