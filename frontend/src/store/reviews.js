@@ -2,7 +2,7 @@ import { csrfFetch } from "./csrf";
 
 const LOAD = 'reviews/LOAD';
 const ADD_REVIEW = 'reviews/ADD';
-const DELETE_REVIEW = 'reviews/DELETE';
+const DELETE = 'reviews/DELETE';
 const EDIT_REVIEW = 'reviews/EDIT';
 
 
@@ -23,7 +23,7 @@ const editReviewState = review => ({
 })
 
 const deleteReviewState = review => ({
-  type: DELETE_REVIEW,
+  type: DELETE,
   review
 })
 
@@ -37,6 +37,13 @@ export const getReview = (id) => async dispatch => {
 };
 
 
+/*
+  - New Reviews are not being spread into the Unit.Reviews instead only being placed in the State.reviews obj
+    - Find a way to access the Unit's reviews so it can update
+    - Find a way to have the Unit refresh it's data so its up to date
+      * maybe use a setState inside a useEffect to be able to check but idk how that would grab new data from the url with only usuing react tools)
+
+*/
 
 
 export const createReview = (payload) => async (dispatch) => {
@@ -65,7 +72,7 @@ export const editReview = (payload, reviewId) => async (dispatch) => {
   });
 
   const data = await res.json();
-  if (data.ok) dispatch(editReviewState(data));
+  if (res.ok) dispatch(editReviewState(data));
 
   return data
 }
@@ -83,27 +90,38 @@ export const deleteReview = (reviewId) => async (dispatch) => {
   return data
 }
 
+/*
+  - attempted to access the Unit's review state from the reviews store
+  - tried to delete the review from the Unit's side of state
+      by filtering for the single review that matched with the revewId number
+
+
+
+      1. New State is not spreading into the state
+      2. Data is not being refreshed after state differiential
+
+*/
 
 const initialState = {};
 
 const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_REVIEW: {
-      return {[action.review.id]:action.review };
+      return {...state,...action.review}
     }
     case LOAD: {
       return { ...state, ...action.reviews };
     }
-    case DELETE_REVIEW: {
+    case DELETE: {
+      // const newState = { ...state.rentalUnit.Reviews };
       const newState = { ...state };
       delete newState[action.unitId];
-      return { newState }
+      return {...newState }
     }
     case EDIT_REVIEW: {
       const newState = { ...state };
       newState[action.review.id] = action.review;
       return { ...newState }
-
     }
     default:
       return state;

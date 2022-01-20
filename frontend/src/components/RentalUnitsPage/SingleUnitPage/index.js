@@ -23,9 +23,28 @@ function GetSingleUnitPage() {
     const unitLat = unit?.lat;
     const unitLng = unit?.lng;
 
+/*
+I need the post/put to log to the state and allow the new State to utitlize the useEffect and refresh its newly updated data
+ I can update the reviews using useState and UseEffect
+    1. const [unitReviews, setUnitReviews] = ([unit?.Reviews])
+        - saves the currently fetched review data
+    2. inside the useEffect place setUnitReviews(unit?.Reviews)
+        - updates the reviews vairable if there is new data parsed to the react state
 
+    * See if I can call on the dispatch from the store which will run it in order hopefully lol
 
+        2 choices
 
+        1. Find a way to have the dispatches go in order how i want them too
+
+        2. Rebuild how the reviews and bookings are being rendered
+            -GET 'api/reviews/unit/:id/review: filter through all reviews that belong to the rental unit ( Unit.id )
+                - findAll({where:{rentalUnitId:req.params.id}})
+                    - finds all reviews that have the same rentalUnitId as the paramaters
+            -POST/PUT/DELETE work perfectly find
+*/
+
+    // updates page when the single Unit has new data
     useEffect(() => {
         // dispatch(getRentalUnits())
         dispatch(getSingleUnit(id))
@@ -96,6 +115,9 @@ function GetSingleUnitPage() {
     };
 
 
+    //* need to pass in the review.id into the EditReviewModal form so I can be able to access the specified ID
+    //* and set that ID inside my getReview() thunk then this will be able to grab the specified ID
+
     const editReview = (review) => {
         if (userId === review.userId) {
             return (
@@ -103,7 +125,7 @@ function GetSingleUnitPage() {
                     <p class="pl-3 relattive left-2">{review.comment}</p>
                     <div class='relative left-3'>
                         {/* <a href={`/reviews/${review.id}/edit`}><button>Edit</button></a> */}
-                        <EditReviewModal />
+                        <EditReviewModal reviewId={review.id}/>
 
                         {/* Delete Route is recieving an undefined ID so the review ID isn't being touched */}
                         {/* <button class='relative left-4' onClick={handleReviewDelete}>Delete</button> */}
@@ -158,7 +180,7 @@ function GetSingleUnitPage() {
                     <div class='relative left-3'>
                         {/* <a href={`/bookings/${booking.id}/edit`}><button>Edit</button>
                         </a> */}
-                        <EditBookingModal />
+                        <EditBookingModal bookingId={booking.id}/>
                         {/* <button class='relative left-4' onClick={handleBookingDelete(booking.id)}>Delete</button> */}
                     </div>
                 </div>

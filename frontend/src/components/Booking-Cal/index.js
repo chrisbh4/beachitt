@@ -3,7 +3,7 @@ import {useDispatch} from "react-redux"
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import {fetchAddBooking} from "../../store/bookings"
-import { getRentalUnits} from "../../store/rentalUnits"
+import { getSingleUnit} from "../../store/rentalUnits"
 
 
 /* Progress Table
@@ -24,7 +24,7 @@ function BookingCal({userId, unitId}){
     const [startDate , setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
 
-
+    console.log("booking page:", unitId)
 
     const handleClick = (e) =>{
 
@@ -65,8 +65,9 @@ function BookingCal({userId, unitId}){
     const handleSubmit = async (e) =>{
         e.preventDefault();
         const payload = {startDate, endDate ,userId, rentalUnitId:unitId}
+        
         await dispatch(fetchAddBooking(payload))
-        await dispatch(getRentalUnits());
+        dispatch(getSingleUnit(unitId))
         // alert("Your trip has been Booked");
 
     };

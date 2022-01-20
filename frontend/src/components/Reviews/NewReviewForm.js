@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import {  useParams, useHistory } from 'react-router-dom';
 import { createReview } from '../../store/reviews';
+import {getSingleUnit } from "../../store/rentalUnits"
 import "../Reviews/Reviews.css"
 
 
@@ -28,11 +29,15 @@ function NewReviewForm (){
             username
         };
 
-        const data = dispatch(createReview(payload));
+        // const res =
+        const data = await dispatch(createReview(payload));
 
-        if(data.errors) return data.errors;
-        // history.push(`/units/${id}`);
-        return data;
+        if(!data.errors){
+            dispatch(getSingleUnit(id))
+            return data
+        }else{
+            return data.errors
+        }
     };
 
     return (

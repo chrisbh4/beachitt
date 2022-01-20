@@ -1,24 +1,21 @@
 import React, {useState, useEffect} from "react";
-import { useParams , useHistory} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux"
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import {fetchBooking , fetchEditBooking , fetchDeleteBooking} from "../../store/bookings";
+import {getSingleUnit} from "../../store/rentalUnits";
 
 
 
 
-function EditBookingPage(){
-
-
+function EditBookingPage({bookingId}){
     const {id} = useParams();
     const dispatch = useDispatch();
-    const history = useHistory();
-    const loggedInUser = useSelector((state)=> state.session.user.id);
     const booking = useSelector((state)=> state.bookings);
 
     useEffect(()=>{
-    dispatch(fetchBooking(id))
+    dispatch(fetchBooking(bookingId))
     },[dispatch,id])
 
 
@@ -26,7 +23,6 @@ function EditBookingPage(){
     const [endDate, setEndDate] = useState(booking.endDate);
     const userId = booking.userId;
     const rentalUnitId = booking.rentalUnitId;
-
 
 
     const handleClick = (e) =>{
@@ -39,35 +35,23 @@ function EditBookingPage(){
 
         setStartDate(startDateStringConverter);
         setEndDate(endDateStringConverter);
-        return
+        return {msg:"Start and End dates have been clicked."}
     };
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
         const payload = {id,startDate, endDate ,userId, rentalUnitId}
-        await dispatch(fetchEditBooking(payload, id))
-        // alert("Your trip has been updated.");
-        history.push(`/units/${rentalUnitId}`)
-        return
-
+        const data = await dispatch(fetchEditBooking(payload, id))
+        dispatch(getSingleUnit(id));
+        return data
     };
-
-
 
     const handleBookingDelete =  async (e) => {
         e.preventDefault();
-        dispatch(fetchDeleteBooking(id));
-        // alert("Trip has been canceled");
-        history.push(`/units/${rentalUnitId}`)
-        return
-    }
-
-
-    const handleBackButton =  async (e) => {
-        e.preventDefault();
-        history.push(`/units/${rentalUnitId}`)
-        return
-    }
+        await dispatch(fetchDeleteBooking(bookingId));
+        dispatch(getSingleUnit(id));
+        return {msg:"Booking has been removed."}
+    };
 
 
 
@@ -75,15 +59,13 @@ function EditBookingPage(){
         <div class='flex justify-center '>
         <Calendar selectRange={true}  onChange={handleClick} minDate={new Date()}/>
         <div>
-
         <button type="submit" onClick={handleSubmit} >Update</button>
         <button type="submit" onClick={handleBookingDelete} >Delete</button>
-        <button type="submit" onClick={handleBackButton} >Go Back</button>
         </div>
     </div>
     )
 
-}
+};
 
 
 
