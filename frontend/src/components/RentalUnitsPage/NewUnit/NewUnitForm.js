@@ -80,12 +80,12 @@ function NewUnitForm() {
 
         const data = await dispatch(createRentalUnit(payload));
 
-        if (!data.errors) {
-            // history.push("/units")
-            return data
-        }else{
+        if (data.errors) {
             setErrors(data.errors)
             return data.errors
+        }
+        else{
+            return data
         };
 
     }
