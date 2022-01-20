@@ -10,7 +10,7 @@ function EditUnitModal() {
       <button onClick={() => setShowModal(true)}>Edit Your Rental</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <EditUnitForm />
+          <EditUnitForm submitModal={setShowModal} />
         </Modal>
       )}
     </>
@@ -18,3 +18,12 @@ function EditUnitModal() {
 }
 
 export default EditUnitModal;
+
+
+/*
+option 1: Modal Form State
+            - Have the showModal/setShowModal be a react state
+            - have it always be set to false when a form is not opened
+            - when a form is clicked
+
+*/

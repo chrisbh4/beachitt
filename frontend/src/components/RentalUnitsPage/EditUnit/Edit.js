@@ -10,8 +10,8 @@ import './EditRentalUnit.css'
         - Have modal close on all form submissions
       */
 
-function EditUnitForm() {
-
+function EditUnitForm({submitModal}) {
+    
     const { id } = useParams();
     const dispatch = useDispatch()
     const history = useHistory()
@@ -117,6 +117,7 @@ function EditUnitForm() {
             return data
         } else {
             dispatch(getSingleUnit(id))
+            submitModal(false)
             return data
         }
 
