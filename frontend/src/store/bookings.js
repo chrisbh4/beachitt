@@ -88,12 +88,11 @@ const bookingsReducer = (state = initialState , action) => {
             return {...action.booking}
         }
         case ADD_BOOKING:{
-
             const newState ={[action.booking.id]:action.booking};
             return newState
         }
         case EDIT_BOOKING:{
-            return{...action.booking.booking}
+            return{...action.booking}
         }
         case DELETE_BOOKING:{
             const newState = {...state};

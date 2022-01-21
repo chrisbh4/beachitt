@@ -36,7 +36,7 @@ router.put('/:id', asyncHandler( async(req ,res) =>{
     booking.endDate = req.body.endDate;
     await booking.save()
 
-    res.json({booking})
+    res.json(booking)
 }))
 
 

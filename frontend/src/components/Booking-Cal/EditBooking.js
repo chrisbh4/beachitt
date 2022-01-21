@@ -15,14 +15,21 @@ function EditBookingPage({bookingId , submitModal}){
     const booking = useSelector((state)=> state.bookings);
 
     useEffect(()=>{
-    dispatch(fetchBooking(bookingId))
-    },[dispatch,id])
+        dispatch(fetchBooking(bookingId))
+    },[dispatch,bookingId])
 
 
     const [startDate , setStartDate] = useState(booking.startDate);
     const [endDate, setEndDate] = useState(booking.endDate);
-    const userId = booking.userId;
-    const rentalUnitId = booking.rentalUnitId;
+    const [userId, setUserId] = useState(booking.userId);
+    const [rentalUnitId, setRentalUnitId] = useState(booking.rentalUnitId);
+
+    useEffect(()=>{
+        setStartDate(booking?.startDate)
+        setEndDate(booking?.endDate)
+        setUserId(booking?.userId)
+        setRentalUnitId(booking?.rentalUnitId)
+    },[booking?.startDate, booking?.endDate, booking?.userId, booking?.rentalUnitId])
 
 
     const handleClick = (e) =>{
@@ -33,6 +40,9 @@ function EditBookingPage({bookingId , submitModal}){
         const startDateStringConverter = `${startArray[3]}-${startArray[1]}-${startArray[2]}`
         const endDateStringConverter = `${endArray[3]}-${endArray[1]}-${endArray[2]}`
 
+        console.log(startDateStringConverter)
+        console.log(endDateStringConverter)
+
         setStartDate(startDateStringConverter);
         setEndDate(endDateStringConverter);
         return {msg:"Start and End dates have been clicked."}
@@ -41,9 +51,8 @@ function EditBookingPage({bookingId , submitModal}){
     const handleSubmit = async (e) =>{
         e.preventDefault();
         const payload = {id,startDate, endDate ,userId, rentalUnitId}
-        const data = await dispatch(fetchEditBooking(payload, id))
-        dispatch(getSingleUnit(id));
-        // await dispatch(getSingleUnit(id));
+        const data = await dispatch(fetchEditBooking(payload, bookingId))
+       await dispatch(getSingleUnit(id));
         submitModal(false)
         return data
     };

@@ -24,7 +24,7 @@ function BookingCal({userId, unitId}){
     const [startDate , setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
 
-    console.log("booking page:", unitId)
+
 
     const handleClick = (e) =>{
 
@@ -65,10 +65,9 @@ function BookingCal({userId, unitId}){
     const handleSubmit = async (e) =>{
         e.preventDefault();
         const payload = {startDate, endDate ,userId, rentalUnitId:unitId}
-        
+
         await dispatch(fetchAddBooking(payload))
         dispatch(getSingleUnit(unitId))
-        // alert("Your trip has been Booked");
 
     };
 
