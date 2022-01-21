@@ -40,9 +40,6 @@ function EditBookingPage({bookingId , submitModal}){
         const startDateStringConverter = `${startArray[3]}-${startArray[1]}-${startArray[2]}`
         const endDateStringConverter = `${endArray[3]}-${endArray[1]}-${endArray[2]}`
 
-        console.log(startDateStringConverter)
-        console.log(endDateStringConverter)
-
         setStartDate(startDateStringConverter);
         setEndDate(endDateStringConverter);
         return {msg:"Start and End dates have been clicked."}
@@ -52,7 +49,7 @@ function EditBookingPage({bookingId , submitModal}){
         e.preventDefault();
         const payload = {id,startDate, endDate ,userId, rentalUnitId}
         const data = await dispatch(fetchEditBooking(payload, bookingId))
-       await dispatch(getSingleUnit(id));
+        dispatch(getSingleUnit(id));
         submitModal(false)
         return data
     };
@@ -68,11 +65,11 @@ function EditBookingPage({bookingId , submitModal}){
 
 
     return(
-        <div class='flex justify-center '>
+        <div class='flex justify-center p-10 '>
         <Calendar selectRange={true}  onChange={handleClick} minDate={new Date()}/>
-        <div>
+        <div class="flex flex-col  justify-center ml-4">
         <button type="submit" onClick={handleSubmit} >Update</button>
-        <button type="submit" onClick={handleBookingDelete} >Delete</button>
+        <button type="submit" onClick={handleBookingDelete} class='mt-3' >Delete</button>
         </div>
     </div>
     )
