@@ -19,6 +19,9 @@ function NewReviewForm ({submitModal}){
     const updateComment = (e) => setComment(e.target.value);
 
 
+    console.log("Errors: ", errors)
+
+
     const handleSubmit = async (e) =>{
         e.preventDefault();
 
