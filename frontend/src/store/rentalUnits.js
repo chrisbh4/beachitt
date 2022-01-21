@@ -82,7 +82,6 @@ export const createRentalUnit = (payload) => async dispatch => {
 
   const data = await res.json();
 
-  console.log(data)
   if (res.ok) dispatch(addUnit(data))
 
   return data

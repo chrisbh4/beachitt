@@ -88,7 +88,6 @@ const bookingsReducer = (state = initialState , action) => {
             return {...action.booking}
         }
         case ADD_BOOKING:{
-
             const newState ={[action.booking.id]:action.booking};
             return newState
         }
@@ -108,3 +107,6 @@ const bookingsReducer = (state = initialState , action) => {
 
 
   export default bookingsReducer;
+
+
+  //* Might have to start with the state then debug from there

@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
-import {  useParams, useHistory } from 'react-router-dom';
+import {  useParams } from 'react-router-dom';
 import { createReview } from '../../store/reviews';
 import {getSingleUnit } from "../../store/rentalUnits"
 import "../Reviews/Reviews.css"
 
 
 
-function NewReviewForm (){
+function NewReviewForm ({submitModal}){
     const dispatch = useDispatch();
-    const history = useHistory();
     const {id} = useParams();
 
     const userId = useSelector((state)=> state.session.user.id)
     const username = useSelector((state)=> state.session.user.username)
     const [comment , setComment] = useState("");
+    const [errors , setErrors] = useState([]);
 
     const updateComment = (e) => setComment(e.target.value);
 
@@ -29,30 +29,43 @@ function NewReviewForm (){
             username
         };
 
-        // const res =
         const data = await dispatch(createReview(payload));
 
         if(!data.errors){
             dispatch(getSingleUnit(id))
+            submitModal(false)
             return data
         }else{
-            return data.errors
+            setErrors(data.errors)
+            return data
         }
     };
 
     return (
-        <div>
+        <div class='p-10'>
             <h1 class='text-center'>Leave a review</h1>
 
             <div>
                 <form
                     onSubmit={handleSubmit}>
-
-                    <label>Comment:</label>
-                    <input
+                            <div className="new-review-errors"  hidden={!errors.length} >
+                        {
+                            errors.map((error) => {
+                                if (error) {
+                                    return (
+                                        <p key={error.id}>{error}</p>
+                                    )
+                                }
+                                return null;
+                            })
+                        }
+                    </div>
+                    <label class='mr-1.5'>Comment:</label>
+                    <textarea
+                        class='border border-black mr-2 relative top-4'
                         type="text"
                         onChange={updateComment}
-                    ></input>
+                    ></textarea>
 
                     <button type="submit">Submit</button>
                 </form>

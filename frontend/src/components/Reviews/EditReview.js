@@ -7,21 +7,13 @@ import {getSingleUnit, getRentalUnits} from "../../store/rentalUnits"
 
 
 
-function EditReviewForm({id}) {
+function EditReviewForm({id, submitModal}) {
     const dispatch = useDispatch();
-    const history = useHistory();
     const review = useSelector((state)=> state.reviews)
-    const unitId = useSelector((state)=> state.rentalUnit.id)
-    // const {id} = useParams();
 
-// * store thunk is not grabbing the single review
     useEffect(()=>{
         dispatch(getReview(id))
     },[dispatch,id])
-
-    // grab the rental unit id the correct one
-
-
 
 
     //* change useState to hold current Review that was selected
@@ -29,13 +21,9 @@ function EditReviewForm({id}) {
     const [rentalUnitId] = useState(review.rentalUnitId);
     const [userId] = useState(review.userId);
     const [username] = useState(review.username);
-
-    console.log('--------')
-    console.log(rentalUnitId)
-
+    const [errors , setErrors] = useState([]);
 
     const updateComment = ((e)=> setComment(e.target.value))
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -49,12 +37,15 @@ function EditReviewForm({id}) {
 
         const data = await dispatch(editReview(payload,id));
 
-        if (data.errors) return data.errors;
+        if (data.errors){
+            setErrors(data.errors);
+            return data
+        };
 
         dispatch(getSingleUnit(rentalUnitId))
-        alert("Review has been submited.")
-        // history.push(`/units/${review.rentalUnitId}`)
+        submitModal(false);
         return data;
+
     };
 
 
@@ -66,33 +57,43 @@ function EditReviewForm({id}) {
         //? maybe use a .then to try and wait for the deleteFunction to finish before the getSingleUnit fetch starts
 
 
+
     const handleDelete = async (e)=>{
         e.preventDefault();
 
         await dispatch(deleteReview(id));
         dispatch(getSingleUnit(rentalUnitId));
-
-        if(!rentalUnitId){
-            // dispatch(getSingleUnit(unitId))
-            console.log("Delete condition worked")
-            }
+        submitModal(false)
         return {msg:"Review has been deleted from the rental"}
     }
 
 
     return (
-        <div>
-            <h1>Edit Review Form</h1>
+        <div class='p-10'>
+            <h1 class='text-center'>Edit Review Form</h1>
             <form
-                onSubmit={handleSubmit}>
-                    <label>Comment</label>
-                    <input
-                    type='text'
-                    onChange={updateComment}
-                    placeholder={review.comment}
+                onSubmit={handleSubmit}
+            >
+                <div className="edit-review-errors"  hidden={!errors.length} >
+                        {
+                            errors.map((error) => {
+                                if (error) {
+                                    return (
+                                        <p class='text-center' key={error.id}>{error}</p>
+                                    )
+                                }
+                                return null;
+                            })
+                        }
+                    </div>
+                    <label>Comment:</label>
+                    <textarea
+                        class='border border-black ml-2 mr-2 relative top-4'
+                        type='text'
+                        onChange={updateComment}
+                        placeholder={review.comment}
                     >
-                    </input>
-
+                    </textarea>
                     {/* maybe place button outside of form for styling */}
                     <button type='submit'>Submit</button>
                     <button onClick={handleDelete}>Delete</button>

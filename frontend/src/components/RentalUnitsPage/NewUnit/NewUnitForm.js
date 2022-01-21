@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { createRentalUnit , getRentalUnits } from "../../../store/rentalUnits"
+import { createRentalUnit, getRentalUnits } from "../../../store/rentalUnits"
 import "../../RentalUnitsPage/NewUnit/NewUnit.css"
 
-// import '../RentalUnitsPage/NewUnit.css'
 
 
-function NewUnitForm() {
+function NewUnitForm({submitModal}) {
     const dispatch = useDispatch();
-    const history = useHistory()
-    const sessionUserId = useSelector(state => state.session.user.id);
+    const ownerId = useSelector(state => state.session.user.id);
 
     const [title, setTitle] = useState("")
     const [city, setCity] = useState("")
@@ -26,14 +23,7 @@ function NewUnitForm() {
     const [rooms, setRooms] = useState(1)
     const [state, setState] = useState("")
     const [zipcode, setZipcode] = useState("")
-    // const [totalRentals] = useState(0)
-    // const [] = useState("")
-    const ownerId = sessionUserId;
-    /*
-        to grab the current user and be able to set values to other variables
-    */
-
-
+    const [errors, setErrors] = useState([]);
 
     const updateTitle = (e) => setTitle(e.target.value);
     const updateCity = (e) => setCity(e.target.value);
@@ -45,7 +35,6 @@ function NewUnitForm() {
     const updatePool = (e) => setPool(e.target.value);
     const updateRentalUnitDescription = (e) => setRentalUnitDescription(e.target.value);
     const updateBathrooms = (e) => setBathrooms(e.target.value);
-    // need a unitType for a drowdown
     const updateUnityType = (e) => setUnitType(e.target.value);
     const updateRooms = (e) => setRooms(e.target.value);
     const updateState = (e) => setState(e.target.value);
@@ -54,8 +43,8 @@ function NewUnitForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        //* Could delete this: check later on
         const totalRentals = 0;
-
         const payload = {
             title,
             ownerId,
@@ -75,19 +64,20 @@ function NewUnitForm() {
             url
         };
 
+        const data = await dispatch(createRentalUnit(payload));
 
-
-        const unit = dispatch(createRentalUnit(payload));
-
-        if (unit) {
-            history.push("/units");
-            // alert("Rental Unit Submited");
-            return unit
+        if (data.errors) {
+            setErrors(data.errors)
+            return data.errors
         }
+        else {
+            submitModal(false)
+            return data
+        };
+    };
 
-    }
 
-    return (
+    return(
         <div className="form-placement">
             <h2 className="form-title">New Rental Unit Form</h2>
             <div className="newUnitForm-container">
@@ -95,6 +85,18 @@ function NewUnitForm() {
                     className="new-form"
                     onSubmit={handleSubmit}
                 >
+                    <div className="new-unit-errors" hidden={!errors.length} >
+                        {
+                            errors.map((error) => {
+                                if (error) {
+                                    return (
+                                        <p key={error.id}>{error}</p>
+                                    )
+                                }
+                                return null;
+                            })
+                        }
+                    </div>
                     <div className="titel-input">
                         <label>Title: </label>
                         <input
@@ -143,17 +145,7 @@ function NewUnitForm() {
                         onChange={updateBathrooms}
                         value={bathrooms}
                     ></input>
-
-                    {/* <label>Pool : </label>
-                    <input
-                        type="text"
-                        onChange={updatePool}
-                        value={pool}
-                        max="3"
-                    ></input> */}
-
                     <div className="">
-
                         <div class='pb-1 pt-2'>
                             <label >Pool: </label>
                         </div>
@@ -182,15 +174,12 @@ function NewUnitForm() {
                         <div class='pb-1 pt-2'>
                             <label >Unity Type: </label>
                         </div>
-
-
                         <input
                             onChange={updateUnityType}
                             value="house"
                             type="radio"
                             id="hosue"
                             checked={unitType === 'house'}
-                        // id="house"
                         >
                         </input>
                         <label htmlFor="house" class='pr-2'>House</label>

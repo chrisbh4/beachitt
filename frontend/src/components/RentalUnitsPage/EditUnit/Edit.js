@@ -4,70 +4,46 @@ import { useHistory, useParams } from 'react-router-dom';
 import { editRentalUnit, deleteRentalUnit, getSingleUnit } from "../../../store/rentalUnits";
 import './EditRentalUnit.css'
 
-function EditUnitForm() {
 
+/*
+      * Optimization notes
+        - Have modal close on all form submissions
+      */
+
+function EditUnitForm({submitModal}) {
+    
     const { id } = useParams();
     const dispatch = useDispatch()
     const history = useHistory()
 
-    //  trying to get rentalUnits from the currentstate from the id of the clicked on unit
-    //  const rentalUnit = useSelector(state => state.rentalUnit[id]);
-
-
     const rentalUnit = useSelector((state) => (state.rentalUnit))
-    //! Need to use rentalUnit?.title
-    // checks if rentalUnit.title exsist in the rentalUnit
 
-    /*
-    * Edit placeholders/data is not being saved inside it's variables on the first render
-    * need to look into the useEffect and be able to hold the data after a page refresh
-    *
-    * place a useEffect with the setData variable inside to be able to update the useState variables after a second page render
-    *
-    *
-    * Edit form is only sending unit data and not reviews or bookings that belong to it
-    */
-
-    // useEffect(() => {
-    //     dispatch(getRentalUnits())
-
-    // }, [dispatch])
 
     useEffect(() => {
-        // dispatch(getRentalUnits())
         dispatch(getSingleUnit(id))
 
-    }, [dispatch,id])
+    }, [dispatch, id])
 
-    // ! editRentalUnit()
-    // useEffect(()=>{
-    //     dispatch(editRentalUnit())
-    // },[dispatch])
-
-
-
-
-    // allows for empty inputs and sends non-updated data with the updated data
-    const [title, setTitle] = useState(rentalUnit?.title)
-    const [city, setCity] = useState(rentalUnit?.city)
-    const [distanceFromBeach, setDistanceFromBeach] = useState(rentalUnit?.distanceFromBeach)
-    const [lat, setLat] = useState(rentalUnit?.lat)
-    const [lng, setLng] = useState(rentalUnit?.lng)
-    const [price, setPrice] = useState(rentalUnit?.price)
-    const [pool, setPool] = useState(rentalUnit?.pool)
-    const [rentalUnitDescription, setRentalUnitDescription] = useState(rentalUnit?.rentalUnitDescription)
-    const [bathrooms, setBathrooms] = useState(rentalUnit?.bathrooms)
-    const [unitType, setUnitType] = useState(rentalUnit?.unitType)
-    const [rooms, setRooms] = useState(rentalUnit?.rooms)
-    const [state, setState] = useState(rentalUnit?.state)
-    const [zipcode, setZipcode] = useState(rentalUnit?.zipcode)
-    const [url, setUrl] = useState(rentalUnit?.url)
+    const [title, setTitle] = useState(rentalUnit.title)
+    const [city, setCity] = useState(rentalUnit.city)
+    const [distanceFromBeach, setDistanceFromBeach] = useState(rentalUnit.distanceFromBeach)
+    const [lat, setLat] = useState(rentalUnit.lat)
+    const [lng, setLng] = useState(rentalUnit.lng)
+    const [price, setPrice] = useState(rentalUnit.price)
+    const [pool, setPool] = useState(rentalUnit.pool)
+    const [rentalUnitDescription, setRentalUnitDescription] = useState(rentalUnit.rentalUnitDescription)
+    const [bathrooms, setBathrooms] = useState(rentalUnit.bathrooms)
+    const [unitType, setUnitType] = useState(rentalUnit.unitType)
+    const [rooms, setRooms] = useState(rentalUnit.rooms)
+    const [state, setState] = useState(rentalUnit.state)
+    const [zipcode, setZipcode] = useState(rentalUnit.zipcode)
+    const [url, setUrl] = useState(rentalUnit.url)
     const [reviews] = useState(rentalUnit.Reviews)
     const [bookings] = useState(rentalUnit.Bookings)
+    const [errors, setErrors] = useState([]);
 
 
-
-    useEffect (()=>{
+    useEffect(() => {
         setTitle(rentalUnit?.title);
         setCity(rentalUnit?.city);
         setDistanceFromBeach(rentalUnit?.distanceFromBeach);
@@ -83,8 +59,9 @@ function EditUnitForm() {
         setZipcode(rentalUnit?.zipcode);
         setUrl(rentalUnit?.url);
 
-    },[rentalUnit?.title,rentalUnit?.city,rentalUnit?.distanceFromBeach,rentalUnit?.lat,rentalUnit?.lng,rentalUnit?.price,rentalUnit?.pool,
-        rentalUnit?.rentalUnitDescription,rentalUnit?.bathrooms,rentalUnit?.unitType, rentalUnit?.rooms, rentalUnit?.state,rentalUnit?.zipcode,rentalUnit?.url])
+
+    }, [rentalUnit?.title, rentalUnit?.city, rentalUnit?.distanceFromBeach, rentalUnit?.lat, rentalUnit?.lng, rentalUnit?.price, rentalUnit?.pool,
+    rentalUnit?.rentalUnitDescription, rentalUnit?.bathrooms, rentalUnit?.unitType, rentalUnit?.rooms, rentalUnit?.state, rentalUnit?.zipcode, rentalUnit?.url])
 
     const updateTitle = (e) => setTitle(e.target.value);
     const updateCity = (e) => setCity(e.target.value);
@@ -108,7 +85,7 @@ function EditUnitForm() {
 
         dispatch(deleteRentalUnit(rentalUnit.id))
         history.push('/units')
-        throw alert("Rental Unit Removed :(")
+        alert("Rental Unit Removed :(")
 
     }
 
@@ -132,18 +109,18 @@ function EditUnitForm() {
             price,
             rentalUnitDescription,
             url
-
         };
 
-        dispatch(editRentalUnit(payload, unitId));
-        /*
-        * Optimization notes
-            - dispatching the single Unit thunk (Line 141) easily refreshes the page to grab the reviews back from the database
-            * - Need to find a way on inserting the Unit's reviews with the newly updated data so the Reviews/Bookings will be in with the first state rendering instead of needing a second dispatch/page reresh
-        */
-        dispatch(getSingleUnit(id))
-        // history.push('/units')
-        // throw alert("Your rental unit has been updated.")
+        const data = await dispatch(editRentalUnit(payload, unitId));
+        if (data.errors) {
+            setErrors(data.errors)
+            return data
+        } else {
+            dispatch(getSingleUnit(id))
+            submitModal(false)
+            return data
+        }
+
     }
 
 
@@ -156,6 +133,18 @@ function EditUnitForm() {
                     className="edit-form"
                     onSubmit={handleSubmit}
                 >
+                    <div className="edit-unit-errors" hidden={!errors.length} >
+                        {
+                            errors.map((error) => {
+                                if (error) {
+                                    return (
+                                        <p key={error.id}>{error}</p>
+                                    )
+                                }
+                                return null;
+                            })
+                        }
+                    </div>
                     <label >Title: </label>
                     <input
                         type="text"
@@ -235,9 +224,6 @@ function EditUnitForm() {
                             <label htmlFor="no">No</label>
                         </div>
                     </div>
-
-
-
                     <div className="unit-type" class='pb-2'>
                         <label htmlFor="house">House</label>
                         <input
@@ -246,11 +232,8 @@ function EditUnitForm() {
                             type="radio"
                             id="house"
                             checked={unitType === 'house'}
-                        // id="house"
                         >
                         </input>
-
-
                         <label htmlFor="apartment">Apartment</label>
                         <input
                             onChange={updateUnityType}

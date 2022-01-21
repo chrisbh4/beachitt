@@ -9,20 +9,27 @@ import {getSingleUnit} from "../../store/rentalUnits";
 
 
 
-function EditBookingPage({bookingId}){
+function EditBookingPage({bookingId , submitModal}){
     const {id} = useParams();
     const dispatch = useDispatch();
     const booking = useSelector((state)=> state.bookings);
 
     useEffect(()=>{
-    dispatch(fetchBooking(bookingId))
-    },[dispatch,id])
+        dispatch(fetchBooking(bookingId))
+    },[dispatch,bookingId])
 
 
     const [startDate , setStartDate] = useState(booking.startDate);
     const [endDate, setEndDate] = useState(booking.endDate);
-    const userId = booking.userId;
-    const rentalUnitId = booking.rentalUnitId;
+    const [userId, setUserId] = useState(booking.userId);
+    const [rentalUnitId, setRentalUnitId] = useState(booking.rentalUnitId);
+
+    useEffect(()=>{
+        setStartDate(booking?.startDate)
+        setEndDate(booking?.endDate)
+        setUserId(booking?.userId)
+        setRentalUnitId(booking?.rentalUnitId)
+    },[booking?.startDate, booking?.endDate, booking?.userId, booking?.rentalUnitId])
 
 
     const handleClick = (e) =>{
@@ -41,8 +48,9 @@ function EditBookingPage({bookingId}){
     const handleSubmit = async (e) =>{
         e.preventDefault();
         const payload = {id,startDate, endDate ,userId, rentalUnitId}
-        const data = await dispatch(fetchEditBooking(payload, id))
+        const data = await dispatch(fetchEditBooking(payload, bookingId))
         dispatch(getSingleUnit(id));
+        submitModal(false)
         return data
     };
 
@@ -50,17 +58,18 @@ function EditBookingPage({bookingId}){
         e.preventDefault();
         await dispatch(fetchDeleteBooking(bookingId));
         dispatch(getSingleUnit(id));
+        submitModal(false)
         return {msg:"Booking has been removed."}
     };
 
 
 
     return(
-        <div class='flex justify-center '>
+        <div class='flex justify-center p-10 '>
         <Calendar selectRange={true}  onChange={handleClick} minDate={new Date()}/>
-        <div>
+        <div class="flex flex-col  justify-center ml-4">
         <button type="submit" onClick={handleSubmit} >Update</button>
-        <button type="submit" onClick={handleBookingDelete} >Delete</button>
+        <button type="submit" onClick={handleBookingDelete} class='mt-3' >Delete</button>
         </div>
     </div>
     )
