@@ -141,11 +141,19 @@ I need the post/put to log to the state and allow the new State to utitlize the 
     };
 
 
+    // const dateConverter = (date) =>{
+    //     const data = date.split()
+    // }
 
     //* Bookings / button functionality
 
       const displayBookings = () => {
         return unitBookings?.map((booking) => {
+                const splitStartDate = booking.startDate.split('-')
+                const startDate = `${splitStartDate[1]} / ${splitStartDate[2]} / ${splitStartDate[0]}`
+                const splitEndDate = booking.endDate.split('-')
+                const endDate = `${splitEndDate[1]} / ${splitEndDate[2]} / ${splitEndDate[0]}`
+                // console.log(startDate);
             return (
                 <>
                     <div id="review-row" class="text-black grid grid-cols-2">
@@ -153,7 +161,7 @@ I need the post/put to log to the state and allow the new State to utitlize the 
 
 
                         <div id="review-username" class="text-center ">
-                            <p>{booking.startDate}</p>
+                            <p>{startDate}</p>
                         </div>
                         <div id="review-comment" class="text-center">
                             {editBooking(booking)}
@@ -164,16 +172,18 @@ I need the post/put to log to the state and allow the new State to utitlize the 
             )
         })
 
-    }
+    };
 
 
     const editBooking = (booking) => {
         if (userId === booking.userId) {
+            const splitEndDate = booking.endDate.split('-')
+            const endDate = `${splitEndDate[1]} / ${splitEndDate[2]} / ${splitEndDate[0]}`
             return (
                 <div class="flex justify-center">
                        <div class='flex flex-row '>
                             {/* <p key={booking.id} id="start-date">{booking.starDate}</p> */}
-                             <p key={booking.id} id="end-date">{booking.endDate}</p>
+                             <p key={booking.id} id="end-date">{endDate}</p>
                             </div>
 
                         {/* Buttons */}
