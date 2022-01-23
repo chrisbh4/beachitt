@@ -19,7 +19,6 @@ function NewReviewForm ({submitModal}){
     const updateComment = (e) => setComment(e.target.value);
 
 
-    console.log("Errors: ", errors)
 
 
     const handleSubmit = async (e) =>{
@@ -39,9 +38,15 @@ function NewReviewForm ({submitModal}){
             submitModal(false)
             return data
         }else{
-            setErrors(data.errors)
+
+            //* This allows me to access the Errors array
+            // const test ="this added to the array";
+            // data.errors.push(test);
+            // console.log(data.errors);
+
+            setErrors(data.errors);
             return data
-        }
+        };
     };
 
     return (
