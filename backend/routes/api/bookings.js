@@ -1,9 +1,21 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 // const { dataAdjuster} = require('../../utils/utils');
+const {check} = require('express-validator')
 const {Bookings} = require('../../db/models')
+const {handleValidationErrors} = require("../../utils/validation")
 
 const router = express.Router();
+
+const validateBooking = [
+    check("startDate")
+        .exists({checkFalsy: true})
+        .withMessage('Please select a start date'),
+    check("endDate")
+        .exists({checkFalsy: true})
+        .withMessage('Please select an end date'),
+    handleValidationErrors
+];
 
 router.get('/', asyncHandler(async( req, res)=>{
     const booking = await Bookings.findAll()

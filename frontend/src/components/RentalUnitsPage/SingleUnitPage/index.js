@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getRentalUnits , getSingleUnit } from '../../../store/rentalUnits';
+import { getRentalUnits, getSingleUnit } from '../../../store/rentalUnits';
 import { deleteReview } from "../../../store/reviews"
 import { fetchDeleteBooking } from '../../../store/bookings';
 import MapContainer from '../../Maps';
@@ -20,36 +20,39 @@ function GetSingleUnitPage() {
     const unitReviews = unit?.Reviews;
     const unitBookings = unit?.Bookings;
 
+
+    console.log(unitBookings);
+
     const unitLat = unit?.lat;
     const unitLng = unit?.lng;
 
-/*
-I need the post/put to log to the state and allow the new State to utitlize the useEffect and refresh its newly updated data
- I can update the reviews using useState and UseEffect
-    1. const [unitReviews, setUnitReviews] = ([unit?.Reviews])
-        - saves the currently fetched review data
-    2. inside the useEffect place setUnitReviews(unit?.Reviews)
-        - updates the reviews vairable if there is new data parsed to the react state
+    /*
+    I need the post/put to log to the state and allow the new State to utitlize the useEffect and refresh its newly updated data
+     I can update the reviews using useState and UseEffect
+        1. const [unitReviews, setUnitReviews] = ([unit?.Reviews])
+            - saves the currently fetched review data
+        2. inside the useEffect place setUnitReviews(unit?.Reviews)
+            - updates the reviews vairable if there is new data parsed to the react state
 
-    * See if I can call on the dispatch from the store which will run it in order hopefully lol
+        * See if I can call on the dispatch from the store which will run it in order hopefully lol
 
-        2 choices
+            2 choices
 
-        1. Find a way to have the dispatches go in order how i want them too
+            1. Find a way to have the dispatches go in order how i want them too
 
-        2. Rebuild how the reviews and bookings are being rendered
-            -GET 'api/reviews/unit/:id/review: filter through all reviews that belong to the rental unit ( Unit.id )
-                - findAll({where:{rentalUnitId:req.params.id}})
-                    - finds all reviews that have the same rentalUnitId as the paramaters
-            -POST/PUT/DELETE work perfectly find
-*/
+            2. Rebuild how the reviews and bookings are being rendered
+                -GET 'api/reviews/unit/:id/review: filter through all reviews that belong to the rental unit ( Unit.id )
+                    - findAll({where:{rentalUnitId:req.params.id}})
+                        - finds all reviews that have the same rentalUnitId as the paramaters
+                -POST/PUT/DELETE work perfectly find
+    */
 
     // updates page when the single Unit has new data
     useEffect(() => {
         // dispatch(getRentalUnits())
         dispatch(getSingleUnit(id))
 
-    }, [dispatch,id])
+    }, [dispatch, id])
 
 
     const handleReviewDelete = async (e) => {
@@ -75,7 +78,7 @@ I need the post/put to log to the state and allow the new State to utitlize the 
             return (
                 <>
                     <div>
-                    <EditUnitModal/>
+                        <EditUnitModal />
                     </div>
 
                 </>
@@ -93,7 +96,7 @@ I need the post/put to log to the state and allow the new State to utitlize the 
         }
     }
 
-//* Reviews / button functionality
+    //* Reviews / button functionality
 
     const displayReviews = () => {
         return unitReviews?.map((review) => {
@@ -125,7 +128,7 @@ I need the post/put to log to the state and allow the new State to utitlize the 
                     <p class="pl-3 relattive left-2">{review.comment}</p>
                     <div class='relative left-3'>
                         {/* <a href={`/reviews/${review.id}/edit`}><button>Edit</button></a> */}
-                        <EditReviewModal reviewId={review.id}/>
+                        <EditReviewModal reviewId={review.id} />
 
                         {/* Delete Route is recieving an undefined ID so the review ID isn't being touched */}
                         {/* <button class='relative left-4' onClick={handleReviewDelete}>Delete</button> */}
@@ -147,17 +150,23 @@ I need the post/put to log to the state and allow the new State to utitlize the 
 
     //* Bookings / button functionality
 
-      const displayBookings = () => {
+    /*
+    * Bookings validate frontend funitonality
+        Link: https://www.geeksforgeeks.org/how-to-check-if-one-date-is-between-two-dates-in-javascript/
+            - Approach 1
+    */
+
+    const displayBookings = () => {
         return unitBookings?.map((booking) => {
-                const splitStartDate = booking.startDate.split('-')
-                const startDate = `${splitStartDate[1]} / ${splitStartDate[2]} / ${splitStartDate[0]}`
-                const splitEndDate = booking.endDate.split('-')
-                const endDate = `${splitEndDate[1]} / ${splitEndDate[2]} / ${splitEndDate[0]}`
-                // console.log(startDate);
+            const splitStartDate = booking.startDate.split('-')
+            const startDate = `${splitStartDate[1]} / ${splitStartDate[2]} / ${splitStartDate[0]}`
+            const splitEndDate = booking.endDate.split('-')
+            const endDate = `${splitEndDate[1]} / ${splitEndDate[2]} / ${splitEndDate[0]}`
+            // console.log(startDate);
             return (
                 <>
                     <div id="review-row" class="text-black grid grid-cols-2">
-                    {/* <div id="review-row" class="text-black "> */}
+                        {/* <div id="review-row" class="text-black "> */}
 
 
                         <div id="review-username" class="text-center ">
@@ -181,16 +190,16 @@ I need the post/put to log to the state and allow the new State to utitlize the 
             const endDate = `${splitEndDate[1]} / ${splitEndDate[2]} / ${splitEndDate[0]}`
             return (
                 <div class="flex justify-center">
-                       <div class='flex flex-row '>
-                            {/* <p key={booking.id} id="start-date">{booking.starDate}</p> */}
-                             <p key={booking.id} id="end-date">{endDate}</p>
-                            </div>
+                    <div class='flex flex-row '>
+                        {/* <p key={booking.id} id="start-date">{booking.starDate}</p> */}
+                        <p key={booking.id} id="end-date">{endDate}</p>
+                    </div>
 
-                        {/* Buttons */}
+                    {/* Buttons */}
                     <div class='relative left-3'>
                         {/* <a href={`/bookings/${booking.id}/edit`}><button>Edit</button>
                         </a> */}
-                        <EditBookingModal bookingId={booking.id}/>
+                        <EditBookingModal bookingId={booking.id} />
                         {/* <button class='relative left-4' onClick={handleBookingDelete(booking.id)}>Delete</button> */}
                     </div>
                 </div>
@@ -198,8 +207,8 @@ I need the post/put to log to the state and allow the new State to utitlize the 
         } else {
             return (
                 <div >
-                <p key={booking.id}>{booking.endDate}</p>
-                {/* <p>Start-date</p> */}
+                    <p key={booking.id}>{booking.endDate}</p>
+                    {/* <p>Start-date</p> */}
                 </div>
             )
         }
@@ -277,14 +286,14 @@ I need the post/put to log to the state and allow the new State to utitlize the 
                 </div>
             </div>
 
-{/* need to pass in the calendar props */}
+            {/* need to pass in the calendar props */}
 
             <div class='pb-20'>
-                <BookingCal  userId={userId} unitId={unit?.id}/>
+                <BookingCal userId={userId} unitId={unit?.id} />
             </div>
 
-                 {/* Bookings will be a grid */}
-                 <div class=' w-full bg-gray-200 h-60 mt-3 overflow-scroll p-10 mb-6'>
+            {/* Bookings will be a grid */}
+            <div class=' w-full bg-gray-200 h-60 mt-3 overflow-scroll p-10 mb-6'>
                 <div class='overflow-scroll'>
 
                     <div class='flex justify-evenly'>
