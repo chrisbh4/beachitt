@@ -158,15 +158,15 @@ function GetSingleUnitPage() {
 
     const displayBookings = () => {
         return unitBookings?.map((booking) => {
+            console.log("Unit page Start:", booking.startDate)
             const splitStartDate = booking.startDate.split('-')
             const startDate = `${splitStartDate[1]} / ${splitStartDate[2]} / ${splitStartDate[0]}`
-            const splitEndDate = booking.endDate.split('-')
-            const endDate = `${splitEndDate[1]} / ${splitEndDate[2]} / ${splitEndDate[0]}`
-            // console.log(startDate);
+
+
             return (
                 <>
                     <div id="review-row" class="text-black grid grid-cols-2">
-                        {/* <div id="review-row" class="text-black "> */}
+
 
 
                         <div id="review-username" class="text-center ">
@@ -289,7 +289,8 @@ function GetSingleUnitPage() {
             {/* need to pass in the calendar props */}
 
             <div class='pb-20'>
-                <BookingCal userId={userId} unitId={unit?.id} />
+                {/* <BookingCal userId={userId} unitId={unit?.id} /> */}
+                <BookingCal userId={userId} unitId={unit?.id} unitBookings={unit.Bookings} />
             </div>
 
             {/* Bookings will be a grid */}

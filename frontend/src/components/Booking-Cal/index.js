@@ -6,23 +6,15 @@ import {fetchAddBooking} from "../../store/bookings"
 import { getSingleUnit} from "../../store/rentalUnits"
 
 
-/* Progress Table
-        * Need to be able to remove the empty Object that is attached to the string of the selected Date
-Inside the console the selected dates are being shown but with an empty Object I need to be able to remove that empty object at the end of both dates and be able to hold the selected dates as a
-string so I can upload the splitted strings as seperated data parts that will be uploaded as day,month,year for both startDate and endDate
 
-
-! Problem : I was recieving an empty object for each day selected
-! Solution : I had to join the array together , then split the string by a unique char to be able to have individual selected dates and it's data.
-
-
-*/
-
-
-function BookingCal({userId, unitId}){
+function BookingCal({userId, unitId, unitBookings}){
     const dispatch = useDispatch();
     const [startDate , setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+    const [errors , setErrors] = useState([]);
+
+
+    console.log("Unit Bookings :", unitBookings)
 
 
 
@@ -66,10 +58,53 @@ function BookingCal({userId, unitId}){
         e.preventDefault();
         const payload = {startDate, endDate ,userId, rentalUnitId:unitId}
 
-        await dispatch(fetchAddBooking(payload))
+        const data = await dispatch(fetchAddBooking(payload))
+
+        if(data.errors){
+            setErrors(data.errors)
+            return data.errors
+        }
         dispatch(getSingleUnit(unitId))
 
     };
+
+    //* new Date() converts it to date format
+
+    // console.log(new Date(startDate))
+    // console.log(new Date(endDate))
+
+
+/*
+* Notes for configuring the function below
+- I'm able to access all the bookings that belong to the unit
+    - Need to iterate through the bookings and grab both startDate and endDate
+    - each iteration will throw both [ startDate, endDate ] inside the helper function that does the date checking
+    Helper Function
+    * will need to have an array that holds the error values that are pushed into it then that array will then be placed inside the setErrors function
+        - if startDate returns an error then have that error be pushed into the errorsArray
+        - if endDate returns any errors then have them pushed into the errors Array
+        - else dispatch the new booking
+*/
+
+const testBooking = unitBookings[0]
+console.log("test:",testBooking.startDate)
+console.log("test:",testBooking.endDate.split('-'));
+    // function dateAvaliabilty() {
+    //     startDates = Date_1.split("-");
+    //     endDates = Date_2.split("-");
+    //     selectedDate = Date_to_check.split("-");
+
+    //     var startDate = new Date(startDates[2], parseInt(startDates[1]) - 1, startDates[0]);
+    //     var endDate = new Date(endDates[2], parseInt(endDates[1]) - 1, endDates[0]);
+    //     var checkedDate = new Date(selectedDate[2], parseInt(selectedDate[1]) - 1, selectedDate[0]);
+
+    //     if (checkedDate > startDate && checkedDate < endDate) {
+    //        let el = "Date is between already reserved dates"
+    //     } else {
+    //         let el = "Booking has been placed";
+    //     }
+    // };
+
 
 
 
@@ -79,6 +114,20 @@ function BookingCal({userId, unitId}){
             <div>
 
             <button type="submit" onClick={handleSubmit} >Book This Trip</button>
+
+            <div className="new-booking-errors" hidden={!errors.length} >
+                        {
+                            errors.map((error) => {
+                                if (error) {
+                                    return (
+                                        <p key={error.id}>{error}</p>
+                                    )
+                                }
+                                return null;
+                            })
+                        }
+                    </div>
+
             </div>
         </div>
     )
