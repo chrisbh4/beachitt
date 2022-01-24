@@ -81,7 +81,9 @@ function BookingCal({userId, unitId, unitBookings}){
     - each iteration will throw both [ startDate, endDate ] inside the helper function that does the date checking
     Helper Function
     * will need to have an array that holds the error values that are pushed into it then that array will then be placed inside the setErrors function
-        - if startDate returns an error then have that error be pushed into the errorsArray
+    - index into the argument array and create two variables startCheck, endCheck : this will represent the selected dates
+    (conditional rendering)
+        - if startDate returns an error then have that error be pushed into the errorsArray : have the function return to stop the func from continuting
         - if endDate returns any errors then have them pushed into the errors Array
         - else dispatch the new booking
 */
