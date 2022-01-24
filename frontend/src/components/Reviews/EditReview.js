@@ -38,8 +38,15 @@ function EditReviewForm({id, submitModal}) {
         const data = await dispatch(editReview(payload,id));
 
         if (data.errors){
+            const test ="this added to the array";
+            const testErr = [...data.errors,...test];
+            console.log("Test Errors:",console.log(testErr));
             setErrors(data.errors);
             return data
+
+
+            // setErrors(data.errors);
+            // return data
         };
 
         dispatch(getSingleUnit(rentalUnitId))

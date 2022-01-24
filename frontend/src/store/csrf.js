@@ -29,7 +29,8 @@ export async function csrfFetch(url, options = {}) {
 
   // if the response status code is 400 or above, then throw an error with the
     // error being the response
-    //* why does this break my code when I try validations but when i comment it out works how can i work with this line of code?
+
+  //* Need to try and catch since the throw stops the application complelety and need to set guidlines to make sure app still runs with validations
   // if (res.status >= 400) throw res;
 
   // if the response status code is under 400, then return the response to the
