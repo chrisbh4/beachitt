@@ -158,7 +158,6 @@ function GetSingleUnitPage() {
 
     const displayBookings = () => {
         return unitBookings?.map((booking) => {
-            console.log("Unit page Start:", booking.startDate)
             const splitStartDate = booking.startDate.split('-')
             const startDate = `${splitStartDate[1]} / ${splitStartDate[2]} / ${splitStartDate[0]}`
 

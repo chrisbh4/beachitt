@@ -86,26 +86,41 @@ function BookingCal({userId, unitId, unitBookings}){
         - if startDate returns an error then have that error be pushed into the errorsArray : have the function return to stop the func from continuting
         - if endDate returns any errors then have them pushed into the errors Array
         - else dispatch the new booking
+
+         * Bookings validate frontend funitonality
+        Link: https://www.geeksforgeeks.org/how-to-check-if-one-date-is-between-two-dates-in-javascript/
+
 */
 
-const testBooking = unitBookings[0]
-console.log("test:",testBooking.startDate)
-console.log("test:",testBooking.endDate.split('-'));
-    // function dateAvaliabilty() {
-    //     startDates = Date_1.split("-");
-    //     endDates = Date_2.split("-");
-    //     selectedDate = Date_to_check.split("-");
+// const testBooking = unitBookings[0]
+// console.log("test:",testBooking.startDate)
+// console.log("split test:",testBooking.endDate.split('-'));
 
-    //     var startDate = new Date(startDates[2], parseInt(startDates[1]) - 1, startDates[0]);
-    //     var endDate = new Date(endDates[2], parseInt(endDates[1]) - 1, endDates[0]);
-    //     var checkedDate = new Date(selectedDate[2], parseInt(selectedDate[1]) - 1, selectedDate[0]);
+const validate = unitBookings?.forEach((booking)=>{
+    const startDate = booking.startDate;
+    const endDate = booking.endDate;
 
-    //     if (checkedDate > startDate && checkedDate < endDate) {
-    //        let el = "Date is between already reserved dates"
-    //     } else {
-    //         let el = "Booking has been placed";
-    //     }
-    // };
+    console.log("valid :", startDate)
+})
+
+
+    function isBookingOpen(arrStart, arrEnd, checkDates) {
+       let startDates = arrStart.split("-");
+       let endDates = arrEnd.split("-");
+       let selectedDate = checkDates.split("-");
+
+        var startDate = new Date(startDates[2], parseInt(startDates[1]) - 1, startDates[0]);
+        var endDate = new Date(endDates[2], parseInt(endDates[1]) - 1, endDates[0]);
+        var checkedDate = new Date(selectedDate[2], parseInt(selectedDate[1]) - 1, selectedDate[0]);
+
+        if (checkedDate > startDate && checkedDate < endDate) {
+            //* true = the date is unavilable
+            //* false = the date is available
+           return true
+        } else {
+            return false
+        }
+    };
 
 
 
