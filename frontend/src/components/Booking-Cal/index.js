@@ -101,10 +101,22 @@ const validate = unitBookings?.forEach((booking)=>{
     const endDate = booking.endDate;
 
     console.log("valid :", startDate)
+
+    const result = isBookingOpen();
+
+    if(result === false){
+        //dispatch createBooking()
+    }else{
+        //setErrors("booking is unavailable")
+    }
 })
 
+//iterate through this allows me to access the units.data
+// place the itearted data and the selectedDates inside the helper function
+    // have to check both the selectedStart and selectedEnd inside the helper function
+// if the helper function returns false or true then that gives me my answer
 
-    function isBookingOpen(arrStart, arrEnd, checkDates) {
+    function isBookingOpen(bookings,arrStart, arrEnd, checkDates) {
        let startDates = arrStart.split("-");
        let endDates = arrEnd.split("-");
        let selectedDate = checkDates.split("-");
