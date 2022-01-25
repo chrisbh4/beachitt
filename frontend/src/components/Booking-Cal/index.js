@@ -51,13 +51,44 @@ function BookingCal({userId, unitId, unitBookings}){
 
     }
 
+    function isBookingOpen(unitStart, unitEnd, checkStart, checkEnd) {
+        const splitStart = unitStart.split("-");
+        const splitEnd = unitEnd.split("-");
+        const checkStartSplit = checkStart.split("-");
+        const checkEndSplit = checkEnd.split("-");
+
+         const unitStartDate = new Date(splitStart[2], parseInt(splitStart[1]) - 1, splitStart[0]);
+         const unitEndDate = new Date(splitEnd[2], parseInt(splitEnd[1]) - 1, splitEnd[0]);
+         const bookingStartDate = new Date(checkStartSplit[2], parseInt(checkStartSplit[1]) - 1, checkStartSplit[0]);
+         const bookingEndDate = new Date(checkEndSplit[2], parseInt(checkEndSplit[1]) - 1, checkEndSplit[0]);
+
+         if ( bookingStartDate > unitStartDate && bookingStartDate < unitEndDate || bookingEndDate > unitStartDate && bookingEndDate < unitEndDate ) {
+             //* true = the date is unavilable
+             //* false = the date is available
+            return true
+         } else {
+             return false
+         }
+     };
+
 
 
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
-        const payload = {startDate, endDate ,userId, rentalUnitId:unitId}
 
+        unitBookings?.forEach((booking)=>{
+            const unitStartDate = booking.startDate;
+            const unitEndDate = booking.endDate;
+
+            const result = isBookingOpen(unitStartDate, unitEndDate,startDate, endDate );
+
+            if(result === true){
+                setErrors("booking is unavailable, check bookings list to see booked dates.")
+            };
+        })
+
+        const payload = {startDate, endDate ,userId, rentalUnitId:unitId}
         const data = await dispatch(fetchAddBooking(payload))
 
         if(data.errors){
@@ -96,47 +127,43 @@ function BookingCal({userId, unitId, unitBookings}){
 // console.log("test:",testBooking.startDate)
 // console.log("split test:",testBooking.endDate.split('-'));
 
-const validate = unitBookings?.forEach((booking)=>{
-    const startDate = booking.startDate;
-    const endDate = booking.endDate;
+const validateBookingDates = () =>{
+    unitBookings?.forEach((booking)=>{
+        const unitStartDate = booking.startDate;
+        const unitEndDate = booking.endDate;
 
-    console.log("valid :", startDate)
+        const result = isBookingOpen(unitStartDate, unitEndDate,startDate, endDate );
 
-    // const result = isBookingOpen();
+        if(result === true){
+            setErrors("booking is unavailable, check bookings list to see booked dates.")
+        };
+    })
 
-    // if(result === false){
-    //     //dispatch createBooking()
-    // }else{
-    //     //setErrors("booking is unavailable")
-    // }
-})
-
+}
 //iterate through this allows me to access the units.data
 // place the itearted data and the selectedDates inside the helper function
     // have to check both the selectedStart and selectedEnd inside the helper function
 // if the helper function returns false or true then that gives me my answer
 
-    function isBookingOpen(bookings,unitStart, unitEnd, checkStart, checkEnd) {
-       const splitStart = unitStart.split("-");
-       const splitEnd = unitEnd.split("-");
+    // function isBookingOpen(unitStart, unitEnd, checkStart, checkEnd) {
+    //    const splitStart = unitStart.split("-");
+    //    const splitEnd = unitEnd.split("-");
+    //    const checkStartSplit = checkStart.split("-");
+    //    const checkEndSplit = checkEnd.split("-");
 
+    //     const unitStartDate = new Date(splitStart[2], parseInt(splitStart[1]) - 1, splitStart[0]);
+    //     const unitEndDate = new Date(splitEnd[2], parseInt(splitEnd[1]) - 1, splitEnd[0]);
+    //     const bookingStartDate = new Date(checkStartSplit[2], parseInt(checkStartSplit[1]) - 1, checkStartSplit[0]);
+    //     const bookingEndDate = new Date(checkEndSplit[2], parseInt(checkEndSplit[1]) - 1, checkEndSplit[0]);
 
-       const checkStartSplit = checkStart.split("-");
-       const checkEndSplit = checkEnd.split("-");
-
-        const unitStartDate = new Date(splitStart[2], parseInt(splitStart[1]) - 1, splitStart[0]);
-        const endDate = new Date(splitEnd[2], parseInt(splitEnd[1]) - 1, splitEnd[0]);
-        const bookingStartDate = new Date(checkStartSplit[2], parseInt(checkStartSplit[1]) - 1, checkStartSplit[0]);
-        const bookingEndDate = new Date(checkEndSplit[2], parseInt(checkEndSplit[1]) - 1, checkEndSplit[0]);
-
-        if (bookingStartDate > unitStartDate && bookingStartDate < endDate) {
-            //* true = the date is unavilable
-            //* false = the date is available
-           return true
-        } else {
-            return false
-        }
-    };
+    //     if ( bookingStartDate > unitStartDate && bookingStartDate < unitEndDate || bookingEndDate > unitStartDate && bookingEndDate < unitEndDate ) {
+    //         //* true = the date is unavilable
+    //         //* false = the date is available
+    //        return true
+    //     } else {
+    //         return false
+    //     }
+    // };
 
 
 
@@ -150,7 +177,7 @@ const validate = unitBookings?.forEach((booking)=>{
 
             <div className="new-booking-errors" hidden={!errors.length} >
                         {
-                            errors.map((error) => {
+                            errors?.map((error) => {
                                 if (error) {
                                     return (
                                         <p key={error.id}>{error}</p>
