@@ -102,13 +102,13 @@ const validate = unitBookings?.forEach((booking)=>{
 
     console.log("valid :", startDate)
 
-    const result = isBookingOpen();
+    // const result = isBookingOpen();
 
-    if(result === false){
-        //dispatch createBooking()
-    }else{
-        //setErrors("booking is unavailable")
-    }
+    // if(result === false){
+    //     //dispatch createBooking()
+    // }else{
+    //     //setErrors("booking is unavailable")
+    // }
 })
 
 //iterate through this allows me to access the units.data
@@ -116,16 +116,20 @@ const validate = unitBookings?.forEach((booking)=>{
     // have to check both the selectedStart and selectedEnd inside the helper function
 // if the helper function returns false or true then that gives me my answer
 
-    function isBookingOpen(bookings,arrStart, arrEnd, checkDates) {
-       let startDates = arrStart.split("-");
-       let endDates = arrEnd.split("-");
-       let selectedDate = checkDates.split("-");
+    function isBookingOpen(bookings,unitStart, unitEnd, checkStart, checkEnd) {
+       const splitStart = unitStart.split("-");
+       const splitEnd = unitEnd.split("-");
 
-        var startDate = new Date(startDates[2], parseInt(startDates[1]) - 1, startDates[0]);
-        var endDate = new Date(endDates[2], parseInt(endDates[1]) - 1, endDates[0]);
-        var checkedDate = new Date(selectedDate[2], parseInt(selectedDate[1]) - 1, selectedDate[0]);
 
-        if (checkedDate > startDate && checkedDate < endDate) {
+       const checkStartSplit = checkStart.split("-");
+       const checkEndSplit = checkEnd.split("-");
+
+        const unitStartDate = new Date(splitStart[2], parseInt(splitStart[1]) - 1, splitStart[0]);
+        const endDate = new Date(splitEnd[2], parseInt(splitEnd[1]) - 1, splitEnd[0]);
+        const bookingStartDate = new Date(checkStartSplit[2], parseInt(checkStartSplit[1]) - 1, checkStartSplit[0]);
+        const bookingEndDate = new Date(checkEndSplit[2], parseInt(checkEndSplit[1]) - 1, checkEndSplit[0]);
+
+        if (bookingStartDate > unitStartDate && bookingStartDate < endDate) {
             //* true = the date is unavilable
             //* false = the date is available
            return true
