@@ -78,7 +78,7 @@ function BookingCal({ userId, unitId, unitBookings }) {
         const bookingStartDate = Date.parse(checkStart)
         const bookingEndDate = Date.parse(checkEnd)
 
-
+//! need to figure out the if condition then everything should be gooda
         // if (bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) {
         if ((bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) || (bookingEndDate > unitStartDate && bookingEndDate < unitEndDate)) {
            //* true = not available
