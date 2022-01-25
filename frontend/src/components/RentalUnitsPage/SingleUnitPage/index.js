@@ -21,7 +21,6 @@ function GetSingleUnitPage() {
     const unitBookings = unit?.Bookings;
 
 
-    console.log(unitBookings);
 
     const unitLat = unit?.lat;
     const unitLng = unit?.lng;

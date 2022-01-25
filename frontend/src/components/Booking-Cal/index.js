@@ -14,7 +14,7 @@ function BookingCal({ userId, unitId, unitBookings }) {
     const [errors, setErrors] = useState([]);
 
 
-    console.log("Unit Bookings :", unitBookings)
+    // console.log("Unit Bookings :", unitBookings)
 
 
 
@@ -57,19 +57,37 @@ function BookingCal({ userId, unitId, unitBookings }) {
         const checkStartSplit = checkStart.split("-");
         const checkEndSplit = checkEnd.split("-");
 
-        const unitStartDate = new Date(splitStart[2], parseInt(splitStart[1]) - 1, splitStart[0]);
-        const unitEndDate = new Date(splitEnd[2], parseInt(splitEnd[1]) - 1, splitEnd[0]);
-        const bookingStartDate = new Date(checkStartSplit[2], parseInt(checkStartSplit[1]) - 1, checkStartSplit[0]);
-        const bookingEndDate = new Date(checkEndSplit[2], parseInt(checkEndSplit[1]) - 1, checkEndSplit[0]);
+        // const unitStartDate = new Date(splitStart[2], parseInt(splitStart[1]) - 1, splitStart[0]);
+        // const testDate = Date.parse(unitStart)
+        // console.log("Date test:", test)
+        //* I  can place the unit.booking data inside the conditional as is since the func renders it
+        //* need to verify by checking logs
+        // console.log(Date.parse(unitStart) < Date.parse(checkStart))
+        // console.log("unit", Date.parse(unitStart))
+        // console.log("check", Date.parse(checkStart))
 
-        if (bookingStartDate > unitStartDate && bookingStartDate < unitEndDate || bookingEndDate > unitStartDate && bookingEndDate < unitEndDate) {
-            //* false = the date is unavilable
-            //* true = the date is available
+
+        // console.log(2 > 1)
+        // const unitEndDate = new Date(splitEnd[2], parseInt(splitEnd[1]) - 1, splitEnd[0]);
+        // const bookingStartDate = new Date(checkStartSplit[2], parseInt(checkStartSplit[1]) - 1, checkStartSplit[0]);
+        // const bookingEndDate = new Date(checkEndSplit[2], parseInt(checkEndSplit[1]) - 1, checkEndSplit[0]);
+
+
+        const unitStartDate = Date.parse(unitStart)
+        const unitEndDate = Date.parse(unitStart)
+        const bookingStartDate = Date.parse(checkStart)
+        const bookingEndDate = Date.parse(checkEnd)
+
+
+        // if (bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) {
+        if ((bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) || (bookingEndDate > unitStartDate && bookingEndDate < unitEndDate)) {
+           //* true = not available
             console.log(true)
             return true
-        } else {
-            //! only false is gettingh touched so that means the if condtion is not returning true, start by checking if checkStart returns true
-            console.log(false)
+        }
+        else {
+            //* if else then it means its open
+            console.log("IS open :", false)
             return false
         }
     };
@@ -80,20 +98,21 @@ function BookingCal({ userId, unitId, unitBookings }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        unitBookings?.forEach(async (booking) => {
+        unitBookings?.forEach((booking) => {
             const unitStartDate = booking.startDate;
             const unitEndDate = booking.endDate;
             const result = isBookingOpen(unitStartDate, unitEndDate, startDate, endDate);
-
+//* This stops the forEach : only if the helper returns true
             if (result === true) {
                 setErrors(["booking is unavailable, check bookings list to see booked dates."])
                 return {msg:"can not double book"}
             }
         })
+
         const payload = { startDate, endDate, userId, rentalUnitId: unitId }
         const data = await dispatch(fetchAddBooking(payload))
 
-        console.log(errors)
+        console.log("Book Errors: ",errors)
 
         if (data.errors) {
             setErrors(data.errors)
@@ -136,10 +155,6 @@ function BookingCal({ userId, unitId, unitBookings }) {
             Link: https://www.geeksforgeeks.org/how-to-check-if-one-date-is-between-two-dates-in-javascript/
 
     */
-
-    // const testBooking = unitBookings[0]
-    // console.log("test:",testBooking.startDate)
-    // console.log("split test:",testBooking.endDate.split('-'));
 
     const validateBookingDates = () => {
         unitBookings?.forEach((booking) => {
