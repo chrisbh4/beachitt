@@ -14,6 +14,7 @@ function BookingCal({ userId, unitId, unitBookings }) {
     const [errors, setErrors] = useState([]);
 
 
+
     const handleClick = (e) => {
         let dates = e.join('').split("(Pacific Standard Time)")
 
@@ -64,6 +65,11 @@ function BookingCal({ userId, unitId, unitBookings }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         let setter = false ;
+
+        if(startDate.length === 0 || endDate.length === 0){
+            setErrors(["Select two dates"])
+            return;
+        }
 
         unitBookings?.forEach(async(booking) => {
             const unitStartDate = booking.startDate;
