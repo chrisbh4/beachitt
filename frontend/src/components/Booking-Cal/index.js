@@ -5,7 +5,11 @@ import 'react-calendar/dist/Calendar.css';
 import { fetchAddBooking } from "../../store/bookings"
 import { getSingleUnit } from "../../store/rentalUnits"
 
-
+/*
+    TODO
+        - same date booking allows for duplicates
+        - When doing same day booking then book a startDate === to the same dayBooking it allows for overBooking
+*/
 
 function BookingCal({ userId, unitId, unitBookings }) {
     const dispatch = useDispatch();
@@ -82,11 +86,7 @@ function BookingCal({ userId, unitId, unitBookings }) {
                 return;
             }
         });
-        //* errors are never set into the array until the function ends
-        // need to double check error verification and make sure error bookings dont get booked
-        //* go to study hall to double check scoping understanding and when returing inside a function with a if conditon should end the function, correct or no?
 
-        console.log("Before if :", setter)
         if(setter){
             return;
         }else{
@@ -107,22 +107,18 @@ function BookingCal({ userId, unitId, unitBookings }) {
         <div class='flex justify-center '>
             <Calendar selectRange={true} onChange={handleClick} minDate={new Date()} />
             <div>
-
                 <button type="submit" onClick={handleSubmit} >Book This Trip</button>
-
                 <div className="new-booking-errors" hidden={!errors.length} >
                     {
                         errors?.map((error) => {
                             if (error) {
                                 return (
                                     <p key={1}>{error}</p>
-                                )
-                            }
+                                )}
                             return null;
                         })
                     }
                 </div>
-
             </div>
         </div>
     )
