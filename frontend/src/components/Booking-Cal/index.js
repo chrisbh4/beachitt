@@ -52,10 +52,11 @@ function BookingCal({ userId, unitId, unitBookings }) {
     }
 
     function isBookingOpen(unitStart, unitEnd, checkStart, checkEnd) {
-        const splitStart = unitStart.split("-");
-        const splitEnd = unitEnd.split("-");
-        const checkStartSplit = checkStart.split("-");
-        const checkEndSplit = checkEnd.split("-");
+    //* can delete if not being used
+        // const splitStart = unitStart.split("-");
+        // const splitEnd = unitEnd.split("-");
+        // const checkStartSplit = checkStart.split("-");
+        // const checkEndSplit = checkEnd.split("-");
 
         // const unitStartDate = new Date(splitStart[2], parseInt(splitStart[1]) - 1, splitStart[0]);
         // const testDate = Date.parse(unitStart)
@@ -74,22 +75,43 @@ function BookingCal({ userId, unitId, unitBookings }) {
 
 
         const unitStartDate = Date.parse(unitStart)
-        const unitEndDate = Date.parse(unitStart)
+        const unitEndDate = Date.parse(unitEnd)
         const bookingStartDate = Date.parse(checkStart)
         const bookingEndDate = Date.parse(checkEnd)
 
-//! need to figure out the if condition then everything should be gooda
+//* original
         // if (bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) {
-        if ((bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) || (bookingEndDate > unitStartDate && bookingEndDate < unitEndDate)) {
-           //* true = not available
-            console.log(true)
-            return true
+        //     // if startDate is in-between unit.startDate and unit.endDate return true
+        //     // if startDate is not in-between unit.start unit.end : then return false
+        // // if ((bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) || (bookingEndDate > unitStartDate && bookingEndDate < unitEndDate)) {
+        //    //* true = not available
+        //     console.log(true)
+        //     return true
+        // }
+        // else {
+        //     //* if else then it means its open
+        //     console.log("IS open :", false)
+        //     return false
+        // }
+
+
+//* test
+//* need to remeber to set the errors state back to an empty array
+        // if (bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) {
+        if (bookingStartDate > unitStartDate) {
+
+            //* true = not available
+            console.log("greater than unit StartDate")
+            // return false
         }
-        else {
-            //* if else then it means its open
-            console.log("IS open :", false)
-            return false
+
+        if ( bookingStartDate < unitEndDate){
+            console.log("less than unit EndDate")
+            // return true
         }
+
+
+return false
     };
 
 
@@ -103,6 +125,7 @@ function BookingCal({ userId, unitId, unitBookings }) {
             const unitEndDate = booking.endDate;
             const result = isBookingOpen(unitStartDate, unitEndDate, startDate, endDate);
 //* This stops the forEach : only if the helper returns true
+console.log("result :", result)
             if (result === true) {
                 setErrors(["booking is unavailable, check bookings list to see booked dates."])
                 return {msg:"can not double book"}
@@ -112,7 +135,6 @@ function BookingCal({ userId, unitId, unitBookings }) {
         const payload = { startDate, endDate, userId, rentalUnitId: unitId }
         const data = await dispatch(fetchAddBooking(payload))
 
-        console.log("Book Errors: ",errors)
 
         if (data.errors) {
             setErrors(data.errors)
@@ -125,12 +147,13 @@ function BookingCal({ userId, unitId, unitBookings }) {
         // const data = await dispatch(fetchAddBooking(payload))
 
         // if(data.errors){
-        //     setErrors(data.errors)
-        //     return data.errors
-        // }
-        // dispatch(getSingleUnit(unitId))
+            //     setErrors(data.errors)
+            //     return data.errors
+            // }
+            // dispatch(getSingleUnit(unitId))
 
-    };
+        };
+
 
     //* new Date() converts it to date format
 
@@ -155,6 +178,7 @@ function BookingCal({ userId, unitId, unitBookings }) {
             Link: https://www.geeksforgeeks.org/how-to-check-if-one-date-is-between-two-dates-in-javascript/
 
     */
+            console.log("Book Errors: ",errors)
 
     const validateBookingDates = () => {
         unitBookings?.forEach((booking) => {
@@ -209,7 +233,7 @@ function BookingCal({ userId, unitId, unitBookings }) {
                         errors?.map((error) => {
                             if (error) {
                                 return (
-                                    <p key={error.id}>{error}</p>
+                                    <p key={1}>{error}</p>
                                 )
                             }
                             return null;
