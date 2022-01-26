@@ -70,7 +70,7 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
 
     //* from new booking form
 
-    function isBookingOpen(unitStart, unitEnd, checkStart, checkEnd) {
+    function isBookingOpen(unitStart, unitEnd, checkStart, checkEnd , unitBookingId) {
         const unitStartDate = Date.parse(unitStart)
         const unitEndDate = Date.parse(unitEnd)
         const bookingStartDate = Date.parse(checkStart)
@@ -79,6 +79,10 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
 
         //* need to remeber to set the errors state back to an empty array
         if ((bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) || (bookingEndDate > unitStartDate && bookingEndDate < unitEndDate)) {
+            if(bookingId === unitBookingId){
+            //if theit are constriting dates but they have the same id that means the user is just shorting the trip's dates
+                return false
+            }
             //* true = not available
             return true
         }
@@ -95,7 +99,7 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
             const unitStartDate = booking.startDate;
             const unitEndDate = booking.endDate;
             const unitBookingId = booking.id
-            const result = isBookingOpen(unitStartDate, unitEndDate, startDate, endDate);
+            const result = isBookingOpen(unitStartDate, unitEndDate, startDate, endDate, unitBookingId);
             //* This stops the forEach : only if the helper returns true
             if (result === true) {
                 setErrors(["Dates are unavailable, check bookings list to see booked dates."])
