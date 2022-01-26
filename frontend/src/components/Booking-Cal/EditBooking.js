@@ -93,6 +93,13 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        //! Set line 98-101 inside the newBookings for invalid bookings
+        if(startDate === undefined || endDate === undefined){
+            setErrors(["Select two dates"])
+            return;
+        }
+
         let setter = false ;
 
         unitBookings?.forEach(async(booking) => {
