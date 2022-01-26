@@ -81,9 +81,9 @@ function BookingCal({ userId, unitId, unitBookings }) {
 
 //* original
         // if (bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) {
-        //     // if startDate is in-between unit.startDate and unit.endDate return true
-        //     // if startDate is not in-between unit.start unit.end : then return false
-        // // if ((bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) || (bookingEndDate > unitStartDate && bookingEndDate < unitEndDate)) {
+             // if startDate is in-between unit.startDate and unit.endDate return true
+            // if startDate is not in-between unit.start unit.end : then return false
+         // if ((bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) || (bookingEndDate > unitStartDate && bookingEndDate < unitEndDate)) {
         //    //* true = not available
         //     console.log(true)
         //     return true
@@ -97,18 +97,19 @@ function BookingCal({ userId, unitId, unitBookings }) {
 
 //* test
 //* need to remeber to set the errors state back to an empty array
+        if ((bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) || (bookingEndDate > unitStartDate && bookingEndDate < unitEndDate)) {
         // if (bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) {
-        if (bookingStartDate > unitStartDate) {
+        // if (bookingStartDate > unitStartDate) {
 
             //* true = not available
-            console.log("greater than unit StartDate")
-            // return false
+            console.log("greater than unit StartDate // not available")
+            console.log("less than unit EndDate // not available")
+            return true
         }
 
-        if ( bookingStartDate < unitEndDate){
-            console.log("less than unit EndDate")
-            // return true
-        }
+        // if ( bookingStartDate < unitEndDate){
+        //     // return true
+        // }
 
 
 return false
@@ -130,8 +131,13 @@ console.log("result :", result)
                 setErrors(["booking is unavailable, check bookings list to see booked dates."])
                 return {msg:"can not double book"}
             }
+            // else{
+            //     setErrors([])
+            // }
         })
 
+
+//* if errors.length then dont have the code below run just return the func else dispatch
         const payload = { startDate, endDate, userId, rentalUnitId: unitId }
         const data = await dispatch(fetchAddBooking(payload))
 
@@ -178,7 +184,6 @@ console.log("result :", result)
             Link: https://www.geeksforgeeks.org/how-to-check-if-one-date-is-between-two-dates-in-javascript/
 
     */
-            console.log("Book Errors: ",errors)
 
     const validateBookingDates = () => {
         unitBookings?.forEach((booking) => {
