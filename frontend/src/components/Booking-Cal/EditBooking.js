@@ -9,7 +9,7 @@ import {getSingleUnit} from "../../store/rentalUnits";
 
 
 
-function EditBookingPage({bookingId , submitModal}){
+function EditBookingPage({bookingId , submitModal , unitBookings}){
     const {id} = useParams();
     const dispatch = useDispatch();
     const booking = useSelector((state)=> state.bookings);
@@ -46,14 +46,14 @@ function EditBookingPage({bookingId , submitModal}){
         return {msg:"Start and End dates have been clicked."}
     };
 
-    const handleSubmit = async (e) =>{
-        e.preventDefault();
-        const payload = {id,startDate, endDate ,userId, rentalUnitId}
-        const data = await dispatch(fetchEditBooking(payload, bookingId))
-        dispatch(getSingleUnit(id));
-        submitModal(false)
-        return data
-    };
+    // const handleSubmit = async (e) =>{
+    //     e.preventDefault();
+    //     const payload = {id,startDate, endDate ,userId, rentalUnitId}
+    //     const data = await dispatch(fetchEditBooking(payload, bookingId))
+    //     dispatch(getSingleUnit(id));
+    //     submitModal(false)
+    //     return data
+    // };
 
     const handleBookingDelete =  async (e) => {
         e.preventDefault();
@@ -66,67 +66,61 @@ function EditBookingPage({bookingId , submitModal}){
 
     //* from new booking form
 
-//     function isBookingOpen(unitStart, unitEnd, checkStart, checkEnd) {
-//         const unitStartDate = Date.parse(unitStart)
-//         const unitEndDate = Date.parse(unitEnd)
-//         const bookingStartDate = Date.parse(checkStart)
-//         const bookingEndDate = Date.parse(checkEnd)
+    function isBookingOpen(unitStart, unitEnd, checkStart, checkEnd) {
+        const unitStartDate = Date.parse(unitStart)
+        const unitEndDate = Date.parse(unitEnd)
+        const bookingStartDate = Date.parse(checkStart)
+        const bookingEndDate = Date.parse(checkEnd)
 
 
-//         //* need to remeber to set the errors state back to an empty array
-//         if ((bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) || (bookingEndDate > unitStartDate && bookingEndDate < unitEndDate)) {
-//             //* true = not available
-//             return true
-//         }
+        //* need to remeber to set the errors state back to an empty array
+        if ((bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) || (bookingEndDate > unitStartDate && bookingEndDate < unitEndDate)) {
+            //* true = not available
+            return true
+        }
 
-//         return false
-//     };
-
-
-// console.log("errors outside func :", errors)
-
-//     const handleSubmit = async (e) => {
-//         e.preventDefault();
-//         let setter = false ;
-
-//         unitBookings?.forEach(async(booking) => {
-//             const unitStartDate = booking.startDate;
-//             const unitEndDate = booking.endDate;
-//             const result = isBookingOpen(unitStartDate, unitEndDate, startDate, endDate);
-//             //* This stops the forEach : only if the helper returns true
-
-//             if (result === true) {
-//                 setErrors(["booking is unavailable, check bookings list to see booked dates."])
-//                 setter = true
-//                 return;
-//             }
-//         });
-
-//         //* errors are never set into the array until the function ends
-//         // need to double check error verification and make sure error bookings dont get booked
-//         //* go to study hall to double check scoping understanding and when returing inside a function with a if conditon should end the function, correct or no?
-
-//         console.log("Before if :", setter)
-//         if(setter){
-//             //console.log("error has length :", errors);
-//             return;
-//         }else{
-//             setErrors([]);
-//             const payload = { startDate, endDate, userId, rentalUnitId: unitId }
-//             const data = await dispatch(fetchAddBooking(payload))
+        return false
+    };
 
 
-//             if (data.errors) {
-//                 setErrors(data.errors)
-//                 return data.errors
-//             }
-//             await dispatch(getSingleUnit(unitId))
-//             return data
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        let setter = false ;
 
-//         }
+        unitBookings?.forEach(async(booking) => {
+            const unitStartDate = booking.startDate;
+            const unitEndDate = booking.endDate;
+            const result = isBookingOpen(unitStartDate, unitEndDate, startDate, endDate);
+            //* This stops the forEach : only if the helper returns true
+
+            if (result === true) {
+                setErrors(["booking is unavailable, check bookings list to see booked dates."])
+                setter = true
+                return;
+            }
+        });
 
 
-//     };
+        // console.log("Before if :", setter)
+        if(setter){
+            //console.log("error has length :", errors);
+            return;
+        }else{
+            setErrors([]);
+            const payload = {id,startDate, endDate ,userId, rentalUnitId}
+            const data = await dispatch(fetchEditBooking(payload, bookingId))
+
+            if (data.errors) {
+                setErrors(data.errors)
+                return data.errors
+            }
+            await dispatch(getSingleUnit(rentalUnitId))
+            return data
+
+        }
+
+
+    };
 
 
     return(

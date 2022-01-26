@@ -197,7 +197,7 @@ function GetSingleUnitPage() {
                     <div class='relative left-3'>
                         {/* <a href={`/bookings/${booking.id}/edit`}><button>Edit</button>
                         </a> */}
-                        <EditBookingModal bookingId={booking.id} />
+                        <EditBookingModal bookingId={booking.id} unitBookings={unitBookings} />
                         {/* <button class='relative left-4' onClick={handleBookingDelete(booking.id)}>Delete</button> */}
                     </div>
                 </div>
