@@ -9,6 +9,13 @@ import { getSingleUnit } from "../../store/rentalUnits"
     TODO
         - same date booking allows for duplicates
         - When doing same day booking then book a startDate === to the same dayBooking it allows for overBooking
+
+
+        * Before conversion the selected date and the unit date that is turned into a new Date() are exactly the same
+            1.need to convert the unit date with new Date()
+            2.need to have the checkStart to have its orginal format with PST
+            3.use valueOf() to be able to have the dates be converted into miliseconds
+            4. compare if the values are the same if so then return and set error startDate can't be the same as endDate
 */
 
 function BookingCal({ userId, unitId, unitBookings }) {
@@ -17,13 +24,28 @@ function BookingCal({ userId, unitId, unitBookings }) {
     const [endDate, setEndDate] = useState('');
     const [errors, setErrors] = useState([]);
 
+    const [testStart, setTestStart ] = useState("");
+    const [testEnd, setTestEnd ] = useState("");
 
-
+//! this is working
+    console.log(testStart.valueOf())
+    console.log(testEnd);
     const handleClick = (e) => {
+
         let dates = e.join('').split("(Pacific Standard Time)")
+
+        setTestStart(e[0])
+        setTestEnd(e[1])
+
+        //gives ms value
+        // console.log("dates", x.valueOf())
+
+
 
         const startArray = dates[0].split(' ')
         const endArray = dates[1].split(' ')
+
+        // console.log("startDate before conv :", dates[0])
 
         // const startDateObj = {
         //     weekday: startArray[0],
@@ -44,6 +66,8 @@ function BookingCal({ userId, unitId, unitBookings }) {
         const startDateStringConverter = `${startArray[3]}-${startArray[1]}-${startArray[2]}`
         const endDateStringConverter = `${endArray[3]}-${endArray[1]}-${endArray[2]}`
 
+        // console.log("conv :", startDateStringConverter)
+
         setStartDate(startDateStringConverter);
         setEndDate(endDateStringConverter);
     };
@@ -51,15 +75,36 @@ function BookingCal({ userId, unitId, unitBookings }) {
     /*
     * Bookings validate frontend funitonality
     Link: https://www.geeksforgeeks.org/how-to-check-if-one-date-is-between-two-dates-in-javascript/
+
+    - need to see both booking with the same startDate
+    - if both unitStart and StartDate are === return "startDate is already taken"
+    - if startDate === unitEnd date return "date is already taken"
+
+    * might have to reconvert how the clicked date is placed into the helper function
     */
     function isBookingOpen(unitStart, unitEnd, checkStart, checkEnd) {
+
+        // console.log(unitStart.split('-'))
+
+        const test = unitStart.split('-')
+        // const testCheck = checkStart.split('-')
+        // console.log(testCheck)
+        console.log("Unit start date :", new Date(test[0],test[1]-1,test[2]))
+        // console.log("check date :", new Date(testCheck[0],testCheck[1]-1,testCheck[2]))
+        // console.log("checkStart :", checkStart.getTime() )
+
+
+
         const unitStartDate = Date.parse(unitStart)
         const unitEndDate = Date.parse(unitEnd)
         const bookingStartDate = Date.parse(checkStart)
         const bookingEndDate = Date.parse(checkEnd)
 
+
+
         //* need to remeber to set the errors state back to an empty array
         if ((bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) || (bookingEndDate > unitStartDate && bookingEndDate < unitEndDate)) {
+            // if( )
             //* true = not available
             return true
         }
