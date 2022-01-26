@@ -72,27 +72,31 @@ console.log("errors outside func :", errors)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        let setter = false ;
 
         unitBookings?.forEach(async(booking) => {
             const unitStartDate = booking.startDate;
             const unitEndDate = booking.endDate;
             const result = isBookingOpen(unitStartDate, unitEndDate, startDate, endDate);
             //* This stops the forEach : only if the helper returns true
-            console.log("result :", result)
+
             if (result === true) {
-               await setErrors(["booking is unavailable, check bookings list to see booked dates."])
-                return errors;
+                setErrors(["booking is unavailable, check bookings list to see booked dates."])
+                setter = true
+                return;
             }
         });
 
-        //setErrors is used but the errors.length never gets touched
-        //* booking errors are being set into errors from the forEach but it doesn't register for the if condition
-        if(errors){
-        // if(errors[0].length){
-            // return;
-            console.log("error has length :", errors);
+        //* errors are never set into the array until the function ends
+        // need to double check error verification and make sure error bookings dont get booked
+        //* go to study hall to double check scoping understanding and when returing inside a function with a if conditon should end the function, correct or no?
+
+        console.log("Before if :", setter)
+        if(setter){
+            //console.log("error has length :", errors);
             return;
         }else{
+            setErrors([]);
             const payload = { startDate, endDate, userId, rentalUnitId: unitId }
             const data = await dispatch(fetchAddBooking(payload))
 
