@@ -6,7 +6,11 @@ import 'react-calendar/dist/Calendar.css';
 import {fetchBooking , fetchEditBooking , fetchDeleteBooking} from "../../store/bookings";
 import {getSingleUnit} from "../../store/rentalUnits";
 
-
+/*
+TODO
+    [] If user is updating its own booking the error validations still throw error as if its a new booking
+        - need to to check if
+*/
 
 
 function EditBookingPage({bookingId , submitModal , unitBookings}){
@@ -71,7 +75,7 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
         const unitEndDate = Date.parse(unitEnd)
         const bookingStartDate = Date.parse(checkStart)
         const bookingEndDate = Date.parse(checkEnd)
-
+// if bookingId === unitBookingID and they still failed the algo then return false because this means that it is just editing it's own booking
 
         //* need to remeber to set the errors state back to an empty array
         if ((bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) || (bookingEndDate > unitStartDate && bookingEndDate < unitEndDate)) {
@@ -90,12 +94,12 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
         unitBookings?.forEach(async(booking) => {
             const unitStartDate = booking.startDate;
             const unitEndDate = booking.endDate;
+            const unitBookingId = booking.id
             const result = isBookingOpen(unitStartDate, unitEndDate, startDate, endDate);
             //* This stops the forEach : only if the helper returns true
-
             if (result === true) {
-                setErrors(["booking is unavailable, check bookings list to see booked dates."])
-                setter = true
+                setErrors(["Dates are unavailable, check bookings list to see booked dates."])
+                setter = true;
                 return;
             }
         });
@@ -115,17 +119,29 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
                 return data.errors
             }
             await dispatch(getSingleUnit(rentalUnitId))
+            submitModal(false)
             return data
-
         }
 
-
     };
-
 
     return(
         <div class='flex justify-center p-10 '>
         <Calendar selectRange={true}  onChange={handleClick} minDate={new Date()}/>
+
+        <div className="new-booking-errors" hidden={!errors.length} >
+                    {
+                        errors?.map((error) => {
+                            if (error) {
+                                return (
+                                    <p key={1}>{error}</p>
+                                )
+                            }
+                            return null;
+                        })
+                    }
+        </div>
+
         <div class="flex flex-col  justify-center ml-4">
         <button type="submit" onClick={handleSubmit} >Update</button>
         <button type="submit" onClick={handleBookingDelete} class='mt-3' >Delete</button>
