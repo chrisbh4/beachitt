@@ -6,13 +6,6 @@ import 'react-calendar/dist/Calendar.css';
 import {fetchBooking , fetchEditBooking , fetchDeleteBooking} from "../../store/bookings";
 import {getSingleUnit} from "../../store/rentalUnits";
 
-/*
-TODO
-    [] If user is updating its own booking the error validations still throw error as if its a new booking
-        - need to to check if
-*/
-
-
 function EditBookingPage({bookingId , submitModal , unitBookings}){
     const {id} = useParams();
     const dispatch = useDispatch();
@@ -50,15 +43,6 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
         return {msg:"Start and End dates have been clicked."}
     };
 
-    // const handleSubmit = async (e) =>{
-    //     e.preventDefault();
-    //     const payload = {id,startDate, endDate ,userId, rentalUnitId}
-    //     const data = await dispatch(fetchEditBooking(payload, bookingId))
-    //     dispatch(getSingleUnit(id));
-    //     submitModal(false)
-    //     return data
-    // };
-
     const handleBookingDelete =  async (e) => {
         e.preventDefault();
         await dispatch(fetchDeleteBooking(bookingId));
@@ -67,23 +51,16 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
         return {msg:"Booking has been removed."}
     };
 
-
-    //* from new booking form
-
     function isBookingOpen(unitStart, unitEnd, checkStart, checkEnd , unitBookingId) {
         const unitStartDate = Date.parse(unitStart)
         const unitEndDate = Date.parse(unitEnd)
         const bookingStartDate = Date.parse(checkStart)
         const bookingEndDate = Date.parse(checkEnd)
-// if bookingId === unitBookingID and they still failed the algo then return false because this means that it is just editing it's own booking
 
-        //* need to remeber to set the errors state back to an empty array
         if ((bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) || (bookingEndDate > unitStartDate && bookingEndDate < unitEndDate)) {
             if(bookingId === unitBookingId){
-            //if theit are constriting dates but they have the same id that means the user is just shorting the trip's dates
                 return false
             }
-            //* true = not available
             return true
         }
         return false
@@ -97,9 +74,9 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
         unitBookings?.forEach(async(booking) => {
             const unitStartDate = booking.startDate;
             const unitEndDate = booking.endDate;
-            const unitBookingId = booking.id
+            const unitBookingId = booking.id;
             const result = isBookingOpen(unitStartDate, unitEndDate, startDate, endDate, unitBookingId);
-            //* This stops the forEach : only if the helper returns true
+
             if (result === true) {
                 setErrors(["Dates are unavailable, check bookings list to see booked dates."])
                 setter = true;
@@ -107,10 +84,7 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
             }
         });
 
-
-        // console.log("Before if :", setter)
         if(setter){
-            //console.log("error has length :", errors);
             return;
         }else{
             setErrors([]);
@@ -131,20 +105,17 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
     return(
         <div class='flex justify-center p-10 '>
         <Calendar selectRange={true}  onChange={handleClick} minDate={new Date()}/>
-
-        <div className="new-booking-errors" hidden={!errors.length} >
+        <div className="edit-booking-errors" hidden={!errors.length} >
                     {
                         errors?.map((error) => {
                             if (error) {
                                 return (
                                     <p key={1}>{error}</p>
-                                )
-                            }
+                                )}
                             return null;
                         })
                     }
         </div>
-
         <div class="flex flex-col  justify-center ml-4">
         <button type="submit" onClick={handleSubmit} >Update</button>
         <button type="submit" onClick={handleBookingDelete} class='mt-3' >Delete</button>
@@ -153,7 +124,6 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
     )
 
 };
-
 
 
 export default EditBookingPage
