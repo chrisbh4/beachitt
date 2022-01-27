@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from '../../../context/Modal';
 import EditBookingPage from '../../Booking-Cal/EditBooking';
 
-function EditBookingModal({bookingId}) {
+function EditBookingModal({bookingId, unitBookings}) {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -10,7 +10,7 @@ function EditBookingModal({bookingId}) {
       <button onClick={() => setShowModal(true)}>Edit Booking</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <EditBookingPage bookingId={bookingId} submitModal={setShowModal}/>
+          <EditBookingPage bookingId={bookingId} submitModal={setShowModal} unitBookings={unitBookings} />
         </Modal>
       )}
     </>

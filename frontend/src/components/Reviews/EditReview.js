@@ -40,7 +40,6 @@ function EditReviewForm({id, submitModal}) {
         if (data.errors){
             const test ="this added to the array";
             const testErr = [...data.errors,...test];
-            console.log("Test Errors:",console.log(testErr));
             setErrors(data.errors);
             return data
 

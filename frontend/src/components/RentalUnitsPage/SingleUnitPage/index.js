@@ -21,7 +21,6 @@ function GetSingleUnitPage() {
     const unitBookings = unit?.Bookings;
 
 
-    console.log(unitBookings);
 
     const unitLat = unit?.lat;
     const unitLng = unit?.lng;
@@ -158,7 +157,6 @@ function GetSingleUnitPage() {
 
     const displayBookings = () => {
         return unitBookings?.map((booking) => {
-            console.log("Unit page Start:", booking.startDate)
             const splitStartDate = booking.startDate.split('-')
             const startDate = `${splitStartDate[1]} / ${splitStartDate[2]} / ${splitStartDate[0]}`
 
@@ -199,7 +197,7 @@ function GetSingleUnitPage() {
                     <div class='relative left-3'>
                         {/* <a href={`/bookings/${booking.id}/edit`}><button>Edit</button>
                         </a> */}
-                        <EditBookingModal bookingId={booking.id} />
+                        <EditBookingModal bookingId={booking.id} unitBookings={unitBookings} />
                         {/* <button class='relative left-4' onClick={handleBookingDelete(booking.id)}>Delete</button> */}
                     </div>
                 </div>
