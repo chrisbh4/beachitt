@@ -24,18 +24,15 @@ function BookingCal({ userId, unitId, unitBookings }) {
     const [endDate, setEndDate] = useState('');
     const [errors, setErrors] = useState([]);
 
-    const [testStart, setTestStart ] = useState("");
-    const [testEnd, setTestEnd ] = useState("");
+    const [startDateConv, setStartDateCov] = useState("");
+    const [endDateConv, setEndDateCov] = useState("");
 
-//! this is working
-    console.log(testStart.valueOf())
-    console.log(testEnd);
     const handleClick = (e) => {
 
         let dates = e.join('').split("(Pacific Standard Time)")
 
-        setTestStart(e[0])
-        setTestEnd(e[1])
+        setStartDateCov(e[0])
+        setEndDateCov(e[1])
 
         //gives ms value
         // console.log("dates", x.valueOf())
@@ -84,27 +81,35 @@ function BookingCal({ userId, unitId, unitBookings }) {
     */
     function isBookingOpen(unitStart, unitEnd, checkStart, checkEnd) {
 
-        // console.log(unitStart.split('-'))
-
-        const test = unitStart.split('-')
-        // const testCheck = checkStart.split('-')
-        // console.log(testCheck)
-        console.log("Unit start date :", new Date(test[0],test[1]-1,test[2]))
-        // console.log("check date :", new Date(testCheck[0],testCheck[1]-1,testCheck[2]))
-        // console.log("checkStart :", checkStart.getTime() )
 
 
+        const unitStartArr = unitStart.split('-')
+        const unitEndSplit = unitEnd.split('-')
+
+        const checkStartCov = startDateConv.valueOf();
+        const checkEndCov = endDateConv.valueOf();
+
+        const unitStartConv = new Date(unitStartArr[0], unitStartArr[1] - 1, unitStartArr[2]).valueOf()
+        const unitEndConv = new Date(unitEndSplit[0], unitEndSplit[1] - 1, unitEndSplit[2]).valueOf()
 
         const unitStartDate = Date.parse(unitStart)
         const unitEndDate = Date.parse(unitEnd)
         const bookingStartDate = Date.parse(checkStart)
         const bookingEndDate = Date.parse(checkEnd)
-
-
-
-        //* need to remeber to set the errors state back to an empty array
+// if start date has the same end date it still books
+//start dates are the same
+        if (checkStartCov === unitStartConv) {
+            return true
+        }
+        if (checkStartCov === unitEndConv) {
+            return true
+        }
+//end dates are the same
+        if (checkEndCov === unitEndConv) {
+            return true
+        }
+//* need to remeber to set the errors state back to an empty array
         if ((bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) || (bookingEndDate > unitStartDate && bookingEndDate < unitEndDate)) {
-            // if( )
             //* true = not available
             return true
         }
@@ -113,14 +118,14 @@ function BookingCal({ userId, unitId, unitBookings }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        let setter = false ;
+        let setter = false;
 
-        if(startDate.length === 0 || endDate.length === 0){
+        if (startDate.length === 0 || endDate.length === 0) {
             setErrors(["Select two dates"])
             return;
         }
 
-        unitBookings?.forEach(async(booking) => {
+        unitBookings?.forEach(async (booking) => {
             const unitStartDate = booking.startDate;
             const unitEndDate = booking.endDate;
             const result = isBookingOpen(unitStartDate, unitEndDate, startDate, endDate);
@@ -132,9 +137,9 @@ function BookingCal({ userId, unitId, unitBookings }) {
             }
         });
 
-        if(setter){
+        if (setter) {
             return;
-        }else{
+        } else {
             setErrors([]);
             const payload = { startDate, endDate, userId, rentalUnitId: unitId }
             const data = await dispatch(fetchAddBooking(payload))
@@ -159,7 +164,8 @@ function BookingCal({ userId, unitId, unitBookings }) {
                             if (error) {
                                 return (
                                     <p key={1}>{error}</p>
-                                )}
+                                )
+                            }
                             return null;
                         })
                     }
