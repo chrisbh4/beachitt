@@ -6,6 +6,12 @@ import 'react-calendar/dist/Calendar.css';
 import {fetchBooking , fetchEditBooking , fetchDeleteBooking} from "../../store/bookings";
 import {getSingleUnit} from "../../store/rentalUnits";
 
+/*
+    ! Optimization notes
+        * inside isBookingOpen()
+            - replace Date.parse() variable with all the converted dates "checkStartConv, checkEndConv, unitStartConv, unitEndConv"
+*/
+
 function EditBookingPage({bookingId , submitModal , unitBookings}){
     const {id} = useParams();
     const dispatch = useDispatch();
@@ -22,6 +28,9 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
     const [rentalUnitId, setRentalUnitId] = useState(booking.rentalUnitId);
     const [errors , setErrors] = useState([]);
 
+    const [startDateConv, setStartDateCov] = useState("");
+    const [endDateConv, setEndDateCov] = useState("");
+
     useEffect(()=>{
         setStartDate(booking?.startDate)
         setEndDate(booking?.endDate)
@@ -32,6 +41,10 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
 
     const handleClick = (e) =>{
         let dates = e.join('').split("(Pacific Standard Time)")
+
+        setStartDateCov(e[0])
+        setEndDateCov(e[1])
+
         const startArray = dates[0].split(' ')
         const endArray = dates[1].split(' ')
 
@@ -51,6 +64,9 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
         return {msg:"Booking has been removed."}
     };
 
+
+    /*
+    * Orignial
     function isBookingOpen(unitStart, unitEnd, checkStart, checkEnd , unitBookingId) {
         const unitStartDate = Date.parse(unitStart)
         const unitEndDate = Date.parse(unitEnd)
@@ -65,6 +81,48 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
         }
         return false
     };
+
+    */
+
+   function isBookingOpen(unitStart, unitEnd, checkStart, checkEnd, unitBookingId) {
+
+       const unitStartArr = unitStart.split('-')
+       const unitEndSplit = unitEnd.split('-')
+
+       const checkStartConv = startDateConv.valueOf();
+       const checkEndConv = endDateConv.valueOf();
+
+       const unitStartConv = new Date(unitStartArr[0], unitStartArr[1] - 1, unitStartArr[2]).valueOf()
+       const unitEndConv = new Date(unitEndSplit[0], unitEndSplit[1] - 1, unitEndSplit[2]).valueOf()
+
+       const unitStartDate = Date.parse(unitStart)
+       const unitEndDate = Date.parse(unitEnd)
+       const bookingStartDate = Date.parse(checkStart)
+       const bookingEndDate = Date.parse(checkEnd)
+
+//* same startDate but longer endDate changes : returns error
+//* same startDate but shorter endDate : returns error
+//* startDate was the endDate now endDate got longer
+//* if start dates are the same , end dates are the same , end date can't be the same as unit.start
+    if (checkStartConv === unitStartConv || checkStartConv === unitEndConv || checkEndConv === unitEndConv || checkEndConv === unitStartConv) {
+        if(bookingId === unitBookingId){
+            return false
+        }
+        return true
+    }
+//* start date can be less than unit.start but endDate must be less unit.end
+    if( bookingStartDate < unitStartDate && bookingEndDate > unitEndDate ){
+        return true
+    }
+    if ((bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) || (bookingEndDate > unitStartDate && bookingEndDate < unitEndDate)) {
+            if(bookingId === unitBookingId){
+                return false
+            }
+            return true
+        }
+    return false
+};
+
 
 
     const handleSubmit = async (e) => {

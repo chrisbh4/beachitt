@@ -96,21 +96,17 @@ function BookingCal({ userId, unitId, unitBookings }) {
         const unitEndDate = Date.parse(unitEnd)
         const bookingStartDate = Date.parse(checkStart)
         const bookingEndDate = Date.parse(checkEnd)
-// if start date has the same end date it still books
-//start dates are the same
-        if (checkStartCov === unitStartConv) {
+
+//* if start dates are the same , end dates are the same , end date can't be the same as unit.start
+        if (checkStartCov === unitStartConv || checkStartCov === unitEndConv || checkEndCov === unitEndConv || checkEndCov === unitStartConv) {
             return true
         }
-        if (checkStartCov === unitEndConv) {
+ //* start date can be less than unit.start but endDate must be less unit.end
+        if( bookingStartDate < unitStartDate && bookingEndDate > unitEndDate ){
             return true
         }
-//end dates are the same
-        if (checkEndCov === unitEndConv) {
-            return true
-        }
-//* need to remeber to set the errors state back to an empty array
         if ((bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) || (bookingEndDate > unitStartDate && bookingEndDate < unitEndDate)) {
-            //* true = not available
+//* true = not available
             return true
         }
         return false
