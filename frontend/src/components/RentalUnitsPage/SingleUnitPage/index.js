@@ -217,9 +217,14 @@ function GetSingleUnitPage() {
     //     if()
     // }
 
+    /*
+
+    Unit Page : grid needs 3 Rows and 2 Columns
+    */
+
     return (
-        <div>
-            <div class='justify-center flex pt-5 '  >
+        <div id="here">
+            <div id='row-1' class='justify-center flex pt-5 '  >
                 <div id='unit-detail-image' class='w-7/12 '>
                     <img class='min-h-full  ' src={`${unit?.url}`} alt={unit?.title} ></img>
                 </div>
@@ -248,12 +253,6 @@ function GetSingleUnitPage() {
                         </>
                     </div>
                 </div>
-
-
-                {/* Google Maps goes here */}
-
-
-
             </div>
 
             <div class=' w-full bg-gray-200 h-full mt-3 flex flex-col justify-center items-center '>
