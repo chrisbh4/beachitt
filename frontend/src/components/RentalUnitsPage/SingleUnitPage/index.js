@@ -223,8 +223,10 @@ function GetSingleUnitPage() {
     */
 
     return (
-        <div id="here">
-            <div id='row-1' class='justify-center flex pt-5 '  >
+        // <div id="unit-grid-container" class='grid grid-cols-2'>
+        <div id="unit-grid-container" >
+{/* Row-1 */}
+            <div id='row-1' class=' justify-center flex pt-5 '  >
                 <div id='unit-detail-image' class='w-7/12 '>
                     <img class='min-h-full  ' src={`${unit?.url}`} alt={unit?.title} ></img>
                 </div>
@@ -254,56 +256,52 @@ function GetSingleUnitPage() {
                     </div>
                 </div>
             </div>
+{/* Row-2 */}
+            <div id='row-2' class='flex  px-3  '>
+                <div class=' w-full bg-gray-200 h-full mt-3 flex flex-col justify-center items-center '>
+                    <MapContainer lat={unitLat} lng={unitLng} />
+                </div>
 
-            <div class=' w-full bg-gray-200 h-full mt-3 flex flex-col justify-center items-center '>
-                {/* <h1>Google Maps</h1> */}
+                {/* Reviews will be a grid */}
+                <div class=' w-full bg-gray-200 h-60 mt-3 overflow-scroll p-10 mb-6'>
+                    <div class='overflow-scroll'>
+                        <h1 class='text-center text-3xl font-medium relative bottom-4 pt-3 '>Reviews </h1>
 
+                        <div class='text-center pt-3 pb-4'>
+                            {/* <button ><a href={`/${unit?.id}/reviews/new`}>Leave a Review</a></button> */}
+                            <NewReviewModal />
+                            {/* <button ><a href='/'>Leave a Review</a></button> */}
+                        </div>
+                        <div class='flex justify-around'>
+                            <p class='underline font-medium text-xl '>Username </p>
+                            <p class='underline font-medium text-xl '>Comment </p>
+                        </div>
 
-                {/* pass in the unit.lat & unit.lng */}
-                <MapContainer lat={unitLat} lng={unitLng} />
-            </div>
+                        {displayReviews()}
 
-            {/* Reviews will be a grid */}
-            <div class=' w-full bg-gray-200 h-60 mt-3 overflow-scroll p-10 mb-6'>
-                <div class='overflow-scroll'>
-                    <h1 class='text-center text-3xl font-medium relative bottom-4 pt-3 '>Reviews </h1>
-
-                    <div class='text-center pt-3 pb-4'>
-                        {/* <button ><a href={`/${unit?.id}/reviews/new`}>Leave a Review</a></button> */}
-                        <NewReviewModal />
-                        {/* <button ><a href='/'>Leave a Review</a></button> */}
                     </div>
-                    <div class='flex justify-around'>
-                        <p class='underline font-medium text-xl '>Username </p>
-                        <p class='underline font-medium text-xl '>Comment </p>
-                    </div>
-
-                    {displayReviews()}
-
                 </div>
             </div>
 
-            {/* need to pass in the calendar props */}
+{/* Row-3 */}
+            <div id='row-3' class='flex justify-between mt-5 border-t-4 border-black'>
 
-            <div class='pb-20'>
-                {/* <BookingCal userId={userId} unitId={unit?.id} /> */}
-                <BookingCal userId={userId} unitId={unit?.id} unitBookings={unit.Bookings} />
-            </div>
-
-            {/* Bookings will be a grid */}
-            <div class=' w-full bg-gray-200 h-60 mt-3 overflow-scroll p-10 mb-6'>
-                <div class='overflow-scroll'>
-
-                    <div class='flex justify-evenly'>
-                        <p class='underline font-medium text-xl '>Start Date </p>
-                        <p class='underline font-medium text-xl '>End Date </p>
-                    </div>
-
-                    {displayBookings()}
-
+                <div class='pb-10  pt-2 ' id="calendar-display">
+                    <BookingCal userId={userId} unitId={unit?.id} unitBookings={unit.Bookings} />
                 </div>
-            </div>
 
+                {/* <div id='booking-dates-display' class=' w-full bg-gray-200 h-60 mt-3 overflow-scroll p-10 mb-6'> */}
+                <div id='booking-dates-display' class='w-3/5 bg-gray-200 h-60 mt-3 overflow-scroll pr-10 mb-6'>
+                    <div class='overflow-scroll'>
+                        <div class='flex justify-evenly'>
+                            <p class='underline font-medium text-xl '>Start Date </p>
+                            <p class='underline font-medium text-xl '>End Date </p>
+                        </div>
+                        {displayBookings()}
+                    </div>
+                </div>
+
+            </div>
 
 
             {/* End of Container */}
