@@ -69,13 +69,17 @@ function ProfileButton({ user }) {
 
       </nav>
       {showMenu && (
-        <ul className="profile-dropdown">
-          <li> {user.username}</li>
-          <li>{user.email}</li>
-          <li>
+        <div  id="menu-background-container" class='flex justify-center'>
+        <div id='profile-bg' class='absolute bg-yellow-100 px-10 py-3 '>
+        <ul className="profile-dropdown"  >
+          <li class='py-1'> {user.username}</li>
+          <li class='py-1'>{user.email}</li>
+          <li class='pt-2'>
             <button onClick={logout}>Log Out</button>
           </li>
         </ul>
+        </div>
+        </div>
       )}
     </>
 
