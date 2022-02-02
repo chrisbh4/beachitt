@@ -50,8 +50,8 @@ function NewReviewForm ({submitModal}){
     };
 
     return (
-        <div class='p-10'>
-            <h1 class='text-center'>Leave a review</h1>
+        <div class='p-10 bg-yellow-200'>
+            <h1 class='text-center text-2xl'>Leave a review</h1>
 
             <div>
                 <form

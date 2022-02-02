@@ -161,7 +161,7 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
     };
 
     return(
-        <div class='flex justify-center p-10 '>
+        <div class='flex justify-center p-10 bg-yellow-200 '>
         <Calendar selectRange={true}  onChange={handleClick} minDate={new Date()}/>
         <div className="edit-booking-errors" hidden={!errors.length} >
                     {
