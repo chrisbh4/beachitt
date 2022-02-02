@@ -226,13 +226,13 @@ function GetSingleUnitPage() {
         // <div id="unit-grid-container" class='grid grid-cols-2'>
         <div id="unit-grid-container" >
 {/* Row-1 */}
-            <div id='row-1' class=' justify-center flex pt-5 '  >
-                <div id='unit-detail-image' class='w-7/12 '>
-                    <img class='min-h-full  ' src={`${unit?.url}`} alt={unit?.title} ></img>
+            <div id='row-1' class='  justify-center flex pt-5 '  >
+                <div id='unit-detail-image' class='w-6/12 '>
+                    <img class=' h-full  w-full  ' src={`${unit?.url}`} alt={unit?.title} ></img>
                 </div>
-
-                <div id="details-container" class='bg-gray-200 w-4/12  flex flex-col  p-10  overflow-scroll '>
-                    <div class='relative top-10 overflow-scroll '>
+                {/* Overflow is causing the white line */}
+                <div id="details-container" class='bg-gray-200 w-4/12  flex flex-col  p-10  overflow-y-auto '>
+                    <div class='relative top-10   '>
                         <h2 class='text-center text-3xl pb-4 '>{unit?.title}</h2>
                         <div className="unit-details" class='text-center   ' >
                             <div class='content-center'>
@@ -257,14 +257,14 @@ function GetSingleUnitPage() {
                 </div>
             </div>
 {/* Row-2 */}
-            <div id='row-2' class='flex  px-3  '>
+            <div id='row-2' class='flex  px-3'>
                 <div class=' w-full bg-gray-200 h-full mt-3 flex flex-col justify-center items-center '>
                     <MapContainer lat={unitLat} lng={unitLng} />
                 </div>
 
                 {/* Reviews will be a grid */}
-                <div class=' w-full bg-gray-200 h-60 mt-3 overflow-scroll p-10 mb-6'>
-                    <div class='overflow-scroll'>
+                <div class=' w-full h-full bg-gray-200 h-60 mt-3 overflow-y-auto p-10 mb-6'>
+                    <div>
                         <h1 class='text-center text-3xl font-medium relative bottom-4 pt-3 '>Reviews </h1>
 
                         <div class='text-center pt-3 pb-4'>
@@ -284,15 +284,14 @@ function GetSingleUnitPage() {
             </div>
 
 {/* Row-3 */}
-            <div id='row-3' class='flex justify-between mt-5 border-t-4 border-black'>
+            <div id='row-3' class='flex justify-around mt-5 border-t-4 border-black'>
 
-                <div class='pb-10  pt-2 ' id="calendar-display">
+                <div class='pb-10  pt-2   ' id="calendar-display">
                     <BookingCal userId={userId} unitId={unit?.id} unitBookings={unit.Bookings} />
                 </div>
 
-                {/* <div id='booking-dates-display' class=' w-full bg-gray-200 h-60 mt-3 overflow-scroll p-10 mb-6'> */}
-                <div id='booking-dates-display' class='w-3/5 bg-gray-200 h-60 mt-3 overflow-scroll pr-10 mb-6'>
-                    <div class='overflow-scroll'>
+                <div id='booking-dates-display' class=' w-full bg-gray-200 h-60 mt-3   p-10 mb-6 overflow-y-auto'>
+                    <div>
                         <div class='flex justify-evenly'>
                             <p class='underline font-medium text-xl '>Start Date </p>
                             <p class='underline font-medium text-xl '>End Date </p>
