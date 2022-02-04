@@ -79,15 +79,11 @@
     width: 85%;
 }
 
-/* #calendar-display{
-    background-color: blanchedalmond;
-} */
 
-/* #details-container{
-    overflow: scroll;
-} */
+#map-container{
+    width: 100%;
+}
 
-/* #row-2{
-   position: relative;
-   left: 138px;
-} */
+#reviews-cont-height{
+    height: 500px;
+}
