@@ -78,9 +78,9 @@ function NewUnitForm({submitModal}) {
 
 
     return(
-        <div className="form-placement">
+        <div className="form-placement"    >
             <h2 className="form-title">New Rental Unit Form</h2>
-            <div className="newUnitForm-container">
+            <div className="newUnitForm-container" >
                 <form
                     className="new-form"
                     onSubmit={handleSubmit}

@@ -1,11 +1,13 @@
 .form-placement{
     display: flex;
     flex-direction: column;
+    padding: 20px;
+    background-color: rgb(238, 225, 225);
 }
 
 
 .newUnitForm-container{
-    padding:20px;
+    padding:35px;
     display: flex;
     justify-content: center;
     align-self: center;
@@ -17,10 +19,23 @@
 
 .form-title{
     text-align: center;
+    font-size: x-large;
+    padding-bottom: 5px;
+    position: relative;
+    bottom: 6px;
 }
 
 .new-form{
     display: flex;
     justify-content: center;
     flex-direction: column;
+}
+
+
+.new-unit-errors{
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 2px solid black;
+    margin-bottom: 20px;
+    color: red;
 }
