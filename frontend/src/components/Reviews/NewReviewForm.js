@@ -61,7 +61,7 @@ function NewReviewForm ({submitModal}){
                             errors.map((error) => {
                                 if (error) {
                                     return (
-                                        <p key={error.id}>{error}</p>
+                                        <p class='text-red-500 text-lg mt-2' key={error.id}>{error}</p>
                                     )
                                 }
                                 return null;
