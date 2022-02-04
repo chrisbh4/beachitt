@@ -286,11 +286,12 @@ function GetSingleUnitPage() {
 {/* Row-3 */}
             <div id='row-3' class='flex justify-around mt-5 border-t-4 border-black'>
 
-                <div class='pb-10  pt-2   ' id="calendar-display">
+                <div class='pb-10  pt-2 ' id="calendar-display">
+                {/* <div class='p-10 ' id="calendar-display"> */}
                     <BookingCal userId={userId} unitId={unit?.id} unitBookings={unit.Bookings} />
                 </div>
 
-                <div id='booking-dates-display' class=' w-full bg-gray-200 h-60 mt-3   p-10 mb-6 overflow-y-auto'>
+                <div id='booking-dates-display' class=' w-6/12 bg-gray-200 h-60 mt-3   p-10 mb-6 overflow-y-auto'>
                     <div>
                         <div class='flex justify-evenly'>
                             <p class='underline font-medium text-xl '>Start Date </p>

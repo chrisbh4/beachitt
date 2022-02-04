@@ -4,6 +4,7 @@ import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import { fetchAddBooking } from "../../store/bookings"
 import { getSingleUnit } from "../../store/rentalUnits"
+import './booking.css'
 
 /*
     TODO
@@ -154,12 +155,12 @@ function BookingCal({ userId, unitId, unitBookings }) {
             <Calendar selectRange={true} onChange={handleClick} minDate={new Date()} />
             <div>
                 <button type="submit" onClick={handleSubmit} >Book This Trip</button>
-                <div className="new-booking-errors" hidden={!errors.length} >
+                <div class='w-7/12 min-w-full p-2' id='booking-error' hidden={!errors.length} >
                     {
                         errors?.map((error) => {
                             if (error) {
                                 return (
-                                    <p key={1}>{error}</p>
+                                    <p id='test' class=' ml-3 text-lg w-full' key={1}>{error}</p>
                                 )
                             }
                             return null;
