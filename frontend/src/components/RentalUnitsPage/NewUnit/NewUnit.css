@@ -24,7 +24,7 @@
     font-size: x-large;
     padding-bottom: 5px;
     position: relative;
-    bottom: 6px;
+    /* bottom: 6px; */
 }
 
 .new-form{
@@ -36,7 +36,7 @@
 
 .new-unit-errors{
     text-align: center;
-    height: 170px;
+    height: 150px;
     overflow-y: scroll;
     padding-bottom: 10px;
     border-bottom: 2px solid black;

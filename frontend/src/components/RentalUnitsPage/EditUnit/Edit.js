@@ -282,6 +282,7 @@ function EditUnitForm({submitModal}) {
                     ></input>
                     <label>Unit Description: </label>
                     <textarea
+                        class='p-2'
                         onChange={updateRentalUnitDescription}
                         value={rentalUnitDescription}
                         placeholder={rentalUnit?.rentalUnitDescription}
