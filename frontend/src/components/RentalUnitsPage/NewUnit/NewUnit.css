@@ -36,8 +36,9 @@
 
 .new-unit-errors{
     text-align: center;
-    height: 150px;
+    max-height: 150px;
     overflow-y: scroll;
+
     padding-bottom: 10px;
     border-bottom: 2px solid black;
     margin-bottom: 20px;
