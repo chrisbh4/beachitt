@@ -257,13 +257,13 @@ function GetSingleUnitPage() {
                 </div>
             </div>
 {/* Row-2 */}
-            <div id='row-2' class='flex  px-3'>
-                <div class=' w-full bg-gray-200 h-full mt-3 flex flex-col justify-center items-center '>
-                    <MapContainer lat={unitLat} lng={unitLng} />
+            <div id='row-2' class=' w-full flex  px-3 relative left-1/4 '>
+                <div class=' w-6/12  bg-gray-200 h-full mt-3 flex flex-col justify-center items-center   '>
+                    <MapContainer lat={unitLat} lng={unitLng}  />
                 </div>
 
                 {/* Reviews will be a grid */}
-                <div class=' w-full h-full bg-gray-200 h-60 mt-3 overflow-y-auto p-10 mb-6'>
+                <div class=' w-4/12 h-full bg-gray-200 h-60 mt-3 overflow-y-auto p-10 mb-6'>
                     <div>
                         <h1 class='text-center text-3xl font-medium relative bottom-4 pt-3 '>Reviews </h1>
 
