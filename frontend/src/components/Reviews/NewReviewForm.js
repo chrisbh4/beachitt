@@ -50,8 +50,8 @@ function NewReviewForm ({submitModal}){
     };
 
     return (
-        <div class='p-10'>
-            <h1 class='text-center'>Leave a review</h1>
+        <div class='p-10  ' id='blanch-bg'>
+            <h1 class='text-center text-2xl'>Leave a review</h1>
 
             <div>
                 <form
@@ -61,7 +61,7 @@ function NewReviewForm ({submitModal}){
                             errors.map((error) => {
                                 if (error) {
                                     return (
-                                        <p key={error.id}>{error}</p>
+                                        <p class='text-red-500 text-lg mt-2' key={error.id}>{error}</p>
                                     )
                                 }
                                 return null;

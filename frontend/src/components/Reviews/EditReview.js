@@ -75,7 +75,7 @@ function EditReviewForm({id, submitModal}) {
 
 
     return (
-        <div class='p-10'>
+        <div class='p-10 bg-yellow-200'>
             <h1 class='text-center'>Edit Review Form</h1>
             <form
                 onSubmit={handleSubmit}
@@ -101,7 +101,7 @@ function EditReviewForm({id, submitModal}) {
                     >
                     </textarea>
                     {/* maybe place button outside of form for styling */}
-                    <button type='submit'>Submit</button>
+                    <button class='mr-2.5  ml-1' type='submit'>Submit</button>
                     <button onClick={handleDelete}>Delete</button>
 
                 </form>

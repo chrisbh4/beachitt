@@ -78,9 +78,9 @@ function NewUnitForm({submitModal}) {
 
 
     return(
-        <div className="form-placement">
+        <div className="form-placement"    >
             <h2 className="form-title">New Rental Unit Form</h2>
-            <div className="newUnitForm-container">
+            <div className="newUnitForm-container" >
                 <form
                     className="new-form"
                     onSubmit={handleSubmit}
@@ -112,22 +112,27 @@ function NewUnitForm({submitModal}) {
                             onChange={updateCity}
                             value={city}
                         ></input>
+
                         <label>State: </label>
                         <input
+                            class='w-2/12 mr-2'
                             type="text"
                             onChange={updateState}
                             value={state}
-                        ></input>
+                            ></input>
+
                         <label>Zipcode: </label>
                         <input
+                         class='w-2/12 '
                             type="text"
                             onChange={updateZipcode}
                             value={zipcode}
                         ></input>
                     </div>
-                    <h3>Unit Details & Descriptions</h3>
+                    <h3 class='border-b-2 border-black pt-3 text-center text-lg' >Unit Details & Descriptions</h3>
                     <label> Distance From The Beach (in miles): </label>
                     <input
+                    //  class='w-2/12 '
                         type="number"
                         onChange={updateDistanceFromBeach}
                         value={distanceFromBeach}
@@ -229,6 +234,7 @@ function NewUnitForm({submitModal}) {
                     ></input>
                     <label>Unit Description: </label>
                     <textarea
+                      class='p-1'
                         onChange={updateRentalUnitDescription}
                         value={rentalUnitDescription}
                     ></textarea>

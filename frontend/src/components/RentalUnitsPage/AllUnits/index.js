@@ -73,7 +73,7 @@ function RentalUnitsPage() {
 
                             </div>
 
-                            <div class='flex justify-center' >
+                            {/* <div class='flex justify-center' >
                                 <div class='relative top-0.5 text-sm'>
                             <i
                             className="fas fa-umbrella-beach"
@@ -86,11 +86,11 @@ function RentalUnitsPage() {
                                     {unit.title}</Link>
                             </h2>
 
-                            </div>
+                            </div> */}
 
 
 
-                            <div className="unit-location">
+                            <div className="unit-location" class='pt-2.5'>
                                 <div class='text-center' >
 
                                     <div className="unit-item-container" class='justify-center flex' >

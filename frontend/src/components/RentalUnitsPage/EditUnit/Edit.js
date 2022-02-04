@@ -11,7 +11,7 @@ import './EditRentalUnit.css'
       */
 
 function EditUnitForm({submitModal}) {
-    
+
     const { id } = useParams();
     const dispatch = useDispatch()
     const history = useHistory()
@@ -133,12 +133,12 @@ function EditUnitForm({submitModal}) {
                     className="edit-form"
                     onSubmit={handleSubmit}
                 >
-                    <div className="edit-unit-errors" hidden={!errors.length} >
+                    <div className="edit-unit-errors" class='text-center text-red max-h-20 overflow-y-auto border-b-4 border-black mb-5 pb-5' hidden={!errors.length} >
                         {
                             errors.map((error) => {
                                 if (error) {
                                     return (
-                                        <p key={error.id}>{error}</p>
+                                        <p className='edit-error-P' key={error.id}>{error}</p>
                                     )
                                 }
                                 return null;
@@ -282,6 +282,7 @@ function EditUnitForm({submitModal}) {
                     ></input>
                     <label>Unit Description: </label>
                     <textarea
+                        class='p-2'
                         onChange={updateRentalUnitDescription}
                         value={rentalUnitDescription}
                         placeholder={rentalUnit?.rentalUnitDescription}
