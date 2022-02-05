@@ -92,3 +92,11 @@
 #row-1{
     margin-bottom: -11.8px;
 }
+
+#calendar-display{
+    height: 330px;
+}
+
+#booking-dates-display{
+    height: 330px;
+}

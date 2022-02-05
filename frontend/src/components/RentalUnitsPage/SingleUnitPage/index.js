@@ -261,7 +261,7 @@ function GetSingleUnitPage() {
                 <div class=' w-6/12  bg-gray-200 h-full mt-3 flex flex-col justify-center items-center   '>
                     <MapContainer lat={unitLat} lng={unitLng} id='map-container'  />
                 </div>
-                <div id='reviews-cont-height' class=' w-4/12 bg-gray-200 h-60 mt-3 overflow-y-auto p-10 mb-6'>
+                <div id='reviews-cont-height' class=' w-4/12 bg-gray-200 h-60 mt-3 overflow-y-auto p-10  '>
                     <div>
                         <h1 class='text-center text-3xl font-medium relative bottom-4 pt-3 '>Reviews </h1>
 
@@ -282,14 +282,14 @@ function GetSingleUnitPage() {
             </div>
 
 {/* Row-3 */}
-            <div id='row-3' class='flex justify-around mt-5 border-t-4 border-black'>
+            <div id='row-3' class='flex justify-center  pb-4 '>
 
-                <div class='pb-10  pt-2 ' id="calendar-display">
-                {/* <div class='p-10 ' id="calendar-display"> */}
+                <div class='w-6/12 bg-gray-200 '  id="calendar-display">
+
                     <BookingCal userId={userId} unitId={unit?.id} unitBookings={unit.Bookings} />
                 </div>
 
-                <div id='booking-dates-display' class=' w-6/12 bg-gray-200 h-60 mt-3   p-10 mb-6 overflow-y-auto'>
+                <div id='booking-dates-display' class=' w-4/12 bg-gray-200     p-10 mb-6 overflow-y-auto'>
                     <div>
                         <div class='flex justify-evenly'>
                             <p class='underline font-medium text-xl '>Start Date </p>
