@@ -89,7 +89,7 @@ function GetSingleUnitPage() {
                 <>
                     <button
                         class=" p-5"
-                    ><a href={`/`}>Book a trip</a></button>
+                    ><a href={'#booking'}>Book a trip</a></button>
                 </>
             )
         }

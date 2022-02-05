@@ -166,7 +166,7 @@ function BookingCal({ userId, unitId, unitBookings }) {
                             })
                         }
                 </div>
-                        <button type="submit" onClick={handleSubmit} >Book This Trip</button>
+                        <button type="submit" id='booking' onClick={handleSubmit} >Book This Trip</button>
             </div>
         </div>
     )
