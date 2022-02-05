@@ -55,6 +55,13 @@
     border-radius: 3%;
     margin-bottom: 13.5px;
     width: 360px;
+    padding-bottom: 5px;
+}
+
+.unit-div img{
+    min-width: 100%;
+    min-height: 250px;
+    max-height: 250px;
 }
 
 
@@ -79,15 +86,24 @@
     width: 85%;
 }
 
-/* #calendar-display{
-    background-color: blanchedalmond;
-} */
 
-/* #details-container{
-    overflow: scroll;
-} */
+#map-container{
+    width: 100%;
+}
 
-/* #row-2{
-   position: relative;
-   left: 138px;
-} */
+#reviews-cont-height{
+    height: 500px;
+}
+
+
+#row-1{
+    margin-bottom: -11.8px;
+}
+
+#calendar-display{
+    height: 330px;
+}
+
+#booking-dates-display{
+    height: 330px;
+}

@@ -151,7 +151,7 @@ function BookingCal({ userId, unitId, unitBookings }) {
     };
 
     return (
-        <div class='flex justify-center '>
+        <div class='flex justify-center pt-2'>
             <Calendar selectRange={true} onChange={handleClick} minDate={new Date()} />
             <div class='self-center ml-5' >
                 <div class='w-7/12 min-w-full  pb-4' id='booking-error' hidden={!errors.length} >
@@ -166,7 +166,7 @@ function BookingCal({ userId, unitId, unitBookings }) {
                             })
                         }
                 </div>
-                        <button type="submit" onClick={handleSubmit} >Book This Trip</button>
+                        <button type="submit" id='booking' onClick={handleSubmit} >Book This Trip</button>
             </div>
         </div>
     )

@@ -89,7 +89,7 @@ function GetSingleUnitPage() {
                 <>
                     <button
                         class=" p-5"
-                    ><a href={`/`}>Book a trip</a></button>
+                    ><a href={'#booking'}>Book a trip</a></button>
                 </>
             )
         }
@@ -101,7 +101,7 @@ function GetSingleUnitPage() {
         return unitReviews?.map((review) => {
             return (
                 <>
-                    <div id="review-row" class="text-black grid grid-cols-2">
+                    <div id="review-row" class="text-black grid grid-cols-2  ">
                         <div id="review-username" class="text-center">
                             <p>{review.username}</p>
                         </div>
@@ -257,13 +257,11 @@ function GetSingleUnitPage() {
                 </div>
             </div>
 {/* Row-2 */}
-            <div id='row-2' class=' w-full flex  px-3 relative left-1/4 '>
+            <div id='row-2' class=' w-full flex justify-center '>
                 <div class=' w-6/12  bg-gray-200 h-full mt-3 flex flex-col justify-center items-center   '>
-                    <MapContainer lat={unitLat} lng={unitLng}  />
+                    <MapContainer lat={unitLat} lng={unitLng} id='map-container'  />
                 </div>
-
-                {/* Reviews will be a grid */}
-                <div class=' w-4/12 h-full bg-gray-200 h-60 mt-3 overflow-y-auto p-10 mb-6'>
+                <div id='reviews-cont-height' class=' w-4/12 bg-gray-200 h-60 mt-3 overflow-y-auto p-10  '>
                     <div>
                         <h1 class='text-center text-3xl font-medium relative bottom-4 pt-3 '>Reviews </h1>
 
@@ -284,14 +282,14 @@ function GetSingleUnitPage() {
             </div>
 
 {/* Row-3 */}
-            <div id='row-3' class='flex justify-around mt-5 border-t-4 border-black'>
+            <div id='row-3' class='flex justify-center  pb-4 '>
 
-                <div class='pb-10  pt-2 ' id="calendar-display">
-                {/* <div class='p-10 ' id="calendar-display"> */}
+                <div class='w-6/12 bg-gray-200 '  id="calendar-display">
+
                     <BookingCal userId={userId} unitId={unit?.id} unitBookings={unit.Bookings} />
                 </div>
 
-                <div id='booking-dates-display' class=' w-6/12 bg-gray-200 h-60 mt-3   p-10 mb-6 overflow-y-auto'>
+                <div id='booking-dates-display' class=' w-4/12 bg-gray-200     p-10 mb-6 overflow-y-auto'>
                     <div>
                         <div class='flex justify-evenly'>
                             <p class='underline font-medium text-xl '>Start Date </p>
