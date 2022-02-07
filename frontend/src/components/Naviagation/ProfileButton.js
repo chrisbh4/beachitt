@@ -44,12 +44,12 @@ function ProfileButton({ user }) {
 
         </button>
 
-        <button>
+        {/* <button>
           <NavLink
             to="/units"
             className="navLink"
           >Rental Units</NavLink>
-        </button>
+        </button> */}
 
         {/* <button>
           <NavLink

@@ -64,12 +64,12 @@ function Navigation({ isLoaded }) {
             <SignUpFormModal />
 
 
-            <button>
+            {/* <button>
               <NavLink
                 to="/units"
                 className="navLink"
               >Rental units</NavLink>
-            </button>
+            </button> */}
 
 
           </nav>

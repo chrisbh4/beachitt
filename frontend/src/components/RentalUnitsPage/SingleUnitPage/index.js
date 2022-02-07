@@ -249,7 +249,8 @@ function GetSingleUnitPage() {
                     </div>
 
                     <div class='flex justify-around relative top-1/4 z-' >
-                        <button> <a class=' p-5' href='/units'>Go Back</a> </button>
+                        <button> <a class=' p-5' href='/'>Go Back</a> </button>
+                        {/* <button> <a class=' p-5' href='/units'>Go Back</a> </button> */}
                         <>
                             {bookOrEditUnit()}
                         </>

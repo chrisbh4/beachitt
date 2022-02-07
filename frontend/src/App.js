@@ -32,11 +32,11 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
-          <Route exact path="/">
+          {/* <Route exact path="/">
           <HomePage />
-          </Route>
+          </Route> */}
 
-          <Route exact path="/units">
+          <Route exact path="/">
             <RentalUnitsPage />
           </Route>
 
