@@ -16,15 +16,15 @@ function RentalUnitsPage() {
 
 
 
-/*
+    /*
 
-     useEffect(()=>{
-         setComment(review?.comment)
-         setRating(review.rating)
-        setImage(review.image)
-    },[review.rating, review.comment, review.image])
+         useEffect(()=>{
+             setComment(review?.comment)
+             setRating(review.rating)
+            setImage(review.image)
+        },[review.rating, review.comment, review.image])
 
-*/
+    */
 
 
 
@@ -45,19 +45,19 @@ function RentalUnitsPage() {
                             <div>
 
                                 <Link
-                                to={`/units/${unit.id}`}>
+                                    to={`/units/${unit.id}`}>
 
-                                <img
-                                class='mx-auto'
-                                src={`${unit.url}`}
-                                alt={`${unit.title}`}
-                                >
+                                    <img
+                                        class='mx-auto'
+                                        src={`${unit.url}`}
+                                        alt={`${unit.title}`}
+                                    >
 
-                                </img>
+                                    </img>
                                 </Link>
 
                             </div>
- 
+
 
 
                             <div className="unit-location" class='pt-2.5'>
@@ -70,7 +70,7 @@ function RentalUnitsPage() {
                                         <p className="unit-item">Distance From Beach: {unit.distanceFromBeach} mile/s </p>
                                     </div>
 
-                                {/* <h4 className='unit-headers'>Unit Description:</h4>
+                                    {/* <h4 className='unit-headers'>Unit Description:</h4>
                                 <ul className="unit-descripiton-container"> */}
                                     {/* <div className="unit-item-container">
                                         <i className="fas fa-umbrella-beach"></i>
@@ -100,9 +100,21 @@ function RentalUnitsPage() {
                     )
                 })}
             </div>
+            <footer class='text-center h-15 '>
+                <p class='text-xl'>Christian Brown</p>
+                <div class="text-2xl">
+                    <a class='pr-2' href="https://www.linkedin.com/in/christian-brown-8770311ba/">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a class='pr-2' href="mailto:Chrismbh4@gmail.com">
+                        <i class="fas fa-envelope-square"></i>
+                    </a>
 
-
-
+                    <a  href="https://github.com/chrisbh4">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </footer>
         </>
 
     )
