@@ -8,21 +8,6 @@ function RentalUnitsPage() {
 
     const dispatch = useDispatch();
     const rentalUnits = useSelector((state) => Object.values(state?.rentalUnit))
-    const state = useSelector((state) => state.rentalUnit)
-
-    const [allUnits , setUnits] = useState([]);
-
-    // useEffect(() => {
-    //     dispatch(getRentalUnits())
-
-    //     setUnits(rentalUnits)
-
-    // }, [dispatch, rentalUnits])
-
-
-    // Maybe set the old state inside the useEffect and check if it exsist state?.booking
-    // or
-    //! its because when the unit is being created the dispatch is never sent to the state so the state never knows when theirs a new data besides when the backend refreshes
 
     useEffect(() => {
         dispatch(getRentalUnits())
@@ -49,7 +34,7 @@ function RentalUnitsPage() {
 
             <h1 className="unitsPage-h1">Beach Properties</h1>
 
-            <div className='all-unit-container' >
+            <div className='all-unit-container' id='outer-div' >
                 {rentalUnits.map((unit) => {
                     return (
                         <div
@@ -72,22 +57,7 @@ function RentalUnitsPage() {
                                 </Link>
 
                             </div>
-
-                            {/* <div class='flex justify-center' >
-                                <div class='relative top-0.5 text-sm'>
-                            <i
-                            className="fas fa-umbrella-beach"
-                            ></i>
-                            </div>
-                            <h2 class='ml-2.5'>
-                                <Link
-                                    className="unit-titel"
-                                    to={`/units/edit/${unit.id}`}>
-                                    {unit.title}</Link>
-                            </h2>
-
-                            </div> */}
-
+ 
 
 
                             <div className="unit-location" class='pt-2.5'>
