@@ -11,7 +11,12 @@ function SplashPage(){
     return (
         <div class='flex flex-col items-center  mt-20'>
         <div id="splash-container" class='w-1/2 text-center h-36 pt-6 '>
+            <div class='flex  justify-center items-center'>
+            <i id='splash-umbrella-1' className="fas fa-umbrella-beach"></i>
             <h1 class='text-4xl' >Beachitt</h1>
+            <i id='splash-umbrella-2' className="fas fa-umbrella-beach"></i>
+
+            </div>
             <p class='text-2xl mt-4  px-10' >Book some of the world's most luxurious beachfront rentals for your next getaway! </p>
 
         </div>

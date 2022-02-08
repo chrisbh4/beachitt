@@ -44,6 +44,13 @@ function ProfileButton({ user }) {
 
         </button>
 
+        <button>
+          <NavLink
+            to="/splash"
+            className="navLink"
+          >Splash</NavLink>
+        </button>
+
         {/* <button>
           <NavLink
             to="/units"
