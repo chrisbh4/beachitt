@@ -44,12 +44,12 @@ function ProfileButton({ user }) {
 
         </button>
 
-        <button>
+        {/* <button>
           <NavLink
             to="/splash"
             className="navLink"
           >Splash</NavLink>
-        </button>
+        </button> */}
 
         {/* <button>
           <NavLink
@@ -58,12 +58,7 @@ function ProfileButton({ user }) {
           >Rental Units</NavLink>
         </button> */}
 
-        {/* <button>
-          <NavLink
-            to="/new"
-            className="navLink"
-          >New Rental Unit</NavLink>
-        </button> */}
+      
         <NewUnitModal />
 
 

@@ -8,13 +8,40 @@ function RentalUnitsPage() {
 
     const dispatch = useDispatch();
     const rentalUnits = useSelector((state) => Object.values(state?.rentalUnit))
+    const userId = useSelector((state)=> state.session.user?.id)
 
     useEffect(() => {
         dispatch(getRentalUnits())
 
     }, [dispatch])
 
+    const loggedInChecker = (unit)=>{
+        if(userId){
+          return(
+            <Link
+            to={`/units/${unit.id}`}>
+            <img
+                class='mx-auto'
+                src={`${unit.url}`}
+                alt={`${unit.title}`}
+            >
 
+            </img>
+        </Link>
+          )
+        }else{
+            return(
+                <img
+                class='mx-auto'
+                src={`${unit.url}`}
+                alt={`${unit.title}`}
+            >
+
+            </img>
+            )
+
+        }
+    }
 
     /*
 
@@ -42,11 +69,11 @@ function RentalUnitsPage() {
                             className="unit-div"
                             key={unit.id}>
 
-                            <div>
+{/* if userId is true then Link is wrapped else just an img take*/}
+                            {/* <div>
 
                                 <Link
                                     to={`/units/${unit.id}`}>
-
                                     <img
                                         class='mx-auto'
                                         src={`${unit.url}`}
@@ -55,6 +82,11 @@ function RentalUnitsPage() {
 
                                     </img>
                                 </Link>
+
+                            </div> */}
+                            <div>
+
+                             {loggedInChecker(unit)}
 
                             </div>
 
