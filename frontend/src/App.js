@@ -36,7 +36,7 @@ function App() {
           {/* <Route exact path="/">
           <HomePage />
           </Route> */}
-          
+
           <Route path='/splash'>
             <SplashPage />
           </Route>
@@ -74,6 +74,11 @@ function App() {
         {/* <Route path='/bookings/:id/edit'>
          <EditBookingPage />
         </Route> */}
+
+        {/* Create 404 component */}
+        <Route>
+          404 page not found
+          </Route>
 
         </Switch>
       )}
