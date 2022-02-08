@@ -6,6 +6,7 @@ function SplashPage(){
 /*
     TODO
         - Have an overflow-y scroll and add 10 images under splashpage
+            - Have a function call for getAllRentals and have a max-width , overflow-y
 */
 
     return (
