@@ -14,6 +14,7 @@ import EditUnitForm from "./components/RentalUnitsPage/EditUnit/Edit";
 import EditReviewForm from "./components/Reviews/EditReview";
 import EditBookingPage from "./components/Booking-Cal/EditBooking";
 import MapContainer from "./components/Maps";
+import SplashPage from "./components/SplashPage";
 
 
 function App() {
@@ -35,6 +36,10 @@ function App() {
           {/* <Route exact path="/">
           <HomePage />
           </Route> */}
+          
+          <Route path='/splash'>
+            <SplashPage />
+          </Route>
 
           <Route exact path="/">
             <RentalUnitsPage />
