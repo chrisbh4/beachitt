@@ -14,14 +14,14 @@
     /* background-color: rgb(230, 135, 51); */
     background-color: rgb(230, 212, 185);
     padding:10px ;
-    justify-content: space-around;
+    justify-content: space-evenly;
 }
 
 
 .nav-notSignedIn{
     /* width: 100%; */
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
 }
 
 
