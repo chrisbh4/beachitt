@@ -12,18 +12,18 @@ button{
 
 .login-container{
     width: 100%;
+    background-color: blanchedalmond;
    display: flex;
    justify-content: center;
+   padding: 25px;
 }
 
 
 
 
-.login-button{
-    margin-left: 20px;
-}
 
 
 .login-label{
 font-size: larger;
+padding: 4px;
 }

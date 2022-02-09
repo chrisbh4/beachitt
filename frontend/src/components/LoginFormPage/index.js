@@ -35,6 +35,7 @@ function LoginFormPage() {
       <label className="login-label">
         Username or Email
         <input
+          class='w-1/2 ml-2'
           type="text"
           value={credential}
           onChange={(e) => setCredential(e.target.value)}
@@ -44,6 +45,7 @@ function LoginFormPage() {
       <label className="login-label">
         Password
         <input
+        class='w-1/2 ml-2'
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -52,8 +54,7 @@ function LoginFormPage() {
       </label>
       <button
         type="submit"
-        className="login-button"
-
+        class='relative right-4'
       >Log In</button>
           </div>
     </form>
