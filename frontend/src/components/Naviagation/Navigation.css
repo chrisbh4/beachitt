@@ -1,7 +1,8 @@
 
 .notSignedIn-container{
     position: relative;
-    background-color: rgb(230, 135, 51);
+    /* background-color: rgb(230, 135, 51); */
+    background-color: rgb(230, 212, 185);
     padding:10px ;
     width: 100%
 }
@@ -10,7 +11,8 @@
     width:100%;
     display: flex;
     position: relative;
-    background-color: rgb(230, 135, 51);
+    /* background-color: rgb(230, 135, 51); */
+    background-color: rgb(230, 212, 185);
     padding:10px ;
     justify-content: space-around;
 }
