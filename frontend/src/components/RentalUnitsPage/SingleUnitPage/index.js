@@ -101,7 +101,7 @@ function GetSingleUnitPage() {
         return unitReviews?.map((review) => {
             return (
                 <>
-                    <div id="review-row" class="text-black grid grid-cols-2  ">
+                    <div id="review-row" class="text-black grid grid-cols-2 py-3 ">
                         <div id="review-username" class="text-center">
                             <p>{review.username}</p>
                         </div>
@@ -163,7 +163,7 @@ function GetSingleUnitPage() {
 
             return (
                 <>
-                    <div id="review-row" class="text-black grid grid-cols-2">
+                    <div id="review-row" class="text-black grid grid-cols-2 py-3">
 
 
 
@@ -231,7 +231,7 @@ function GetSingleUnitPage() {
                     <img class=' h-full  w-full  ' src={`${unit?.url}`} alt={unit?.title} ></img>
                 </div>
                 {/* Overflow is causing the white line */}
-                <div id="details-container" class='bg-gray-200 w-4/12  flex flex-col  p-12  overflow-y-auto '>
+                <div id="details-container" id='blanch-bg' class='  w-4/12  flex flex-col  p-12  overflow-y-auto '>
                     <div class='relative top-10   '>
                         <h2 class='text-center text-3xl pb-4 '>{unit?.title}</h2>
                         <div className="unit-details" class='text-center   ' >
@@ -259,10 +259,10 @@ function GetSingleUnitPage() {
             </div>
 {/* Row-2 */}
             <div id='row-2' class=' w-full flex justify-center '>
-                <div class=' w-6/12  bg-gray-200 h-full mt-3 flex flex-col justify-center items-center   '>
+                <div id='blanch-bg' class=' w-6/12 h-full mt-3 flex flex-col justify-center items-center   '>
                     <MapContainer lat={unitLat} lng={unitLng} id='map-container'  />
                 </div>
-                <div id='reviews-cont-height' class=' w-4/12 bg-gray-200 h-60 mt-3 overflow-y-auto p-10  '>
+                <div id='reviews-cont-height'  class=' w-4/12 bg-gray-200 h-60 mt-3 overflow-y-auto p-10  '>
                     <div>
                         <h1 class='text-center text-3xl font-medium relative bottom-4 pt-3 '>Reviews </h1>
 

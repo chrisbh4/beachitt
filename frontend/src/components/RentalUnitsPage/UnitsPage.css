@@ -91,6 +91,7 @@
 
 #reviews-cont-height{
     height: 500px;
+    background-color: blanchedalmond;
 }
 
 
@@ -100,10 +101,12 @@
 
 #calendar-display{
     height: 330px;
+    background-color: blanchedalmond;
 }
 
 #booking-dates-display{
     height: 330px;
+    background-color: blanchedalmond;
 }
 
 footer{
