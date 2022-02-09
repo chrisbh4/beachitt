@@ -88,7 +88,7 @@ function GetSingleUnitPage() {
                 // <button ><a href={`/bookings`}>Book a trip</a></button>
                 <>
                     <button
-                        class=" p-5"
+                        class=" "
                     ><a href={'#booking'}>Book a trip</a></button>
                 </>
             )
@@ -231,7 +231,7 @@ function GetSingleUnitPage() {
                     <img class=' h-full  w-full  ' src={`${unit?.url}`} alt={unit?.title} ></img>
                 </div>
                 {/* Overflow is causing the white line */}
-                <div id="details-container" class='bg-gray-200 w-4/12  flex flex-col  p-10  overflow-y-auto '>
+                <div id="details-container" class='bg-gray-200 w-4/12  flex flex-col  p-12  overflow-y-auto '>
                     <div class='relative top-10   '>
                         <h2 class='text-center text-3xl pb-4 '>{unit?.title}</h2>
                         <div className="unit-details" class='text-center   ' >
@@ -249,7 +249,7 @@ function GetSingleUnitPage() {
                     </div>
 
                     <div class='flex justify-around relative top-1/4 z-' >
-                        <button> <a class=' p-5' href='/'>Go Back</a> </button>
+                        <button> <a class='  ' href='/'>Go Back</a> </button>
                         {/* <button> <a class=' p-5' href='/units'>Go Back</a> </button> */}
                         <>
                             {bookOrEditUnit()}
