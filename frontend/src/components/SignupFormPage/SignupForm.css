@@ -1,4 +1,16 @@
+.signup-div input{
+    margin: 5px 5px;
+}
 
+
+.signup-form{
+    padding: 40px;
+    background-color: blanchedalmond;
+}
+
+.signup-form input{
+    background-color: white;
+}
 
 .signup-div{
     display: flex;
@@ -14,11 +26,6 @@
 .signup-submit{
     margin-top: 15px;
     font-size: 17px;
-    width: 7.5%;
+    width: 25%;
 
-}
-
-
-.signup-div input{
-    margin: 5px 5px;
 }
