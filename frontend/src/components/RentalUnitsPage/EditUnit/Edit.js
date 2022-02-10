@@ -226,7 +226,10 @@ function EditUnitForm({submitModal}) {
                         </div>
                     </div>
                     <div className="unit-type" class='pb-2'>
-                        <label htmlFor="house">House</label>
+                    <div class='pb-1'>
+                            <label >Unity Type: </label>
+                        </div>
+
                         <input
                             onChange={updateUnityType}
                             value={"house"}
@@ -235,7 +238,8 @@ function EditUnitForm({submitModal}) {
                             checked={unitType === 'house'}
                         >
                         </input>
-                        <label htmlFor="apartment">Apartment</label>
+                        <label htmlFor="house" class='pr-2' >House</label>
+
                         <input
                             onChange={updateUnityType}
                             value={"apartment"}
@@ -244,7 +248,8 @@ function EditUnitForm({submitModal}) {
                             checked={unitType === 'apartment'}
                         >
                         </input>
-                        <label htmlFor="singleRoom">Single Room</label>
+                        <label htmlFor="apartment" class='pr-2' >Apartment</label>
+
                         <input
                             onChange={updateUnityType}
                             checked={unitType === 'single room'}
@@ -253,6 +258,7 @@ function EditUnitForm({submitModal}) {
                             id="singleRoom"
                         >
                         </input>
+                        <label htmlFor="singleRoom">Single Room</label>
                     </div>
                     <label>Latitude: </label>
                     <input
