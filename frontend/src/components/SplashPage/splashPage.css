@@ -2,6 +2,7 @@
 
 #splash-container{
     background-color: blanchedalmond;
+    padding-bottom: 80px;
 
 }
 
@@ -18,4 +19,13 @@
 #splash-umbrella-2{
     font-size: xx-large;
     padding-left: 6px;
+}
+
+#splash-images{
+    display: flex;
+    width: 50%;
+    height: 450px;
+    justify-content: center;
+    overflow-x: scroll;
+
 }
