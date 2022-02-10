@@ -4,8 +4,9 @@
 
 
 .signup-form{
-    padding: 40px;
+    padding: 70px;
     background-color: blanchedalmond;
+    /* height: 350px; */
 }
 
 .signup-form input{

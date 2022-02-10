@@ -18,19 +18,24 @@ function LoginFormPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
-    return dispatch(sessionActions.login({ credential, password }))
-      .catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) setErrors(data.errors);
-      });
+    // return dispatch(sessionActions.login({ credential, password }))
+    //   .catch(async (res) => {
+    //     const data = await res.json();
+    //     if (data && data.errors) setErrors(data.errors);
+    //   });
+
+    const data = dispatch(sessionActions.login({ credential, password }))
+    if(data.errors) setErrors([...data.errors])
+
+    return data
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} class='p-5' id='blanch-bg'>
+      <div className="login-container">
       <ul>
         {errors.map((error, idx) => <li key={idx}>{error}</li>)}
       </ul>
-      <div className="login-container">
 
       <label className="login-label">
         Username or Email
