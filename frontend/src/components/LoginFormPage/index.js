@@ -15,7 +15,7 @@ function LoginFormPage() {
     <Redirect to="/" />
   );
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors([]);
     // return dispatch(sessionActions.login({ credential, password }))
@@ -24,7 +24,13 @@ function LoginFormPage() {
     //     if (data && data.errors) setErrors(data.errors);
     //   });
 
-    const data = dispatch(sessionActions.login({ credential, password }))
+    const data = await dispatch(sessionActions.login({ credential, password }))
+
+      if(data.status == 401){
+        setErrors([...errors,"Email or Password was invalid."])
+      }
+
+    console.log(data)
     if(data.errors) setErrors([...data.errors])
 
     return data
@@ -33,10 +39,15 @@ function LoginFormPage() {
   return (
     <form onSubmit={handleSubmit} class='p-5' id='blanch-bg'>
       <div className="login-container">
-      <ul>
-        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-      </ul>
 
+
+        <div id='login-errors'>
+          <ul>
+            {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+          </ul>
+        </div>
+
+<div class='flex'>
       <label className="login-label">
         Username or Email
         <input
@@ -51,17 +62,18 @@ function LoginFormPage() {
         Password
         <input
         class='w-1/2 ml-2'
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          />
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+        />
       </label>
       <button
         type="submit"
         class='relative right-4'
-      >Log In</button>
+        >Log In</button>
           </div>
+        </div>
     </form>
   );
 }

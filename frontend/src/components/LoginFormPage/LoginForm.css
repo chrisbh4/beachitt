@@ -13,12 +13,20 @@ button{
 .login-container{
     width: 100%;
     background-color: blanchedalmond;
+   padding: 35px;
+   /* text-align: center; */
    display: flex;
+   flex-direction: column;
    justify-content: center;
-   padding: 25px;
 }
 
-
+#login-errors{
+    text-align: center;
+    font-size: large;
+    color: red;
+    padding-bottom:10px;
+   
+}
 
 
 
