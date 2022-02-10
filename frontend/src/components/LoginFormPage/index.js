@@ -15,26 +15,43 @@ function LoginFormPage() {
     <Redirect to="/" />
   );
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors([]);
-    return dispatch(sessionActions.login({ credential, password }))
-      .catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) setErrors(data.errors);
-      });
+    // return dispatch(sessionActions.login({ credential, password }))
+    //   .catch(async (res) => {
+    //     const data = await res.json();
+    //     if (data && data.errors) setErrors(data.errors);
+    //   });
+
+    const data = await dispatch(sessionActions.login({ credential, password }))
+
+      if(data.status == 401){
+        setErrors([...errors,"Email or Password was invalid."])
+      }
+
+    console.log(data)
+    if(data.errors) setErrors([...data.errors])
+
+    return data
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <ul>
-        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-      </ul>
+    <form onSubmit={handleSubmit} class='p-5' id='blanch-bg'>
       <div className="login-container">
 
+
+        <div id='login-errors'>
+          <ul>
+            {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+          </ul>
+        </div>
+
+<div class='flex'>
       <label className="login-label">
         Username or Email
         <input
+          class='w-1/2 ml-2'
           type="text"
           value={credential}
           onChange={(e) => setCredential(e.target.value)}
@@ -44,18 +61,19 @@ function LoginFormPage() {
       <label className="login-label">
         Password
         <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          />
+        class='w-1/2 ml-2'
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+        />
       </label>
       <button
         type="submit"
-        className="login-button"
-
-      >Log In</button>
+        class='relative right-4'
+        >Log In</button>
           </div>
+        </div>
     </form>
   );
 }

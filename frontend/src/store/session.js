@@ -31,6 +31,10 @@ export const login = (user) => async (dispatch) => {
     }),
   });
   const data = await response.json();
+
+  if(data.errors){
+    return data
+  }
   dispatch(setUser(data.user));
   return response;
 };
@@ -73,8 +77,9 @@ export const restoreUser = () => async dispatch => {
       }),
     });
     const data = await response.json();
-    dispatch(setUser(data.user));
-    return response;
+    debugger
+    if(response.ok) dispatch(setUser(data.user));
+    return data;
   };
 
 // Logout functionality

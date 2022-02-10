@@ -1,0 +1,33 @@
+
+
+#splash-container{
+    background-color: blanchedalmond;
+    padding-bottom: 80px;
+
+}
+
+
+#splash-footer{
+    background-color: blanchedalmond;
+}
+
+
+#splash-umbrella-1{
+    font-size: xx-large;
+    padding-right: 8px;
+}
+#splash-umbrella-2{
+    font-size: xx-large;
+    padding-left: 6px;
+}
+
+#splash-img{
+    height: 300px;
+}
+
+#splash-images-container{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    overflow-x: scroll;
+}

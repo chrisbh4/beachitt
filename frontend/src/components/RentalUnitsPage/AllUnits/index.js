@@ -8,38 +8,50 @@ function RentalUnitsPage() {
 
     const dispatch = useDispatch();
     const rentalUnits = useSelector((state) => Object.values(state?.rentalUnit))
-    const state = useSelector((state) => state.rentalUnit)
-
-    const [allUnits , setUnits] = useState([]);
-
-    // useEffect(() => {
-    //     dispatch(getRentalUnits())
-
-    //     setUnits(rentalUnits)
-
-    // }, [dispatch, rentalUnits])
-
-
-    // Maybe set the old state inside the useEffect and check if it exsist state?.booking
-    // or
-    //! its because when the unit is being created the dispatch is never sent to the state so the state never knows when theirs a new data besides when the backend refreshes
+    const userId = useSelector((state)=> state.session.user?.id)
 
     useEffect(() => {
         dispatch(getRentalUnits())
 
     }, [dispatch])
 
+    const loggedInChecker = (unit)=>{
+        if(userId){
+          return(
+            <Link
+            to={`/units/${unit.id}`}>
+            <img
+                class='mx-auto'
+                src={`${unit.url}`}
+                alt={`${unit.title}`}
+            >
 
+            </img>
+        </Link>
+          )
+        }else{
+            return(
+                <img
+                class='mx-auto'
+                src={`${unit.url}`}
+                alt={`${unit.title}`}
+            >
 
-/*
+            </img>
+            )
 
-     useEffect(()=>{
-         setComment(review?.comment)
-         setRating(review.rating)
-        setImage(review.image)
-    },[review.rating, review.comment, review.image])
+        }
+    }
 
-*/
+    /*
+
+         useEffect(()=>{
+             setComment(review?.comment)
+             setRating(review.rating)
+            setImage(review.image)
+        },[review.rating, review.comment, review.image])
+
+    */
 
 
 
@@ -49,7 +61,7 @@ function RentalUnitsPage() {
 
             <h1 className="unitsPage-h1">Beach Properties</h1>
 
-            <div className='all-unit-container' >
+            <div className='all-unit-container' id='outer-div' >
                 {rentalUnits.map((unit) => {
                     return (
                         <div
@@ -57,36 +69,26 @@ function RentalUnitsPage() {
                             className="unit-div"
                             key={unit.id}>
 
-                            <div>
+{/* if userId is true then Link is wrapped else just an img take*/}
+                            {/* <div>
 
                                 <Link
-                                to={`/units/${unit.id}`}>
+                                    to={`/units/${unit.id}`}>
+                                    <img
+                                        class='mx-auto'
+                                        src={`${unit.url}`}
+                                        alt={`${unit.title}`}
+                                    >
 
-                                <img
-                                class='mx-auto'
-                                src={`${unit.url}`}
-                                alt={`${unit.title}`}
-                                >
-
-                                </img>
+                                    </img>
                                 </Link>
 
-                            </div>
-
-                            {/* <div class='flex justify-center' >
-                                <div class='relative top-0.5 text-sm'>
-                            <i
-                            className="fas fa-umbrella-beach"
-                            ></i>
-                            </div>
-                            <h2 class='ml-2.5'>
-                                <Link
-                                    className="unit-titel"
-                                    to={`/units/edit/${unit.id}`}>
-                                    {unit.title}</Link>
-                            </h2>
-
                             </div> */}
+                            <div>
+
+                             {loggedInChecker(unit)}
+
+                            </div>
 
 
 
@@ -100,7 +102,7 @@ function RentalUnitsPage() {
                                         <p className="unit-item">Distance From Beach: {unit.distanceFromBeach} mile/s </p>
                                     </div>
 
-                                {/* <h4 className='unit-headers'>Unit Description:</h4>
+                                    {/* <h4 className='unit-headers'>Unit Description:</h4>
                                 <ul className="unit-descripiton-container"> */}
                                     {/* <div className="unit-item-container">
                                         <i className="fas fa-umbrella-beach"></i>
@@ -130,9 +132,21 @@ function RentalUnitsPage() {
                     )
                 })}
             </div>
+            <footer class='text-center h-15 '>
+                <p class='text-xl'>Christian Brown</p>
+                <div class="text-2xl">
+                    <a class='pr-2' href="https://www.linkedin.com/in/christian-brown-8770311ba/">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a class='pr-2' href="mailto:Chrismbh4@gmail.com">
+                        <i class="fas fa-envelope-square"></i>
+                    </a>
 
-
-
+                    <a  href="https://github.com/chrisbh4">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </footer>
         </>
 
     )

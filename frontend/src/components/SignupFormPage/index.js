@@ -15,27 +15,54 @@ function SignupFormPage() {
 
   if (sessionUser) return <Redirect to="/" />;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
       setErrors([]);
-      return dispatch(sessionActions.signup({ email, username, password }))
-        .catch(async (res) => {
-          const data = await res.json();
-          if (data && data.errors) setErrors(data.errors);
-        });
+      const data = await dispatch(sessionActions.signup({ email, username, password }))
+
+      debugger
+      if(data.errors){
+        console.log(data.errors)
+        setErrors(data.errors)
+        return data.errors
+      }
+      return data
+        // .catch(async (res) => {
+        //   const data = await res.json();
+        //   if (data && data.errors) setErrors(data.errors);
+        // });
     }
     return setErrors(['Confirm Password field must be the same as the Password field']);
   };
+
+  const displayErrors = () =>{
+
+    if(errors.length){
+      return (
+        <div  id='signup-errors-div' class='overflow-y-auto'>
+        <ul>
+          {errors.map((error, idx) => <p key={idx}>{error}</p>)}
+        </ul>
+        </div>
+      )
+    }else{
+      return(
+        <>
+        </>
+      )
+    }
+  }
 
   return (
     <form
     className="signup-form"
     onSubmit={handleSubmit}>
-      <ul>
-        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-      </ul>
+
       <div className="signup-div">
+
+      {displayErrors()}
+
       <label>
         Email:
         <input

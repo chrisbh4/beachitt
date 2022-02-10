@@ -14,6 +14,7 @@ import EditUnitForm from "./components/RentalUnitsPage/EditUnit/Edit";
 import EditReviewForm from "./components/Reviews/EditReview";
 import EditBookingPage from "./components/Booking-Cal/EditBooking";
 import MapContainer from "./components/Maps";
+import SplashPage from "./components/SplashPage";
 
 
 function App() {
@@ -32,11 +33,15 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
-          <Route exact path="/">
+          {/* <Route exact path="/">
           <HomePage />
+          </Route> */}
+
+          <Route path='/splash'>
+            <SplashPage />
           </Route>
 
-          <Route exact path="/units">
+          <Route exact path="/">
             <RentalUnitsPage />
           </Route>
 
@@ -69,6 +74,11 @@ function App() {
         {/* <Route path='/bookings/:id/edit'>
          <EditBookingPage />
         </Route> */}
+
+        {/* Create 404 component */}
+        <Route>
+          404 page not found
+          </Route>
 
         </Switch>
       )}

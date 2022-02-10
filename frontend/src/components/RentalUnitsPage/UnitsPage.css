@@ -38,15 +38,12 @@
 
 
 .all-unit-container{
-    width: 100%;
+    max-width: 100%;
+    /* margin set for regular screens */
+    margin-left: 3.95%;
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    /* justify-content: center; */
-    justify-content: space-evenly;
     padding: 15px;
-
-
 }
 
 .unit-div{
@@ -56,6 +53,7 @@
     margin-bottom: 13.5px;
     width: 360px;
     padding-bottom: 5px;
+    margin-right: 20px;
 }
 
 .unit-div img{
@@ -93,6 +91,7 @@
 
 #reviews-cont-height{
     height: 500px;
+    background-color: blanchedalmond;
 }
 
 
@@ -102,8 +101,15 @@
 
 #calendar-display{
     height: 330px;
+    background-color: blanchedalmond;
 }
 
 #booking-dates-display{
     height: 330px;
+    background-color: blanchedalmond;
+}
+
+footer{
+    background-color: blanchedalmond;
+    width: 100%;
 }
