@@ -21,28 +21,13 @@
     padding-left: 6px;
 }
 
-#splash-images-div{
-    display: flex;
-    /* justify-content: center; */
-    width: 50%;
-    /* height: 450px; */
-    /* justify-content: center; */
-    overflow-x: scroll;
-
-}
-
-
 #splash-img{
     height: 300px;
-    /* width: 1000px; */
 }
 
-#splash-images{
+#splash-images-container{
+    width: 50%;
     display: flex;
     justify-content: center;
+    overflow-x: scroll;
 }
-
-/*
-#spl-test{
-    width: 75%;
-} */

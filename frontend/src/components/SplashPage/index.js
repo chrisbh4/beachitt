@@ -18,13 +18,12 @@ function SplashPage(){
 
 const displayUnitImages = () =>{
     return (
-        <div id='splash-images-div'>
+        <div class='flex'>
             {rentalUnits.map((unit)=>{
                  return(
 
                  <img
                     id = 'splash-img'
-
                    src={`${unit.url}`}
                    alt={`${unit.title}`}
                    >
@@ -43,7 +42,7 @@ useEffect(() => {
 
     return (
         <div class='flex flex-col items-center  mt-20   '>
-        <div id="splash-container" class='w-1/2 text-center h-40 pt-6  '>
+        <div id="splash-container" class='w-1/2 text-center h-40 pt-6 px-2 '>
             <div class='flex  justify-center items-center'>
             <i id='splash-umbrella-1' className="fas fa-umbrella-beach"></i>
             <h1 class='text-4xl' >Beachitt</h1>
@@ -53,7 +52,7 @@ useEffect(() => {
             <p class='text-2xl mt-4  px-10' >Book some of the world's most luxurious beachfront rentals for your next getaway! </p>
         </div>
 
-        <div id='splash-images'  class=' ' >
+        <div id='splash-images-container'  class=' ' >
             {/* fetc */}
             {displayUnitImages()}
         </div>
