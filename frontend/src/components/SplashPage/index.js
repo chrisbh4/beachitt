@@ -18,17 +18,21 @@ function SplashPage(){
 
 const displayUnitImages = () =>{
     return (
-        <>
+        <div id='splash-images-div'>
             {rentalUnits.map((unit)=>{
-                 return(<img
-                   class='min-w-3/4'
-                  src={`${unit.url}`}
-                  alt={`${unit.title}`}
-                  >
+                 return(
+
+                 <img
+                    id = 'splash-img'
+
+                   src={`${unit.url}`}
+                   alt={`${unit.title}`}
+                   >
               </img>
+
                  )
             })}
-        </>
+        </div>
     )
 }
 
@@ -38,7 +42,7 @@ useEffect(() => {
 
 
     return (
-        <div class='flex flex-col items-center  mt-20  '>
+        <div class='flex flex-col items-center  mt-20   '>
         <div id="splash-container" class='w-1/2 text-center h-40 pt-6  '>
             <div class='flex  justify-center items-center'>
             <i id='splash-umbrella-1' className="fas fa-umbrella-beach"></i>
@@ -49,10 +53,12 @@ useEffect(() => {
             <p class='text-2xl mt-4  px-10' >Book some of the world's most luxurious beachfront rentals for your next getaway! </p>
         </div>
 
-        <div id='splash-images'  >
+        <div id='splash-images'  class=' ' >
             {/* fetc */}
             {displayUnitImages()}
         </div>
+
+
         <footer id='splash-footer' class='text-center h-15 w-1/2 pt-2  '>
                 <p class='text-xl  pt-4 '>Christian Brown</p>
                 <div class="text-2xl pb-3">
