@@ -30,3 +30,11 @@
     width: 25%;
 
 }
+
+#signup-errors-div{
+    margin-bottom: 10px;
+    color: red;
+    padding-bottom: 5px;
+    height: 40px;
+    /* overflow-y: scroll; */
+}
