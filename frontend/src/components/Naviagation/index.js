@@ -28,7 +28,6 @@ function Navigation({ isLoaded }) {
     sessionLinks = (
       <>
         <div className="notSignedIn-container">
-
           <nav className="nav-notSignedIn">
 
             <button >
@@ -38,13 +37,17 @@ function Navigation({ isLoaded }) {
               >Home</NavLink>
             </button>
 
-            {/* <button>
+
+            <LoginFormModal />
+
+
+            <button>
               <NavLink
-                to="/login"
+                to="/units"
                 className="navLink"
-              >Log In</NavLink>
-            </button> */}
-            <LoginFormModal/>
+              >All Units</NavLink>
+            </button>
+
 
             <button
               onClick={demoLogin}
@@ -53,23 +56,7 @@ function Navigation({ isLoaded }) {
             </button>
 
 
-            {/* <button>
-              <NavLink
-                to="/signup"
-                className="navLink"
-
-              >Sign Up</NavLink>
-            </button> */}
-
             <SignUpFormModal />
-
-
-            {/* <button>
-              <NavLink
-                to="/units"
-                className="navLink"
-              >Rental units</NavLink>
-            </button> */}
 
 
           </nav>
