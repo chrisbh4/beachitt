@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import LoginFormModal from '../Modals/LoginModal';
@@ -13,9 +13,12 @@ import * as sessionActions from "../../store/session"
 function Navigation({ isLoaded }) {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
+  const history = useHistory();
 
-  const demoLogin = () => {
-    return dispatch(sessionActions.login({ credential: 'Demo-lition', password: 'password' }))
+  const demoLogin = async() => {
+    await dispatch(sessionActions.login({ credential: 'Demo-lition', password: 'password' }))
+    history.push('/units');
+    return "Demo User logged in."
   }
 
   let sessionLinks;
@@ -28,9 +31,13 @@ function Navigation({ isLoaded }) {
     sessionLinks = (
       <>
         <div className="notSignedIn-container">
-
           <nav className="nav-notSignedIn">
 
+          <div id='logged-out-nav-title' >
+          <h1>BeachItt</h1>
+        </div>
+
+<div class='w-1/2 flex justify-evenly relative left-12 bottom-1 p-3 '>
             <button >
               <NavLink
                 exact to="/"
@@ -38,13 +45,9 @@ function Navigation({ isLoaded }) {
               >Home</NavLink>
             </button>
 
-            {/* <button>
-              <NavLink
-                to="/login"
-                className="navLink"
-              >Log In</NavLink>
-            </button> */}
-            <LoginFormModal/>
+
+            <LoginFormModal />
+
 
             <button
               onClick={demoLogin}
@@ -53,24 +56,16 @@ function Navigation({ isLoaded }) {
             </button>
 
 
-            {/* <button>
-              <NavLink
-                to="/signup"
-                className="navLink"
-
-              >Sign Up</NavLink>
-            </button> */}
-
-            <SignUpFormModal />
-
-
-            {/* <button>
+            <button>
               <NavLink
                 to="/units"
                 className="navLink"
-              >Rental units</NavLink>
-            </button> */}
+              >All Units</NavLink>
+            </button>
 
+
+            <SignUpFormModal />
+</div>
 
           </nav>
         </div>

@@ -36,6 +36,11 @@ function ProfileButton({ user }) {
     <>
       <nav className="nav-container">
 
+        <div id='loggedIn-nav-title' >
+          <h1>BeachItt</h1>
+        </div>
+
+  <div class='w-1/2 flex justify-evenly relative left-12 p-4  '>
         <button>
           <NavLink
             exact to="/"
@@ -44,31 +49,25 @@ function ProfileButton({ user }) {
 
         </button>
 
-        <button>
-          <NavLink
-            to="/splash"
-            className="navLink"
-          >Splash</NavLink>
-        </button>
 
-        {/* <button>
+
+        <button>
           <NavLink
             to="/units"
             className="navLink"
-          >Rental Units</NavLink>
-        </button> */}
+          >All Units</NavLink>
+        </button>
 
 
         <NewUnitModal />
 
 
-          {/* <i class="fas fa-umbrella-beach"></i> */}
         <button onClick={openMenu}>
         Show Menu
-
         </button>
-        {/* Profile Menu */}
+        </div>
 
+      {/* Profile Menu */}
       </nav>
       {showMenu && (
         <div  id="menu-background-container" class='flex justify-center'>

@@ -37,11 +37,11 @@ function App() {
           <HomePage />
           </Route> */}
 
-          <Route path='/splash'>
+          <Route exact path='/'>
             <SplashPage />
           </Route>
 
-          <Route exact path="/">
+          <Route exact path="/units">
             <RentalUnitsPage />
           </Route>
 
