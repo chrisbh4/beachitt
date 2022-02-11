@@ -36,6 +36,11 @@ function ProfileButton({ user }) {
     <>
       <nav className="nav-container">
 
+        <div id='loggedIn-nav-title' >
+          <h1>BeachItt</h1>
+        </div>
+
+  <div class='w-1/2 flex justify-evenly relative left-12 p-4  '>
         <button>
           <NavLink
             exact to="/"
@@ -60,6 +65,7 @@ function ProfileButton({ user }) {
         <button onClick={openMenu}>
         Show Menu
         </button>
+        </div>
 
       {/* Profile Menu */}
       </nav>

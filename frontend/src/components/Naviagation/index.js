@@ -33,6 +33,11 @@ function Navigation({ isLoaded }) {
         <div className="notSignedIn-container">
           <nav className="nav-notSignedIn">
 
+          <div id='logged-out-nav-title' >
+          <h1>BeachItt</h1>
+        </div>
+
+<div class='w-1/2 flex justify-evenly relative left-12 bottom-1 p-3 '>
             <button >
               <NavLink
                 exact to="/"
@@ -60,7 +65,7 @@ function Navigation({ isLoaded }) {
 
 
             <SignUpFormModal />
-
+</div>
 
           </nav>
         </div>
