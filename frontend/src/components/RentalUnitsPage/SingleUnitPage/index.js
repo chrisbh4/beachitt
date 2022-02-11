@@ -249,7 +249,7 @@ function GetSingleUnitPage() {
                     </div>
 
                     <div class='flex justify-around relative top-1/4 z-' >
-                        <button> <a class='  ' href='/'>Go Back</a> </button>
+                        <button> <a class='  ' href='/units'>Go Back</a> </button>
                         {/* <button> <a class=' p-5' href='/units'>Go Back</a> </button> */}
                         <>
                             {bookOrEditUnit()}
@@ -269,7 +269,6 @@ function GetSingleUnitPage() {
                         <div class='text-center pt-3 pb-4'>
                             {/* <button ><a href={`/${unit?.id}/reviews/new`}>Leave a Review</a></button> */}
                             <NewReviewModal />
-                            {/* <button ><a href='/'>Leave a Review</a></button> */}
                         </div>
                         <div class='flex justify-around'>
                             <p class='underline font-medium text-xl '>Username </p>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import LoginFormModal from '../Modals/LoginModal';
@@ -13,9 +13,12 @@ import * as sessionActions from "../../store/session"
 function Navigation({ isLoaded }) {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
+  const history = useHistory();
 
-  const demoLogin = () => {
-    return dispatch(sessionActions.login({ credential: 'Demo-lition', password: 'password' }))
+  const demoLogin = async() => {
+    await dispatch(sessionActions.login({ credential: 'Demo-lition', password: 'password' }))
+    history.push('/units');
+    return "Demo User logged in."
   }
 
   let sessionLinks;
@@ -41,18 +44,18 @@ function Navigation({ isLoaded }) {
             <LoginFormModal />
 
 
+            <button
+              onClick={demoLogin}
+              hidden={sessionUser}>
+              Demo User
+            </button>
+
+
             <button>
               <NavLink
                 to="/units"
                 className="navLink"
               >All Units</NavLink>
-            </button>
-
-
-            <button
-              onClick={demoLogin}
-              hidden={sessionUser}>
-              Demo User
             </button>
 
 

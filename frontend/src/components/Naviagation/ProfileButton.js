@@ -44,31 +44,24 @@ function ProfileButton({ user }) {
 
         </button>
 
-        {/* <button>
-          <NavLink
-            to="/splash"
-            className="navLink"
-          >Splash</NavLink>
-        </button> */}
+
 
         <button>
           <NavLink
             to="/units"
             className="navLink"
-          >Rental Units</NavLink>
+          >All Units</NavLink>
         </button>
 
 
         <NewUnitModal />
 
 
-          {/* <i class="fas fa-umbrella-beach"></i> */}
         <button onClick={openMenu}>
         Show Menu
-
         </button>
-        {/* Profile Menu */}
 
+      {/* Profile Menu */}
       </nav>
       {showMenu && (
         <div  id="menu-background-container" class='flex justify-center'>
