@@ -10,22 +10,33 @@ Live Link : Coming soon....
 - Users can create, edit, and delete a rental unit's bookings
 
 ---
-
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width='50px' heigt='50px' />
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" width='50px' heigt='50px' />
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width='50px' heigt='50px' />
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width='50px' heigt='50px' />
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg"  width='50px' heigt='50px' />
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" width='50px' heigt='50px' />
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sequelize/sequelize-original.svg" width='50px' heigt='50px' />
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" width='50px' heigt='50px' />
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original-wordmark.svg" width='50px' heigt='50px' />
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original-wordmark.svg"  width='50px' heigt='100px' >
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" width='50px' heigt='50px' />
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" width='50px' heigt='50px'/>
 
 ### Technologies:
 - JavaScript
 - Express
 - Nodejs
-- SQL
-- Squelize
 - React
 - Redux
-- AWS
+- SQL
+- Squelize
+- PostgreSQL
 - HTML
 - CSS
-- AWS
 - Google Maps API
 - TailwindCSS
+- AWS
 
 ---
 
