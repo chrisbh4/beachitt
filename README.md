@@ -11,7 +11,7 @@ Live Link : Coming soon....
 
 ---
 ### Technologies:
-<div style='display:flex'>
+<div style='display:flex background-color:white'>
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width='50px' heigt='50px' />
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" width='50px' heigt='50px' />
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width='50px' heigt='50px' />
