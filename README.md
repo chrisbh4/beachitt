@@ -10,6 +10,8 @@ Live Link : Coming soon....
 - Users can create, edit, and delete a rental unit's bookings
 
 ---
+### Technologies:
+
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width='50px' heigt='50px' />
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" width='50px' heigt='50px' />
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width='50px' heigt='50px' />
@@ -23,8 +25,7 @@ Live Link : Coming soon....
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" width='50px' heigt='50px' />
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" width='50px' heigt='50px'/>
 
-### Technologies:
-- JavaScript
+<!-- - JavaScript
 - Express
 - Nodejs
 - React
@@ -36,7 +37,7 @@ Live Link : Coming soon....
 - CSS
 - Google Maps API
 - TailwindCSS
-- AWS
+- AWS -->
 
 ---
 
