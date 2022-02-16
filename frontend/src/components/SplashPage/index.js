@@ -9,7 +9,6 @@ function SplashPage(){
     const dispatch = useDispatch();
     const rentalUnits = useSelector((state) => Object.values(state?.rentalUnit))
 
-    console.log("HERE ", rentalUnits)
 /*
     TODO
         - Have an overflow-y scroll and add 10 images under splashpage

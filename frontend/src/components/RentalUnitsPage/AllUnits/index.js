@@ -19,7 +19,7 @@ function RentalUnitsPage() {
         if(userId){
           return(
             <Link
-            to={`/units/${unit.id}`}>
+            to={`/units/${unit?.id}`}>
             <img
                 class='mx-auto'
                 src={`${unit.url}`}

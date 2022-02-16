@@ -38,18 +38,7 @@ const Maps = ({ apiKey, lat, lng }) => {
     googleMapsApiKey: apiKey,
   });
 
-
-  // const marker = new Marker({
-  //   position,
-  //   map:center
-  // });
-
-  /*
-      *
-      - can pass in the unit's lng & lat as the markers object key values for lat & lng
-        - will have to pass in the unit's lat n lng as props inside the MapContainer component to be able to place inside the marker
-  */
-
+ 
   return (
     <>
       {isLoaded && (

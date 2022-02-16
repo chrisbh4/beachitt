@@ -27,6 +27,7 @@ const deleteUnit = (unitId) => ({
   unitId,
 })
 
+
 const editUnit = (unit) => ({
   type: EDIT,
   unit,
@@ -40,12 +41,16 @@ const editUnit = (unit) => ({
 export const getRentalUnits = () => async dispatch => {
   const res = await csrfFetch(`/api/units`);
   const data = await res.json();
-  dispatch(load(data))
+  await dispatch(load(data))
+  return data
 };
+
 
 export const getSingleUnit = (unitId) => async dispatch => {
   const res = await csrfFetch(`/api/units/${unitId}`);
+
   const data = await res.json();
+
   if (res.ok) dispatch(loadOne(data))
   return data
 }
@@ -146,7 +151,6 @@ const rentalUnitReducer = (state = initialState, action) => {
     case ADD: {
       const newState = { ...state }
       newState[action.unit.id] = action.unit;
-      // newState[action.unit.newUnit.id] = action.unit.newUnit;
       return { ...newState }
     }
     case DELETE: {
@@ -157,11 +161,7 @@ const rentalUnitReducer = (state = initialState, action) => {
     case EDIT: {
       const newState = { ...state }
       newState[action.unit.id] = action.unit
-      // return {...newState}
       return { ...action.unit }
-      // return{
-      //   ...state,...action.unit
-      // }
     }
     default:
       return state;
