@@ -11,7 +11,7 @@ Live Link : Coming soon....
 
 ---
 ### Technologies:
-
+<div style='display:flex'>
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width='50px' heigt='50px' />
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" width='50px' heigt='50px' />
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width='50px' heigt='50px' />
@@ -24,6 +24,8 @@ Live Link : Coming soon....
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original-wordmark.svg"  width='50px' heigt='100px' >
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" width='50px' heigt='50px' />
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" width='50px' heigt='50px'/>
+
+</div>
 
 <!-- - JavaScript
 - Express
