@@ -21,7 +21,7 @@ function SignupFormPage() {
       setErrors([]);
       const data = await dispatch(sessionActions.signup({ email, username, password }))
 
-      debugger
+
       if(data.errors){
         console.log(data.errors)
         setErrors(data.errors)

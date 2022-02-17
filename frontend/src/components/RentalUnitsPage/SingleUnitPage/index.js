@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getRentalUnits, getSingleUnit } from '../../../store/rentalUnits';
 import { deleteReview } from "../../../store/reviews"
 import { fetchDeleteBooking } from '../../../store/bookings';
@@ -14,7 +14,9 @@ import EditBookingModal from '../../Modals/Bookings/EditModal';
 
 function GetSingleUnitPage() {
     const dispatch = useDispatch();
-    const { id } = useParams();
+    const {id} = useParams();
+
+    console.log("ID :", id)
     const unit = useSelector(state => state?.rentalUnit)
     const userId = useSelector(state => state?.session.user.id)
     const unitReviews = unit?.Reviews;
@@ -48,7 +50,6 @@ function GetSingleUnitPage() {
 
     // updates page when the single Unit has new data
     useEffect(() => {
-        // dispatch(getRentalUnits())
         dispatch(getSingleUnit(id))
 
     }, [dispatch, id])
@@ -249,8 +250,7 @@ function GetSingleUnitPage() {
                     </div>
 
                     <div class='flex justify-around relative top-1/4 z-' >
-                        <button> <a class='  ' href='/units'>Go Back</a> </button>
-                        {/* <button> <a class=' p-5' href='/units'>Go Back</a> </button> */}
+                        <button> <Link to='/units'>Go Back</Link> </button>
                         <>
                             {bookOrEditUnit()}
                         </>
