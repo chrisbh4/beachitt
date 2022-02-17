@@ -4,7 +4,6 @@ const { RentalUnits, Reviews, Bookings } = require('../../db/models')
 const { requireAuth, setTokenCookie } = require('../../utils/auth')
 const {check} = require('express-validator');
 const {handleValidationErrors} = require('../../utils/validation')
-// import { csrfProtection } from '../../utils/utils';
 const { dataAdjuster} = require('../../utils/utils')
 const { singleMulterUpload , singlePublicFileUpload} = require("../../awsS3")
 
@@ -59,8 +58,7 @@ const unitValidations = [
 
 router.get('/', asyncHandler(async (_req, res) => {
   const allRentalUnits = await RentalUnits.findAll({include:[Reviews,Bookings]})
-  // const allRentalUnits = await RentalUnits.findAll({include:[{Reviews}, {Bookings}]})
-  const rentalUnits = dataAdjuster(allRentalUnits)
+  const rentalUnits = await dataAdjuster(allRentalUnits)
   return res.json(rentalUnits)
 
 }));

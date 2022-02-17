@@ -77,7 +77,7 @@ export const restoreUser = () => async dispatch => {
       }),
     });
     const data = await response.json();
-    debugger
+
     if(response.ok) dispatch(setUser(data.user));
     return data;
   };

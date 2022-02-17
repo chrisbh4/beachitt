@@ -85,7 +85,6 @@ function EditUnitForm({submitModal}) {
 
         dispatch(deleteRentalUnit(rentalUnit.id))
         history.push('/units')
-        // history.push('/units')
         alert("Rental Unit Removed :(")
 
     }
