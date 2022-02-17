@@ -127,9 +127,7 @@ function GetSingleUnitPage() {
                 <div class="flex justify-center">
                     <p class="pl-3 relattive left-2">{review.comment}</p>
                     <div class='relative left-3'>
-                        {/* <a href={`/reviews/${review.id}/edit`}><button>Edit</button></a> */}
                         <EditReviewModal reviewId={review.id} />
-
                         {/* Delete Route is recieving an undefined ID so the review ID isn't being touched */}
                         {/* <button class='relative left-4' onClick={handleReviewDelete}>Delete</button> */}
                     </div>
@@ -196,10 +194,7 @@ function GetSingleUnitPage() {
 
                     {/* Buttons */}
                     <div class='relative left-3'>
-                        {/* <a href={`/bookings/${booking.id}/edit`}><button>Edit</button>
-                        </a> */}
                         <EditBookingModal bookingId={booking.id} unitBookings={unitBookings} />
-                        {/* <button class='relative left-4' onClick={handleBookingDelete(booking.id)}>Delete</button> */}
                     </div>
                 </div>
             )
@@ -267,7 +262,7 @@ function GetSingleUnitPage() {
                         <h1 class='text-center text-3xl font-medium relative bottom-4 pt-3 '>Reviews </h1>
 
                         <div class='text-center pt-3 pb-4'>
-                            {/* <button ><a href={`/${unit?.id}/reviews/new`}>Leave a Review</a></button> */}
+
                             <NewReviewModal />
                         </div>
                         <div class='flex justify-around'>
