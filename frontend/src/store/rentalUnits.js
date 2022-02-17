@@ -47,10 +47,10 @@ export const getRentalUnits = () => async dispatch => {
 
 
 export const getSingleUnit = (unitId) => async dispatch => {
+  debugger
   const res = await csrfFetch(`/api/units/${unitId}`);
-
   const data = await res.json();
-
+  debugger
   if (res.ok) dispatch(loadOne(data))
   return data
 }

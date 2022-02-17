@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getRentalUnits, getSingleUnit } from '../../../store/rentalUnits';
 import { deleteReview } from "../../../store/reviews"
 import { fetchDeleteBooking } from '../../../store/bookings';
@@ -250,7 +250,7 @@ function GetSingleUnitPage() {
                     </div>
 
                     <div class='flex justify-around relative top-1/4 z-' >
-                        <button> <a href='/units'>Go Back</a> </button>
+                        <button> <Link to='/units'>Go Back</Link> </button>
                         <>
                             {bookOrEditUnit()}
                         </>
