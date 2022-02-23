@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createRentalUnit, getRentalUnits } from "../../../store/rentalUnits"
+import { createRentalUnit} from "../../../store/rentalUnits"
 import "../../RentalUnitsPage/NewUnit/NewUnit.css"
 
 

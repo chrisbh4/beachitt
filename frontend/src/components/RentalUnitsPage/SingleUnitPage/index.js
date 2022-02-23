@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { getRentalUnits, getSingleUnit } from '../../../store/rentalUnits';
-import { deleteReview } from "../../../store/reviews"
-import { fetchDeleteBooking } from '../../../store/bookings';
+import {getSingleUnit } from '../../../store/rentalUnits';
+
 import MapContainer from '../../Maps';
 import BookingCal from '../../Booking-Cal';
 import EditUnitModal from '../../Modals/Units/EditModal';
@@ -55,21 +54,19 @@ function GetSingleUnitPage() {
     }, [dispatch, id])
 
 
-    const handleReviewDelete = async (e) => {
-        // e.preventDefault();
-        //* Need to fix the id that is being brough in
-        /*
-        * I can pass in the single reviews into their own componenet to be able to render the delete button
-            - inside the Review componenet I can grab the single id of the review and then use a useEffect on the Unit Page to have a data refresh when the reviews are updated
-        */
-        dispatch(deleteReview(id));
-        dispatch(getRentalUnits())
-        alert("Review Delete");
-        return "Review has been Deleted";
-    }
+    // const handleReviewDelete = async (e) => {
+    //     // e.preventDefault();
+    //     //* Need to fix the id that is being brough in
+    //     /*
+    //     * I can pass in the single reviews into their own componenet to be able to render the delete button
+    //         - inside the Review componenet I can grab the single id of the review and then use a useEffect on the Unit Page to have a data refresh when the reviews are updated
+    //     */
+    //     dispatch(deleteReview(id));
+    //     dispatch(getRentalUnits())
+    //     alert("Review Delete");
+    //     return "Review has been Deleted";
+    // }
 
-
-    const unitId = unit?.id
 
     //* Edit Unit route Id is coming up as undefined might need to pass in a prop
 
@@ -221,14 +218,14 @@ function GetSingleUnitPage() {
 
     return (
         // <div id="unit-grid-container" class='grid grid-cols-2'>
-        <div id="unit-grid-container" >
+        <div id="unit-grid-container"  >
 {/* Row-1 */}
             <div id='row-1' class='  justify-center flex pt-5 '  >
                 <div id='unit-detail-image' class='w-6/12 '>
                     <img class=' h-full  w-full  ' src={`${unit?.url}`} alt={unit?.title} ></img>
                 </div>
                 {/* Overflow is causing the white line */}
-                <div id="details-container" id='blanch-bg' class='  w-4/12  flex flex-col  p-12  overflow-y-auto '>
+                <div id="details-container" id='blanch-bg' class='  w-4/12  flex flex-col  p-12  overflow-y-auto ' >
                     <div class='relative top-10   '>
                         <h2 class='text-center text-3xl pb-4 '>{unit?.title}</h2>
                         <div className="unit-details" class='text-center   ' >
