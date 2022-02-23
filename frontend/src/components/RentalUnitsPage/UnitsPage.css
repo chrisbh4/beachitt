@@ -109,6 +109,30 @@
     right: 60px;
 }
 
+#booking-titles{
+    position: relative;
+    right: 90px;
+}
+#bookedDates-row{
+    position: relative;
+    right: 60px;
+}
+
+#end-date-title{
+    position: relative;
+    right: 15px;
+}
+
+#booking-end{
+    position: relative;
+    right: 70px;
+}
+
+#edit-booking-button{
+ position: relative;
+ left: 20px;
+}
+
 #row-1{
     margin-bottom: -11.8px;
 }

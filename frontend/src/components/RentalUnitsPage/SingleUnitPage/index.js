@@ -163,14 +163,11 @@ function GetSingleUnitPage() {
 
             return (
                 <>
-                    <div id="review-row" class="text-black grid grid-cols-2 py-3">
-
-
-
-                        <div id="review-username" class="text-center ">
+                    <div id="bookedDates-row" class="text-black grid grid-cols-2 py-3">
+                        <div id="booking-start" class="text-center ">
                             <p>{startDate}</p>
                         </div>
-                        <div id="review-comment" class="text-center">
+                        <div id="edit-booking-end" class="text-center">
                             {editBooking(booking)}
                         </div>
                     </div>
@@ -187,22 +184,25 @@ function GetSingleUnitPage() {
             const splitEndDate = booking.endDate.split('-')
             const endDate = `${splitEndDate[1]} / ${splitEndDate[2]} / ${splitEndDate[0]}`
             return (
-                <div class="flex justify-center">
+                <div class="flex  ">
                     <div class='flex flex-row '>
                         {/* <p key={booking.id} id="start-date">{booking.starDate}</p> */}
                         <p key={booking.id} id="end-date">{endDate}</p>
                     </div>
 
                     {/* Buttons */}
-                    <div class='relative left-3'>
+                    <div id='edit-booking-button'>
                         <EditBookingModal bookingId={booking.id} unitBookings={unitBookings} />
                     </div>
                 </div>
             )
         } else {
+            const splitEndDate = booking.endDate.split('-')
+            const endDate = `${splitEndDate[1]} / ${splitEndDate[2]} / ${splitEndDate[0]}`
             return (
+
                 <div >
-                    <p key={booking.id}>{booking.endDate}</p>
+                    <p id="booking-end" key={booking.id}>{endDate}</p>
                     {/* <p>Start-date</p> */}
                 </div>
             )
@@ -287,9 +287,9 @@ function GetSingleUnitPage() {
 
                 <div id='booking-dates-display' class=' w-4/12 bg-gray-200     p-10 mb-6 overflow-y-auto'>
                     <div>
-                        <div class='flex justify-evenly'>
+                        <div class='flex justify-evenly' id='booking-titles'>
                             <p class='underline font-medium text-xl '>Start Date </p>
-                            <p class='underline font-medium text-xl '>End Date </p>
+                            <p class='underline font-medium text-xl' id='end-date-title'>End Date </p>
                         </div>
                         {displayBookings()}
                     </div>
