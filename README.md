@@ -11,7 +11,7 @@ Live Link : https://beachitt.herokuapp.com/
 
 
 ## HomePage
-<img src="https://imgur.com/a/jNmVDSC.png" alt="home" />
+<!-- <img src="https://imgur.com/a/jNmVDSC.png" alt="home" /> -->
 
 ---
 ### Technologies:
