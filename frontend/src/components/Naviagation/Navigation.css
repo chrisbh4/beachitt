@@ -1,8 +1,12 @@
+html{
+    width: 100%;
+    overflow-x: hidden;
+}
 body{
     padding: 0px;
     margin: 0px;
     background-color:rgb(81, 187, 223);
-    /* min-width: 100%; */
+
 }
 
 

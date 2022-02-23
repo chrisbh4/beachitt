@@ -1,22 +1,19 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { getRentalUnits, getSingleUnit } from '../../../store/rentalUnits';
-import { deleteReview } from "../../../store/reviews"
-import { fetchDeleteBooking } from '../../../store/bookings';
+import {getSingleUnit } from '../../../store/rentalUnits';
 import MapContainer from '../../Maps';
 import BookingCal from '../../Booking-Cal';
 import EditUnitModal from '../../Modals/Units/EditModal';
 import NewReviewModal from "../../Modals/Reviews/NewModal.js"
 import EditReviewModal from '../../Modals/Reviews/EditModal';
 import EditBookingModal from '../../Modals/Bookings/EditModal';
-// import EditReviewModal from "../../Modals/Reviews"
+
 
 function GetSingleUnitPage() {
     const dispatch = useDispatch();
     const {id} = useParams();
 
-    console.log("ID :", id)
     const unit = useSelector(state => state?.rentalUnit)
     const userId = useSelector(state => state?.session.user.id)
     const unitReviews = unit?.Reviews;
@@ -55,23 +52,20 @@ function GetSingleUnitPage() {
     }, [dispatch, id])
 
 
-    const handleReviewDelete = async (e) => {
-        // e.preventDefault();
-        //* Need to fix the id that is being brough in
-        /*
-        * I can pass in the single reviews into their own componenet to be able to render the delete button
-            - inside the Review componenet I can grab the single id of the review and then use a useEffect on the Unit Page to have a data refresh when the reviews are updated
-        */
-        dispatch(deleteReview(id));
-        dispatch(getRentalUnits())
-        alert("Review Delete");
-        return "Review has been Deleted";
-    }
+    // const handleReviewDelete = async (e) => {
+    //     // e.preventDefault();
+    //     //* Need to fix the id that is being brough in
+    //     /*
+    //     * I can pass in the single reviews into their own componenet to be able to render the delete button
+    //         - inside the Review componenet I can grab the single id of the review and then use a useEffect on the Unit Page to have a data refresh when the reviews are updated
+    //     */
+    //     dispatch(deleteReview(id));
+    //     dispatch(getRentalUnits())
+    //     alert("Review Delete");
+    //     return "Review has been Deleted";
+    // }
 
 
-    const unitId = unit?.id
-
-    //* Edit Unit route Id is coming up as undefined might need to pass in a prop
 
     const bookOrEditUnit = () => {
         if (userId > 0 && userId === unit?.ownerId) {
@@ -102,6 +96,7 @@ function GetSingleUnitPage() {
         return unitReviews?.map((review) => {
             return (
                 <>
+                {/* pos:rel right:30px */}
                     <div id="review-row" class="text-black grid grid-cols-2 py-3 ">
                         <div id="review-username" class="text-center">
                             <p>{review.username}</p>
@@ -142,17 +137,8 @@ function GetSingleUnitPage() {
     };
 
 
-    // const dateConverter = (date) =>{
-    //     const data = date.split()
-    // }
 
-    //* Bookings / button functionality
 
-    /*
-    * Bookings validate frontend funitonality
-        Link: https://www.geeksforgeeks.org/how-to-check-if-one-date-is-between-two-dates-in-javascript/
-            - Approach 1
-    */
 
     const displayBookings = () => {
         return unitBookings?.map((booking) => {
@@ -162,14 +148,11 @@ function GetSingleUnitPage() {
 
             return (
                 <>
-                    <div id="review-row" class="text-black grid grid-cols-2 py-3">
-
-
-
-                        <div id="review-username" class="text-center ">
+                    <div id="bookedDates-row" class="text-black grid grid-cols-2 py-3">
+                        <div id="booking-start" class="text-center ">
                             <p>{startDate}</p>
                         </div>
-                        <div id="review-comment" class="text-center">
+                        <div id="edit-booking-end" class="text-center">
                             {editBooking(booking)}
                         </div>
                     </div>
@@ -186,58 +169,51 @@ function GetSingleUnitPage() {
             const splitEndDate = booking.endDate.split('-')
             const endDate = `${splitEndDate[1]} / ${splitEndDate[2]} / ${splitEndDate[0]}`
             return (
-                <div class="flex justify-center">
+                <div class="flex  ">
                     <div class='flex flex-row '>
                         {/* <p key={booking.id} id="start-date">{booking.starDate}</p> */}
                         <p key={booking.id} id="end-date">{endDate}</p>
                     </div>
 
                     {/* Buttons */}
-                    <div class='relative left-3'>
+                    <div id='edit-booking-button'>
                         <EditBookingModal bookingId={booking.id} unitBookings={unitBookings} />
                     </div>
                 </div>
             )
         } else {
+            const splitEndDate = booking.endDate.split('-')
+            const endDate = `${splitEndDate[1]} / ${splitEndDate[2]} / ${splitEndDate[0]}`
             return (
+
                 <div >
-                    <p key={booking.id}>{booking.endDate}</p>
+                    <p id="booking-end" key={booking.id}>{endDate}</p>
                     {/* <p>Start-date</p> */}
                 </div>
             )
         }
     }
 
-    //* add username in the comment model it will grab the email and split on the @
-    // const getReviewUsername = () =>{
-    //     if()
-    // }
-
-    /*
-
-    Unit Page : grid needs 3 Rows and 2 Columns
-    */
 
     return (
-        // <div id="unit-grid-container" class='grid grid-cols-2'>
-        <div id="unit-grid-container" >
+
+        <div id="unit-grid-container"  >
 {/* Row-1 */}
             <div id='row-1' class='  justify-center flex pt-5 '  >
                 <div id='unit-detail-image' class='w-6/12 '>
                     <img class=' h-full  w-full  ' src={`${unit?.url}`} alt={unit?.title} ></img>
                 </div>
-                {/* Overflow is causing the white line */}
-                <div id="details-container" id='blanch-bg' class='  w-4/12  flex flex-col  p-12  overflow-y-auto '>
-                    <div class='relative top-10   '>
+
+                <div id='blanch-bg' class='  w-4/12  flex flex-col  p-12  overflow-y-auto ' >
+                    <div class='relative top-10 '>
                         <h2 class='text-center text-3xl pb-4 '>{unit?.title}</h2>
-                        <div className="unit-details" class='text-center   ' >
+                        <div className="unit-details" class='text-center ' >
                             <div class='content-center'>
                                 <p class='pb-2 text-xl '>Location: {unit?.city}, {unit?.state}, {unit?.zipcode} </p>
                                 <p class='pb-2 text-xl'>Distance From Beach: {unit?.distanceFromBeach} miles </p>
                                 <p class='pb-2 text-xl'>Price:$ {unit?.price} /per night</p>
                                 <p class='pb-2 text-xl'> Rooms: {unit?.rooms} </p>
                                 <p class='pb-2 text-xl'>Number of Bathrooms: {unit?.bathrooms} </p>
-
                                 <p class='text-xl font-medium pt-3.5'>Description :</p>
                                 <p class='pb-2 pt-1'>{unit?.rentalUnitDescription}</p>
                             </div>
@@ -266,8 +242,8 @@ function GetSingleUnitPage() {
                             <NewReviewModal />
                         </div>
                         <div class='flex justify-around'>
-                            <p class='underline font-medium text-xl '>Username </p>
-                            <p class='underline font-medium text-xl '>Comment </p>
+                            <p class='underline font-medium text-xl ' id='reviews-username-title' >Username </p>
+                            <p class='underline font-medium text-xl' id='reviews-comment-title' >Comment </p>
                         </div>
 
                         {displayReviews()}
@@ -286,9 +262,9 @@ function GetSingleUnitPage() {
 
                 <div id='booking-dates-display' class=' w-4/12 bg-gray-200     p-10 mb-6 overflow-y-auto'>
                     <div>
-                        <div class='flex justify-evenly'>
+                        <div class='flex justify-evenly' id='booking-titles'>
                             <p class='underline font-medium text-xl '>Start Date </p>
-                            <p class='underline font-medium text-xl '>End Date </p>
+                            <p class='underline font-medium text-xl' id='end-date-title'>End Date </p>
                         </div>
                         {displayBookings()}
                     </div>
@@ -304,9 +280,5 @@ function GetSingleUnitPage() {
     )
 
 }
-
-
-
-// * items-center : will vertically center items
 
 export default GetSingleUnitPage;

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
-import { useHistory } from 'react-router-dom';
 import { getReview, editReview, deleteReview } from '../../store/reviews';
-import {getSingleUnit, getRentalUnits} from "../../store/rentalUnits"
+import {getSingleUnit} from "../../store/rentalUnits"
 
 
 
@@ -38,14 +36,8 @@ function EditReviewForm({id, submitModal}) {
         const data = await dispatch(editReview(payload,id));
 
         if (data.errors){
-            const test ="this added to the array";
-            const testErr = [...data.errors,...test];
             setErrors(data.errors);
             return data
-
-
-            // setErrors(data.errors);
-            // return data
         };
 
         dispatch(getSingleUnit(rentalUnitId))
