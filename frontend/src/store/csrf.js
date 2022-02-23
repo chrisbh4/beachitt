@@ -26,7 +26,7 @@ export async function csrfFetch(url, options = {}) {
   }
 
   // call the default window's fetch with the url and the options passed in
-  debugger
+
   const res = await window.fetch(url, options);
 
   // if the response status code is 400 or above, then throw an error with the

@@ -267,7 +267,7 @@ function GetSingleUnitPage() {
                         </div>
                         <div class='flex justify-around'>
                             <p class='underline font-medium text-xl '>Username </p>
-                            <p class='underline font-medium text-xl '>Comment </p>
+                            <p class='underline font-medium text-xl' id='reviews-comment-title'>Comment </p>
                         </div>
 
                         {displayReviews()}

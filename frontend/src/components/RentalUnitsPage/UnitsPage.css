@@ -94,7 +94,11 @@
     background-color: blanchedalmond;
 }
 
+#reviews-comment-title{
+    position: relative;
+    right: 30px;
 
+}
 #row-1{
     margin-bottom: -11.8px;
 }
