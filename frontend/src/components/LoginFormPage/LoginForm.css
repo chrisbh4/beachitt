@@ -1,4 +1,8 @@
 
+*{
+    font-family: 'Gideon Roman', cursive;
+    /* font-family: 'Lato', sans-serif; */
+}
 button{
     border-radius: 30px;
     border: 1px solid black;
@@ -25,7 +29,7 @@ button{
     font-size: large;
     color: red;
     padding-bottom:10px;
-   
+
 }
 
 
