@@ -15,7 +15,6 @@ function GetSingleUnitPage() {
     const dispatch = useDispatch();
     const {id} = useParams();
 
-    console.log("ID :", id)
     const unit = useSelector(state => state?.rentalUnit)
     const userId = useSelector(state => state?.session.user.id)
     const unitReviews = unit?.Reviews;
@@ -140,17 +139,8 @@ function GetSingleUnitPage() {
     };
 
 
-    // const dateConverter = (date) =>{
-    //     const data = date.split()
-    // }
 
-    //* Bookings / button functionality
 
-    /*
-    * Bookings validate frontend funitonality
-        Link: https://www.geeksforgeeks.org/how-to-check-if-one-date-is-between-two-dates-in-javascript/
-            - Approach 1
-    */
 
     const displayBookings = () => {
         return unitBookings?.map((booking) => {
@@ -224,18 +214,17 @@ function GetSingleUnitPage() {
                 <div id='unit-detail-image' class='w-6/12 '>
                     <img class=' h-full  w-full  ' src={`${unit?.url}`} alt={unit?.title} ></img>
                 </div>
-                {/* Overflow is causing the white line */}
-                <div id="details-container" id='blanch-bg' class='  w-4/12  flex flex-col  p-12  overflow-y-auto ' >
-                    <div class='relative top-10   '>
+
+                <div id='blanch-bg' class='  w-4/12  flex flex-col  p-12  overflow-y-auto ' >
+                    <div class='relative top-10 '>
                         <h2 class='text-center text-3xl pb-4 '>{unit?.title}</h2>
-                        <div className="unit-details" class='text-center   ' >
+                        <div className="unit-details" class='text-center ' >
                             <div class='content-center'>
                                 <p class='pb-2 text-xl '>Location: {unit?.city}, {unit?.state}, {unit?.zipcode} </p>
                                 <p class='pb-2 text-xl'>Distance From Beach: {unit?.distanceFromBeach} miles </p>
                                 <p class='pb-2 text-xl'>Price:$ {unit?.price} /per night</p>
                                 <p class='pb-2 text-xl'> Rooms: {unit?.rooms} </p>
                                 <p class='pb-2 text-xl'>Number of Bathrooms: {unit?.bathrooms} </p>
-
                                 <p class='text-xl font-medium pt-3.5'>Description :</p>
                                 <p class='pb-2 pt-1'>{unit?.rentalUnitDescription}</p>
                             </div>
