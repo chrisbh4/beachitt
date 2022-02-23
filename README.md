@@ -1,6 +1,6 @@
 # Beachitt
 
-Live Link : Coming soon....
+Live Link : https://beachitt.herokuapp.com/
 
 ## Features
 - User Sign Up/Login with username or email and password ( Demo account provided )
@@ -8,6 +8,10 @@ Live Link : Coming soon....
 - Users can create, edit,and delete a rental unit
 - Users can create, edit, and delete a rental unit's reviews
 - Users can create, edit, and delete a rental unit's bookings
+
+
+## HomePage
+<img src="https://imgur.com/a/jNmVDSC.png" alt="home" />
 
 ---
 ### Technologies:
