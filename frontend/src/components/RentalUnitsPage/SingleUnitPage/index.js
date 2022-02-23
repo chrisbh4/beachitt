@@ -2,14 +2,13 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import {getSingleUnit } from '../../../store/rentalUnits';
-
 import MapContainer from '../../Maps';
 import BookingCal from '../../Booking-Cal';
 import EditUnitModal from '../../Modals/Units/EditModal';
 import NewReviewModal from "../../Modals/Reviews/NewModal.js"
 import EditReviewModal from '../../Modals/Reviews/EditModal';
 import EditBookingModal from '../../Modals/Bookings/EditModal';
-// import EditReviewModal from "../../Modals/Reviews"
+
 
 function GetSingleUnitPage() {
     const dispatch = useDispatch();
@@ -67,7 +66,6 @@ function GetSingleUnitPage() {
     // }
 
 
-    //* Edit Unit route Id is coming up as undefined might need to pass in a prop
 
     const bookOrEditUnit = () => {
         if (userId > 0 && userId === unit?.ownerId) {
@@ -196,18 +194,9 @@ function GetSingleUnitPage() {
         }
     }
 
-    //* add username in the comment model it will grab the email and split on the @
-    // const getReviewUsername = () =>{
-    //     if()
-    // }
-
-    /*
-
-    Unit Page : grid needs 3 Rows and 2 Columns
-    */
 
     return (
-        // <div id="unit-grid-container" class='grid grid-cols-2'>
+
         <div id="unit-grid-container"  >
 {/* Row-1 */}
             <div id='row-1' class='  justify-center flex pt-5 '  >
@@ -291,9 +280,5 @@ function GetSingleUnitPage() {
     )
 
 }
-
-
-
-// * items-center : will vertically center items
 
 export default GetSingleUnitPage;
