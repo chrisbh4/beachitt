@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getRentalUnits } from '../../../store/rentalUnits'
@@ -43,15 +43,6 @@ function RentalUnitsPage() {
         }
     }
 
-    /*
-
-         useEffect(()=>{
-             setComment(review?.comment)
-             setRating(review.rating)
-            setImage(review.image)
-        },[review.rating, review.comment, review.image])
-
-    */
 
 
 
@@ -65,32 +56,11 @@ function RentalUnitsPage() {
                 {rentalUnits.map((unit) => {
                     return (
                         <div
-
                             className="unit-div"
                             key={unit.id}>
-
-{/* if userId is true then Link is wrapped else just an img take*/}
-                            {/* <div>
-
-                                <Link
-                                    to={`/units/${unit.id}`}>
-                                    <img
-                                        class='mx-auto'
-                                        src={`${unit.url}`}
-                                        alt={`${unit.title}`}
-                                    >
-
-                                    </img>
-                                </Link>
-
-                            </div> */}
                             <div>
-
                              {loggedInChecker(unit)}
-
                             </div>
-
-
 
                             <div className="unit-location" class='pt-2.5'>
                                 <div class='text-center' >

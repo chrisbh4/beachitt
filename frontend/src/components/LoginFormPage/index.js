@@ -26,14 +26,17 @@ function LoginFormPage() {
     //   });
 
     const data = await dispatch(sessionActions.login({ credential, password }))
-
-      if(data.status == 401){
+    console.log(data.status)
+      if(data.status === 401){
         setErrors([...errors,"Email or Password was invalid."])
       }
 
-    console.log(data)
     if(data.errors) setErrors([...data.errors])
-    history.push('/units')
+    else{
+      history.push('/units')
+      return data
+
+    }
 
     return data
   }

@@ -38,8 +38,7 @@ function EditUnitForm({submitModal}) {
     const [state, setState] = useState(rentalUnit.state)
     const [zipcode, setZipcode] = useState(rentalUnit.zipcode)
     const [url, setUrl] = useState(rentalUnit.url)
-    const [reviews] = useState(rentalUnit.Reviews)
-    const [bookings] = useState(rentalUnit.Bookings)
+
     const [errors, setErrors] = useState([]);
 
 

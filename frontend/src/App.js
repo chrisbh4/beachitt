@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch} from "react-redux";
 import { Route, Switch } from "react-router-dom";
-import LoginFormPage from "./components/LoginFormPage";
-import SignupFormPage from "./components/SignupFormPage";
-
 import * as sessionActions from "./store/session";
 import RentalUnitsPage from "./components/RentalUnitsPage/AllUnits";
 import Navigation from "./components/Naviagation";
-// import HomePage from "./components/Home/home";
 import GetSingleUnitPage from "./components/RentalUnitsPage/SingleUnitPage";
 import NewUnitForm from "./components/RentalUnitsPage/NewUnit/NewUnitForm";
 import EditReviewForm from "./components/Reviews/EditReview";
-
 import SplashPage from "./components/SplashPage";
 
 
