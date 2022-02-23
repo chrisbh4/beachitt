@@ -102,6 +102,7 @@ function GetSingleUnitPage() {
         return unitReviews?.map((review) => {
             return (
                 <>
+                {/* pos:rel right:30px */}
                     <div id="review-row" class="text-black grid grid-cols-2 py-3 ">
                         <div id="review-username" class="text-center">
                             <p>{review.username}</p>
@@ -266,8 +267,8 @@ function GetSingleUnitPage() {
                             <NewReviewModal />
                         </div>
                         <div class='flex justify-around'>
-                            <p class='underline font-medium text-xl '>Username </p>
-                            <p class='underline font-medium text-xl' id='reviews-comment-title'>Comment </p>
+                            <p class='underline font-medium text-xl ' id='reviews-username-title' >Username </p>
+                            <p class='underline font-medium text-xl' id='reviews-comment-title' >Comment </p>
                         </div>
 
                         {displayReviews()}

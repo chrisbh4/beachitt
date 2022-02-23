@@ -94,11 +94,21 @@
     background-color: blanchedalmond;
 }
 
-#reviews-comment-title{
+#reviews-username-title{
     position: relative;
-    right: 50px;
+    right: 30px;
 
 }
+#reviews-comment-title{
+    position: relative;
+    right: 80px;
+
+}
+#review-row{
+    position: relative;
+    right: 30px;
+}
+
 #row-1{
     margin-bottom: -11.8px;
 }
