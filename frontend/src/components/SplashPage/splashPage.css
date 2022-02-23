@@ -3,11 +3,13 @@
 #splash-container{
     background-color: blanchedalmond;
     padding-bottom: 80px;
+    width: 55.75%;
 
 }
 
 
 #splash-footer{
+    width: 55.75%;
     background-color: blanchedalmond;
 }
 
@@ -26,7 +28,7 @@
 }
 
 #splash-images-container{
-    width: 50%;
+    width: 55.75%;
     display: flex;
     justify-content: center;
     overflow-x: scroll;

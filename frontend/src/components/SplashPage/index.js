@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { getRentalUnits } from '../../store/rentalUnits'
 import "../SplashPage/splashPage.css"
 
@@ -9,11 +8,6 @@ function SplashPage(){
     const dispatch = useDispatch();
     const rentalUnits = useSelector((state) => Object.values(state?.rentalUnit))
 
-/*
-    TODO
-        - Have an overflow-y scroll and add 10 images under splashpage
-            - Have a function call for getAllRentals and have a max-width , overflow-y
-*/
 
 const displayUnitImages = () =>{
     return (
@@ -44,15 +38,14 @@ useEffect(() => {
         <div id="splash-container" class='w-1/2 text-center h-40 pt-6 px-2 '>
             <div class='flex  justify-center items-center'>
             <i id='splash-umbrella-1' className="fas fa-umbrella-beach"></i>
-            <h1 class='text-4xl' >Beachitt</h1>
+            <h1 class='text-4xl' >BeachItt</h1>
             <i id='splash-umbrella-2' className="fas fa-umbrella-beach"></i>
 
             </div>
             <p class='text-2xl mt-4  px-10' >Book some of the world's most luxurious beachfront rentals for your next getaway! </p>
         </div>
 
-        <div id='splash-images-container'  class=' ' >
-            {/* fetc */}
+        <div id='splash-images-container'>
             {displayUnitImages()}
         </div>
 
