@@ -39,9 +39,9 @@ function BookingCal({ userId, unitId, unitBookings }) {
         // console.log("dates", x.valueOf())
 
 
-
+console.log("Error Here :", dates)
         const startArray = dates[0].split(' ')
-        const endArray = dates[1].split(' ')
+        const endArray = dates[1]?.split(' ')
 
         // console.log("startDate before conv :", dates[0])
 
@@ -81,9 +81,6 @@ function BookingCal({ userId, unitId, unitBookings }) {
     * might have to reconvert how the clicked date is placed into the helper function
     */
     function isBookingOpen(unitStart, unitEnd, checkStart, checkEnd) {
-
-
-
         const unitStartArr = unitStart.split('-')
         const unitEndSplit = unitEnd.split('-')
 
