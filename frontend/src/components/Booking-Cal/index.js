@@ -30,7 +30,8 @@ function BookingCal({ userId, unitId, unitBookings }) {
 
     const handleClick = (e) => {
 
-        let dates = e.join('').split("(Pacific Standard Time)")
+        // let dates = e.join('').split("(Pacific Standard Time)")
+        let dates = e.join('').split("(PST)")
 
         setStartDateCov(e[0])
         setEndDateCov(e[1])
@@ -38,10 +39,10 @@ function BookingCal({ userId, unitId, unitBookings }) {
         //gives ms value
         // console.log("dates", x.valueOf())
 
+        console.log("Dates :", dates)
 
-console.log("Error Here :", dates)
         const startArray = dates[0].split(' ')
-        const endArray = dates[1]?.split(' ')
+        const endArray = dates[1].split(' ')
 
         // console.log("startDate before conv :", dates[0])
 
