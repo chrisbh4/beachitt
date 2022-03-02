@@ -30,15 +30,22 @@ function BookingCal({ userId, unitId, unitBookings }) {
 
     const handleClick = (e) => {
 
-        let dates = e.join('').split("(Pacific Standard Time)")
+        /*
+        * Bug is coming from the .split() since the PST changes to PSD
+
+        *No matter how i split the date checker is breaking from it.
+        try to conditionaly render the split by checking if the e[1] includes PST or PSD
+            If it contains PST then split the date by PST
+            else split by PSD
+        */
+
+        // let dates = e.join('').split("(Pacific Standard Time)")
+        let dates = e.join('').split("T)")
 
         setStartDateCov(e[0])
         setEndDateCov(e[1])
 
-        //gives ms value
-        // console.log("dates", x.valueOf())
-
-
+        console.log("Dates :", dates)
 
         const startArray = dates[0].split(' ')
         const endArray = dates[1].split(' ')
@@ -81,12 +88,11 @@ function BookingCal({ userId, unitId, unitBookings }) {
     * might have to reconvert how the clicked date is placed into the helper function
     */
     function isBookingOpen(unitStart, unitEnd, checkStart, checkEnd) {
-
-
-
         const unitStartArr = unitStart.split('-')
         const unitEndSplit = unitEnd.split('-')
 
+        console.log("check Start :", checkStart)
+        console.log("already booked Start :", unitStart)
         const checkStartCov = startDateConv.valueOf();
         const checkEndCov = endDateConv.valueOf();
 
@@ -99,6 +105,8 @@ function BookingCal({ userId, unitId, unitBookings }) {
         const bookingEndDate = Date.parse(checkEnd)
 
 //* if start dates are the same , end dates are the same , end date can't be the same as unit.start
+//* true = not available
+//* false = available
         if (checkStartCov === unitStartConv || checkStartCov === unitEndConv || checkEndCov === unitEndConv || checkEndCov === unitStartConv) {
             return true
         }
@@ -107,7 +115,11 @@ function BookingCal({ userId, unitId, unitBookings }) {
             return true
         }
         if ((bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) || (bookingEndDate > unitStartDate && bookingEndDate < unitEndDate)) {
-//* true = not available
+            return true
+        }
+
+
+        if ((bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) || (bookingEndDate > unitStartDate && bookingEndDate < unitEndDate)) {
             return true
         }
         return false

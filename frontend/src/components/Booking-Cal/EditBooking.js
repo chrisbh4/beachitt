@@ -40,7 +40,8 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
 
 
     const handleClick = (e) =>{
-        let dates = e.join('').split("(Pacific Standard Time)")
+        // let dates = e.join('').split("(Pacific Standard Time)")
+        let dates = e.join('').split("(PST)")
 
         setStartDateCov(e[0])
         setEndDateCov(e[1])
