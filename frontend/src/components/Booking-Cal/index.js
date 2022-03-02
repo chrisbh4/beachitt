@@ -32,22 +32,27 @@ function BookingCal({ userId, unitId, unitBookings }) {
 
         /*
         * Bug is coming from the .split() since the PST changes to PSD
-
         *No matter how i split the date checker is breaking from it.
         try to conditionaly render the split by checking if the e[1] includes PST or PSD
             If it contains PST then split the date by PST
             else split by PSD
-        */
 
+            ! Fix bookingAvailability functionaility
+                * when a trip's startDate begins before a bookedtrip and runs through that booked trip still gets submitted instead of erroring out
+        */
+        // console.log("Event :", e[0])
+        // console.log("Event :", Object.entries(e[0]))
+        let dates = e.join('').split(")")
         // let dates = e.join('').split("(Pacific Standard Time)")
-        let dates = e.join('').split("T)")
+        // let dates = e.join('').split("T)")
 
         setStartDateCov(e[0])
         setEndDateCov(e[1])
 
-        console.log("Dates :", dates)
+        // console.log("Dates :", dates)
 
         const startArray = dates[0].split(' ')
+        console.log("start date :", startArray)
         const endArray = dates[1].split(' ')
 
         // console.log("startDate before conv :", dates[0])
