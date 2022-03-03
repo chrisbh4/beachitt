@@ -90,6 +90,7 @@ function BookingCal({ userId, unitId, unitBookings }) {
         //* Turns pre-booked dates into integers
         const unitStartConv = new Date(unitStartArr[0], unitStartArr[1] - 1, unitStartArr[2]).valueOf()
         const unitEndConv = new Date(unitEndSplit[0], unitEndSplit[1] - 1, unitEndSplit[2]).valueOf()
+        
         //* need to turn dates into integers then create a conditional validation rendering, new bookings arent passing when its a day before another booking
 console.log('pre-conv-select :', unitStartConv)
 console.log('pre-conv-booked :', unitStart)
