@@ -112,10 +112,11 @@ console.log('pre-conv-booked m-d-yr :', unitStart)
 
 console.log("is selected end date > unit start date :", checkEndCov > unitStartDate)
 console.log("subtracts a half-day", (checkEndCov - 43400000) > unitStartDate)
-//! Chrome works 100%
 
-// needto make a conditional that allows for dates to be booked after pre-booked dates
-if((checkEndCov - 43400000) > unitStartDate){
+
+// Allows for the selected dates to be booked a day prior to the other pre-booked dates
+//! Safair conditional only
+if((checkEndCov - 43400000) > unitStartDate && checkStartCov < unitStartDate){
     return true
 }
 
@@ -128,9 +129,7 @@ if((checkEndCov - 43400000) > unitStartDate){
 
 //* if selected dates are before unit start but inside the unit end dates
 //! Safair conditional only
-        // if(checkStartCov < unitStartDate && checkEndCov < unitEndDate && checkEndCov > unitStartDate){
-        //     return true
-        // }
+        // if(checkStartCov < unitStartDate && checkEndCov < unitEndDate && checkEndCov > unitStartDate) return true
 
 
 
