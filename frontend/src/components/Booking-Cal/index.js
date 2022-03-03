@@ -30,21 +30,8 @@ function BookingCal({ userId, unitId, unitBookings }) {
 
     const handleClick = (e) => {
 
-        /*
-        * Bug is coming from the .split() since the PST changes to PSD
-        *No matter how i split the date checker is breaking from it.
-        try to conditionaly render the split by checking if the e[1] includes PST or PSD
-            If it contains PST then split the date by PST
-            else split by PSD
 
-            ! Fix bookingAvailability functionaility
-                * when a trip's startDate begins before a bookedtrip and runs through that booked trip still gets submitted instead of erroring out
-        */
-        // console.log("Event :", e[0])
-        // console.log("Event :", Object.entries(e[0]))
         let dates = e.join('').split(")")
-        // let dates = e.join('').split("(Pacific Standard Time)")
-        // let dates = e.join('').split("T)")
 
         setStartDateCov(e[0])
         setEndDateCov(e[1])
@@ -96,22 +83,38 @@ function BookingCal({ userId, unitId, unitBookings }) {
         const unitStartArr = unitStart.split('-')
         const unitEndSplit = unitEnd.split('-')
 
-        console.log("check Start :", checkStart)
-        console.log("already booked Start :", unitStart)
+        //* Turns check dates into integers of date
         const checkStartCov = startDateConv.valueOf();
         const checkEndCov = endDateConv.valueOf();
 
+        //* Turns pre-booked dates into integers
         const unitStartConv = new Date(unitStartArr[0], unitStartArr[1] - 1, unitStartArr[2]).valueOf()
         const unitEndConv = new Date(unitEndSplit[0], unitEndSplit[1] - 1, unitEndSplit[2]).valueOf()
+        //* need to turn dates into integers then create a conditional validation rendering, new bookings arent passing when its a day before another booking
+console.log('pre-conv-select :', unitStartConv)
+console.log('pre-conv-booked :', unitStart)
 
         const unitStartDate = Date.parse(unitStart)
         const unitEndDate = Date.parse(unitEnd)
         const bookingStartDate = Date.parse(checkStart)
         const bookingEndDate = Date.parse(checkEnd)
 
+        console.log("bookingStartDate:", bookingStartDate)
+        console.log("unitStartConv :", unitStartConv)
+
+        // console.log("if true date is inside pre-booked :",checkStartCov < unitStartDate && checkEndCov < unitEndDate && checkEndCov > unitStartDate)
+
+//* true = not available ,  false = available
+//* if selected start date is before unit start date but selected end date is ending after unit end date
+        if (checkStartCov < unitStartDate && checkEndCov > unitEndDate){
+            return true
+        }
+
+//* if selected dates are before unit start but inside the unit end dates
+        if(checkStartCov < unitStartDate && checkEndCov < unitEndDate && checkEndCov > unitStartDate){
+            return true
+        }
 //* if start dates are the same , end dates are the same , end date can't be the same as unit.start
-//* true = not available
-//* false = available
         if (checkStartCov === unitStartConv || checkStartCov === unitEndConv || checkEndCov === unitEndConv || checkEndCov === unitStartConv) {
             return true
         }
