@@ -9,12 +9,17 @@ Live Link : https://beachitt.herokuapp.com/
 - Users can create, edit, and delete a rental unit's reviews
 - Users can create, edit, and delete a rental unit's bookings
 
-<!-- 
-## HomePage
- 
-<img src="https://imgur.com/LZ8DYx3.png" alt='home' />
 
- 
+## HomePage
+<img src="https://imgur.com/BcUCHd8.png" alt='home' />
+
+
+## Units Page
+<img src="https://imgur.com/yNpzMZW.png" alt='units' />
+
+## Unit Details Page
+<img src="https://imgur.com/53XA49J.png" alt='details' />
+
 
 ---
 ### Technologies:
@@ -34,7 +39,7 @@ Live Link : https://beachitt.herokuapp.com/
 
 </div>
 
-<!-- - JavaScript
+ <!-- - JavaScript
 - Express
 - Nodejs
 - React
