@@ -30,10 +30,8 @@ function BookingCal({ userId, unitId, unitBookings }) {
 
     const handleClick = (e) => {
 
-  
+
         let dates = e.join('').split(")")
-        // let dates = e.join('').split("(Pacific Standard Time)")
-        // let dates = e.join('').split("T)")
 
         setStartDateCov(e[0])
         setEndDateCov(e[1])
@@ -92,8 +90,9 @@ function BookingCal({ userId, unitId, unitBookings }) {
         //* Turns pre-booked dates into integers
         const unitStartConv = new Date(unitStartArr[0], unitStartArr[1] - 1, unitStartArr[2]).valueOf()
         const unitEndConv = new Date(unitEndSplit[0], unitEndSplit[1] - 1, unitEndSplit[2]).valueOf()
+        //* need to turn dates into integers then create a conditional validation rendering, new bookings arent passing when its a day before another booking
 console.log('pre-conv-select :', unitStartConv)
-// console.log('pre-conv-booked :', unitStart)
+console.log('pre-conv-booked :', unitStart)
 
         const unitStartDate = Date.parse(unitStart)
         const unitEndDate = Date.parse(unitEnd)
@@ -101,9 +100,9 @@ console.log('pre-conv-select :', unitStartConv)
         const bookingEndDate = Date.parse(checkEnd)
 
         console.log("bookingStartDate:", bookingStartDate)
-        console.log("unitStartDate :", unitStartDate)
+        console.log("unitStartConv :", unitStartConv)
 
-        console.log("if true date is inside pre-booked :",checkStartCov < unitStartDate && checkEndCov < unitEndDate && checkEndCov > unitStartDate)
+        // console.log("if true date is inside pre-booked :",checkStartCov < unitStartDate && checkEndCov < unitEndDate && checkEndCov > unitStartDate)
 
 //* true = not available ,  false = available
 //* if selected start date is before unit start date but selected end date is ending after unit end date
