@@ -106,6 +106,25 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
 //* same startDate but shorter endDate : returns error
 //* startDate was the endDate now endDate got longer
 //* if start dates are the same , end dates are the same , end date can't be the same as unit.start
+
+/*
+* Chrome is working 100%
+*/
+        console.log("unit start date :", unitStartDate) // int
+        console.log("unit end date :", unitEndDate) // int
+        console.log('-----------')
+        console.log('Selected start : ', checkStartConv)// int
+        console.log('Selected end : ', checkEndConv) // int
+
+        //! Safair conditional only
+        if (checkStartConv < unitStartDate && checkEndConv > unitEndDate){
+            return true
+        }
+        if((checkEndConv - 43400000) > unitStartDate && checkStartConv < unitStartDate){
+            return true
+        }
+
+
     if (checkStartConv === unitStartConv || checkStartConv === unitEndConv || checkEndConv === unitEndConv || checkEndConv === unitStartConv) {
         if(bookingId === unitBookingId){
             return false

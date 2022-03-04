@@ -90,31 +90,51 @@ function BookingCal({ userId, unitId, unitBookings }) {
         //* Turns pre-booked dates into integers
         const unitStartConv = new Date(unitStartArr[0], unitStartArr[1] - 1, unitStartArr[2]).valueOf()
         const unitEndConv = new Date(unitEndSplit[0], unitEndSplit[1] - 1, unitEndSplit[2]).valueOf()
-        
+
         //* need to turn dates into integers then create a conditional validation rendering, new bookings arent passing when its a day before another booking
-console.log('pre-conv-select :', unitStartConv)
-console.log('pre-conv-booked :', unitStart)
+console.log('pre-conv-select m-d-yr:', checkEnd)
+console.log('pre-conv-booked m-d-yr :', unitStart)
 
         const unitStartDate = Date.parse(unitStart)
         const unitEndDate = Date.parse(unitEnd)
         const bookingStartDate = Date.parse(checkStart)
         const bookingEndDate = Date.parse(checkEnd)
+        console.log("UTC :", Date.UTC(checkEndCov))
 
-        console.log("bookingStartDate:", bookingStartDate)
-        console.log("unitStartConv :", unitStartConv)
+        console.log("Selected End date INT :", checkEndCov )
+        console.log("unit Start Date INT :", unitStartDate)
 
         // console.log("if true date is inside pre-booked :",checkStartCov < unitStartDate && checkEndCov < unitEndDate && checkEndCov > unitStartDate)
 
+/*
+        selected end date < unit start date
+*/
+
+console.log("is selected end date > unit start date :", checkEndCov > unitStartDate)
+console.log("subtracts a half-day", (checkEndCov - 43400000) > unitStartDate)
+
+
+// Allows for the selected dates to be booked a day prior to the other pre-booked dates
+//! Safair conditional only
+if((checkEndCov - 43400000) > unitStartDate && checkStartCov < unitStartDate){
+    return true
+}
+
 //* true = not available ,  false = available
 //* if selected start date is before unit start date but selected end date is ending after unit end date
+//! Safair conditional only
         if (checkStartCov < unitStartDate && checkEndCov > unitEndDate){
             return true
         }
 
 //* if selected dates are before unit start but inside the unit end dates
-        if(checkStartCov < unitStartDate && checkEndCov < unitEndDate && checkEndCov > unitStartDate){
-            return true
-        }
+//! Safair conditional only
+        // if(checkStartCov < unitStartDate && checkEndCov < unitEndDate && checkEndCov > unitStartDate) return true
+
+
+
+
+
 //* if start dates are the same , end dates are the same , end date can't be the same as unit.start
         if (checkStartCov === unitStartConv || checkStartCov === unitEndConv || checkEndCov === unitEndConv || checkEndCov === unitStartConv) {
             return true
