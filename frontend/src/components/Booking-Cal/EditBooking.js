@@ -7,7 +7,7 @@ import {fetchBooking , fetchEditBooking , fetchDeleteBooking} from "../../store/
 import {getSingleUnit} from "../../store/rentalUnits";
 
 /*
-    ! Optimization notes
+     Optimization notes
         * inside isBookingOpen()
             - replace Date.parse() variable with all the converted dates "checkStartConv, checkEndConv, unitStartConv, unitEndConv"
 */
@@ -40,8 +40,6 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
 
 
     const handleClick = (e) =>{
-
-        // let dates = e.join('').split("(PST)")
         let dates = e.join('').split(")")
 
         setStartDateCov(e[0])
@@ -67,24 +65,7 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
     };
 
 
-    /*
-    * Orignial
-    function isBookingOpen(unitStart, unitEnd, checkStart, checkEnd , unitBookingId) {
-        const unitStartDate = Date.parse(unitStart)
-        const unitEndDate = Date.parse(unitEnd)
-        const bookingStartDate = Date.parse(checkStart)
-        const bookingEndDate = Date.parse(checkEnd)
 
-        if ((bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) || (bookingEndDate > unitStartDate && bookingEndDate < unitEndDate)) {
-            if(bookingId === unitBookingId){
-                return false
-            }
-            return true
-        }
-        return false
-    };
-
-    */
 
    function isBookingOpen(unitStart, unitEnd, checkStart, checkEnd, unitBookingId) {
 
@@ -107,14 +88,6 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
 //* startDate was the endDate now endDate got longer
 //* if start dates are the same , end dates are the same , end date can't be the same as unit.start
 
-/*
-* Chrome is working 100%
-*/
-        console.log("unit start date :", unitStartDate) // int
-        console.log("unit end date :", unitEndDate) // int
-        console.log('-----------')
-        console.log('Selected start : ', checkStartConv)// int
-        console.log('Selected end : ', checkEndConv) // int
 
         //! Safair conditional only
         if (checkStartConv < unitStartDate && checkEndConv > unitEndDate){

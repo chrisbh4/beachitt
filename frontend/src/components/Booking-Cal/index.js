@@ -10,8 +10,6 @@ import './booking.css'
     TODO
         - same date booking allows for duplicates
         - When doing same day booking then book a startDate === to the same dayBooking it allows for overBooking
-
-
         * Before conversion the selected date and the unit date that is turned into a new Date() are exactly the same
             1.need to convert the unit date with new Date()
             2.need to have the checkStart to have its orginal format with PST
@@ -91,27 +89,10 @@ function BookingCal({ userId, unitId, unitBookings }) {
         const unitStartConv = new Date(unitStartArr[0], unitStartArr[1] - 1, unitStartArr[2]).valueOf()
         const unitEndConv = new Date(unitEndSplit[0], unitEndSplit[1] - 1, unitEndSplit[2]).valueOf()
 
-        //* need to turn dates into integers then create a conditional validation rendering, new bookings arent passing when its a day before another booking
-console.log('pre-conv-select m-d-yr:', checkEnd)
-console.log('pre-conv-booked m-d-yr :', unitStart)
-
         const unitStartDate = Date.parse(unitStart)
         const unitEndDate = Date.parse(unitEnd)
         const bookingStartDate = Date.parse(checkStart)
         const bookingEndDate = Date.parse(checkEnd)
-        console.log("UTC :", Date.UTC(checkEndCov))
-
-        console.log("Selected End date INT :", checkEndCov )
-        console.log("unit Start Date INT :", unitStartDate)
-
-        // console.log("if true date is inside pre-booked :",checkStartCov < unitStartDate && checkEndCov < unitEndDate && checkEndCov > unitStartDate)
-
-/*
-        selected end date < unit start date
-*/
-
-console.log("is selected end date > unit start date :", checkEndCov > unitStartDate)
-console.log("subtracts a half-day", (checkEndCov - 43400000) > unitStartDate)
 
 
 // Allows for the selected dates to be booked a day prior to the other pre-booked dates
