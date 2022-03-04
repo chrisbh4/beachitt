@@ -120,6 +120,10 @@ function EditBookingPage({bookingId , submitModal , unitBookings}){
         if (checkStartConv < unitStartDate && checkEndConv > unitEndDate){
             return true
         }
+        if((checkEndConv - 43400000) > unitStartDate && checkStartConv < unitStartDate){
+            return true
+        }
+
 
     if (checkStartConv === unitStartConv || checkStartConv === unitEndConv || checkEndConv === unitEndConv || checkEndConv === unitStartConv) {
         if(bookingId === unitBookingId){
