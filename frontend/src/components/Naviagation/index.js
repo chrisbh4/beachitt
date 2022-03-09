@@ -37,8 +37,13 @@ function Navigation({ isLoaded }) {
           <h1>BeachItt</h1>
         </div>
 
-<div class='w-1/2 flex justify-between relative  bottom-1 p-3 '>
-            <button >
+<div class='w-1/2 flex justify-end bottom-1 p-3 relative overflow-x-hidden'>
+  <div class=' w-full flex justify-evenly  '>
+
+
+            <button
+              id='navButton'
+            >
               <NavLink
                 exact to="/"
                 className="navLink"
@@ -50,13 +55,16 @@ function Navigation({ isLoaded }) {
 
 
             <button
+              id='navButton'
               onClick={demoLogin}
               hidden={sessionUser}>
               Demo User
             </button>
 
 
-            <button>
+            <button
+              id='navButton'
+            >
               <NavLink
                 to="/units"
                 className="navLink"
@@ -64,7 +72,8 @@ function Navigation({ isLoaded }) {
             </button>
 
 
-            <SignUpFormModal />
+            <SignUpFormModal/>
+</div>
 </div>
 
           </nav>

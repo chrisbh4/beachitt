@@ -40,8 +40,10 @@ function ProfileButton({ user }) {
           <h1>BeachItt</h1>
         </div>
 
-  <div class='w-1/2 flex justify-evenly relative left-12 p-4  '>
-        <button>
+  <div class='w-1/2 flex justify-evenly relative p-4  '>
+        <button
+            id='navButton'
+        >
           <NavLink
             exact to="/"
             className="navLink"
@@ -51,7 +53,9 @@ function ProfileButton({ user }) {
 
 
 
-        <button>
+        <button
+            id='navButton'
+        >
           <NavLink
             to="/units"
             className="navLink"
@@ -62,7 +66,10 @@ function ProfileButton({ user }) {
         <NewUnitModal />
 
 
-        <button onClick={openMenu}>
+        <button
+         id='navButton'
+        onClick={openMenu}
+        >
         Show Menu
         </button>
         </div>

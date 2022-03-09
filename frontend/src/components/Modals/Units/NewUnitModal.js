@@ -10,7 +10,9 @@ function NewUnitModal() {
 
   return (
     <>
-      <button onClick={() => setShowModal(true)}>Register your rental</button>
+      <button onClick={() => setShowModal(true)}
+       id='navButton'
+      >Register your rental</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <NewUnitForm  submitModal={setShowModal}/>

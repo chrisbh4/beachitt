@@ -18,6 +18,10 @@ body{
     color: black;
 }
 
+#navButton{
+    position: relative;
+    left: 50px;
+}
 
 .profile-dropdown{
     text-align: center;
