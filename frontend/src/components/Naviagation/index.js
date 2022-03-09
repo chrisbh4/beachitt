@@ -37,7 +37,7 @@ function Navigation({ isLoaded }) {
           <h1>BeachItt</h1>
         </div>
 
-<div class='w-1/2 flex justify-evenly relative left-12 bottom-1 p-3 '>
+<div class='w-1/2 flex justify-between relative  bottom-1 p-3 '>
             <button >
               <NavLink
                 exact to="/"
