@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler');
 // option 1
 // const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { setTokenCookie} = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { User, RentalUnits, Reviews, Bookings } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
@@ -48,7 +48,13 @@ router.post( '/',
   }),
 );
 
+//User Profile w/ data
 
+router.get('/:id', asyncHandler(async (req, res )=>{
+    const user = await User.findByPk(req.params.id,{include:[RentalUnits,Reviews,Bookings]})
+    res.json(user)
+    // return data
+}))
 
 
 module.exports = router;
