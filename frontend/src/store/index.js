@@ -4,6 +4,7 @@ import sessionReducer from './session';
 import rentalUnitReducer from './rentalUnits';
 import reviewsReducer from './reviews';
 import bookingsReducer from './bookings';
+import userProfileReducer from './profile';
 import mapsReducer from './maps';
 
 
@@ -12,6 +13,7 @@ import mapsReducer from './maps';
 
 const rootReducer = combineReducers({
     session: sessionReducer,
+    profile: userProfileReducer,
     rentalUnit: rentalUnitReducer,
     reviews: reviewsReducer,
     bookings: bookingsReducer,
