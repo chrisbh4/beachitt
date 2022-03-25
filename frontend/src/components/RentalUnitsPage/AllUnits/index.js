@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getRentalUnits } from '../../../store/rentalUnits'
+import {fetchUserProfile} from  '../../../store/profile'
 import "../../RentalUnitsPage/UnitsPage.css"
 
 function RentalUnitsPage() {
@@ -12,6 +13,7 @@ function RentalUnitsPage() {
 
     useEffect(() => {
         dispatch(getRentalUnits())
+        dispatch(fetchUserProfile(userId))
 
     }, [dispatch])
 
