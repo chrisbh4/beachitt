@@ -49,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
         len: [3, 256]
       },
     },
-    // image:{
+    //image:{
     //     type: DataTypes.TEXT,
     //     allowNull:true
     //  },

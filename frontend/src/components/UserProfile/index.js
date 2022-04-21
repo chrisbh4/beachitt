@@ -1,10 +1,10 @@
+import React, { useState, useEffect } from "react";
 
 
 
 
 
-
-function UserProfilePage(){
+function UserProfile(){
 
     return(
         <>
@@ -12,3 +12,5 @@ function UserProfilePage(){
         </>
     )
 }
+
+export default UserProfile

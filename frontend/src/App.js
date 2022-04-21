@@ -8,6 +8,7 @@ import GetSingleUnitPage from "./components/RentalUnitsPage/SingleUnitPage";
 import NewUnitForm from "./components/RentalUnitsPage/NewUnit/NewUnitForm";
 import EditReviewForm from "./components/Reviews/EditReview";
 import SplashPage from "./components/SplashPage";
+import UserProfile from "./components/UserProfile";
 
 
 function App() {
@@ -32,6 +33,10 @@ function App() {
 
           <Route exact path='/'>
             <SplashPage />
+          </Route>
+
+          <Route exact path='/user/:id'>
+            <UserProfile />
           </Route>
 
           <Route exact path="/units">
