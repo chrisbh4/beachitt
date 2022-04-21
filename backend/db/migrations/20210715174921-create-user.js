@@ -18,18 +18,18 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
-      // firstName: {
-      //   type: Sequelize.STRING(50),
-      //   allowNull: false,
-      // },
-      // lastName: {
-      //   type: Sequelize.STRING(50),
-      //   allowNull: false,
-      // },
-      // image: {
-      //   type: Sequelize.TEXT,
-      //   allowNull: false,
-      // },
+      firstName: {
+        type: Sequelize.STRING(50),
+        allowNull: false,
+      },
+      lastName: {
+        type: Sequelize.STRING(50),
+        allowNull: false,
+      },
+      image: {
+        type: Sequelize.TEXT,
+        allowNull: false,
+      },
       hashedPassword: {
         type: Sequelize.STRING.BINARY,
         allowNull: false,
