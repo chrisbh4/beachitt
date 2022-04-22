@@ -17,6 +17,16 @@ function UserProfile() {
 
     console.log(user)
 
+    // const grabUnitImage = (id) =>{
+    //     //* I can either fetch singleUnit from react state or make backend call for the unit
+    //     const unitFetch = await `url/${id}`
+    //     const {url} = unitFetch
+
+    //     return(<>
+    //         <img src={url} />
+    //     </>)
+    // }
+
     const displayUserBookings = user.Bookings?.map((booking) => {
         // * Can make a function to fetch for the rentalUnit's Image by grabbing its rentalUnitId from bookings{}
         return (<>
