@@ -69,13 +69,15 @@ function UserProfile() {
 
 
     return (
-        <>
+        <div class='w-3/4' flex justify-center>
+            <div>
             <h1 class='text-xl text-white'>User Detials</h1>
             <p>{user.id}</p>
             <p>{user.username}</p>
-            <p>Total Listed Units: {user.RentalUnits.length}</p>
-            <p>Total Reviews : {user.Reviews.length}</p>
-            <p>Total Booked Trips : {user.Bookings.length}</p>
+            <p>Total Listed Units: {user.RentalUnits?.length}</p>
+            <p>Total Reviews : {user.Reviews?.length}</p>
+            <p>Total Booked Trips : {user.Bookings?.length}</p>
+            </div>
 
             <h1 class='text-xl text-white'>Owned Units</h1>
             {displayUserRentalUnits}
@@ -86,7 +88,7 @@ function UserProfile() {
             <h1 class='text-xl text-white'>Booked Trips</h1>
             {displayUserBookings}
 
-        </>
+        </div>
     )
 }
 

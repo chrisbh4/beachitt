@@ -7,6 +7,8 @@ import NewUnitModal from "../Modals/Units/NewUnitModal";
 function ProfileButton({ user }) {
   const history = useHistory();
   const dispatch = useDispatch();
+
+  console.log("USA :", user)
   const [showMenu, setShowMenu] = useState(false);
 
   const openMenu = () => {
@@ -60,6 +62,15 @@ function ProfileButton({ user }) {
             to="/units"
             className="navLink"
           >All Units</NavLink>
+        </button>
+
+        <button
+            id='navButton'
+        >
+          <NavLink
+            to={`/users/${user.id}`}
+            className="navLink"
+          >My Profile</NavLink>
         </button>
 
 
