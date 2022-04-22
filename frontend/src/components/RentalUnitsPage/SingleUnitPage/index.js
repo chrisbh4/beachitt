@@ -80,11 +80,10 @@ function GetSingleUnitPage() {
         } else {
             // create bookings functionality
             return (
-                // <button ><a href={`/bookings`}>Book a trip</a></button>
                 <>
                     <button
                         class=" "
-                    ><a href={'#booking'}>Book a trip</a></button>
+                    ><Link href={'#booking'}>Book a trip</Link></button>
                 </>
             )
         }

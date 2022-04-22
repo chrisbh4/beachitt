@@ -35,7 +35,7 @@ function App() {
             <SplashPage />
           </Route>
 
-          <Route exact path='/user/:id'>
+          <Route exact path='/users/:id'>
             <UserProfile />
           </Route>
 
