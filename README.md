@@ -1,6 +1,6 @@
 # Beachitt
 
-Live Link : https://beachitt.herokuapp.com/
+Live Link : https://beachitt.fly.dev/
 
 ## Features
 - User Sign Up/Login with username or email and password ( Demo account provided )

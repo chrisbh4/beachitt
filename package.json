@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/chrisbh4/authenticate-me-skeleton/issues"
   },
-  "homepage": "https://github.com/chrisbh4/authenticate-me-skeleton#readme"
+  "homepage": "https://github.com/chrisbh4/authenticate-me-skeleton#readme",
+  "devDependencies": {
+    "@flydotio/dockerfile": "^0.2.11"
+  }
 }
