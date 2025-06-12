@@ -7,7 +7,12 @@ function LoginFormModal() {
 
   return (
     <>
-      <button onClick={() => setShowModal(true)}>Log In</button>
+      <button 
+        onClick={() => setShowModal(true)}
+        className="text-sm font-medium text-gray-700 hover:text-gray-900 px-3 py-1 rounded-full hover:bg-gray-50 transition-colors duration-200"
+      >
+        Log in
+      </button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <LoginFormPage />

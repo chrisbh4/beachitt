@@ -24,52 +24,116 @@ function Navigation({ isLoaded }) {
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
-      <ProfileButton user={sessionUser} />
+      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <div className="flex items-center">
+              <NavLink to="/" className="flex items-center">
+                <img className="h-8 w-auto" src="/logos/batteriesinc-logo.svg" alt="BeachItt" />
+              </NavLink>
+            </div>
 
+            {/* Center Search Bar */}
+            <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
+              <div className="w-full relative">
+                <div className="flex items-center border border-gray-300 rounded-full shadow-sm hover:shadow-md transition-shadow duration-200">
+                  <div className="flex-1 px-6 py-2">
+                    <input
+                      type="text"
+                      placeholder="Where are you going?"
+                      className="w-full text-sm text-gray-700 placeholder-gray-500 border-none outline-none bg-transparent"
+                    />
+                  </div>
+                  <button className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full mr-2 transition-colors duration-200">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Right side navigation */}
+            <div className="flex items-center space-x-4">
+              <NavLink
+                to="/new"
+                className="hidden md:block text-sm font-medium text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md hover:bg-gray-50 transition-colors duration-200"
+              >
+                Become a host
+              </NavLink>
+              <NavLink
+                to="/units"
+                className="hidden md:block text-sm font-medium text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md hover:bg-gray-50 transition-colors duration-200"
+              >
+                Explore
+              </NavLink>
+              <ProfileButton user={sessionUser} />
+            </div>
+          </div>
+        </div>
+      </header>
     );
   } else {
     sessionLinks = (
-      <>
-        <div className="notSignedIn-container">
-          <nav className="nav-notSignedIn">
+      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <div className="flex items-center">
+              <NavLink to="/" className="flex items-center">
+                <img className="h-8 w-auto" src="/logos/batteriesinc-logo.svg" alt="BeachItt" />
+              </NavLink>
+            </div>
 
-          <div id='logged-out-nav-title' >
-          <h1>BeachItt</h1>
-        </div>
+            {/* Center Search Bar */}
+            <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
+              <div className="w-full relative">
+                <div className="flex items-center border border-gray-300 rounded-full shadow-sm hover:shadow-md transition-shadow duration-200">
+                  <div className="flex-1 px-6 py-2">
+                    <input
+                      type="text"
+                      placeholder="Where are you going?"
+                      className="w-full text-sm text-gray-700 placeholder-gray-500 border-none outline-none bg-transparent"
+                    />
+                  </div>
+                  <button className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full mr-2 transition-colors duration-200">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
 
-<div class='w-1/2 flex justify-evenly relative left-12 bottom-1 p-3 '>
-            <button >
-              <NavLink
-                exact to="/"
-                className="navLink"
-              >Home</NavLink>
-            </button>
-
-
-            <LoginFormModal />
-
-
-            <button
-              onClick={demoLogin}
-              hidden={sessionUser}>
-              Demo User
-            </button>
-
-
-            <button>
+            {/* Right side navigation */}
+            <div className="flex items-center space-x-2">
               <NavLink
                 to="/units"
-                className="navLink"
-              >All Units</NavLink>
-            </button>
-
-
-            <SignUpFormModal />
-</div>
-
-          </nav>
+                className="text-sm font-medium text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md hover:bg-gray-50 transition-colors duration-200"
+              >
+                Explore
+              </NavLink>
+              
+              <div className="flex items-center space-x-2 border border-gray-300 rounded-full p-1 hover:shadow-md transition-shadow duration-200">
+                <button
+                  onClick={demoLogin}
+                  className="text-sm font-medium text-gray-700 hover:text-gray-900 px-3 py-1 rounded-full hover:bg-gray-50 transition-colors duration-200"
+                >
+                  Demo
+                </button>
+                <LoginFormModal />
+                <SignUpFormModal />
+                <div className="w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center">
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </>
+      </header>
     );
   }
 

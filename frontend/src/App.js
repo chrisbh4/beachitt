@@ -8,28 +8,21 @@ import GetSingleUnitPage from "./components/RentalUnitsPage/SingleUnitPage";
 import NewUnitForm from "./components/RentalUnitsPage/NewUnit/NewUnitForm";
 import EditReviewForm from "./components/Reviews/EditReview";
 import SplashPage from "./components/SplashPage";
-
+import NotFound from "./components/NotFound";
 
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
 
-
-
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
-
 
   return (
     <>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
-          {/* <Route exact path="/">
-          <HomePage />
-          </Route> */}
-
           <Route exact path='/'>
             <SplashPage />
           </Route>
@@ -38,28 +31,21 @@ function App() {
             <RentalUnitsPage />
           </Route>
 
-{/* if uncommented EditUnitForm is not displayed */}
           <Route exact path="/units/:id">
             <GetSingleUnitPage />
           </Route>
 
-          <Route  path="/new">
-            < NewUnitForm />
+          <Route path="/new">
+            <NewUnitForm />
           </Route>
-
-
 
           <Route path='/reviews/:id/edit'>
             <EditReviewForm />
           </Route>
 
-
-
-        {/* Create 404 component */}
-        <Route>
-          404 page not found
+          <Route>
+            <NotFound />
           </Route>
-
         </Switch>
       )}
     </>

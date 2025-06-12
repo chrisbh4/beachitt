@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import { NavLink, useHistory } from "react-router-dom";
 import * as sessionActions from '../../store/session';
-import '../Naviagation/Navigation.css';
-import NewUnitModal from "../Modals/Units/NewUnitModal";
+
 function ProfileButton({ user }) {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -33,57 +32,75 @@ function ProfileButton({ user }) {
   };
 
   return (
-    <>
-      <nav className="nav-container">
-
-        <div id='loggedIn-nav-title' >
-          <h1>BeachItt</h1>
+    <div className="relative">
+      {/* Profile Button */}
+      <button
+        onClick={openMenu}
+        className="flex items-center space-x-3 border border-gray-300 rounded-full p-2 hover:shadow-md transition-shadow duration-200 bg-white"
+      >
+        <div className="flex items-center space-x-2">
+          <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <div className="w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center">
+            <span className="text-white text-sm font-medium">
+              {user.username ? user.username.charAt(0).toUpperCase() : 'U'}
+            </span>
+          </div>
         </div>
+      </button>
 
-  <div class='w-1/2 flex justify-evenly relative left-12 p-4  '>
-        <button>
-          <NavLink
-            exact to="/"
-            className="navLink"
-          >Home</NavLink>
-
-        </button>
-
-
-
-        <button>
-          <NavLink
-            to="/units"
-            className="navLink"
-          >All Units</NavLink>
-        </button>
-
-
-        <NewUnitModal />
-
-
-        <button onClick={openMenu}>
-        Show Menu
-        </button>
-        </div>
-
-      {/* Profile Menu */}
-      </nav>
+      {/* Dropdown Menu */}
       {showMenu && (
-        <div  id="menu-background-container" class='flex justify-center'>
-        <div id='profile-bg' class='absolute bg-yellow-100 px-10 py-3 '>
-        <ul className="profile-dropdown"  >
-          <li class='py-1'> {user.username}</li>
-          <li class='py-1'>{user.email}</li>
-          <li class='pt-2'>
-            <button onClick={logout}>Log Out</button>
-          </li>
-        </ul>
-        </div>
+        <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-200 py-2 z-50">
+          <div className="px-4 py-3 border-b border-gray-100">
+            <p className="text-sm font-medium text-gray-900">{user.username}</p>
+            <p className="text-sm text-gray-500 truncate">{user.email}</p>
+          </div>
+          
+          <div className="py-1">
+            <NavLink
+              to="/units"
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+              onClick={() => setShowMenu(false)}
+            >
+              Browse stays
+            </NavLink>
+            <NavLink
+              to="/new"
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+              onClick={() => setShowMenu(false)}
+            >
+              Host your home
+            </NavLink>
+          </div>
+          
+          <div className="border-t border-gray-100 py-1">
+            <a
+              href="#"
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+            >
+              Account settings
+            </a>
+            <a
+              href="#"
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+            >
+              Help Center
+            </a>
+          </div>
+          
+          <div className="border-t border-gray-100 py-1">
+            <button
+              onClick={logout}
+              className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+            >
+              Log out
+            </button>
+          </div>
         </div>
       )}
-    </>
-
+    </div>
   );
 }
 
