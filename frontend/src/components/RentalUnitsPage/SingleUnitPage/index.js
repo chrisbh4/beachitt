@@ -501,7 +501,18 @@ function GetSingleUnitPage() {
                                 </div>
 
                                 <div id="booking" className="mb-6">
-                                    <BookingCal userId={userId} unitId={unit?.id} unitBookings={unit?.Bookings} />
+                                    <BookingCal 
+                                        userId={userId} 
+                                        unitId={unit?.id} 
+                                        unitBookings={unit?.Bookings}
+                                        unitPrice={unit?.price}
+                                        onBookingSuccess={(bookingDetails) => {
+                                            showNotification(
+                                                `Booking confirmed! ${bookingDetails.nights} night${bookingDetails.nights !== 1 ? 's' : ''} for $${bookingDetails.totalPrice}`,
+                                                'success'
+                                            );
+                                        }}
+                                    />
                                 </div>
 
                                 <div className="space-y-4">
