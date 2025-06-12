@@ -9,11 +9,19 @@
 
 ## 📝 Task Details
 
+### 🔹 Database
+- Units I mage rows updated to hold multiple images
+- Reviews rating row added
+
 ### 🔹 API Integration
 - **Description**: Implement Airbnb API for data fetching
 - **Priority**: High
 - **Estimated Time**: 2-3 days
 - **Dependencies**: None
+
+### 🔹 UX
+- Booking calendar pricing calculator
+
 
 ### 🔹 Code Cleanup
 - **Description**: Remove unused UI components and clean up codebase

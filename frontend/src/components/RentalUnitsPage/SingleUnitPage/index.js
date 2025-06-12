@@ -113,42 +113,62 @@ function GetSingleUnitPage() {
     const displayReviews = () => {
         if (!unitReviews || unitReviews.length === 0) {
             return (
-                <div className="text-center py-12 text-gray-500">
+                <div className="reviews-empty-state">
                     <svg className="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.955 8.955 0 01-2.993-.5L3 21l1.5-7.007A7.963 7.963 0 013 12c0-4.418 3.582-8 8-8s8 3.582 8 8z" />
                     </svg>
-                    <p className="text-lg">No reviews yet</p>
-                    <p className="text-sm">Be the first to share your experience!</p>
+                    <h3>No reviews yet</h3>
+                    <p>Be the first to share your experience!</p>
                 </div>
             );
         }
 
         return unitReviews?.map((review, index) => {
+            const reviewDate = new Date(review.createdAt || review.updatedAt).toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric'
+            });
+
+            const rating = review.rating || 5; // Default to 5 stars if no rating
+
             return (
-                <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                <div key={review.id || index} className="review-card">
                     <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                            {review.username?.charAt(0).toUpperCase()}
+                        {/* Review Avatar */}
+                        <div className="review-avatar">
+                            {review.username?.charAt(0).toUpperCase() || 'U'}
                         </div>
-                        <div className="flex-1">
-                            <div className="flex items-center justify-between mb-2">
-                                <h4 className="font-semibold text-gray-900">{review.username}</h4>
-                                <div className="flex items-center gap-1">
+                        
+                        {/* Review Content */}
+                        <div className="review-content">
+                            <div className="review-header">
+                                <div>
+                                    <h4 className="review-username">{review.username || 'Anonymous User'}</h4>
+                                    <div className="review-date">{reviewDate}</div>
+                                </div>
+                                
+                                <div className="review-rating">
                                     {[...Array(5)].map((_, i) => (
-                                        <svg key={i} className="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                        <svg 
+                                            key={i} 
+                                            className={`w-4 h-4 ${i < rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+                                            viewBox="0 0 20 20"
+                                        >
                                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                         </svg>
                                     ))}
                                 </div>
                             </div>
-                            <div className="flex items-center justify-between">
-                                <p className="text-gray-700 leading-relaxed">{review.comment}</p>
-                                {userId === review.userId && (
-                                    <div className="ml-4">
-                                        <EditReviewModal reviewId={review.id} />
-                                    </div>
-                                )}
-                            </div>
+                            
+                            <p className="review-text">{review.comment}</p>
+                            
+                            {/* Review Actions */}
+                            {userId === review.userId && (
+                                <div className="review-actions">
+                                    <EditReviewModal reviewId={review.id} />
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -460,11 +480,31 @@ function GetSingleUnitPage() {
                             <div className="p-8">
                                 {activeTab === 'reviews' && (
                                     <div>
-                                        <div className="flex items-center justify-between mb-6">
-                                            <h3 className="text-xl font-semibold text-gray-900">Guest Reviews</h3>
-                                            <NewReviewModal />
+                                        <div className="reviews-header">
+                                            <div className="reviews-title">
+                                                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.955 8.955 0 01-2.993-.5L3 21l1.5-7.007A7.963 7.963 0 013 12c0-4.418 3.582-8 8-8s8 3.582 8 8z" />
+                                                </svg>
+                                                Guest Reviews
+                                                <span className="reviews-count">{unitReviews?.length || 0}</span>
+                                            </div>
+                                            <div className="flex items-center gap-4">
+                                                {unitReviews?.length > 0 && (
+                                                    <div className="reviews-average">
+                                                        <span className="text-2xl font-bold">{averageRating}</span>
+                                                        <div className="stars">
+                                                            {[...Array(5)].map((_, i) => (
+                                                                <svg key={i} className="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                                </svg>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                <NewReviewModal />
+                                            </div>
                                         </div>
-                                        <div className="space-y-4">
+                                        <div className="space-y-6">
                                             {displayReviews()}
                                         </div>
                                     </div>

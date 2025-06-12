@@ -76,12 +76,13 @@ function ProfileButton({ user }) {
           </div>
           
           <div className="border-t border-gray-100 py-1">
-            <a
-              href="#"
+            <NavLink
+              to="/account/settings"
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+              onClick={() => setShowMenu(false)}
             >
               Account settings
-            </a>
+            </NavLink>
             <a
               href="#"
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
