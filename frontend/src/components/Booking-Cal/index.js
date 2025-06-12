@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux"
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
@@ -19,199 +19,331 @@ import './booking.css'
             4. compare if the values are the same if so then return and set error startDate can't be the same as endDate
 */
 
-function BookingCal({ userId, unitId, unitBookings }) {
+function BookingCal({ userId, unitId, unitBookings, onBookingSuccess, unitPrice }) {
     const dispatch = useDispatch();
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+    const [selectedRange, setSelectedRange] = useState(null);
     const [errors, setErrors] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [totalNights, setTotalNights] = useState(0);
+    const [totalPrice, setTotalPrice] = useState(0);
+    const [showSummary, setShowSummary] = useState(false);
 
-    const [startDateConv, setStartDateCov] = useState("");
-    const [endDateConv, setEndDateCov] = useState("");
+    // Convert existing bookings to date objects for calendar highlighting
+    const bookedDates = unitBookings?.map(booking => ({
+        start: new Date(booking.startDate),
+        end: new Date(booking.endDate)
+    })) || [];
 
-    const handleClick = (e) => {
-
-
-        let dates = e.join('').split(")")
-
-        setStartDateCov(e[0])
-        setEndDateCov(e[1])
-
-        // console.log("Dates :", dates)
-
-        const startArray = dates[0].split(' ')
-        console.log("start date :", startArray)
-        const endArray = dates[1].split(' ')
-
-        // console.log("startDate before conv :", dates[0])
-
-        // const startDateObj = {
-        //     weekday: startArray[0],
-        //     month:startArray[1],
-        //     day:startArray[2],
-        //     year:startArray[3],
-        //     time:startArray[4]
-        // }
-
-        // const endDateObj = {
-        //     weekday:endArray[0],
-        //     month:endArray[1],
-        //     day:endArray[2],
-        //     year:endArray[3],
-        //     time:endArray[4]
-        // }
-
-        const startDateStringConverter = `${startArray[3]}-${startArray[1]}-${startArray[2]}`
-        const endDateStringConverter = `${endArray[3]}-${endArray[1]}-${endArray[2]}`
-
-        // console.log("conv :", startDateStringConverter)
-
-        setStartDate(startDateStringConverter);
-        setEndDate(endDateStringConverter);
+    // Format date to YYYY-MM-DD
+    const formatDate = (date) => {
+        return date.toISOString().split('T')[0];
     };
 
-    /*
-    * Bookings validate frontend funitonality
-    Link: https://www.geeksforgeeks.org/how-to-check-if-one-date-is-between-two-dates-in-javascript/
-
-    - need to see both booking with the same startDate
-    - if both unitStart and StartDate are === return "startDate is already taken"
-    - if startDate === unitEnd date return "date is already taken"
-
-    * might have to reconvert how the clicked date is placed into the helper function
-    */
-    function isBookingOpen(unitStart, unitEnd, checkStart, checkEnd) {
-        const unitStartArr = unitStart.split('-')
-        const unitEndSplit = unitEnd.split('-')
-
-        //* Turns check dates into integers of date
-        const checkStartCov = startDateConv.valueOf();
-        const checkEndCov = endDateConv.valueOf();
-
-        //* Turns pre-booked dates into integers
-        const unitStartConv = new Date(unitStartArr[0], unitStartArr[1] - 1, unitStartArr[2]).valueOf()
-        const unitEndConv = new Date(unitEndSplit[0], unitEndSplit[1] - 1, unitEndSplit[2]).valueOf()
-
-        //* need to turn dates into integers then create a conditional validation rendering, new bookings arent passing when its a day before another booking
-console.log('pre-conv-select m-d-yr:', checkEnd)
-console.log('pre-conv-booked m-d-yr :', unitStart)
-
-        const unitStartDate = Date.parse(unitStart)
-        const unitEndDate = Date.parse(unitEnd)
-        const bookingStartDate = Date.parse(checkStart)
-        const bookingEndDate = Date.parse(checkEnd)
-        console.log("UTC :", Date.UTC(checkEndCov))
-
-        console.log("Selected End date INT :", checkEndCov )
-        console.log("unit Start Date INT :", unitStartDate)
-
-        // console.log("if true date is inside pre-booked :",checkStartCov < unitStartDate && checkEndCov < unitEndDate && checkEndCov > unitStartDate)
-
-/*
-        selected end date < unit start date
-*/
-
-console.log("is selected end date > unit start date :", checkEndCov > unitStartDate)
-console.log("subtracts a half-day", (checkEndCov - 43400000) > unitStartDate)
-
-
-// Allows for the selected dates to be booked a day prior to the other pre-booked dates
-//! Safair conditional only
-if((checkEndCov - 43400000) > unitStartDate && checkStartCov < unitStartDate){
-    return true
-}
-
-//* true = not available ,  false = available
-//* if selected start date is before unit start date but selected end date is ending after unit end date
-//! Safair conditional only
-        if (checkStartCov < unitStartDate && checkEndCov > unitEndDate){
-            return true
-        }
-
-//* if selected dates are before unit start but inside the unit end dates
-//! Safair conditional only
-        // if(checkStartCov < unitStartDate && checkEndCov < unitEndDate && checkEndCov > unitStartDate) return true
-
-
-
-
-
-//* if start dates are the same , end dates are the same , end date can't be the same as unit.start
-        if (checkStartCov === unitStartConv || checkStartCov === unitEndConv || checkEndCov === unitEndConv || checkEndCov === unitStartConv) {
-            return true
-        }
- //* start date can be less than unit.start but endDate must be less unit.end
-        if( bookingStartDate < unitStartDate && bookingEndDate > unitEndDate ){
-            return true
-        }
-        if ((bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) || (bookingEndDate > unitStartDate && bookingEndDate < unitEndDate)) {
-            return true
-        }
-
-
-        if ((bookingStartDate > unitStartDate && bookingStartDate < unitEndDate) || (bookingEndDate > unitStartDate && bookingEndDate < unitEndDate)) {
-            return true
-        }
-        return false
+    // Check if a date is booked
+    const isDateBooked = (date) => {
+        return bookedDates.some(booking => 
+            date >= booking.start && date <= booking.end
+        );
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        let setter = false;
-
-        if (startDate.length === 0 || endDate.length === 0) {
-            setErrors(["Select two dates"])
-            return;
+    // Calculate nights and total price
+    useEffect(() => {
+        if (selectedRange && Array.isArray(selectedRange) && selectedRange.length === 2) {
+            const [startDate, endDate] = selectedRange;
+            if (startDate && endDate) {
+                const nights = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+                setTotalNights(nights);
+                setTotalPrice(nights * (unitPrice || 0));
+                setShowSummary(true);
+            }
+        } else {
+            setTotalNights(0);
+            setTotalPrice(0);
+            setShowSummary(false);
         }
+    }, [selectedRange, unitPrice]);
 
-        unitBookings?.forEach(async (booking) => {
-            const unitStartDate = booking.startDate;
-            const unitEndDate = booking.endDate;
-            const result = isBookingOpen(unitStartDate, unitEndDate, startDate, endDate);
-            //* This stops the forEach : only if the helper returns true
-            if (result === true) {
-                setErrors(["booking is unavailable, check bookings list to see booked dates."])
-                setter = true
+    // Handle calendar date selection
+    const handleDateChange = (value) => {
+        setErrors([]);
+        
+        if (Array.isArray(value) && value.length === 2) {
+            const [startDate, endDate] = value;
+            
+            // Ensure we have valid dates
+            if (!startDate || !endDate) {
+                setSelectedRange(null);
                 return;
             }
-        });
-
-        if (setter) {
-            return;
+            
+            // Check if any date in the range is already booked
+            const currentDate = new Date(startDate);
+            while (currentDate <= endDate) {
+                if (isDateBooked(currentDate)) {
+                    setErrors(["Selected dates conflict with existing bookings. Please choose different dates."]);
+                    setSelectedRange(null);
+                    return;
+                }
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+            
+            setSelectedRange(value);
         } else {
-            setErrors([]);
-            const payload = { startDate, endDate, userId, rentalUnitId: unitId }
-            const data = await dispatch(fetchAddBooking(payload))
+            setSelectedRange(null);
+        }
+    };
+
+    // Validate booking dates
+    const validateBooking = () => {
+        if (!selectedRange || !Array.isArray(selectedRange) || selectedRange.length !== 2) {
+            setErrors(["Please select check-in and check-out dates"]);
+            return false;
+        }
+
+        const [startDate, endDate] = selectedRange;
+        
+        if (!startDate || !endDate) {
+            setErrors(["Please select valid check-in and check-out dates"]);
+            return false;
+        }
+        
+        const nights = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+        
+        if (nights < 1) {
+            setErrors(["Check-out date must be after check-in date"]);
+            return false;
+        }
+
+        if (nights > 30) {
+            setErrors(["Maximum stay is 30 nights"]);
+            return false;
+        }
+
+        return true;
+    };
+
+    // Handle booking submission
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        if (!validateBooking()) return;
+        
+        setIsLoading(true);
+        setErrors([]);
+
+        try {
+            const [startDate, endDate] = selectedRange;
+            const payload = {
+                startDate: formatDate(startDate),
+                endDate: formatDate(endDate),
+                userId,
+                rentalUnitId: unitId
+            };
+
+            const data = await dispatch(fetchAddBooking(payload));
 
             if (data.errors) {
-                setErrors(data.errors)
-                return data.errors
+                setErrors(Array.isArray(data.errors) ? data.errors : [data.errors]);
+            } else {
+                // Success
+                await dispatch(getSingleUnit(unitId));
+                setSelectedRange(null);
+                setShowSummary(false);
+                
+                // Call success callback with booking details
+                if (onBookingSuccess) {
+                    onBookingSuccess({
+                        startDate: formatDate(startDate),
+                        endDate: formatDate(endDate),
+                        nights: totalNights,
+                        totalPrice: totalPrice
+                    });
+                }
             }
-            await dispatch(getSingleUnit(unitId))
-            return data
+        } catch (error) {
+            setErrors(["An error occurred while processing your booking. Please try again."]);
+        } finally {
+            setIsLoading(false);
         }
+    };
+
+    // Custom tile content for calendar
+    const tileContent = ({ date, view }) => {
+        if (view === 'month') {
+            const isBooked = isDateBooked(date);
+            if (isBooked) {
+                return <div className="booked-date-indicator"></div>;
+            }
+        }
+        return null;
+    };
+
+    // Custom tile className for styling
+    const tileClassName = ({ date, view }) => {
+        if (view === 'month') {
+            const isBooked = isDateBooked(date);
+            if (isBooked) {
+                return 'booked-date';
+            }
+        }
+        return null;
     };
 
     return (
-        <div class='flex justify-center pt-2'>
-            <Calendar selectRange={true} onChange={handleClick} minDate={new Date()} />
-            <div class='self-center ml-5' >
-                <div class='w-7/12 min-w-full  pb-4' id='booking-error' hidden={!errors.length} >
-                    {
-                        errors?.map((error) => {
-                            if (error) {
-                                return (
-                                    <p id='test' class=' text-lg w-full' key={1}>{error}</p>
-                                    )
-                                }
-                                return null;
-                            })
-                        }
+        <div className="modern-booking-calendar">
+            {/* Calendar Header */}
+            <div className="calendar-header">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Select dates</h3>
+                <p className="text-sm text-gray-600 mb-4">Choose your check-in and check-out dates</p>
+            </div>
+
+            {/* Calendar Component */}
+            <div className="calendar-container">
+                <Calendar
+                    selectRange={true}
+                    onChange={handleDateChange}
+                    value={selectedRange}
+                    minDate={new Date()}
+                    maxDate={new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)} // 1 year from now
+                    tileContent={tileContent}
+                    tileClassName={tileClassName}
+                    showNeighboringMonth={false}
+                    prev2Label={null}
+                    next2Label={null}
+                />
+            </div>
+
+            {/* Date Selection Summary */}
+            {selectedRange && Array.isArray(selectedRange) && selectedRange.length > 0 && (
+                <div className="date-selection-summary">
+                    <div className="flex items-center gap-4 p-4 bg-blue-50 rounded-lg mb-4">
+                        <div className="flex-1">
+                            <div className="flex items-center gap-4">
+                                <div className="text-center">
+                                    <p className="text-xs text-gray-600 uppercase tracking-wide">Check-in</p>
+                                    <p className="font-semibold text-gray-900">
+                                        {selectedRange[0]?.toLocaleDateString('en-US', { 
+                                            month: 'short', 
+                                            day: 'numeric' 
+                                        })}
+                                    </p>
+                                </div>
+                                
+                                {selectedRange[1] && (
+                                    <>
+                                        <div className="flex-1 border-t border-gray-300"></div>
+                                        <div className="text-center">
+                                            <p className="text-xs text-gray-600 uppercase tracking-wide">Check-out</p>
+                                            <p className="font-semibold text-gray-900">
+                                                {selectedRange[1]?.toLocaleDateString('en-US', { 
+                                                    month: 'short', 
+                                                    day: 'numeric' 
+                                                })}
+                                            </p>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                        <button type="submit" id='booking' onClick={handleSubmit} >Book This Trip</button>
+            )}
+
+            {/* Booking Summary */}
+            {showSummary && (
+                <div className="booking-summary">
+                    <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                        <h4 className="font-semibold text-gray-900 mb-3">Booking Summary</h4>
+                        <div className="space-y-2">
+                            <div className="flex justify-between">
+                                <span className="text-gray-600">${unitPrice} × {totalNights} night{totalNights !== 1 ? 's' : ''}</span>
+                                <span className="font-medium">${totalPrice}</span>
+                            </div>
+                            <hr className="border-gray-200" />
+                            <div className="flex justify-between font-semibold text-lg">
+                                <span>Total</span>
+                                <span>${totalPrice}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Error Messages */}
+            {errors.length > 0 && (
+                <div className="error-messages">
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                        <div className="flex">
+                            <svg className="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <div className="ml-3">
+                                <h3 className="text-sm font-medium text-red-800">
+                                    {errors.length === 1 ? 'There was an error' : 'There were errors'} with your booking:
+                                </h3>
+                                <div className="mt-2 text-sm text-red-700">
+                                    <ul className="list-disc list-inside space-y-1">
+                                        {errors.map((error, index) => (
+                                            <li key={index}>{error}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Booking Actions */}
+            <div className="booking-actions">
+                {selectedRange && Array.isArray(selectedRange) && selectedRange.length === 2 ? (
+                    <button
+                        onClick={handleSubmit}
+                        disabled={isLoading || errors.length > 0}
+                        className={`w-full py-3 px-4 rounded-lg font-semibold text-white transition-all duration-200 ${
+                            isLoading || errors.length > 0
+                                ? 'bg-gray-400 cursor-not-allowed'
+                                : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 hover:shadow-lg transform hover:-translate-y-0.5'
+                        }`}
+                    >
+                        {isLoading ? (
+                            <div className="flex items-center justify-center gap-2">
+                                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                Processing...
+                            </div>
+                        ) : (
+                            'Reserve'
+                        )}
+                    </button>
+                ) : (
+                    <button
+                        disabled
+                        className="w-full py-3 px-4 rounded-lg font-semibold text-gray-500 bg-gray-200 cursor-not-allowed"
+                    >
+                        Select dates to continue
+                    </button>
+                )}
+            </div>
+
+            {/* Legend */}
+            <div className="calendar-legend">
+                <div className="flex items-center justify-center gap-4 mt-4 text-sm text-gray-600">
+                    <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
+                        <span>Available</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 bg-red-400 rounded-full"></div>
+                        <span>Booked</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                        <span>Selected</span>
+                    </div>
+                </div>
             </div>
         </div>
-    )
+    );
 }
 
-
-export default BookingCal
+export default BookingCal;
