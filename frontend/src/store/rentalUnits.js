@@ -58,7 +58,7 @@ export const getSingleUnit = (unitId) => async dispatch => {
 
 export const createRentalUnit = (payload) => async dispatch => {
   const formData = new FormData();
-  const { title, ownerId, city, state, zipcode, distanceFromBeach, rooms, bathrooms, pool, unitType, lat, lng, price, rentalUnitDescription, totalRental, url } = payload
+  const { title, ownerId, city, state, zipcode, distanceFromBeach, rooms, bathrooms, pool, unitType, lat, lng, price, rentalUnitDescription, totalRentals, url } = payload
   formData.append("title", title)
   formData.append("ownerId", ownerId)
   formData.append("city", city)
@@ -73,7 +73,7 @@ export const createRentalUnit = (payload) => async dispatch => {
   formData.append("lng", lng)
   formData.append("price", price)
   formData.append("rentalUnitDescription", rentalUnitDescription)
-  formData.append("totalRentals", totalRental)
+  formData.append("totalRentals", totalRentals)
 
   if (url) formData.append("url", url);
 
@@ -87,9 +87,13 @@ export const createRentalUnit = (payload) => async dispatch => {
 
   const data = await res.json();
 
-  if (res.ok) dispatch(addUnit(data))
-
-  return data
+  if (res.ok) {
+    dispatch(addUnit(data))
+    return data
+  } else {
+    // If response is not ok, throw the data as an error
+    throw data
+  }
 }
 
 
@@ -121,9 +125,13 @@ export const editRentalUnit = (payload, unitId) => async dispatch => {
   });
 
   const data = await res.json();
-  if (res.ok) dispatch(editUnit(data))
-
-  return data
+  if (res.ok) {
+    dispatch(editUnit(data))
+    return data
+  } else {
+    // If response is not ok, throw the data as an error
+    throw data
+  }
 }
 
 

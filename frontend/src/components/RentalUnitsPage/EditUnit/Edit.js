@@ -19,8 +19,8 @@ function EditUnitForm({submitModal}) {
         bathrooms: 1,
         pool: "",
         unitType: "",
-        lat: "",
-        lng: "",
+        lat: "25.7617",
+        lng: "-80.1918",
         price: "",
         rentalUnitDescription: "",
         url: null
@@ -31,6 +31,9 @@ function EditUnitForm({submitModal}) {
     const [currentStep, setCurrentStep] = useState(1);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [fieldErrors, setFieldErrors] = useState({});
+    const [validationAttempted, setValidationAttempted] = useState(false);
+    const [explicitSubmit, setExplicitSubmit] = useState(false);
 
     // Load rental unit data on mount
     useEffect(() => {
@@ -52,8 +55,8 @@ function EditUnitForm({submitModal}) {
                 bathrooms: rentalUnit.bathrooms || 1,
                 pool: rentalUnit.pool || "",
                 unitType: rentalUnit.unitType || "",
-                lat: rentalUnit.lat || "",
-                lng: rentalUnit.lng || "",
+                lat: rentalUnit.lat || "25.7617",
+                lng: rentalUnit.lng || "-80.1918",
                 price: rentalUnit.price || "",
                 rentalUnitDescription: rentalUnit.rentalUnitDescription || "",
                 url: null // Don't pre-populate file input
@@ -61,54 +64,484 @@ function EditUnitForm({submitModal}) {
         }
     }, [rentalUnit]);
 
+    // Helper function to validate individual fields
+    const validateField = (field, value) => {
+        const fieldError = {};
+        
+        switch (field) {
+            case 'title':
+                if (!value.trim()) {
+                    fieldError.title = "Property title is required";
+                } else if (value.trim().length < 10) {
+                    fieldError.title = "Property title must be at least 10 characters long";
+                } else if (value.trim().length > 100) {
+                    fieldError.title = "Property title must be less than 100 characters";
+                }
+                break;
+            case 'city':
+                if (!value.trim()) {
+                    fieldError.city = "City is required";
+                } else if (value.trim().length < 2) {
+                    fieldError.city = "City name must be at least 2 characters long";
+                } else if (value.trim().length > 50) {
+                    fieldError.city = "City name must be less than 50 characters";
+                }
+                break;
+            case 'state':
+                if (!value.trim()) {
+                    fieldError.state = "State is required";
+                } else if (value.trim().length !== 2) {
+                    fieldError.state = "State must be a 2-letter abbreviation";
+                }
+                break;
+            case 'zipcode':
+                if (!value.toString().trim()) {
+                    fieldError.zipcode = "Zipcode is required";
+                } else if (!/^\d{5}(-\d{4})?$/.test(value.toString().trim())) {
+                    fieldError.zipcode = "Please enter a valid 5-digit zipcode";
+                }
+                break;
+            case 'rooms':
+                if (!value || value < 1) {
+                    fieldError.rooms = "Number of rooms is required";
+                } else if (value > 20) {
+                    fieldError.rooms = "Number of rooms cannot exceed 20";
+                }
+                break;
+            case 'bathrooms':
+                if (!value || value < 1) {
+                    fieldError.bathrooms = "Number of bathrooms is required";
+                } else if (value > 10) {
+                    fieldError.bathrooms = "Number of bathrooms cannot exceed 10";
+                }
+                break;
+            case 'price':
+                if (!value.toString().trim()) {
+                    fieldError.price = "Price per night is required";
+                } else {
+                    const priceNum = parseFloat(value.toString().replace(/[$,]/g, ''));
+                    if (isNaN(priceNum) || priceNum <= 0) {
+                        fieldError.price = "Please enter a valid price greater than $0";
+                    } else if (priceNum > 10000) {
+                        fieldError.price = "Price cannot exceed $10,000 per night";
+                    }
+                }
+                break;
+            case 'distanceFromBeach':
+                if (!value.toString().trim()) {
+                    fieldError.distanceFromBeach = "Distance from beach is required";
+                } else {
+                    // Check for valid decimal format (max 2 decimal places)
+                    if (!/^\d+(\.\d{1,2})?$/.test(value.toString().trim())) {
+                        fieldError.distanceFromBeach = "Distance must be a number with up to 2 decimal places";
+                    } else {
+                        const distanceNum = parseFloat(value);
+                        if (isNaN(distanceNum) || distanceNum < 0) {
+                            fieldError.distanceFromBeach = "Distance from beach must be a positive number";
+                        } else if (distanceNum > 5) {
+                            fieldError.distanceFromBeach = "Distance from beach cannot exceed 5 miles";
+                        }
+                    }
+                }
+                break;
+            case 'rentalUnitDescription':
+                if (!value.trim()) {
+                    fieldError.rentalUnitDescription = "Property description is required";
+                } else if (value.trim().length > 2000) {
+                    fieldError.rentalUnitDescription = "Property description must be less than 2000 characters";
+                }
+                break;
+            case 'lat':
+                if (!value.toString().trim()) {
+                    fieldError.lat = "Latitude is required";
+                } else {
+                    const latNum = parseFloat(value);
+                    if (isNaN(latNum) || latNum < -90 || latNum > 90) {
+                        fieldError.lat = "Latitude must be between -90 and 90 degrees";
+                    }
+                }
+                break;
+            case 'lng':
+                if (!value.toString().trim()) {
+                    fieldError.lng = "Longitude is required";
+                } else {
+                    const lngNum = parseFloat(value);
+                    if (isNaN(lngNum) || lngNum < -180 || lngNum > 180) {
+                        fieldError.lng = "Longitude must be between -180 and 180 degrees";
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        
+        return fieldError;
+    };
+
     const updateField = (field, value) => {
         setFormData(prev => ({...prev, [field]: value}));
-        // Clear errors when user starts typing
+        
+        // Clear step errors when user starts typing
         if (errors.length > 0) {
             setErrors([]);
+        }
+        
+        // Clear field errors when user starts typing (don't show real-time validation)
+        if (fieldErrors[field]) {
+            setFieldErrors(prev => ({
+                ...prev,
+                [field]: null
+            }));
         }
     };
 
     const validateStep = (step) => {
         const newErrors = [];
+        const newFieldErrors = {};
         
         if (step === 1) {
-            if (!formData.title.trim()) newErrors.push("Property title is required");
-            if (!formData.city.trim()) newErrors.push("City is required");
-            if (!formData.state.trim()) newErrors.push("State is required");
-            if (!formData.zipcode.trim()) newErrors.push("Zipcode is required");
+            // Title validation
+            if (!formData.title.trim()) {
+                newErrors.push("Property title is required");
+                newFieldErrors.title = "Property title is required";
+            } else if (formData.title.trim().length < 10) {
+                newErrors.push("Property title must be at least 10 characters long");
+                newFieldErrors.title = "Property title must be at least 10 characters long";
+            } else if (formData.title.trim().length > 100) {
+                newErrors.push("Property title must be less than 100 characters");
+                newFieldErrors.title = "Property title must be less than 100 characters";
+            }
+            
+            // City validation
+            if (!formData.city.trim()) {
+                newErrors.push("City is required");
+                newFieldErrors.city = "City is required";
+            } else if (formData.city.trim().length < 2) {
+                newErrors.push("City name must be at least 2 characters long");
+                newFieldErrors.city = "City name must be at least 2 characters long";
+            } else if (formData.city.trim().length > 50) {
+                newErrors.push("City name must be less than 50 characters");
+                newFieldErrors.city = "City name must be less than 50 characters";
+            }
+            
+            // State validation
+            if (!formData.state.trim()) {
+                newErrors.push("State is required");
+                newFieldErrors.state = "State is required";
+            } else if (formData.state.trim().length !== 2) {
+                newErrors.push("State must be a 2-letter abbreviation");
+                newFieldErrors.state = "State must be a 2-letter abbreviation";
+            }
+            
+            // Zipcode validation
+            if (!formData.zipcode.toString().trim()) {
+                newErrors.push("Zipcode is required");
+                newFieldErrors.zipcode = "Zipcode is required";
+            } else if (!/^\d{5}(-\d{4})?$/.test(formData.zipcode.toString().trim())) {
+                newErrors.push("Please enter a valid 5-digit zipcode");
+                newFieldErrors.zipcode = "Please enter a valid 5-digit zipcode";
+            }
+            
         } else if (step === 2) {
-            if (!formData.unitType) newErrors.push("Please select a unit type");
-            if (!formData.rooms || formData.rooms < 1) newErrors.push("Number of rooms is required");
-            if (!formData.bathrooms || formData.bathrooms < 1) newErrors.push("Number of bathrooms is required");
-            if (!formData.pool) newErrors.push("Please specify if there's a pool");
+            // Unit type validation
+            if (!formData.unitType) {
+                newErrors.push("Please select a unit type");
+                newFieldErrors.unitType = "Please select a unit type";
+            }
+            
+            // Rooms validation
+            if (!formData.rooms || formData.rooms < 1) {
+                newErrors.push("Number of rooms is required");
+                newFieldErrors.rooms = "Number of rooms is required";
+            } else if (formData.rooms > 20) {
+                newErrors.push("Number of rooms cannot exceed 20");
+                newFieldErrors.rooms = "Number of rooms cannot exceed 20";
+            }
+            
+            // Bathrooms validation
+            if (!formData.bathrooms || formData.bathrooms < 1) {
+                newErrors.push("Number of bathrooms is required");
+                newFieldErrors.bathrooms = "Number of bathrooms is required";
+            } else if (formData.bathrooms > 10) {
+                newErrors.push("Number of bathrooms cannot exceed 10");
+                newFieldErrors.bathrooms = "Number of bathrooms cannot exceed 10";
+            }
+            
+            // Pool validation
+            if (!formData.pool) {
+                newErrors.push("Please specify if there's a pool");
+                newFieldErrors.pool = "Please specify if there's a pool";
+            }
+            
         } else if (step === 3) {
-            if (!formData.price.toString().trim()) newErrors.push("Price per night is required");
-            if (!formData.distanceFromBeach.toString().trim()) newErrors.push("Distance from beach is required");
-            if (!formData.rentalUnitDescription.trim()) newErrors.push("Property description is required");
+            // Price validation
+            if (!formData.price.toString().trim()) {
+                newErrors.push("Price per night is required");
+                newFieldErrors.price = "Price per night is required";
+            } else {
+                const priceNum = parseFloat(formData.price.toString().replace(/[$,]/g, ''));
+                if (isNaN(priceNum) || priceNum <= 0) {
+                    newErrors.push("Please enter a valid price greater than $0");
+                    newFieldErrors.price = "Please enter a valid price greater than $0";
+                } else if (priceNum > 10000) {
+                    newErrors.push("Price cannot exceed $10,000 per night");
+                    newFieldErrors.price = "Price cannot exceed $10,000 per night";
+                }
+            }
+            
+            // Distance from beach validation - updated to ≤5 miles with 2 decimal places
+            if (!formData.distanceFromBeach.toString().trim()) {
+                newErrors.push("Distance from beach is required");
+                newFieldErrors.distanceFromBeach = "Distance from beach is required";
+            } else {
+                // Check for valid decimal format (max 2 decimal places)
+                if (!/^\d+(\.\d{1,2})?$/.test(formData.distanceFromBeach.toString().trim())) {
+                    newErrors.push("Distance must be a number with up to 2 decimal places (e.g., 4.99)");
+                    newFieldErrors.distanceFromBeach = "Distance must be a number with up to 2 decimal places";
+                } else {
+                    const distanceNum = parseFloat(formData.distanceFromBeach);
+                    if (isNaN(distanceNum) || distanceNum < 0) {
+                        newErrors.push("Distance from beach must be a positive number");
+                        newFieldErrors.distanceFromBeach = "Distance from beach must be a positive number";
+                    } else if (distanceNum > 5) {
+                        newErrors.push("Distance from beach cannot exceed 5 miles");
+                        newFieldErrors.distanceFromBeach = "Distance from beach cannot exceed 5 miles";
+                    }
+                }
+            }
+            
+            // Description validation - updated to 10 chars min
+            if (!formData.rentalUnitDescription.trim()) {
+                newErrors.push("Property description is required");
+                newFieldErrors.rentalUnitDescription = "Property description is required";
+            } else if (formData.rentalUnitDescription.trim().length < 10) {
+                newErrors.push("Property description must be at least 10 characters long");
+                newFieldErrors.rentalUnitDescription = "Property description must be at least 10 characters long";
+            } else if (formData.rentalUnitDescription.trim().length > 2000) {
+                newErrors.push("Property description must be less than 2000 characters");
+                newFieldErrors.rentalUnitDescription = "Property description must be less than 2000 characters";
+            }
+            
+        } else if (step === 4) {
+            // Only validate Step 4 if we're actually submitting (validationAttempted is true)
+            if (validationAttempted) {
+                // Latitude validation
+                if (!formData.lat.toString().trim()) {
+                    newErrors.push("Latitude is required");
+                    newFieldErrors.lat = "Latitude is required";
+                } else {
+                    const latNum = parseFloat(formData.lat.toString());
+                    if (isNaN(latNum) || latNum < -90 || latNum > 90) {
+                        newErrors.push("Latitude must be between -90 and 90 degrees");
+                        newFieldErrors.lat = "Latitude must be between -90 and 90 degrees";
+                    }
+                }
+                
+                // Longitude validation
+                if (!formData.lng.toString().trim()) {
+                    newErrors.push("Longitude is required");
+                    newFieldErrors.lng = "Longitude is required";
+                } else {
+                    const lngNum = parseFloat(formData.lng.toString());
+                    if (isNaN(lngNum) || lngNum < -180 || lngNum > 180) {
+                        newErrors.push("Longitude must be between -180 and 180 degrees");
+                        newFieldErrors.lng = "Longitude must be between -180 and 180 degrees";
+                    }
+                }
+                
+                // Image validation (optional but recommended)
+                if (!formData.url) {
+                    newErrors.push("Please upload at least one image of your property");
+                    newFieldErrors.url = "Please upload at least one image of your property";
+                }
+            }
         }
         
         setErrors(newErrors);
+        setFieldErrors(prev => ({...prev, ...newFieldErrors}));
         return newErrors.length === 0;
     };
 
     const nextStep = () => {
-        if (validateStep(currentStep)) {
+        // Don't validate Step 4 when clicking Next - only validate on submit
+        if (currentStep === 4) {
             setCurrentStep(prev => Math.min(prev + 1, 4));
+            return;
+        }
+        
+        // For Steps 1-3, validate the current step but don't set validationAttempted for Step 4
+        if (currentStep < 4) {
+            const newErrors = [];
+            const newFieldErrors = {};
+            
+            // Validate only the current step
+            if (currentStep === 1) {
+                // Title validation
+                if (!formData.title.trim()) {
+                    newErrors.push("Property title is required");
+                    newFieldErrors.title = "Property title is required";
+                } else if (formData.title.trim().length < 10) {
+                    newErrors.push("Property title must be at least 10 characters long");
+                    newFieldErrors.title = "Property title must be at least 10 characters long";
+                } else if (formData.title.trim().length > 100) {
+                    newErrors.push("Property title must be less than 100 characters");
+                    newFieldErrors.title = "Property title must be less than 100 characters";
+                }
+                
+                // City validation
+                if (!formData.city.trim()) {
+                    newErrors.push("City is required");
+                    newFieldErrors.city = "City is required";
+                } else if (formData.city.trim().length < 2) {
+                    newErrors.push("City name must be at least 2 characters long");
+                    newFieldErrors.city = "City name must be at least 2 characters long";
+                } else if (formData.city.trim().length > 50) {
+                    newErrors.push("City name must be less than 50 characters");
+                    newFieldErrors.city = "City name must be less than 50 characters";
+                }
+                
+                // State validation
+                if (!formData.state.trim()) {
+                    newErrors.push("State is required");
+                    newFieldErrors.state = "State is required";
+                } else if (formData.state.trim().length !== 2) {
+                    newErrors.push("State must be a 2-letter abbreviation");
+                    newFieldErrors.state = "State must be a 2-letter abbreviation";
+                }
+                
+                // Zipcode validation
+                if (!formData.zipcode.toString().trim()) {
+                    newErrors.push("Zipcode is required");
+                    newFieldErrors.zipcode = "Zipcode is required";
+                } else if (!/^\d{5}(-\d{4})?$/.test(formData.zipcode.toString().trim())) {
+                    newErrors.push("Please enter a valid 5-digit zipcode");
+                    newFieldErrors.zipcode = "Please enter a valid 5-digit zipcode";
+                }
+                
+            } else if (currentStep === 2) {
+                // Rooms validation
+                if (!formData.rooms || formData.rooms < 1) {
+                    newErrors.push("Number of rooms is required");
+                    newFieldErrors.rooms = "Number of rooms is required";
+                } else if (formData.rooms > 20) {
+                    newErrors.push("Number of rooms cannot exceed 20");
+                    newFieldErrors.rooms = "Number of rooms cannot exceed 20";
+                }
+                
+                // Bathrooms validation
+                if (!formData.bathrooms || formData.bathrooms < 1) {
+                    newErrors.push("Number of bathrooms is required");
+                    newFieldErrors.bathrooms = "Number of bathrooms is required";
+                } else if (formData.bathrooms > 10) {
+                    newErrors.push("Number of bathrooms cannot exceed 10");
+                    newFieldErrors.bathrooms = "Number of bathrooms cannot exceed 10";
+                }
+                
+                // Pool validation
+                if (!formData.pool) {
+                    newErrors.push("Please select whether the property has a pool");
+                    newFieldErrors.pool = "Please select whether the property has a pool";
+                }
+                
+                // Unit type validation
+                if (!formData.unitType) {
+                    newErrors.push("Please select the unit type");
+                    newFieldErrors.unitType = "Please select the unit type";
+                }
+                
+            } else if (currentStep === 3) {
+                // Price validation
+                if (!formData.price.toString().trim()) {
+                    newErrors.push("Price per night is required");
+                    newFieldErrors.price = "Price per night is required";
+                } else {
+                    const priceNum = parseFloat(formData.price.toString().replace(/[$,]/g, ''));
+                    if (isNaN(priceNum) || priceNum <= 0) {
+                        newErrors.push("Please enter a valid price greater than $0");
+                        newFieldErrors.price = "Please enter a valid price greater than $0";
+                    } else if (priceNum > 10000) {
+                        newErrors.push("Price cannot exceed $10,000 per night");
+                        newFieldErrors.price = "Price cannot exceed $10,000 per night";
+                    }
+                }
+                
+                // Distance from beach validation
+                if (!formData.distanceFromBeach.toString().trim()) {
+                    newErrors.push("Distance from beach is required");
+                    newFieldErrors.distanceFromBeach = "Distance from beach is required";
+                } else {
+                    // Check for valid decimal format (max 2 decimal places)
+                    if (!/^\d+(\.\d{1,2})?$/.test(formData.distanceFromBeach.toString().trim())) {
+                        newErrors.push("Distance must be a number with up to 2 decimal places (e.g., 4.99)");
+                        newFieldErrors.distanceFromBeach = "Distance must be a number with up to 2 decimal places";
+                    } else {
+                        const distanceNum = parseFloat(formData.distanceFromBeach);
+                        if (isNaN(distanceNum) || distanceNum < 0) {
+                            newErrors.push("Distance from beach must be a positive number");
+                            newFieldErrors.distanceFromBeach = "Distance from beach must be a positive number";
+                        } else if (distanceNum > 5) {
+                            newErrors.push("Distance from beach cannot exceed 5 miles");
+                            newFieldErrors.distanceFromBeach = "Distance from beach cannot exceed 5 miles";
+                        }
+                    }
+                }
+                
+                // Description validation
+                if (!formData.rentalUnitDescription.trim()) {
+                    newErrors.push("Property description is required");
+                    newFieldErrors.rentalUnitDescription = "Property description is required";
+                } else if (formData.rentalUnitDescription.trim().length > 2000) {
+                    newErrors.push("Property description must be less than 2000 characters");
+                    newFieldErrors.rentalUnitDescription = "Property description must be less than 2000 characters";
+                }
+            }
+            
+            setErrors(newErrors);
+            setFieldErrors(prev => ({...prev, ...newFieldErrors}));
+            
+            if (newErrors.length === 0) {
+                setCurrentStep(prev => Math.min(prev + 1, 4));
+                setExplicitSubmit(false); // Reset explicit submit when moving to next step
+            }
         }
     };
 
     const prevStep = () => {
         setCurrentStep(prev => Math.max(prev - 1, 1));
         setErrors([]);
+        setExplicitSubmit(false); // Reset explicit submit when moving to previous step
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        if (!validateStep(currentStep)) return;
+        // Debug: Log what's triggering the submission
+        console.log('Form submission triggered. Current step:', currentStep);
+        console.log('Form data:', formData);
+        
+        // Prevent submission if we're not on the final step
+        if (currentStep !== 4) {
+            console.log('Preventing submission - not on final step');
+            return;
+        }
+        
+        // Set validationAttempted to true for all steps when submitting
+        setValidationAttempted(true);
+        
+        // Validate all steps including Step 4 when submitting
+        let allValid = true;
+        for (let step = 1; step <= 4; step++) {
+            if (!validateStep(step)) {
+                allValid = false;
+                setCurrentStep(step); // Set to the first step that fails
+                break;
+            }
+        }
+        
+        if (!allValid) return;
         
         setIsLoading(true);
+        setErrors([]); // Clear any previous errors
         
         const payload = {
             ...formData
@@ -117,13 +550,22 @@ function EditUnitForm({submitModal}) {
         try {
             const data = await dispatch(editRentalUnit(payload, rentalUnit.id));
 
-            if (data.errors) {
+            // Check if the response has errors (backend validation errors)
+            if (data && data.errors) {
                 setErrors(Array.isArray(data.errors) ? data.errors : [data.errors]);
-            } else {
+            } else if (data && (data.id || data.title)) {
+                // Success - rental unit was updated (check for id or title to confirm it's a valid unit)
+                console.log('Success! Rental unit updated:', data);
+                setExplicitSubmit(false); // Reset explicit submit after successful submission
                 await dispatch(getSingleUnit(id));
                 submitModal(false);
+            } else {
+                // Unexpected response format
+                console.log('Unexpected response format:', data);
+                setErrors(["An unexpected response was received. Please try again."]);
             }
         } catch (error) {
+            console.error('Error updating rental unit:', error);
             setErrors(["An error occurred while updating your listing. Please try again."]);
         } finally {
             setIsLoading(false);
@@ -223,7 +665,26 @@ function EditUnitForm({submitModal}) {
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <form 
+                        onSubmit={(e) => {
+                            // Only allow submission if we're on Step 4 and user explicitly clicked submit
+                            if (currentStep !== 4 || !explicitSubmit) {
+                                e.preventDefault();
+                                console.log('Form submission blocked - not on Step 4 or not explicit submit');
+                                return;
+                            }
+                            handleSubmit(e);
+                        }}
+                        onKeyDown={(e) => {
+                            // Prevent form submission on Enter key unless it's the submit button
+                            if (e.key === 'Enter' && e.target.type !== 'submit') {
+                                e.preventDefault();
+                            }
+                        }}
+                        autoComplete="off"
+                        noValidate
+                        className="space-y-6"
+                    >
                         {/* Step 1: Basic Information */}
                         {currentStep === 1 && (
                             <div className="space-y-6">
@@ -236,8 +697,18 @@ function EditUnitForm({submitModal}) {
                                         value={formData.title}
                                         onChange={(e) => updateField('title', e.target.value)}
                                         placeholder="e.g., Stunning Ocean View Condo"
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+                                            validationAttempted && fieldErrors.title ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                                        }`}
                                     />
+                                    {validationAttempted && fieldErrors.title && (
+                                        <p className="mt-1 text-sm text-red-600 flex items-center">
+                                            <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                                            </svg>
+                                            {fieldErrors.title}
+                                        </p>
+                                    )}
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -250,8 +721,13 @@ function EditUnitForm({submitModal}) {
                                             value={formData.city}
                                             onChange={(e) => updateField('city', e.target.value)}
                                             placeholder="Miami"
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                                            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+                                                validationAttempted && fieldErrors.city ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                                            }`}
                                         />
+                                        {validationAttempted && fieldErrors.city && (
+                                            <p className="mt-1 text-sm text-red-600">{fieldErrors.city}</p>
+                                        )}
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -260,10 +736,16 @@ function EditUnitForm({submitModal}) {
                                         <input
                                             type="text"
                                             value={formData.state}
-                                            onChange={(e) => updateField('state', e.target.value)}
+                                            onChange={(e) => updateField('state', e.target.value.toUpperCase())}
                                             placeholder="FL"
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                                            maxLength="2"
+                                            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+                                                validationAttempted && fieldErrors.state ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                                            }`}
                                         />
+                                        {validationAttempted && fieldErrors.state && (
+                                            <p className="mt-1 text-sm text-red-600">{fieldErrors.state}</p>
+                                        )}
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -274,8 +756,13 @@ function EditUnitForm({submitModal}) {
                                             value={formData.zipcode}
                                             onChange={(e) => updateField('zipcode', e.target.value)}
                                             placeholder="33139"
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                                            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+                                                validationAttempted && fieldErrors.zipcode ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                                            }`}
                                         />
+                                        {validationAttempted && fieldErrors.zipcode && (
+                                            <p className="mt-1 text-sm text-red-600">{fieldErrors.zipcode}</p>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -402,7 +889,8 @@ function EditUnitForm({submitModal}) {
                                         <input
                                             type="number"
                                             min="0"
-                                            step="0.1"
+                                            max="5"
+                                            step="0.01"
                                             value={formData.distanceFromBeach}
                                             onChange={(e) => updateField('distanceFromBeach', e.target.value)}
                                             placeholder="0.5"
@@ -441,6 +929,11 @@ function EditUnitForm({submitModal}) {
                                             type="text"
                                             value={formData.lat}
                                             onChange={(e) => updateField('lat', e.target.value)}
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter') {
+                                                    e.preventDefault();
+                                                }
+                                            }}
                                             placeholder="25.7617"
                                             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                                         />
@@ -453,6 +946,11 @@ function EditUnitForm({submitModal}) {
                                             type="text"
                                             value={formData.lng}
                                             onChange={(e) => updateField('lng', e.target.value)}
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter') {
+                                                    e.preventDefault();
+                                                }
+                                            }}
                                             placeholder="-80.1918"
                                             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                                         />
@@ -546,6 +1044,7 @@ function EditUnitForm({submitModal}) {
                                 <button
                                     type="submit"
                                     disabled={isLoading}
+                                    onClick={() => setExplicitSubmit(true)}
                                     className={`px-8 py-3 rounded-lg font-medium transition-colors ${
                                         isLoading 
                                             ? 'bg-gray-400 cursor-not-allowed' 
