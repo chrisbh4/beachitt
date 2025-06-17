@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
+import { fetchUserBookings, fetchCancelBooking } from '../../store/bookings';
+import { formatPrice } from '../../utils/currency';
 
 function AccountSettings() {
   const dispatch = useDispatch();
@@ -593,7 +595,7 @@ function AccountSettings() {
                                       {calculateNights(booking.checkIn, booking.checkOut)} nights
                                     </p>
                                     <p className="text-lg font-semibold text-gray-900">
-                                      ${booking.totalPrice.toLocaleString()}
+                                      {formatPrice(booking.totalPrice)}
                                     </p>
                                   </div>
                                   <div className="flex space-x-3">
@@ -984,13 +986,13 @@ function AccountSettings() {
                   <div className="space-y-2">
                     <div className="flex justify-between">
                       <span className="text-gray-500">
-                        ${Math.round(selectedBooking.totalPrice / calculateNights(selectedBooking.checkIn, selectedBooking.checkOut))} x {calculateNights(selectedBooking.checkIn, selectedBooking.checkOut)} nights
+                        {formatPrice(selectedBooking.totalPrice / calculateNights(selectedBooking.checkIn, selectedBooking.checkOut))} x {calculateNights(selectedBooking.checkIn, selectedBooking.checkOut)} nights
                       </span>
-                      <span>${selectedBooking.totalPrice.toLocaleString()}</span>
+                      <span>{formatPrice(selectedBooking.totalPrice)}</span>
                     </div>
                     <div className="flex justify-between font-semibold text-lg border-t border-gray-200 pt-2">
                       <span>Total</span>
-                      <span>${selectedBooking.totalPrice.toLocaleString()}</span>
+                      <span>{formatPrice(selectedBooking.totalPrice)}</span>
                     </div>
                   </div>
                 </div>

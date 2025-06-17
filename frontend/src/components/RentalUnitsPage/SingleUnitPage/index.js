@@ -8,6 +8,7 @@ import EditUnitModal from '../../Modals/Units/EditModal';
 import NewReviewModal from "../../Modals/Reviews/NewModal.js"
 import EditReviewModal from '../../Modals/Reviews/EditModal';
 import EditBookingModal from '../../Modals/Bookings/EditModal';
+import { formatPrice } from '../../../utils/currency';
 
 function GetSingleUnitPage() {
     const dispatch = useDispatch();
@@ -430,7 +431,7 @@ function GetSingleUnitPage() {
                                     </div>
                                     <div>
                                         <p className="text-sm text-gray-600">Per Night</p>
-                                        <p className="font-semibold text-lg">${unit?.price}</p>
+                                        <p className="font-semibold text-lg">{formatPrice(unit?.price)}</p>
                                     </div>
                                 </div>
                             </div>
@@ -528,7 +529,7 @@ function GetSingleUnitPage() {
                             <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
                                 <div className="mb-6">
                                     <div className="flex items-baseline gap-2 mb-2">
-                                        <span className="text-3xl font-bold text-gray-900">${unit?.price}</span>
+                                        <span className="text-3xl font-bold text-gray-900">{formatPrice(unit?.price)}</span>
                                         <span className="text-gray-600">per night</span>
                                     </div>
                                     <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -548,7 +549,7 @@ function GetSingleUnitPage() {
                                         unitPrice={unit?.price}
                                         onBookingSuccess={(bookingDetails) => {
                                             showNotification(
-                                                `Booking confirmed! ${bookingDetails.nights} night${bookingDetails.nights !== 1 ? 's' : ''} for $${bookingDetails.totalPrice}`,
+                                                `Booking confirmed! ${bookingDetails.nights} night${bookingDetails.nights !== 1 ? 's' : ''} for ${bookingDetails.totalPrice}`,
                                                 'success'
                                             );
                                         }}
