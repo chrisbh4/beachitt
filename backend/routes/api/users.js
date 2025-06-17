@@ -26,8 +26,14 @@ const validateSignup = [
       .withMessage('Username cannot be an email.'),
     check('password')
       .exists({ checkFalsy: true })
-      .isLength({ min: 6 })
-      .withMessage('Password must be 6 characters or more.'),
+      .isLength({ min: 8 })
+      .withMessage('Password must be at least 8 characters long.')
+      .matches(/[A-Z]/)
+      .withMessage('Password must contain at least one uppercase letter.')
+      .matches(/[0-9]/)
+      .withMessage('Password must contain at least one number.')
+      .matches(/[^A-Za-z0-9]/)
+      .withMessage('Password must contain at least one special character.'),
     handleValidationErrors,
   ];
 
@@ -53,8 +59,14 @@ const validatePasswordUpdate = [
       .withMessage('Current password is required.'),
     check('newPassword')
       .exists({ checkFalsy: true })
-      .isLength({ min: 6 })
-      .withMessage('New password must be 6 characters or more.'),
+      .isLength({ min: 8 })
+      .withMessage('New password must be at least 8 characters long.')
+      .matches(/[A-Z]/)
+      .withMessage('New password must contain at least one uppercase letter.')
+      .matches(/[0-9]/)
+      .withMessage('New password must contain at least one number.')
+      .matches(/[^A-Za-z0-9]/)
+      .withMessage('New password must contain at least one special character.'),
     handleValidationErrors,
   ];
 
