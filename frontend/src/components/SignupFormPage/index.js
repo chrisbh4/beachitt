@@ -131,7 +131,7 @@ function SignupFormPage({ submitModal }) {
   const passwordStrength = getPasswordStrength();
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md mx-auto">
+    <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md mx-auto mb-4">
       {/* Header */}
       <div className="text-center mb-8">
         <img className="h-12 w-auto mx-auto mb-4" src="/logos/batteriesinc-logo.svg" alt="BeachItt" />
