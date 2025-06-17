@@ -4,6 +4,7 @@ import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import { fetchAddBooking } from "../../store/bookings"
 import { getSingleUnit } from "../../store/rentalUnits"
+import { formatPrice } from "../../utils/currency";
 import './booking.css'
 
 /*
@@ -156,7 +157,7 @@ function BookingCal({ userId, unitId, unitBookings, onBookingSuccess, unitPrice 
                         startDate: formatDate(startDate),
                         endDate: formatDate(endDate),
                         nights: totalNights,
-                        totalPrice: totalPrice
+                        totalPrice: formatPrice(totalPrice)
                     });
                 }
             }
@@ -256,13 +257,13 @@ function BookingCal({ userId, unitId, unitBookings, onBookingSuccess, unitPrice 
                         <h4 className="font-semibold text-gray-900 mb-3">Booking Summary</h4>
                         <div className="space-y-2">
                             <div className="flex justify-between">
-                                <span className="text-gray-600">${unitPrice} × {totalNights} night{totalNights !== 1 ? 's' : ''}</span>
-                                <span className="font-medium">${totalPrice}</span>
+                                <span className="text-gray-600">{formatPrice(unitPrice)} × {totalNights} night{totalNights !== 1 ? 's' : ''}</span>
+                                <span className="font-medium">{formatPrice(totalPrice)}</span>
                             </div>
                             <hr className="border-gray-200" />
                             <div className="flex justify-between font-semibold text-lg">
                                 <span>Total</span>
-                                <span>${totalPrice}</span>
+                                <span>{formatPrice(totalPrice)}</span>
                             </div>
                         </div>
                     </div>

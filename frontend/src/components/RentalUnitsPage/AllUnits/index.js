@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { getRentalUnits } from '../../../store/rentalUnits'
+import { formatPrice, parsePrice } from '../../../utils/currency';
 // import "../../RentalUnitsPage/UnitsPage.css"
 
 // State mapping for search functionality
@@ -147,8 +148,8 @@ function RentalUnitsPage() {
     });
 
     const sortedRentalUnits = [...filteredRentalUnits].sort((a, b) => {
-        const priceA = parseInt(a.price) || 0;
-        const priceB = parseInt(b.price) || 0;
+        const priceA = parsePrice(a.price);
+        const priceB = parsePrice(b.price);
         
         if (sortOrder === 'highToLow') {
             return priceB - priceA;
@@ -224,7 +225,7 @@ function RentalUnitsPage() {
                 </div>
                 <div className="mt-2">
                     <span className="font-semibold text-gray-900">
-                        ${unit.price || '150'}
+                        {formatPrice(unit.price)}
                     </span>
                     <span className="text-gray-500 text-sm"> night</span>
                 </div>
