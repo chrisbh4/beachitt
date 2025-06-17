@@ -347,13 +347,8 @@ function NewUnitForm({submitModal}) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        // Debug: Log what's triggering the submission
-        console.log('Form submission triggered. Current step:', currentStep);
-        console.log('Form data:', formData);
-        
         // Prevent submission if we're not on the final step
         if (currentStep !== 4) {
-            console.log('Preventing submission - not on final step');
             return;
         }
         
@@ -370,7 +365,9 @@ function NewUnitForm({submitModal}) {
             }
         }
         
-        if (!allValid) return;
+        if (!allValid) {
+            return;
+        }
         
         setIsLoading(true);
         setErrors([]); // Clear any previous errors
@@ -387,10 +384,13 @@ function NewUnitForm({submitModal}) {
             // Check if the response has errors (backend validation errors)
             if (data && data.errors) {
                 setErrors(Array.isArray(data.errors) ? data.errors : [data.errors]);
-            } else if (data && (data.id || data.title)) {
-                // Success - rental unit was created (check for id or title to confirm it's a valid unit)
+            } else if (data) {
+                // Success - rental unit was created
                 console.log('Success! Rental unit created:', data);
                 setExplicitSubmit(false); // Reset explicit submit after successful submission
+                setValidationAttempted(false); // Reset validation attempted
+                setErrors([]); // Clear any errors
+                setFieldErrors({}); // Clear field errors
                 submitModal(false);
             } else {
                 // Unexpected response format

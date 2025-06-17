@@ -19,8 +19,8 @@ const unitValidations = [
   .isLength({min:2})
   .withMessage("Must enter a city name."),
  check("distanceFromBeach")
-  .isInt()
-  .withMessage("Must enter a distance number"),
+  .isFloat({min:0, max:5})
+  .withMessage("Must enter a distance number between 0 and 5 miles"),
  check("lat")
   .isLength({min:4})
   .withMessage("Latitude must be longer than 4 digits"),
@@ -37,8 +37,11 @@ const unitValidations = [
   .isLength({min:5})
   .withMessage("Description must be longer than 5 characters."),
  check("rooms")
-  .isLength({min:1})
+  .isInt({min:1})
   .withMessage("Must enter an amount of rooms."),
+ check("bathrooms")
+  .isInt({min:1})
+  .withMessage("Must enter an amount of bathrooms."),
  check("state")
  .isLength({min:2,max:2})
  .withMessage("Enter state initials."),
