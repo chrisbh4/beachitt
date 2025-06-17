@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory, Redirect } from 'react-router-dom';
 import {getSingleUnit } from '../../../store/rentalUnits';
 import MapContainer from '../../Maps';
 import BookingCal from '../../Booking-Cal';
@@ -8,277 +8,515 @@ import EditUnitModal from '../../Modals/Units/EditModal';
 import NewReviewModal from "../../Modals/Reviews/NewModal.js"
 import EditReviewModal from '../../Modals/Reviews/EditModal';
 import EditBookingModal from '../../Modals/Bookings/EditModal';
-
+import { formatPrice } from '../../../utils/currency';
 
 function GetSingleUnitPage() {
     const dispatch = useDispatch();
+    const history = useHistory();
     const {id} = useParams();
+    const [activeTab, setActiveTab] = useState('reviews');
+    const [showImageModal, setShowImageModal] = useState(false);
+    const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+    const [notification, setNotification] = useState(null);
 
     const unit = useSelector(state => state?.rentalUnit)
-    const userId = useSelector(state => state?.session.user.id)
+    const user = useSelector(state => state?.session.user)
+    const userId = user?.id;
     const unitReviews = unit?.Reviews;
     const unitBookings = unit?.Bookings;
-
-
 
     const unitLat = unit?.lat;
     const unitLng = unit?.lng;
 
-    /*
-    I need the post/put to log to the state and allow the new State to utitlize the useEffect and refresh its newly updated data
-     I can update the reviews using useState and UseEffect
-        1. const [unitReviews, setUnitReviews] = ([unit?.Reviews])
-            - saves the currently fetched review data
-        2. inside the useEffect place setUnitReviews(unit?.Reviews)
-            - updates the reviews vairable if there is new data parsed to the react state
+    // Create image gallery with just the main image
+    const imageGallery = unit?.url ? [unit.url] : [];
 
-        * See if I can call on the dispatch from the store which will run it in order hopefully lol
+    // Fallback image if no images are available
+    const fallbackImage = 'https://beachitt-app.s3.us-west-1.amazonaws.com/No-Image-Available.png';
 
-            2 choices
-
-            1. Find a way to have the dispatches go in order how i want them too
-
-            2. Rebuild how the reviews and bookings are being rendered
-                -GET 'api/reviews/unit/:id/review: filter through all reviews that belong to the rental unit ( Unit.id )
-                    - findAll({where:{rentalUnitId:req.params.id}})
-                        - finds all reviews that have the same rentalUnitId as the paramaters
-                -POST/PUT/DELETE work perfectly find
-    */
-
-    // updates page when the single Unit has new data
     useEffect(() => {
         dispatch(getSingleUnit(id))
-
     }, [dispatch, id])
 
+    // Notification system
+    const showNotification = (message, type = 'success') => {
+        setNotification({ message, type });
+        setTimeout(() => setNotification(null), 5000);
+    };
 
-    // const handleReviewDelete = async (e) => {
-    //     // e.preventDefault();
-    //     //* Need to fix the id that is being brough in
-    //     /*
-    //     * I can pass in the single reviews into their own componenet to be able to render the delete button
-    //         - inside the Review componenet I can grab the single id of the review and then use a useEffect on the Unit Page to have a data refresh when the reviews are updated
-    //     */
-    //     dispatch(deleteReview(id));
-    //     dispatch(getRentalUnits())
-    //     alert("Review Delete");
-    //     return "Review has been Deleted";
-    // }
+    // Image modal functions
+    const openImageModal = (index) => {
+        setSelectedImageIndex(index);
+        setShowImageModal(true);
+    };
 
+    const closeImageModal = () => {
+        setShowImageModal(false);
+    };
 
+    // Handle keyboard navigation in modal
+    useEffect(() => {
+        const handleKeyPress = (e) => {
+            if (!showImageModal) return;
+            if (e.key === 'Escape') closeImageModal();
+        };
+
+        window.addEventListener('keydown', handleKeyPress);
+        return () => window.removeEventListener('keydown', handleKeyPress);
+    }, [showImageModal]);
+
+    // Check if user is logged in
+    if (!user) {
+        return <Redirect to="/" />;
+    }
 
     const bookOrEditUnit = () => {
         if (userId > 0 && userId === unit?.ownerId) {
             return (
-                <>
-                    <div>
-                        <EditUnitModal />
-                    </div>
-
-                </>
+                <div className="flex gap-4">
+                    <EditUnitModal />
+                </div>
             )
         } else {
-            // create bookings functionality
             return (
-                // <button ><a href={`/bookings`}>Book a trip</a></button>
-                <>
+                <div className="flex gap-4">
                     <button
-                        class=" "
-                    ><a href={'#booking'}>Book a trip</a></button>
-                </>
+                        onClick={() => showNotification('Booking request sent! The host will respond within 24 hours.')}
+                        className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                    >
+                        <a href={'#booking'} className="flex items-center gap-2">
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            Book Now
+                        </a>
+                    </button>
+                    <button className="px-6 py-4 border-2 border-gray-300 text-gray-700 rounded-lg hover:border-gray-400 transition-colors font-medium">
+                        <svg className="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                        Save
+                    </button>
+                </div>
             )
         }
     }
-
-    //* Reviews / button functionality
 
     const displayReviews = () => {
-        return unitReviews?.map((review) => {
+        if (!unitReviews || unitReviews.length === 0) {
             return (
-                <>
-                {/* pos:rel right:30px */}
-                    <div id="review-row" class="text-black grid grid-cols-2 py-3 ">
-                        <div id="review-username" class="text-center">
-                            <p>{review.username}</p>
+                <div className="reviews-empty-state">
+                    <svg className="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.955 8.955 0 01-2.993-.5L3 21l1.5-7.007A7.963 7.963 0 013 12c0-4.418 3.582-8 8-8s8 3.582 8 8z" />
+                    </svg>
+                    <h3>No reviews yet</h3>
+                    <p>Be the first to share your experience!</p>
+                </div>
+            );
+        }
+
+        return unitReviews?.map((review, index) => {
+            const reviewDate = new Date(review.createdAt || review.updatedAt).toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric'
+            });
+
+            const rating = review.rating || 5; // Default to 5 stars if no rating
+
+            return (
+                <div key={review.id || index} className="review-card">
+                    <div className="flex items-start gap-4">
+                        {/* Review Avatar */}
+                        <div className="review-avatar">
+                            {review.username?.charAt(0).toUpperCase() || 'U'}
                         </div>
-                        <div id="review-comment" class="text-center">
-                            {editReview(review)}
+
+                        {/* Review Content */}
+                        <div className="review-content">
+                            <div className="review-header">
+                                <div>
+                                    <h4 className="review-username">{review.username || 'Anonymous User'}</h4>
+                                    <div className="review-date">{reviewDate}</div>
+                                </div>
+
+                                <div className="review-rating">
+                                    {[...Array(5)].map((_, i) => (
+                                        <svg
+                                            key={i}
+                                            className={`w-4 h-4 ${i < rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+                                            viewBox="0 0 20 20"
+                                        >
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <p className="review-text">{review.comment}</p>
+
+                            {/* Review Actions */}
+                            {userId === review.userId && (
+                                <div className="review-actions">
+                                    <EditReviewModal reviewId={review.id} />
+                                </div>
+                            )}
                         </div>
                     </div>
-                </>
-
-            )
-        })
-
-    };
-
-
-    //* need to pass in the review.id into the EditReviewModal form so I can be able to access the specified ID
-    //* and set that ID inside my getReview() thunk then this will be able to grab the specified ID
-
-    const editReview = (review) => {
-        if (userId === review.userId) {
-            return (
-                <div class="flex justify-center">
-                    <p class="pl-3 relattive left-2">{review.comment}</p>
-                    <div class='relative left-3'>
-                        <EditReviewModal reviewId={review.id} />
-                        {/* Delete Route is recieving an undefined ID so the review ID isn't being touched */}
-                        {/* <button class='relative left-4' onClick={handleReviewDelete}>Delete</button> */}
-                    </div>
-
                 </div>
             )
-        } else {
-            return (
-                <p>{review.comment}</p>
-            )
-        }
+        })
     };
-
-
-
-
 
     const displayBookings = () => {
-        return unitBookings?.map((booking) => {
-            const splitStartDate = booking.startDate.split('-')
-            const startDate = `${splitStartDate[1]} / ${splitStartDate[2]} / ${splitStartDate[0]}`
+        if (!unitBookings || unitBookings.length === 0) {
+            return (
+                <div className="text-center py-8 text-gray-500">
+                    <svg className="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <p>No bookings yet</p>
+                </div>
+            );
+        }
 
+        return unitBookings?.map((booking, index) => {
+            const splitStartDate = booking.startDate.split('-')
+            const startDate = `${splitStartDate[1]}/${splitStartDate[2]}/${splitStartDate[0]}`
+            const splitEndDate = booking.endDate.split('-')
+            const endDate = `${splitEndDate[1]}/${splitEndDate[2]}/${splitEndDate[0]}`
 
             return (
-                <>
-                    <div id="bookedDates-row" class="text-black grid grid-cols-2 py-3">
-                        <div id="booking-start" class="text-center ">
-                            <p>{startDate}</p>
+                <div key={index} className="bg-white rounded-lg p-4 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                            <div className="text-sm">
+                                <div className="flex items-center gap-2 text-gray-600 mb-1">
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                    Check-in
+                                </div>
+                                <p className="font-semibold text-gray-900">{startDate}</p>
+                            </div>
+                            <div className="text-gray-400">→</div>
+                            <div className="text-sm">
+                                <div className="flex items-center gap-2 text-gray-600 mb-1">
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                    Check-out
+                                </div>
+                                <p className="font-semibold text-gray-900">{endDate}</p>
+                            </div>
                         </div>
-                        <div id="edit-booking-end" class="text-center">
-                            {editBooking(booking)}
-                        </div>
+                        {userId === booking.userId && (
+                            <EditBookingModal bookingId={booking.id} unitBookings={unitBookings} />
+                        )}
                     </div>
-                </>
-
+                </div>
             )
         })
-
     };
 
-
-    const editBooking = (booking) => {
-        if (userId === booking.userId) {
-            const splitEndDate = booking.endDate.split('-')
-            const endDate = `${splitEndDate[1]} / ${splitEndDate[2]} / ${splitEndDate[0]}`
-            return (
-                <div class="flex  ">
-                    <div class='flex flex-row '>
-                        {/* <p key={booking.id} id="start-date">{booking.starDate}</p> */}
-                        <p key={booking.id} id="end-date">{endDate}</p>
-                    </div>
-
-                    {/* Buttons */}
-                    <div id='edit-booking-button'>
-                        <EditBookingModal bookingId={booking.id} unitBookings={unitBookings} />
-                    </div>
-                </div>
-            )
-        } else {
-            const splitEndDate = booking.endDate.split('-')
-            const endDate = `${splitEndDate[1]} / ${splitEndDate[2]} / ${splitEndDate[0]}`
-            return (
-
-                <div >
-                    <p id="booking-end" key={booking.id}>{endDate}</p>
-                    {/* <p>Start-date</p> */}
-                </div>
-            )
-        }
-    }
-
+    const averageRating = unitReviews?.length ? (unitReviews.reduce((acc, review) => acc + (review.rating || 5), 0) / unitReviews.length).toFixed(1) : 0;
 
     return (
-
-        <div id="unit-grid-container"  >
-{/* Row-1 */}
-            <div id='row-1' class='  justify-center flex pt-5 '  >
-                <div id='unit-detail-image' class='w-6/12 '>
-                    <img class=' h-full  w-full  ' src={`${unit?.url}`} alt={unit?.title} ></img>
+        <div className="min-h-screen bg-gray-50">
+            {/* Notification */}
+            {notification && (
+                <div className={`fixed top-4 right-4 z-50 px-6 py-4 rounded-lg shadow-lg transition-all duration-300 ${
+                    notification.type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+                }`}>
+                    <div className="flex items-center gap-3">
+                        {notification.type === 'success' ? (
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                        ) : (
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        )}
+                        <span>{notification.message}</span>
+                        <button
+                            onClick={() => setNotification(null)}
+                            className="ml-4 hover:text-gray-200"
+                        >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
+            )}
 
-                <div id='blanch-bg' class='  w-4/12  flex flex-col  p-12  overflow-y-auto ' >
-                    <div class='relative top-10 '>
-                        <h2 class='text-center text-3xl pb-4 '>{unit?.title}</h2>
-                        <div className="unit-details" class='text-center ' >
-                            <div class='content-center'>
-                                <p class='pb-2 text-xl '>Location: {unit?.city}, {unit?.state}, {unit?.zipcode} </p>
-                                <p class='pb-2 text-xl'>Distance From Beach: {unit?.distanceFromBeach} miles </p>
-                                <p class='pb-2 text-xl'>Price:$ {unit?.price} /per night</p>
-                                <p class='pb-2 text-xl'> Rooms: {unit?.rooms} </p>
-                                <p class='pb-2 text-xl'>Number of Bathrooms: {unit?.bathrooms} </p>
-                                <p class='text-xl font-medium pt-3.5'>Description :</p>
-                                <p class='pb-2 pt-1'>{unit?.rentalUnitDescription}</p>
+            {/* Image Modal */}
+            {showImageModal && imageGallery.length > 0 && (
+                <div className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center">
+                    <div className="relative max-w-4xl max-h-full mx-4">
+                        <img
+                            src={imageGallery[selectedImageIndex] || fallbackImage}
+                            alt={`${unit?.title} - Image ${selectedImageIndex + 1}`}
+                            className="max-w-full max-h-full object-contain"
+                        />
+
+                        {/* Close button */}
+                        <button
+                            onClick={closeImageModal}
+                            className="absolute top-4 right-4 text-white hover:text-gray-300 bg-black bg-opacity-50 rounded-full p-2"
+                        >
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* Single Image Display */}
+            <div className="relative">
+                <div className="max-w-7xl mx-auto px-6 py-6">
+                    {unit?.url ? (
+                        <div className="relative group cursor-pointer" onClick={() => openImageModal(0)}>
+                            <img
+                                src={unit.url}
+                                alt={unit?.title}
+                                className="w-full h-96 object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 rounded-xl"></div>
+                        </div>
+                    ) : (
+                        /* Fallback for no images */
+                        <div className="h-96 rounded-xl overflow-hidden bg-gray-100 flex items-center justify-center">
+                            <div className="text-center">
+                                <svg className="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 002 2z" />
+                                </svg>
+                                <p className="text-gray-500">No images available</p>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Back button and rating overlay */}
+                    <div className="absolute top-8 left-8 right-8 flex items-center justify-between">
+                        <Link to='/units' className="inline-flex items-center gap-2 px-4 py-2 bg-white bg-opacity-90 rounded-lg hover:bg-opacity-100 transition-all shadow-lg">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                            </svg>
+                            Back to Listings
+                        </Link>
+                        <div className="flex items-center gap-2 px-4 py-2 bg-white bg-opacity-90 rounded-lg shadow-lg">
+                            <svg className="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <span className="font-semibold">{averageRating}</span>
+                            <span className="text-gray-600">({unitReviews?.length || 0} reviews)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Main Content */}
+            <div className="max-w-7xl mx-auto px-6 py-8">
+                <div className="grid lg:grid-cols-3 gap-8">
+                    {/* Left Column - Property Details */}
+                    <div className="lg:col-span-2 space-y-8">
+                        {/* Property Header */}
+                        <div className="bg-white rounded-2xl p-8 shadow-sm">
+                            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{unit?.title}</h1>
+                            <div className="flex items-center gap-4 text-gray-600 mb-6">
+                                <div className="flex items-center gap-1">
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                    <span>{unit?.city}, {unit?.state} {unit?.zipcode}</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3" />
+                                    </svg>
+                                    <span>{unit?.distanceFromBeach} miles from beach</span>
+                                </div>
+                            </div>
+
+                            {/* Property Features */}
+                            <div className="grid md:grid-cols-3 gap-6 mb-8">
+                                <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
+                                    <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                        <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2v10z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-gray-600">Bedrooms</p>
+                                        <p className="font-semibold text-lg">{unit?.rooms}</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
+                                    <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                                        <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-gray-600">Bathrooms</p>
+                                        <p className="font-semibold text-lg">{unit?.bathrooms}</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
+                                    <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                        <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-gray-600">Per Night</p>
+                                        <p className="font-semibold text-lg">{formatPrice(unit?.price)}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Description */}
+                            <div>
+                                <h3 className="text-xl font-semibold text-gray-900 mb-4">About this place</h3>
+                                <p className="text-gray-700 leading-relaxed">{unit?.rentalUnitDescription}</p>
+                            </div>
+                        </div>
+
+                        {/* Map Section */}
+                        <div className="bg-white rounded-2xl p-8 shadow-sm">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-6">Location</h3>
+                            <div className="rounded-xl overflow-hidden">
+                                <MapContainer lat={unitLat} lng={unitLng} />
+                            </div>
+                        </div>
+
+                        {/* Reviews & Bookings Tabs */}
+                        <div className="bg-white rounded-2xl shadow-sm">
+                            <div className="border-b border-gray-200">
+                                <nav className="flex">
+                                    <button
+                                        onClick={() => setActiveTab('reviews')}
+                                        className={`py-4 px-8 text-sm font-medium border-b-2 transition-colors ${
+                                            activeTab === 'reviews'
+                                                ? 'border-blue-500 text-blue-600'
+                                                : 'border-transparent text-gray-500 hover:text-gray-700'
+                                        }`}
+                                    >
+                                        Reviews ({unitReviews?.length || 0})
+                                    </button>
+                                    <button
+                                        onClick={() => setActiveTab('bookings')}
+                                        className={`py-4 px-8 text-sm font-medium border-b-2 transition-colors ${
+                                            activeTab === 'bookings'
+                                                ? 'border-blue-500 text-blue-600'
+                                                : 'border-transparent text-gray-500 hover:text-gray-700'
+                                        }`}
+                                    >
+                                        Bookings ({unitBookings?.length || 0})
+                                    </button>
+                                </nav>
+                            </div>
+
+                            <div className="p-8">
+                                {activeTab === 'reviews' && (
+                                    <div>
+                                        <div className="reviews-header">
+                                            <div className="reviews-title">
+                                                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.955 8.955 0 01-2.993-.5L3 21l1.5-7.007A7.963 7.963 0 013 12c0-4.418 3.582-8 8-8s8 3.582 8 8z" />
+                                                </svg>
+                                                Guest Reviews
+                                                <span className="reviews-count">{unitReviews?.length || 0}</span>
+                                            </div>
+                                            <div className="flex items-center gap-4">
+                                                {unitReviews?.length > 0 && (
+                                                    <div className="reviews-average">
+                                                        <span className="text-2xl font-bold">{averageRating}</span>
+                                                        <div className="stars">
+                                                            {[...Array(5)].map((_, i) => (
+                                                                <svg key={i} className="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                                </svg>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                <NewReviewModal />
+                                            </div>
+                                        </div>
+                                        <div className="space-y-6">
+                                            {displayReviews()}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {activeTab === 'bookings' && (
+                                    <div>
+                                        <h3 className="text-xl font-semibold text-gray-900 mb-6">Current Bookings</h3>
+                                        <div className="space-y-4">
+                                            {displayBookings()}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
 
-                    <div class='flex justify-around relative top-1/4 z-' >
-                        <button> <Link to='/units'>Go Back</Link> </button>
-                        <>
-                            {bookOrEditUnit()}
-                        </>
+                    {/* Right Column - Booking Card */}
+                    <div className="lg:col-span-1">
+                        <div className="sticky top-6">
+                            <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
+                                <div className="mb-6">
+                                    <div className="flex items-baseline gap-2 mb-2">
+                                        <span className="text-3xl font-bold text-gray-900">{formatPrice(unit?.price)}</span>
+                                        <span className="text-gray-600">per night</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                                        <svg className="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                        <span className="font-medium">{averageRating}</span>
+                                        <span>({unitReviews?.length || 0} reviews)</span>
+                                    </div>
+                                </div>
+
+                                <div id="booking" className="mb-6">
+                                    <BookingCal
+                                        userId={userId}
+                                        unitId={unit?.id}
+                                        unitBookings={unit?.Bookings}
+                                        unitPrice={unit?.price}
+                                        onBookingSuccess={(bookingDetails) => {
+                                            showNotification(
+                                                `Booking confirmed! ${bookingDetails.nights} night${bookingDetails.nights !== 1 ? 's' : ''} for ${bookingDetails.totalPrice}`,
+                                                'success'
+                                            );
+                                        }}
+                                    />
+                                </div>
+
+                                <div className="space-y-4">
+                                    {bookOrEditUnit()}
+                                </div>
+
+                                <div className="mt-6 pt-6 border-t border-gray-200">
+                                    <div className="flex items-center justify-center text-sm text-gray-500">
+                                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                        </svg>
+                                        You won't be charged yet
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-{/* Row-2 */}
-            <div id='row-2' class=' w-full flex justify-center '>
-                <div id='blanch-bg' class=' w-6/12 h-full mt-3 flex flex-col justify-center items-center   '>
-                    <MapContainer lat={unitLat} lng={unitLng} id='map-container'  />
-                </div>
-                <div id='reviews-cont-height'  class=' w-4/12 bg-gray-200 h-60 mt-3 overflow-y-auto p-10  '>
-                    <div>
-                        <h1 class='text-center text-3xl font-medium relative bottom-4 pt-3 '>Reviews </h1>
-
-                        <div class='text-center pt-3 pb-4'>
-
-                            <NewReviewModal />
-                        </div>
-                        <div class='flex justify-around'>
-                            <p class='underline font-medium text-xl ' id='reviews-username-title' >Username </p>
-                            <p class='underline font-medium text-xl' id='reviews-comment-title' >Comment </p>
-                        </div>
-
-                        {displayReviews()}
-
-                    </div>
-                </div>
-            </div>
-
-{/* Row-3 */}
-            <div id='row-3' class='flex justify-center  pb-4 '>
-
-                <div class='w-6/12 bg-gray-200 '  id="calendar-display">
-
-                    <BookingCal userId={userId} unitId={unit?.id} unitBookings={unit.Bookings} />
-                </div>
-
-                <div id='booking-dates-display' class=' w-4/12 bg-gray-200     p-10 mb-6 overflow-y-auto'>
-                    <div>
-                        <div class='flex justify-evenly' id='booking-titles'>
-                            <p class='underline font-medium text-xl '>Start Date </p>
-                            <p class='underline font-medium text-xl' id='end-date-title'>End Date </p>
-                        </div>
-                        {displayBookings()}
-                    </div>
-                </div>
-
-            </div>
-
-
-            {/* End of Container */}
         </div>
-
-
     )
-
 }
 
 export default GetSingleUnitPage;

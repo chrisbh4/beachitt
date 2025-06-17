@@ -9,6 +9,7 @@ import NewUnitForm from "./components/RentalUnitsPage/NewUnit/NewUnitForm";
 import EditReviewForm from "./components/Reviews/EditReview";
 import SplashPage from "./components/SplashPage";
 import NotFound from "./components/NotFound";
+import AccountSettings from "./components/AccountSettings";
 
 function App() {
   const dispatch = useDispatch();
@@ -41,6 +42,10 @@ function App() {
 
           <Route path='/reviews/:id/edit'>
             <EditReviewForm />
+          </Route>
+
+          <Route exact path="/account/settings">
+            <AccountSettings />
           </Route>
 
           <Route>
