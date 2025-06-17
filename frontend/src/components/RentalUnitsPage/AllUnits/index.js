@@ -9,6 +9,7 @@ function RentalUnitsPage() {
     const rentalUnits = useSelector((state) => Object.values(state?.rentalUnit))
     const userId = useSelector((state)=> state.session.user?.id)
     const [favorites, setFavorites] = useState(new Set());
+    const [sortOrder, setSortOrder] = useState('default'); // 'default', 'highToLow', 'lowToHigh'
 
     useEffect(() => {
         dispatch(getRentalUnits())
@@ -23,6 +24,26 @@ function RentalUnitsPage() {
         }
         setFavorites(newFavorites);
     }
+
+    const handlePriceSort = () => {
+        if (sortOrder === 'default' || sortOrder === 'lowToHigh') {
+            setSortOrder('highToLow');
+        } else {
+            setSortOrder('lowToHigh');
+        }
+    };
+
+    const sortedRentalUnits = [...rentalUnits].sort((a, b) => {
+        const priceA = parseInt(a.price) || 0;
+        const priceB = parseInt(b.price) || 0;
+        
+        if (sortOrder === 'highToLow') {
+            return priceB - priceA;
+        } else if (sortOrder === 'lowToHigh') {
+            return priceA - priceB;
+        }
+        return 0; // default order
+    });
 
     const PropertyCard = ({ unit }) => (
         <div className="group cursor-pointer">
@@ -113,19 +134,22 @@ function RentalUnitsPage() {
                             </p>
                         </div>
                         
-                        {/* Filters */}
-                        <div className="mt-4 md:mt-0 flex space-x-4">
-                            <button className="flex items-center px-4 py-2 border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors duration-200">
+                        {/* Price Filter */}
+                        <div className="mt-4 md:mt-0">
+                            <button 
+                                onClick={handlePriceSort}
+                                className="flex items-center px-4 py-2 border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+                            >
                                 <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
                                 </svg>
-                                Filters
-                            </button>
-                            <button className="flex items-center px-4 py-2 border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors duration-200">
                                 Price
-                            </button>
-                            <button className="flex items-center px-4 py-2 border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors duration-200">
-                                Type of place
+                                {sortOrder === 'highToLow' && (
+                                    <span className="ml-1 text-xs text-gray-500">(High to Low)</span>
+                                )}
+                                {sortOrder === 'lowToHigh' && (
+                                    <span className="ml-1 text-xs text-gray-500">(Low to High)</span>
+                                )}
                             </button>
                         </div>
                     </div>
@@ -134,9 +158,9 @@ function RentalUnitsPage() {
 
             {/* Properties Grid */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {rentalUnits.length > 0 ? (
+                {sortedRentalUnits.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {rentalUnits.map((unit) => (
+                        {sortedRentalUnits.map((unit) => (
                             <PropertyCard key={unit.id} unit={unit} />
                         ))}
                     </div>
@@ -147,16 +171,6 @@ function RentalUnitsPage() {
                         <p className="text-gray-600">Try adjusting your search or filters to find what you're looking for.</p>
                     </div>
                 )}
-            </div>
-
-            {/* Map toggle */}
-            <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-40">
-                <button className="bg-gray-900 text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition-colors duration-200 shadow-lg flex items-center">
-                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                    </svg>
-                    Show map
-                </button>
             </div>
         </div>
     )
