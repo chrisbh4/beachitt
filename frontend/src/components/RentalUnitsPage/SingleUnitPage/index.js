@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory, Redirect } from 'react-router-dom';
 import {getSingleUnit } from '../../../store/rentalUnits';
 import MapContainer from '../../Maps';
 import BookingCal from '../../Booking-Cal';
@@ -12,6 +12,7 @@ import { formatPrice } from '../../../utils/currency';
 
 function GetSingleUnitPage() {
     const dispatch = useDispatch();
+    const history = useHistory();
     const {id} = useParams();
     const [activeTab, setActiveTab] = useState('reviews');
     const [showImageModal, setShowImageModal] = useState(false);
@@ -19,7 +20,8 @@ function GetSingleUnitPage() {
     const [notification, setNotification] = useState(null);
 
     const unit = useSelector(state => state?.rentalUnit)
-    const userId = useSelector(state => state?.session.user.id)
+    const user = useSelector(state => state?.session.user)
+    const userId = user?.id;
     const unitReviews = unit?.Reviews;
     const unitBookings = unit?.Bookings;
 
@@ -63,6 +65,11 @@ function GetSingleUnitPage() {
         return () => window.removeEventListener('keydown', handleKeyPress);
     }, [showImageModal]);
 
+    // Check if user is logged in
+    if (!user) {
+        return <Redirect to="/" />;
+    }
+
     const bookOrEditUnit = () => {
         if (userId > 0 && userId === unit?.ownerId) {
             return (
@@ -73,7 +80,7 @@ function GetSingleUnitPage() {
         } else {
             return (
                 <div className="flex gap-4">
-                    <button 
+                    <button
                         onClick={() => showNotification('Booking request sent! The host will respond within 24 hours.')}
                         className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                     >
@@ -124,7 +131,7 @@ function GetSingleUnitPage() {
                         <div className="review-avatar">
                             {review.username?.charAt(0).toUpperCase() || 'U'}
                         </div>
-                        
+
                         {/* Review Content */}
                         <div className="review-content">
                             <div className="review-header">
@@ -132,11 +139,11 @@ function GetSingleUnitPage() {
                                     <h4 className="review-username">{review.username || 'Anonymous User'}</h4>
                                     <div className="review-date">{reviewDate}</div>
                                 </div>
-                                
+
                                 <div className="review-rating">
                                     {[...Array(5)].map((_, i) => (
-                                        <svg 
-                                            key={i} 
+                                        <svg
+                                            key={i}
                                             className={`w-4 h-4 ${i < rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
                                             viewBox="0 0 20 20"
                                         >
@@ -145,9 +152,9 @@ function GetSingleUnitPage() {
                                     ))}
                                 </div>
                             </div>
-                            
+
                             <p className="review-text">{review.comment}</p>
-                            
+
                             {/* Review Actions */}
                             {userId === review.userId && (
                                 <div className="review-actions">
@@ -232,7 +239,7 @@ function GetSingleUnitPage() {
                             </svg>
                         )}
                         <span>{notification.message}</span>
-                        <button 
+                        <button
                             onClick={() => setNotification(null)}
                             className="ml-4 hover:text-gray-200"
                         >
@@ -248,14 +255,14 @@ function GetSingleUnitPage() {
             {showImageModal && imageGallery.length > 0 && (
                 <div className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center">
                     <div className="relative max-w-4xl max-h-full mx-4">
-                        <img 
-                            src={imageGallery[selectedImageIndex] || fallbackImage} 
+                        <img
+                            src={imageGallery[selectedImageIndex] || fallbackImage}
                             alt={`${unit?.title} - Image ${selectedImageIndex + 1}`}
                             className="max-w-full max-h-full object-contain"
                         />
-                        
+
                         {/* Close button */}
-                        <button 
+                        <button
                             onClick={closeImageModal}
                             className="absolute top-4 right-4 text-white hover:text-gray-300 bg-black bg-opacity-50 rounded-full p-2"
                         >
@@ -272,8 +279,8 @@ function GetSingleUnitPage() {
                 <div className="max-w-7xl mx-auto px-6 py-6">
                     {unit?.url ? (
                         <div className="relative group cursor-pointer" onClick={() => openImageModal(0)}>
-                            <img 
-                                src={unit.url} 
+                            <img
+                                src={unit.url}
                                 alt={unit?.title}
                                 className="w-full h-96 object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
                             />
@@ -290,7 +297,7 @@ function GetSingleUnitPage() {
                             </div>
                         </div>
                     )}
-                    
+
                     {/* Back button and rating overlay */}
                     <div className="absolute top-8 left-8 right-8 flex items-center justify-between">
                         <Link to='/units' className="inline-flex items-center gap-2 px-4 py-2 bg-white bg-opacity-90 rounded-lg hover:bg-opacity-100 transition-all shadow-lg">
@@ -412,7 +419,7 @@ function GetSingleUnitPage() {
                                     </button>
                                 </nav>
                             </div>
-                            
+
                             <div className="p-8">
                                 {activeTab === 'reviews' && (
                                     <div>
@@ -445,7 +452,7 @@ function GetSingleUnitPage() {
                                         </div>
                                     </div>
                                 )}
-                                
+
                                 {activeTab === 'bookings' && (
                                     <div>
                                         <h3 className="text-xl font-semibold text-gray-900 mb-6">Current Bookings</h3>
@@ -477,9 +484,9 @@ function GetSingleUnitPage() {
                                 </div>
 
                                 <div id="booking" className="mb-6">
-                                    <BookingCal 
-                                        userId={userId} 
-                                        unitId={unit?.id} 
+                                    <BookingCal
+                                        userId={userId}
+                                        unitId={unit?.id}
                                         unitBookings={unit?.Bookings}
                                         unitPrice={unit?.price}
                                         onBookingSuccess={(bookingDetails) => {
