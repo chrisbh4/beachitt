@@ -9,7 +9,7 @@ function AccountSettings() {
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector(state => state.session.user);
-  
+
   const [activeTab, setActiveTab] = useState('profile');
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState([]);
@@ -18,12 +18,7 @@ function AccountSettings() {
   // Profile form state
   const [profileData, setProfileData] = useState({
     username: user?.username || '',
-    email: user?.email || '',
-    firstName: user?.firstName || '',
-    lastName: user?.lastName || '',
-    phone: user?.phone || '',
-    bio: user?.bio || '',
-    location: user?.location || ''
+    email: user?.email || ''
   });
 
   // Password form state
@@ -31,24 +26,6 @@ function AccountSettings() {
     currentPassword: '',
     newPassword: '',
     confirmPassword: ''
-  });
-
-  // Notification preferences
-  const [notifications, setNotifications] = useState({
-    emailBookings: true,
-    emailReviews: true,
-    emailPromotions: false,
-    pushBookings: true,
-    pushReviews: true,
-    pushPromotions: false
-  });
-
-  // Privacy settings
-  const [privacy, setPrivacy] = useState({
-    profileVisibility: 'public',
-    showEmail: false,
-    showPhone: false,
-    allowMessages: true
   });
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -130,11 +107,11 @@ function AccountSettings() {
   // Helper functions for booking management
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      weekday: 'short', 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric' 
+    return date.toLocaleDateString('en-US', {
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
     });
   };
 
@@ -166,8 +143,8 @@ function AccountSettings() {
   const handleCancelBooking = async (bookingId) => {
     try {
       // TODO: Implement booking cancellation API call
-      setBookings(bookings.map(booking => 
-        booking.id === bookingId 
+      setBookings(bookings.map(booking =>
+        booking.id === bookingId
           ? { ...booking, status: 'cancelled' }
           : booking
       ));
@@ -186,11 +163,11 @@ function AccountSettings() {
     try {
       // TODO: Implement user update API call
       // const data = await dispatch(sessionActions.updateUser(profileData));
-      
+
       // Simulate API call for now
       await new Promise(resolve => setTimeout(resolve, 1000));
       setSuccessMessage('Profile updated successfully!');
-      
+
       // if (data.errors) {
       //   setErrors(Array.isArray(data.errors) ? data.errors : [data.errors]);
       // } else {
@@ -224,12 +201,12 @@ function AccountSettings() {
     try {
       // TODO: Implement password update API call
       // const data = await dispatch(sessionActions.updatePassword(passwordData));
-      
+
       // Simulate API call for now
       await new Promise(resolve => setTimeout(resolve, 1000));
       setSuccessMessage('Password updated successfully!');
       setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
-      
+
     } catch (error) {
       setErrors(['An error occurred while updating your password.']);
     } finally {
@@ -241,7 +218,7 @@ function AccountSettings() {
     try {
       // TODO: Implement account deletion API call
       // await dispatch(sessionActions.deleteAccount());
-      
+
       // Simulate API call for now
       await new Promise(resolve => setTimeout(resolve, 1000));
       dispatch(sessionActions.logout());
@@ -254,9 +231,7 @@ function AccountSettings() {
   const tabs = [
     { id: 'profile', name: 'Profile', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' },
     { id: 'trips', name: 'Booked Trips', icon: 'M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7' },
-    { id: 'security', name: 'Security', icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z' },
-    { id: 'notifications', name: 'Notifications', icon: 'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9' },
-    { id: 'privacy', name: 'Privacy', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' }
+    { id: 'security', name: 'Security', icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z' }
   ];
 
   return (
@@ -388,73 +363,6 @@ function AccountSettings() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          First Name
-                        </label>
-                        <input
-                          type="text"
-                          value={profileData.firstName}
-                          onChange={(e) => setProfileData({...profileData, firstName: e.target.value})}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Last Name
-                        </label>
-                        <input
-                          type="text"
-                          value={profileData.lastName}
-                          onChange={(e) => setProfileData({...profileData, lastName: e.target.value})}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Phone Number
-                        </label>
-                        <input
-                          type="tel"
-                          value={profileData.phone}
-                          onChange={(e) => setProfileData({...profileData, phone: e.target.value})}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Location
-                        </label>
-                        <input
-                          type="text"
-                          value={profileData.location}
-                          onChange={(e) => setProfileData({...profileData, location: e.target.value})}
-                          placeholder="City, State"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Bio
-                      </label>
-                      <textarea
-                        rows={4}
-                        value={profileData.bio}
-                        onChange={(e) => setProfileData({...profileData, bio: e.target.value})}
-                        placeholder="Tell us a little about yourself..."
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none"
-                      />
-                      <p className="mt-2 text-sm text-gray-500">
-                        {profileData.bio.length}/500 characters
-                      </p>
-                    </div>
-
                     <div className="flex justify-end">
                       <button
                         type="submit"
@@ -523,8 +431,8 @@ function AccountSettings() {
                       </svg>
                       <h3 className="mt-2 text-sm font-medium text-gray-900">No trips found</h3>
                       <p className="mt-1 text-sm text-gray-500">
-                        {tripFilter === 'all' 
-                          ? "You haven't booked any trips yet." 
+                        {tripFilter === 'all'
+                          ? "You haven't booked any trips yet."
                           : `No ${tripFilter} trips found.`}
                       </p>
                       <div className="mt-6">
@@ -735,156 +643,6 @@ function AccountSettings() {
                   </div>
                 </div>
               )}
-
-              {/* Notifications Tab */}
-              {activeTab === 'notifications' && (
-                <div className="p-6">
-                  <div className="mb-6">
-                    <h2 className="text-xl font-semibold text-gray-900 mb-2">Notification Preferences</h2>
-                    <p className="text-gray-600">Choose how you want to be notified about activity on BeachItt.</p>
-                  </div>
-
-                  <div className="space-y-8">
-                    {/* Email Notifications */}
-                    <div>
-                      <h3 className="text-lg font-medium text-gray-900 mb-4">Email Notifications</h3>
-                      <div className="space-y-4">
-                        {[
-                          { key: 'emailBookings', label: 'Booking confirmations and updates', description: 'Get notified when someone books your property or updates their booking' },
-                          { key: 'emailReviews', label: 'New reviews and ratings', description: 'Receive notifications when guests leave reviews for your properties' },
-                          { key: 'emailPromotions', label: 'Promotions and special offers', description: 'Stay updated on BeachItt promotions and marketing campaigns' }
-                        ].map((item) => (
-                          <div key={item.key} className="flex items-start">
-                            <div className="flex items-center h-5">
-                              <input
-                                type="checkbox"
-                                checked={notifications[item.key]}
-                                onChange={(e) => setNotifications({...notifications, [item.key]: e.target.checked})}
-                                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                              />
-                            </div>
-                            <div className="ml-3">
-                              <label className="text-sm font-medium text-gray-700">{item.label}</label>
-                              <p className="text-sm text-gray-500">{item.description}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Push Notifications */}
-                    <div>
-                      <h3 className="text-lg font-medium text-gray-900 mb-4">Push Notifications</h3>
-                      <div className="space-y-4">
-                        {[
-                          { key: 'pushBookings', label: 'Booking confirmations and updates', description: 'Get instant notifications for booking-related activities' },
-                          { key: 'pushReviews', label: 'New reviews and ratings', description: 'Instant notifications for new reviews on your properties' },
-                          { key: 'pushPromotions', label: 'Promotions and special offers', description: 'Get notified about special deals and promotions' }
-                        ].map((item) => (
-                          <div key={item.key} className="flex items-start">
-                            <div className="flex items-center h-5">
-                              <input
-                                type="checkbox"
-                                checked={notifications[item.key]}
-                                onChange={(e) => setNotifications({...notifications, [item.key]: e.target.checked})}
-                                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                              />
-                            </div>
-                            <div className="ml-3">
-                              <label className="text-sm font-medium text-gray-700">{item.label}</label>
-                              <p className="text-sm text-gray-500">{item.description}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="flex justify-end">
-                      <button
-                        onClick={() => setSuccessMessage('Notification preferences updated!')}
-                        className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-colors"
-                      >
-                        Save Preferences
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Privacy Tab */}
-              {activeTab === 'privacy' && (
-                <div className="p-6">
-                  <div className="mb-6">
-                    <h2 className="text-xl font-semibold text-gray-900 mb-2">Privacy Settings</h2>
-                    <p className="text-gray-600">Control your privacy and what information is visible to others.</p>
-                  </div>
-
-                  <div className="space-y-8">
-                    <div>
-                      <h3 className="text-lg font-medium text-gray-900 mb-4">Profile Visibility</h3>
-                      <div className="space-y-3">
-                        {[
-                          { value: 'public', label: 'Public', description: 'Your profile is visible to everyone on BeachItt' },
-                          { value: 'limited', label: 'Limited', description: 'Only verified users can see your full profile' },
-                          { value: 'private', label: 'Private', description: 'Only you can see your profile information' }
-                        ].map((option) => (
-                          <div key={option.value} className="flex items-start">
-                            <div className="flex items-center h-5">
-                              <input
-                                type="radio"
-                                name="profileVisibility"
-                                value={option.value}
-                                checked={privacy.profileVisibility === option.value}
-                                onChange={(e) => setPrivacy({...privacy, profileVisibility: e.target.value})}
-                                className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                              />
-                            </div>
-                            <div className="ml-3">
-                              <label className="text-sm font-medium text-gray-700">{option.label}</label>
-                              <p className="text-sm text-gray-500">{option.description}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div>
-                      <h3 className="text-lg font-medium text-gray-900 mb-4">Contact Information</h3>
-                      <div className="space-y-4">
-                        {[
-                          { key: 'showEmail', label: 'Show email address', description: 'Allow other users to see your email address' },
-                          { key: 'showPhone', label: 'Show phone number', description: 'Allow other users to see your phone number' },
-                          { key: 'allowMessages', label: 'Allow direct messages', description: 'Let other users send you direct messages' }
-                        ].map((item) => (
-                          <div key={item.key} className="flex items-start">
-                            <div className="flex items-center h-5">
-                              <input
-                                type="checkbox"
-                                checked={privacy[item.key]}
-                                onChange={(e) => setPrivacy({...privacy, [item.key]: e.target.checked})}
-                                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                              />
-                            </div>
-                            <div className="ml-3">
-                              <label className="text-sm font-medium text-gray-700">{item.label}</label>
-                              <p className="text-sm text-gray-500">{item.description}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="flex justify-end">
-                      <button
-                        onClick={() => setSuccessMessage('Privacy settings updated!')}
-                        className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-colors"
-                      >
-                        Save Settings
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         </div>
@@ -1081,4 +839,4 @@ function AccountSettings() {
   );
 }
 
-export default AccountSettings; 
+export default AccountSettings;

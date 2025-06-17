@@ -57,7 +57,7 @@ function ProfileButton({ user }) {
             <p className="text-sm font-medium text-gray-900">{user.username}</p>
             <p className="text-sm text-gray-500 truncate">{user.email}</p>
           </div>
-          
+
           <div className="py-1">
             <NavLink
               to="/units"
@@ -74,7 +74,7 @@ function ProfileButton({ user }) {
               Host your home
             </NavLink>
           </div>
-          
+
           <div className="border-t border-gray-100 py-1">
             <NavLink
               to="/account/settings"
@@ -83,14 +83,8 @@ function ProfileButton({ user }) {
             >
               Account settings
             </NavLink>
-            <a
-              href="#"
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
-            >
-              Help Center
-            </a>
           </div>
-          
+
           <div className="border-t border-gray-100 py-1">
             <button
               onClick={logout}
