@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
-import { fetchUserBookings, fetchCancelBooking } from '../../store/bookings';
 import { formatPrice } from '../../utils/currency';
 
 function AccountSettings() {

@@ -17,8 +17,9 @@ const MapContainer = ({lat,lng}) => {
   const key = useSelector((state) => state.mapApi.key);
   const dispatch = useDispatch();
 
-  const unitLat = lat;
-  const unitLng = lng;
+  // Validate coordinates
+  const unitLat = lat !== undefined && lat !== null ? lat : 25.7907; // Default to Miami Beach
+  const unitLng = lng !== undefined && lng !== null ? lng : -80.1300;
 
   useEffect(() => {
     if (!key) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import {getSingleUnit } from '../../../store/rentalUnits';
@@ -26,6 +26,10 @@ function GetSingleUnitPage() {
     const unitLat = unit?.lat;
     const unitLng = unit?.lng;
 
+    // Validate coordinates and provide defaults if needed
+    const validLat = unitLat !== undefined && unitLat !== null && !isNaN(Number(unitLat)) ? Number(unitLat) : 25.7907;
+    const validLng = unitLng !== undefined && unitLng !== null && !isNaN(Number(unitLng)) ? Number(unitLng) : -80.1300;
+
     // Create image gallery (using main image + variations for demo)
     const imageGallery = unit?.url ? [
         unit.url,
@@ -51,22 +55,21 @@ function GetSingleUnitPage() {
         setShowImageModal(true);
     };
 
-    const closeImageModal = () => {
+    const closeImageModal = useCallback(() => {
         setShowImageModal(false);
-    };
+    }, []);
 
-    const nextImage = () => {
+    const nextImage = useCallback(() => {
         setSelectedImageIndex((prev) => (prev + 1) % imageGallery.length);
-    };
+    }, [imageGallery.length]);
 
-    const prevImage = () => {
+    const prevImage = useCallback(() => {
         setSelectedImageIndex((prev) => (prev - 1 + imageGallery.length) % imageGallery.length);
-    };
+    }, [imageGallery.length]);
 
     // Handle keyboard navigation in modal
     useEffect(() => {
         const handleKeyPress = (e) => {
-            if (!showImageModal) return;
             if (e.key === 'Escape') closeImageModal();
             if (e.key === 'ArrowRight') nextImage();
             if (e.key === 'ArrowLeft') prevImage();
@@ -74,7 +77,7 @@ function GetSingleUnitPage() {
 
         window.addEventListener('keydown', handleKeyPress);
         return () => window.removeEventListener('keydown', handleKeyPress);
-    }, [showImageModal]);
+    }, [showImageModal, closeImageModal, nextImage, prevImage]);
 
     const bookOrEditUnit = () => {
         if (userId > 0 && userId === unit?.ownerId) {
@@ -266,7 +269,7 @@ function GetSingleUnitPage() {
                     <div className="relative max-w-4xl max-h-full mx-4">
                         <img 
                             src={imageGallery[selectedImageIndex]} 
-                            alt={`${unit?.title} - Image ${selectedImageIndex + 1}`}
+                            alt={`${unit?.title} - ${selectedImageIndex + 1}`}
                             className="max-w-full max-h-full object-contain"
                         />
                         
@@ -447,7 +450,7 @@ function GetSingleUnitPage() {
                         <div className="bg-white rounded-2xl p-8 shadow-sm">
                             <h3 className="text-xl font-semibold text-gray-900 mb-6">Location</h3>
                             <div className="rounded-xl overflow-hidden">
-                                <MapContainer lat={unitLat} lng={unitLng} />
+                                <MapContainer lat={validLat} lng={validLng} />
                             </div>
                         </div>
 

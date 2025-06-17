@@ -39,9 +39,9 @@ function NotFound() {
         <div className="mt-8 text-sm text-gray-500">
           <p>Here are some helpful links instead:</p>
           <div className="mt-4 space-x-4">
-            <a href="#" className="text-red-500 hover:text-red-600">Help Center</a>
+            <button className="text-red-500 hover:text-red-600">Help Center</button>
             <span>·</span>
-            <a href="#" className="text-red-500 hover:text-red-600">Contact us</a>
+            <button className="text-red-500 hover:text-red-600">Contact us</button>
           </div>
         </div>
       </div>

@@ -129,33 +129,33 @@ function SplashPage(){
                         <div>
                             <h3 className="font-semibold text-gray-900 mb-4">Support</h3>
                             <ul className="space-y-2 text-gray-600">
-                                <li><a href="#" className="hover:text-gray-900">Help Center</a></li>
-                                <li><a href="#" className="hover:text-gray-900">Safety information</a></li>
-                                <li><a href="#" className="hover:text-gray-900">Cancellation options</a></li>
+                                <li><button className="hover:text-gray-900">Help Center</button></li>
+                                <li><button className="hover:text-gray-900">Safety information</button></li>
+                                <li><button className="hover:text-gray-900">Cancellation options</button></li>
                             </ul>
                         </div>
                         <div>
                             <h3 className="font-semibold text-gray-900 mb-4">Community</h3>
                             <ul className="space-y-2 text-gray-600">
-                                <li><a href="#" className="hover:text-gray-900">Diversity & Belonging</a></li>
-                                <li><a href="#" className="hover:text-gray-900">Against Discrimination</a></li>
-                                <li><a href="#" className="hover:text-gray-900">Accessibility</a></li>
+                                <li><button className="hover:text-gray-900">Diversity & Belonging</button></li>
+                                <li><button className="hover:text-gray-900">Against Discrimination</button></li>
+                                <li><button className="hover:text-gray-900">Accessibility</button></li>
                             </ul>
                         </div>
                         <div>
                             <h3 className="font-semibold text-gray-900 mb-4">Hosting</h3>
                             <ul className="space-y-2 text-gray-600">
-                                <li><a href="#" className="hover:text-gray-900">Try hosting</a></li>
-                                <li><a href="#" className="hover:text-gray-900">Explore hosting resources</a></li>
-                                <li><a href="#" className="hover:text-gray-900">Visit our community forum</a></li>
+                                <li><button className="hover:text-gray-900">Try hosting</button></li>
+                                <li><button className="hover:text-gray-900">Explore hosting resources</button></li>
+                                <li><button className="hover:text-gray-900">Visit our community forum</button></li>
                             </ul>
                         </div>
                         <div>
                             <h3 className="font-semibold text-gray-900 mb-4">About</h3>
                             <ul className="space-y-2 text-gray-600">
-                                <li><a href="#" className="hover:text-gray-900">Newsroom</a></li>
-                                <li><a href="#" className="hover:text-gray-900">Learn about new features</a></li>
-                                <li><a href="#" className="hover:text-gray-900">Careers</a></li>
+                                <li><button className="hover:text-gray-900">Newsroom</button></li>
+                                <li><button className="hover:text-gray-900">Learn about new features</button></li>
+                                <li><button className="hover:text-gray-900">Careers</button></li>
                             </ul>
                         </div>
                     </div>
@@ -164,9 +164,9 @@ function SplashPage(){
                         <div className="flex items-center space-x-4 mb-4 md:mb-0">
                             <p className="text-gray-600">© 2024 BeachItt, Inc.</p>
                             <span className="text-gray-400">·</span>
-                            <a href="#" className="text-gray-600 hover:text-gray-900">Privacy</a>
+                            <button className="text-gray-600 hover:text-gray-900">Privacy</button>
                             <span className="text-gray-400">·</span>
-                            <a href="#" className="text-gray-600 hover:text-gray-900">Terms</a>
+                            <button className="text-gray-600 hover:text-gray-900">Terms</button>
                         </div>
                         
                         <div className="flex items-center space-x-6">

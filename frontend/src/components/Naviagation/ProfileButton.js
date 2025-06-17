@@ -83,12 +83,11 @@ function ProfileButton({ user }) {
             >
               Account settings
             </NavLink>
-            <a
-              href="#"
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+            <button
+              className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
             >
               Help Center
-            </a>
+            </button>
           </div>
           
           <div className="border-t border-gray-100 py-1">

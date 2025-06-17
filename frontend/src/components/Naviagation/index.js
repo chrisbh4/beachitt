@@ -6,7 +6,6 @@ import LoginFormModal from '../Modals/LoginModal';
 import SignUpFormModal from '../SignupFormPage/SignUpModal';
 
 import * as sessionActions from "../../store/session"
-import * as rentalUnitActions from "../../store/rentalUnits"
 
 
 // * Add modal to the nav instead of having a NavLink button

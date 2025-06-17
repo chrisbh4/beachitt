@@ -11,10 +11,21 @@ const containerStyle = {
 
 const Maps = ({ apiKey, lat, lng }) => {
 
+  // Convert to numbers and validate
   const unitLat = Number(lat);
   const unitLng = Number(lng);
 
+  // Check if coordinates are valid numbers
+  const isValidLat = !isNaN(unitLat) && isFinite(unitLat);
+  const isValidLng = !isNaN(unitLng) && isFinite(unitLng);
 
+  // Default coordinates (Miami Beach, FL) if coordinates are invalid
+  const defaultLat = 25.7907;
+  const defaultLng = -80.1300;
+
+  // Use valid coordinates or defaults
+  const finalLat = isValidLat ? unitLat : defaultLat;
+  const finalLng = isValidLng ? unitLng : defaultLng;
 
   /*
   * Change the center's lat n lng values to the prop lat n lng values
@@ -24,13 +35,13 @@ const Maps = ({ apiKey, lat, lng }) => {
 
   const center = {
   // center just displays the surrounding the location regardless if the values point to a specific postion
-  lat:unitLat,
-  lng:unitLng
+  lat: finalLat,
+  lng: finalLng
   };
 
   const position = {
-    lat:unitLat,
-  lng:unitLng
+    lat: finalLat,
+    lng: finalLng
   }
 
   const { isLoaded } = useJsApiLoader({
