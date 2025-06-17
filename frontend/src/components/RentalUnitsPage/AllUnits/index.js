@@ -68,7 +68,7 @@ function RentalUnitsPage() {
 
     // Get search query from URL
     const searchParams = new URLSearchParams(location.search);
-    const searchQuery = searchParams.get('search');
+    const searchQuery = searchParams.get('search') || '';
 
     useEffect(() => {
         dispatch(getRentalUnits())
@@ -97,19 +97,25 @@ function RentalUnitsPage() {
         return STATE_MAPPING[stateCode] || stateCode;
     };
 
-    // Helper function to check if search matches state
-    const matchesState = (unitState, searchTerm) => {
-        if (!unitState || !searchTerm) return false;
+    // Helper function to check if search matches state or city
+    const matchesSearch = (unit, searchTerm) => {
+        if (!searchTerm || searchTerm.trim() === '') return true;
         
         const searchLower = searchTerm.toLowerCase().trim();
-        const unitStateUpper = unitState.toUpperCase().trim();
+        const unitStateUpper = unit.state?.toUpperCase().trim() || '';
+        const unitCityLower = unit.city?.toLowerCase().trim() || '';
         
-        // Direct match with unit state abbreviation
+        // Check if search matches city
+        if (unitCityLower.includes(searchLower)) {
+            return true;
+        }
+        
+        // Check if search matches state abbreviation
         if (unitStateUpper === searchTerm.toUpperCase()) {
             return true;
         }
         
-        // If search term is a full state name, get the abbreviation and compare
+        // Check if search matches full state name
         if (STATE_MAPPING[searchTerm]) {
             const abbreviation = STATE_MAPPING[searchTerm];
             if (unitStateUpper === abbreviation) {
@@ -117,14 +123,14 @@ function RentalUnitsPage() {
             }
         }
         
-        // If search term is an abbreviation, check if it matches the unit state
+        // Check if search is abbreviation and matches state
         if (searchTerm.length <= 2) {
             if (unitStateUpper === searchTerm.toUpperCase()) {
                 return true;
             }
         }
         
-        // Partial match for full state names
+        // Check partial match for full state names
         if (searchTerm.length > 2) {
             const unitFullName = STATE_MAPPING[unitStateUpper];
             if (unitFullName && unitFullName.toLowerCase().includes(searchLower)) {
@@ -135,16 +141,10 @@ function RentalUnitsPage() {
         return false;
     };
 
-    // Filter rental units by search query (state)
+    // Filter rental units by search query (state or city)
     const filteredRentalUnits = rentalUnits.filter(unit => {
-        if (!searchQuery) return true;
-        return matchesState(unit.state, searchQuery);
+        return matchesSearch(unit, searchQuery);
     });
-
-    console.log(`Search query: "${searchQuery}"`);
-    console.log(`Total units: ${rentalUnits.length}`);
-    console.log(`Filtered units: ${filteredRentalUnits.length}`);
-    console.log('Available states in data:', [...new Set(rentalUnits.map(unit => unit.state))]);
 
     const sortedRentalUnits = [...filteredRentalUnits].sort((a, b) => {
         const priceA = parseInt(a.price) || 0;
@@ -246,8 +246,25 @@ function RentalUnitsPage() {
             return query;
         }
         
-        // Otherwise return the query as is
+        // Otherwise return the query as is (could be a city)
         return query;
+    };
+
+    // Check if search is for a state or city
+    const isStateSearch = (query) => {
+        if (!query) return false;
+        
+        // Check if it's a state abbreviation
+        if (query.length <= 2 && STATE_MAPPING[query.toUpperCase()]) {
+            return true;
+        }
+        
+        // Check if it's a full state name
+        if (STATE_MAPPING[query]) {
+            return true;
+        }
+        
+        return false;
     };
 
     return (
@@ -258,13 +275,17 @@ function RentalUnitsPage() {
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                         <div>
                             <h1 className="text-3xl font-bold text-gray-900">
-                                {searchQuery ? `Stays in ${getSearchDisplayName(searchQuery)}` : 'Stays in Beach Destinations'}
+                                {searchQuery ? (
+                                    isStateSearch(searchQuery) 
+                                        ? `Stays in ${getSearchDisplayName(searchQuery)}`
+                                        : `Stays in ${searchQuery}`
+                                ) : 'Stays in Beach Destinations'}
                             </h1>
                             <p className="mt-2 text-gray-600">
                                 {sortedRentalUnits.length} stay{sortedRentalUnits.length !== 1 ? 's' : ''} · Luxury beachfront rentals
                                 {searchQuery && (
                                     <span className="ml-2 text-blue-600">
-                                        · Filtered by {getSearchDisplayName(searchQuery)}
+                                        · Filtered by {isStateSearch(searchQuery) ? getSearchDisplayName(searchQuery) : searchQuery}
                                     </span>
                                 )}
                             </p>
@@ -304,11 +325,15 @@ function RentalUnitsPage() {
                     <div className="text-center py-16">
                         <div className="text-6xl mb-4">🏖️</div>
                         <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                            {searchQuery ? `No properties found in ${getSearchDisplayName(searchQuery)}` : 'No properties found'}
+                            {searchQuery ? (
+                                isStateSearch(searchQuery) 
+                                    ? `No properties found in ${getSearchDisplayName(searchQuery)}`
+                                    : `No properties found in ${searchQuery}`
+                            ) : 'No properties found'}
                         </h3>
                         <p className="text-gray-600">
                             {searchQuery 
-                                ? `Try searching for a different state or browse all properties.`
+                                ? `Try searching for a different city or state, or browse all properties.`
                                 : 'Try adjusting your search or filters to find what you\'re looking for.'
                             }
                         </p>

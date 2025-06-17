@@ -25,10 +25,8 @@ function Navigation({ isLoaded }) {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
-      // Navigate to units page with search query
-      history.push(`/units?search=${encodeURIComponent(searchQuery.trim())}`);
-    }
+    // Navigate to units page with search query (even if empty)
+    history.push(`/units?search=${encodeURIComponent(searchQuery.trim())}`);
   };
 
   const handleKeyPress = (e) => {
