@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
@@ -6,6 +6,7 @@ import LoginFormModal from '../Modals/LoginModal';
 import SignUpFormModal from '../SignupFormPage/SignUpModal';
 
 import * as sessionActions from "../../store/session"
+import * as rentalUnitActions from "../../store/rentalUnits"
 
 
 // * Add modal to the nav instead of having a NavLink button
@@ -14,12 +15,27 @@ function Navigation({ isLoaded }) {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
   const history = useHistory();
+  const [searchQuery, setSearchQuery] = useState('');
 
   const demoLogin = async() => {
     await dispatch(sessionActions.login({ credential: 'Demo-lition', password: 'password' }))
     history.push('/units');
     return "Demo User logged in."
   }
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      // Navigate to units page with search query
+      history.push(`/units?search=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch(e);
+    }
+  };
 
   let sessionLinks;
   if (sessionUser) {
@@ -37,20 +53,26 @@ function Navigation({ isLoaded }) {
             {/* Center Search Bar */}
             <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
               <div className="w-full relative">
-                <div className="flex items-center border border-gray-300 rounded-full shadow-sm hover:shadow-md transition-shadow duration-200">
+                <form onSubmit={handleSearch} className="flex items-center border border-gray-300 rounded-full shadow-sm hover:shadow-md transition-shadow duration-200">
                   <div className="flex-1 px-6 py-2">
                     <input
                       type="text"
-                      placeholder="Where are you going?"
+                      placeholder="Search by state (e.g., CA, California, FL, Florida)"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onKeyPress={handleKeyPress}
                       className="w-full text-sm text-gray-700 placeholder-gray-500 border-none outline-none bg-transparent"
                     />
                   </div>
-                  <button className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full mr-2 transition-colors duration-200">
+                  <button 
+                    type="submit"
+                    className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full mr-2 transition-colors duration-200"
+                  >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                   </button>
-                </div>
+                </form>
               </div>
             </div>
 
@@ -89,20 +111,26 @@ function Navigation({ isLoaded }) {
             {/* Center Search Bar */}
             <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
               <div className="w-full relative">
-                <div className="flex items-center border border-gray-300 rounded-full shadow-sm hover:shadow-md transition-shadow duration-200">
+                <form onSubmit={handleSearch} className="flex items-center border border-gray-300 rounded-full shadow-sm hover:shadow-md transition-shadow duration-200">
                   <div className="flex-1 px-6 py-2">
                     <input
                       type="text"
-                      placeholder="Where are you going?"
+                      placeholder="Search by state (e.g., CA, California, FL, Florida)"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onKeyPress={handleKeyPress}
                       className="w-full text-sm text-gray-700 placeholder-gray-500 border-none outline-none bg-transparent"
                     />
                   </div>
-                  <button className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full mr-2 transition-colors duration-200">
+                  <button 
+                    type="submit"
+                    className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full mr-2 transition-colors duration-200"
+                  >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                   </button>
-                </div>
+                </form>
               </div>
             </div>
 
