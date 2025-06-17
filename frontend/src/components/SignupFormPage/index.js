@@ -22,17 +22,11 @@ function SignupFormPage({ submitModal }) {
     setErrors([]);
     setIsLoading(true);
 
-    // Client-side validation
-    const newErrors = [];
-    if (!email.trim()) newErrors.push("Email is required");
-    if (!username.trim()) newErrors.push("Username is required");
-    if (!password.trim()) newErrors.push("Password is required");
-    if (!confirmPassword.trim()) newErrors.push("Confirm password is required");
-    if (password !== confirmPassword) newErrors.push("Confirm Password field must be the same as the Password field");
-    if (password.length < 6) newErrors.push("Password must be at least 6 characters long");
+    // Use comprehensive validation function
+    const validationErrors = validateForm();
 
-    if (newErrors.length > 0) {
-      setErrors(newErrors);
+    if (validationErrors.length > 0) {
+      setErrors(validationErrors);
       setIsLoading(false);
       return;
     }
@@ -61,11 +55,63 @@ function SignupFormPage({ submitModal }) {
     }
   };
 
+  // Comprehensive validation function
+  const validateForm = () => {
+    const newErrors = [];
+
+    // Basic required field validation
+    if (!email.trim()) newErrors.push("Email is required");
+    if (!username.trim()) newErrors.push("Username is required");
+    if (!password.trim()) newErrors.push("Password is required");
+    if (!confirmPassword.trim()) newErrors.push("Confirm password is required");
+
+    // Username validation
+    if (username.trim().length < 4) {
+      newErrors.push("Username must be at least 4 characters long");
+    }
+    if (username.trim().length > 30) {
+      newErrors.push("Username must be less than 30 characters");
+    }
+    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(username.trim())) {
+      newErrors.push("Username cannot be an email address");
+    }
+
+    // Enhanced Password validation - ALL requirements must be met
+    if (password.length < 8) {
+      newErrors.push("Password must be at least 8 characters long");
+    }
+    if (!/[A-Z]/.test(password)) {
+      newErrors.push("Password must contain at least one uppercase letter");
+    }
+    if (!/[0-9]/.test(password)) {
+      newErrors.push("Password must contain at least one number");
+    }
+    if (!/[^A-Za-z0-9]/.test(password)) {
+      newErrors.push("Password must contain at least one special character");
+    }
+    if (password !== confirmPassword) {
+      newErrors.push("Confirm Password field must be the same as the Password field");
+    }
+
+    // Email validation
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      newErrors.push("Please provide a valid email address");
+    }
+
+    return newErrors;
+  };
+
+  // Check if form is valid for button state
+  const isFormValid = () => {
+    const validationErrors = validateForm();
+    return validationErrors.length === 0;
+  };
+
   const getPasswordStrength = () => {
     if (!password) return { strength: 0, label: '', color: '' };
-    
+
     let strength = 0;
-    if (password.length >= 6) strength++;
+    // All requirements are now mandatory, so we calculate based on how many are met
     if (password.length >= 8) strength++;
     if (/[A-Z]/.test(password)) strength++;
     if (/[0-9]/.test(password)) strength++;
@@ -76,17 +122,16 @@ function SignupFormPage({ submitModal }) {
       { strength: 1, label: 'Weak', color: 'bg-red-500' },
       { strength: 2, label: 'Fair', color: 'bg-yellow-500' },
       { strength: 3, label: 'Good', color: 'bg-blue-500' },
-      { strength: 4, label: 'Strong', color: 'bg-green-500' },
-      { strength: 5, label: 'Very Strong', color: 'bg-green-600' }
+      { strength: 4, label: 'Strong', color: 'bg-green-500' }
     ];
 
-    return levels[Math.min(strength, 5)];
+    return levels[Math.min(strength, 4)];
   };
 
   const passwordStrength = getPasswordStrength();
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md mx-auto">
+    <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md mx-auto mb-4">
       {/* Header */}
       <div className="text-center mb-8">
         <img className="h-12 w-auto mx-auto mb-4" src="/logos/batteriesinc-logo.svg" alt="BeachItt" />
@@ -117,7 +162,17 @@ function SignupFormPage({ submitModal }) {
       )}
 
       {/* Signup Form */}
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-6"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' && !isFormValid()) {
+            e.preventDefault();
+            const validationErrors = validateForm();
+            setErrors(validationErrors);
+          }
+        }}
+      >
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Email Address *
@@ -164,6 +219,34 @@ function SignupFormPage({ submitModal }) {
               className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
             />
           </div>
+          {/* Username validation feedback */}
+          {username && (
+            <div className="mt-2">
+              <div className="flex items-center space-x-2 text-xs">
+                <div className={`flex items-center ${username.length >= 4 ? 'text-green-600' : 'text-gray-400'}`}>
+                  <svg className={`h-3 w-3 mr-1 ${username.length >= 4 ? 'text-green-600' : 'text-gray-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  At least 4 characters
+                </div>
+                <div className={`flex items-center ${username.length <= 30 ? 'text-green-600' : 'text-red-600'}`}>
+                  <svg className={`h-3 w-3 mr-1 ${username.length <= 30 ? 'text-green-600' : 'text-red-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Less than 30 characters
+                </div>
+                <div className={`flex items-center ${!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(username) ? 'text-green-600' : 'text-red-600'}`}>
+                  <svg className={`h-3 w-3 mr-1 ${!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(username) ? 'text-green-600' : 'text-red-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Not an email
+                </div>
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                {username.length}/30 characters
+              </p>
+            </div>
+          )}
         </div>
 
         <div>
@@ -204,24 +287,47 @@ function SignupFormPage({ submitModal }) {
               )}
             </button>
           </div>
-          
+
           {/* Password Strength Indicator */}
           {password && (
             <div className="mt-2">
               <div className="flex items-center space-x-2">
                 <div className="flex-1 bg-gray-200 rounded-full h-2">
-                  <div 
+                  <div
                     className={`h-2 rounded-full transition-all duration-300 ${passwordStrength.color}`}
-                    style={{ width: `${(passwordStrength.strength / 5) * 100}%` }}
+                    style={{ width: `${(passwordStrength.strength / 4) * 100}%` }}
                   ></div>
                 </div>
                 {passwordStrength.label && (
                   <span className="text-xs font-medium text-gray-600">{passwordStrength.label}</span>
                 )}
               </div>
-              <p className="text-xs text-gray-500 mt-1">
-                Use 8+ characters with a mix of letters, numbers & symbols
-              </p>
+              <div className="mt-2 space-y-1">
+                <div className={`flex items-center text-xs ${password.length >= 8 ? 'text-green-600' : 'text-red-600'}`}>
+                  <svg className={`h-3 w-3 mr-1 ${password.length >= 8 ? 'text-green-600' : 'text-red-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  At least 8 characters (required)
+                </div>
+                <div className={`flex items-center text-xs ${/[A-Z]/.test(password) ? 'text-green-600' : 'text-red-600'}`}>
+                  <svg className={`h-3 w-3 mr-1 ${/[A-Z]/.test(password) ? 'text-green-600' : 'text-red-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Contains uppercase letter (required)
+                </div>
+                <div className={`flex items-center text-xs ${/[0-9]/.test(password) ? 'text-green-600' : 'text-red-600'}`}>
+                  <svg className={`h-3 w-3 mr-1 ${/[0-9]/.test(password) ? 'text-green-600' : 'text-red-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Contains number (required)
+                </div>
+                <div className={`flex items-center text-xs ${/[^A-Za-z0-9]/.test(password) ? 'text-green-600' : 'text-red-600'}`}>
+                  <svg className={`h-3 w-3 mr-1 ${/[^A-Za-z0-9]/.test(password) ? 'text-green-600' : 'text-red-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Contains special character (required)
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -264,7 +370,7 @@ function SignupFormPage({ submitModal }) {
               )}
             </button>
           </div>
-          
+
           {/* Password Match Indicator */}
           {confirmPassword && (
             <div className="mt-2 flex items-center space-x-2">
@@ -287,11 +393,38 @@ function SignupFormPage({ submitModal }) {
           )}
         </div>
 
+        {/* Form Status Indicator */}
+        {email && username && password && confirmPassword && (
+          <div className={`p-3 rounded-lg border ${
+            isFormValid()
+              ? 'bg-green-50 border-green-200'
+              : 'bg-red-50 border-red-200'
+          }`}>
+            <div className="flex items-center">
+              {isFormValid() ? (
+                <>
+                  <svg className="h-5 w-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="text-sm font-medium text-green-800">Form is valid and ready to submit</span>
+                </>
+              ) : (
+                <>
+                  <svg className="h-5 w-5 text-red-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span className="text-sm font-medium text-red-800">Please fix the validation errors above</span>
+                </>
+              )}
+            </div>
+          </div>
+        )}
+
         <button
           type="submit"
-          disabled={isLoading || !email.trim() || !username.trim() || !password.trim() || !confirmPassword.trim()}
+          disabled={isLoading || !isFormValid()}
           className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-white font-medium transition-colors ${
-            isLoading || !email.trim() || !username.trim() || !password.trim() || !confirmPassword.trim()
+            isLoading || !isFormValid()
               ? 'bg-gray-400 cursor-not-allowed'
               : 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'
           }`}
