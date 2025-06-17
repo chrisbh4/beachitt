@@ -30,6 +30,16 @@ function AccountSettings() {
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
+  // Update profileData when user changes
+  useEffect(() => {
+    if (user) {
+      setProfileData({
+        username: user.username || '',
+        email: user.email || ''
+      });
+    }
+  }, [user]);
+
   // Mock booking data - TODO: Replace with actual API calls
   const [bookings, setBookings] = useState([
     {
@@ -161,18 +171,13 @@ function AccountSettings() {
     setIsLoading(true);
 
     try {
-      // TODO: Implement user update API call
-      // const data = await dispatch(sessionActions.updateUser(profileData));
+      const data = await dispatch(sessionActions.updateUser(profileData));
 
-      // Simulate API call for now
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setSuccessMessage('Profile updated successfully!');
-
-      // if (data.errors) {
-      //   setErrors(Array.isArray(data.errors) ? data.errors : [data.errors]);
-      // } else {
-      //   setSuccessMessage('Profile updated successfully!');
-      // }
+      if (data.errors) {
+        setErrors(Array.isArray(data.errors) ? data.errors : [data.errors]);
+      } else {
+        setSuccessMessage('Profile updated successfully!');
+      }
     } catch (error) {
       setErrors(['An error occurred while updating your profile.']);
     } finally {
@@ -199,14 +204,17 @@ function AccountSettings() {
     }
 
     try {
-      // TODO: Implement password update API call
-      // const data = await dispatch(sessionActions.updatePassword(passwordData));
+      const data = await dispatch(sessionActions.updatePassword({
+        currentPassword: passwordData.currentPassword,
+        newPassword: passwordData.newPassword
+      }));
 
-      // Simulate API call for now
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setSuccessMessage('Password updated successfully!');
-      setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
-
+      if (data.errors) {
+        setErrors(Array.isArray(data.errors) ? data.errors : [data.errors]);
+      } else {
+        setSuccessMessage('Password updated successfully!');
+        setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
+      }
     } catch (error) {
       setErrors(['An error occurred while updating your password.']);
     } finally {

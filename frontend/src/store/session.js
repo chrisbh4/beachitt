@@ -90,7 +90,7 @@ export const login = ({ credential, password }) => async (dispatch) => {
   const data = await response.json();
   if (response.ok) {
     dispatch(setUser(data.user));
-    const expirationTime = 10 * 60 * 1000; 
+    const expirationTime = 10 * 60 * 1000;
     dispatch(startLogoutTimer(expirationTime));
     return data;
   } else {
@@ -107,7 +107,36 @@ export const logout = () => async (dispatch) => {
   return response;
 };
 
+// Update user profile
+export const updateUser = (userData) => async (dispatch) => {
+  const response = await csrfFetch("/api/users/profile", {
+    method: "PUT",
+    body: JSON.stringify(userData),
+  });
+  const data = await response.json();
 
+  if (response.ok) {
+    dispatch(setUser(data.user));
+    return data;
+  } else {
+    return data;
+  }
+};
+
+// Update password
+export const updatePassword = (passwordData) => async (dispatch) => {
+  const response = await csrfFetch("/api/users/password", {
+    method: "PUT",
+    body: JSON.stringify(passwordData),
+  });
+  const data = await response.json();
+
+  if (response.ok) {
+    return data;
+  } else {
+    return data;
+  }
+};
 
 const initialState = { user: null };
 
