@@ -81,9 +81,6 @@ function GetSingleUnitPage() {
             return (
                 <div className="flex gap-4">
                     <EditUnitModal />
-                    <button className="px-6 py-3 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition-colors font-medium">
-                        Manage Property
-                    </button>
                 </div>
             )
         } else {
