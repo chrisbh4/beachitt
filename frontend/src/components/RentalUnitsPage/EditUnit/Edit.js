@@ -33,6 +33,7 @@ function EditUnitForm({submitModal}) {
     const [isDeleting, setIsDeleting] = useState(false);
     const [fieldErrors, setFieldErrors] = useState({});
     const [validationAttempted, setValidationAttempted] = useState(false);
+    const [explicitSubmit, setExplicitSubmit] = useState(false);
 
     // Load rental unit data on mount
     useEffect(() => {
@@ -94,9 +95,9 @@ function EditUnitForm({submitModal}) {
                 }
                 break;
             case 'zipcode':
-                if (!value.trim()) {
+                if (!value.toString().trim()) {
                     fieldError.zipcode = "Zipcode is required";
-                } else if (!/^\d{5}(-\d{4})?$/.test(value.trim())) {
+                } else if (!/^\d{5}(-\d{4})?$/.test(value.toString().trim())) {
                     fieldError.zipcode = "Please enter a valid 5-digit zipcode";
                 }
                 break;
@@ -233,10 +234,10 @@ function EditUnitForm({submitModal}) {
             }
             
             // Zipcode validation
-            if (!formData.zipcode.trim()) {
+            if (!formData.zipcode.toString().trim()) {
                 newErrors.push("Zipcode is required");
                 newFieldErrors.zipcode = "Zipcode is required";
-            } else if (!/^\d{5}(-\d{4})?$/.test(formData.zipcode.trim())) {
+            } else if (!/^\d{5}(-\d{4})?$/.test(formData.zipcode.toString().trim())) {
                 newErrors.push("Please enter a valid 5-digit zipcode");
                 newFieldErrors.zipcode = "Please enter a valid 5-digit zipcode";
             }
@@ -409,10 +410,10 @@ function EditUnitForm({submitModal}) {
                 }
                 
                 // Zipcode validation
-                if (!formData.zipcode.trim()) {
+                if (!formData.zipcode.toString().trim()) {
                     newErrors.push("Zipcode is required");
                     newFieldErrors.zipcode = "Zipcode is required";
-                } else if (!/^\d{5}(-\d{4})?$/.test(formData.zipcode.trim())) {
+                } else if (!/^\d{5}(-\d{4})?$/.test(formData.zipcode.toString().trim())) {
                     newErrors.push("Please enter a valid 5-digit zipcode");
                     newFieldErrors.zipcode = "Please enter a valid 5-digit zipcode";
                 }
@@ -500,6 +501,7 @@ function EditUnitForm({submitModal}) {
             
             if (newErrors.length === 0) {
                 setCurrentStep(prev => Math.min(prev + 1, 4));
+                setExplicitSubmit(false); // Reset explicit submit when moving to next step
             }
         }
     };
@@ -507,6 +509,7 @@ function EditUnitForm({submitModal}) {
     const prevStep = () => {
         setCurrentStep(prev => Math.max(prev - 1, 1));
         setErrors([]);
+        setExplicitSubmit(false); // Reset explicit submit when moving to previous step
     };
 
     const handleSubmit = async (e) => {
@@ -553,6 +556,7 @@ function EditUnitForm({submitModal}) {
             } else if (data && (data.id || data.title)) {
                 // Success - rental unit was updated (check for id or title to confirm it's a valid unit)
                 console.log('Success! Rental unit updated:', data);
+                setExplicitSubmit(false); // Reset explicit submit after successful submission
                 await dispatch(getSingleUnit(id));
                 submitModal(false);
             } else {
@@ -662,7 +666,15 @@ function EditUnitForm({submitModal}) {
                     )}
 
                     <form 
-                        onSubmit={handleSubmit} 
+                        onSubmit={(e) => {
+                            // Only allow submission if we're on Step 4 and user explicitly clicked submit
+                            if (currentStep !== 4 || !explicitSubmit) {
+                                e.preventDefault();
+                                console.log('Form submission blocked - not on Step 4 or not explicit submit');
+                                return;
+                            }
+                            handleSubmit(e);
+                        }}
                         onKeyDown={(e) => {
                             // Prevent form submission on Enter key unless it's the submit button
                             if (e.key === 'Enter' && e.target.type !== 'submit') {
@@ -670,6 +682,7 @@ function EditUnitForm({submitModal}) {
                             }
                         }}
                         autoComplete="off"
+                        noValidate
                         className="space-y-6"
                     >
                         {/* Step 1: Basic Information */}
@@ -1031,6 +1044,7 @@ function EditUnitForm({submitModal}) {
                                 <button
                                     type="submit"
                                     disabled={isLoading}
+                                    onClick={() => setExplicitSubmit(true)}
                                     className={`px-8 py-3 rounded-lg font-medium transition-colors ${
                                         isLoading 
                                             ? 'bg-gray-400 cursor-not-allowed' 

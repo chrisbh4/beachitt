@@ -28,6 +28,7 @@ function NewUnitForm({submitModal}) {
     const [currentStep, setCurrentStep] = useState(1);
     const [fieldErrors, setFieldErrors] = useState({});
     const [validationAttempted, setValidationAttempted] = useState(false);
+    const [explicitSubmit, setExplicitSubmit] = useState(false);
 
     const updateField = (field, value) => {
         setFormData(prev => ({...prev, [field]: value}));
@@ -333,12 +334,14 @@ function NewUnitForm({submitModal}) {
         
         if (validateStep(currentStep)) {
             setCurrentStep(prev => Math.min(prev + 1, 4));
+            setExplicitSubmit(false); // Reset explicit submit when moving to next step
         }
     };
 
     const prevStep = () => {
         setCurrentStep(prev => Math.max(prev - 1, 1));
         setErrors([]);
+        setExplicitSubmit(false); // Reset explicit submit when moving to previous step
     };
 
     const handleSubmit = async (e) => {
@@ -387,6 +390,7 @@ function NewUnitForm({submitModal}) {
             } else if (data && (data.id || data.title)) {
                 // Success - rental unit was created (check for id or title to confirm it's a valid unit)
                 console.log('Success! Rental unit created:', data);
+                setExplicitSubmit(false); // Reset explicit submit after successful submission
                 submitModal(false);
             } else {
                 // Unexpected response format
@@ -471,7 +475,15 @@ function NewUnitForm({submitModal}) {
                     )}
 
                     <form 
-                        onSubmit={handleSubmit} 
+                        onSubmit={(e) => {
+                            // Only allow submission if we're on Step 4 and user explicitly clicked submit
+                            if (currentStep !== 4 || !explicitSubmit) {
+                                e.preventDefault();
+                                console.log('Form submission blocked - not on Step 4 or not explicit submit');
+                                return;
+                            }
+                            handleSubmit(e);
+                        }}
                         onKeyDown={(e) => {
                             // Prevent form submission on Enter key unless it's the submit button
                             if (e.key === 'Enter' && e.target.type !== 'submit') {
@@ -479,6 +491,7 @@ function NewUnitForm({submitModal}) {
                             }
                         }}
                         autoComplete="off"
+                        noValidate
                         className="space-y-6"
                     >
                         {/* Step 1: Basic Information */}
@@ -846,6 +859,7 @@ function NewUnitForm({submitModal}) {
                                 <button
                                     type="submit"
                                     disabled={isLoading}
+                                    onClick={() => setExplicitSubmit(true)}
                                     className={`px-8 py-3 rounded-lg font-medium transition-colors ${
                                         isLoading 
                                             ? 'bg-gray-400 cursor-not-allowed' 
