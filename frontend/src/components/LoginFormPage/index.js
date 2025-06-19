@@ -54,7 +54,7 @@ function LoginFormPage({ submitModal }) {
       <div className="text-center mb-8">
         <img className="h-12 w-auto mx-auto mb-4" src="/logos/batteriesinc-logo.svg" alt="BeachItt" />
         <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome Back</h2>
-        <p className="text-gray-600">Sign in to your BeachItt account</p>
+        <p className="text-gray-600">Log in to your BeachItt account</p>
       </div>
 
       {/* Error Display */}
@@ -167,7 +167,7 @@ function LoginFormPage({ submitModal }) {
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
               </svg>
-              Sign In
+              Log In
             </div>
           )}
         </button>

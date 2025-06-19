@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { getRentalUnits } from '../../../store/rentalUnits'
 import { formatPrice, parsePrice } from '../../../utils/currency';
+import LoginFormPage from '../../LoginFormPage';
+import SignupFormPage from '../../SignupFormPage';
 // import "../../RentalUnitsPage/UnitsPage.css"
 
 // State mapping for search functionality
@@ -66,6 +68,9 @@ function RentalUnitsPage() {
     const userId = useSelector((state)=> state.session.user?.id)
     const [favorites, setFavorites] = useState(new Set());
     const [sortOrder, setSortOrder] = useState('default'); // 'default', 'highToLow', 'lowToHigh'
+    const [showSignInPopup, setShowSignInPopup] = useState(false);
+    const [showLoginModal, setShowLoginModal] = useState(false);
+    const [showSignupModal, setShowSignupModal] = useState(false);
 
     // Get search query from URL
     const searchParams = new URLSearchParams(location.search);
@@ -98,53 +103,32 @@ function RentalUnitsPage() {
         return STATE_MAPPING[stateCode] || stateCode;
     };
 
-    // Helper function to check if search matches state or city
-    const matchesSearch = (unit, searchTerm) => {
-        if (!searchTerm || searchTerm.trim() === '') return true;
-        
-        const searchLower = searchTerm.toLowerCase().trim();
-        const unitStateUpper = unit.state?.toUpperCase().trim() || '';
-        const unitCityLower = unit.city?.toLowerCase().trim() || '';
-        
-        // Check if search matches city
-        if (unitCityLower.includes(searchLower)) {
-            return true;
-        }
-        
-        // Check if search matches state abbreviation
-        if (unitStateUpper === searchTerm.toUpperCase()) {
-            return true;
-        }
-        
-        // Check if search matches full state name
-        if (STATE_MAPPING[searchTerm]) {
-            const abbreviation = STATE_MAPPING[searchTerm];
-            if (unitStateUpper === abbreviation) {
-                return true;
-            }
-        }
-        
-        // Check if search is abbreviation and matches state
-        if (searchTerm.length <= 2) {
-            if (unitStateUpper === searchTerm.toUpperCase()) {
-                return true;
-            }
-        }
-        
-        // Check partial match for full state names
-        if (searchTerm.length > 2) {
-            const unitFullName = STATE_MAPPING[unitStateUpper];
-            if (unitFullName && unitFullName.toLowerCase().includes(searchLower)) {
-                return true;
-            }
-        }
-        
-        return false;
+    // Helper function to check if search query is a state
+    const isStateSearch = (query) => {
+        const stateCodes = Object.keys(STATE_MAPPING).filter(key => key.length === 2);
+        return stateCodes.includes(query.toUpperCase());
     };
 
-    // Filter rental units by search query (state or city)
+    // Helper function to get display name for search
+    const getSearchDisplayName = (query) => {
+        if (isStateSearch(query)) {
+            return getStateDisplayName(query.toUpperCase());
+        }
+        return query;
+    };
+
+    // Filter units based on search query
     const filteredRentalUnits = rentalUnits.filter(unit => {
-        return matchesSearch(unit, searchQuery);
+        if (!searchQuery) return true;
+        
+        const query = searchQuery.toLowerCase();
+        const unitCity = unit.city?.toLowerCase() || '';
+        const unitState = unit.state?.toLowerCase() || '';
+        const unitStateFull = getStateDisplayName(unit.state)?.toLowerCase() || '';
+        
+        return unitCity.includes(query) || 
+               unitState.includes(query) || 
+               unitStateFull.includes(query);
     });
 
     const sortedRentalUnits = [...filteredRentalUnits].sort((a, b) => {
@@ -159,29 +143,42 @@ function RentalUnitsPage() {
         return 0; // default order
     });
 
+    const handleUnitClick = (e) => {
+        if (!userId) {
+            e.preventDefault();
+            setShowSignInPopup(true);
+        }
+    };
+
+    const handleSignInClick = () => {
+        setShowSignInPopup(false);
+        setShowLoginModal(true);
+    };
+
+    const handleSignUpClick = () => {
+        setShowSignInPopup(false);
+        setShowSignupModal(true);
+    };
+
     const PropertyCard = ({ unit }) => (
         <div className="group cursor-pointer">
             <div className="relative">
-                {userId ? (
-                    <Link to={`/units/${unit?.id}`}>
-                        <div className="relative overflow-hidden rounded-xl">
-                            <img
-                                src={unit.url}
-                                alt={unit.title}
-                                className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                            />
-                            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
-                        </div>
-                    </Link>
-                ) : (
-                    <div className="relative overflow-hidden rounded-xl">
-                        <img
-                            src={unit.url}
-                            alt={unit.title}
-                            className="w-full h-64 object-cover"
-                        />
-                    </div>
-                )}
+                <div 
+                    className="relative overflow-hidden rounded-xl"
+                    onClick={handleUnitClick}
+                >
+                    <img
+                        src={unit.url}
+                        alt={unit.title}
+                        className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
+                    {userId && (
+                        <Link to={`/units/${unit?.id}`} className="absolute inset-0">
+                            <span className="sr-only">View {unit.title}</span>
+                        </Link>
+                    )}
+                </div>
                 
                 {/* Heart icon */}
                 <button
@@ -233,43 +230,94 @@ function RentalUnitsPage() {
         </div>
     );
 
-    // Get display name for search query
-    const getSearchDisplayName = (query) => {
-        if (!query) return '';
-        
-        // If it's an abbreviation, get the full name
-        if (query.length <= 2 && STATE_MAPPING[query.toUpperCase()]) {
-            return STATE_MAPPING[query.toUpperCase()];
-        }
-        
-        // If it's a full name, return as is
-        if (STATE_MAPPING[query]) {
-            return query;
-        }
-        
-        // Otherwise return the query as is (could be a city)
-        return query;
-    };
-
-    // Check if search is for a state or city
-    const isStateSearch = (query) => {
-        if (!query) return false;
-        
-        // Check if it's a state abbreviation
-        if (query.length <= 2 && STATE_MAPPING[query.toUpperCase()]) {
-            return true;
-        }
-        
-        // Check if it's a full state name
-        if (STATE_MAPPING[query]) {
-            return true;
-        }
-        
-        return false;
-    };
-
     return (
         <div className="min-h-screen bg-white">
+            {/* Log In Popup */}
+            {showSignInPopup && (
+                <div className="fixed inset-0 z-50 overflow-y-auto">
+                    <div className="flex min-h-full items-center justify-center p-4">
+                        <div className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" onClick={() => setShowSignInPopup(false)}></div>
+                        <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full p-6 mx-4">
+                            <div className="text-center">
+                                <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 mb-4">
+                                    <svg className="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                    </svg>
+                                </div>
+                                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                                    Log in to view unit details
+                                </h3>
+                                <p className="text-sm text-gray-500 mb-6">
+                                    Create an account or log in to see detailed information about this rental property.
+                                </p>
+                                <div className="flex gap-3">
+                                    <button
+                                        onClick={handleSignInClick}
+                                        className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition-colors"
+                                    >
+                                        Log In
+                                    </button>
+                                    <button
+                                        onClick={handleSignUpClick}
+                                        className="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-200 transition-colors"
+                                    >
+                                        Sign Up
+                                    </button>
+                                </div>
+                                <button
+                                    onClick={() => setShowSignInPopup(false)}
+                                    className="mt-4 text-sm text-gray-500 hover:text-gray-700"
+                                >
+                                    Maybe later
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Login Modal */}
+            {showLoginModal && (
+                <div className="fixed inset-0 z-50 overflow-hidden">
+                    <div className="absolute inset-0 bg-black bg-opacity-50 transition-opacity">
+                        <div className="flex min-h-full items-center justify-center p-4">
+                            <div className="relative w-full max-w-md bg-transparent">
+                                <button
+                                    onClick={() => setShowLoginModal(false)}
+                                    className="absolute -top-2 -right-2 z-10 p-2 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-200"
+                                >
+                                    <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                                <LoginFormPage submitModal={setShowLoginModal} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Signup Modal */}
+            {showSignupModal && (
+                <div className="fixed inset-0 z-50 overflow-hidden">
+                    <div className="absolute inset-0 bg-black bg-opacity-50 transition-opacity">
+                        <div className="flex min-h-full items-start justify-center p-4 pt-8 pb-8">
+                            <div className="relative w-full max-w-md bg-transparent max-h-full overflow-y-auto">
+                                <button
+                                    onClick={() => setShowSignupModal(false)}
+                                    className="absolute -top-2 -right-2 z-10 p-2 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-200"
+                                >
+                                    <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                                <SignupFormPage submitModal={setShowSignupModal} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Header */}
             <div className="bg-white border-b border-gray-200">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -294,27 +342,21 @@ function RentalUnitsPage() {
                         
                         {/* Price Filter */}
                         <div className="mt-4 md:mt-0">
-                            <button 
+                            <button
                                 onClick={handlePriceSort}
-                                className="flex items-center px-4 py-2 border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+                                className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                             >
                                 <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
                                 </svg>
-                                Price
-                                {sortOrder === 'highToLow' && (
-                                    <span className="ml-1 text-xs text-gray-500">(High to Low)</span>
-                                )}
-                                {sortOrder === 'lowToHigh' && (
-                                    <span className="ml-1 text-xs text-gray-500">(Low to High)</span>
-                                )}
+                                Price {sortOrder === 'highToLow' ? 'High to Low' : sortOrder === 'lowToHigh' ? 'Low to High' : 'Sort'}
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Properties Grid */}
+            {/* Property Grid */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {sortedRentalUnits.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
