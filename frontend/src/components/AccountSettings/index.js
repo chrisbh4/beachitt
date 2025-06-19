@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
 import { fetchUserBookings, fetchDeleteBooking } from '../../store/bookings';
 import { formatPrice } from '../../utils/currency';
+import NewReviewForm from '../Reviews/NewReviewForm';
 
 function AccountSettings() {
   const dispatch = useDispatch();
@@ -53,6 +54,8 @@ function AccountSettings() {
 
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [showBookingDetails, setShowBookingDetails] = useState(false);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [selectedRentalUnitId, setSelectedRentalUnitId] = useState(null);
   const [tripFilter, setTripFilter] = useState('all'); // 'all', 'upcoming', 'completed'
 
   if (!user) {
@@ -120,9 +123,20 @@ function AccountSettings() {
       await dispatch(fetchDeleteBooking(bookingId));
       setSuccessMessage('Booking cancelled successfully!');
       setShowBookingDetails(false);
+      // Refresh the bookings data to update the UI
+      if (user && user.id) {
+        dispatch(fetchUserBookings(user.id));
+      }
     } catch (error) {
       setErrors(['An error occurred while cancelling your booking.']);
     }
+  };
+
+  const handleWriteReview = (booking) => {
+    // Show the review modal for this specific rental unit
+    setSelectedRentalUnitId(booking.rentalUnitId);
+    setShowReviewModal(true);
+    setShowBookingDetails(false); // Close the booking details modal
   };
 
   const handleProfileUpdate = async (e) => {
@@ -737,11 +751,7 @@ function AccountSettings() {
                   )}
                   {getBookingStatus(selectedBooking) === 'completed' && (
                     <button
-                      onClick={() => {
-                        // TODO: Navigate to review form
-                        setSuccessMessage('Review feature coming soon!');
-                        setShowBookingDetails(false);
-                      }}
+                      onClick={() => handleWriteReview(selectedBooking)}
                       className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
                     >
                       Write Review
@@ -795,6 +805,42 @@ function AccountSettings() {
                   Cancel
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Review Modal */}
+      {showReviewModal && selectedRentalUnitId && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div className="fixed inset-0 transition-opacity" aria-hidden="true">
+              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full sm:p-6">
+              <div className="flex items-start justify-between mb-6">
+                <h3 className="text-lg leading-6 font-medium text-gray-900">
+                  Write a Review
+                </h3>
+                <button
+                  onClick={() => setShowReviewModal(false)}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                >
+                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              
+              <NewReviewForm 
+                submitModal={(close) => {
+                  if (close === false) {
+                    setShowReviewModal(false);
+                    setSuccessMessage('Review submitted successfully!');
+                  }
+                }}
+                rentalUnitId={selectedRentalUnitId}
+              />
             </div>
           </div>
         </div>

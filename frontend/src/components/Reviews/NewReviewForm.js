@@ -5,9 +5,12 @@ import { createReview } from '../../store/reviews';
 import {getSingleUnit } from "../../store/rentalUnits"
 import "./Reviews.css"
 
-function NewReviewForm ({ submitModal }) {
+function NewReviewForm ({ submitModal, rentalUnitId }) {
     const dispatch = useDispatch();
     const {id} = useParams();
+
+    // Use rentalUnitId prop if provided (for modal), otherwise use URL param
+    const unitId = rentalUnitId || id;
 
     const userId = useSelector((state)=> state.session.user.id)
     const username = useSelector((state)=> state.session.user.username)
@@ -44,7 +47,7 @@ function NewReviewForm ({ submitModal }) {
         const payload = {
             comment: comment.trim(),
             rating,
-            rentalUnitId: id,
+            rentalUnitId: unitId,
             userId,
             username
         };
@@ -53,7 +56,7 @@ function NewReviewForm ({ submitModal }) {
             const data = await dispatch(createReview(payload));
 
             if (!data.errors) {
-                await dispatch(getSingleUnit(id));
+                await dispatch(getSingleUnit(unitId));
                 submitModal(false);
                 return data;
             } else {
