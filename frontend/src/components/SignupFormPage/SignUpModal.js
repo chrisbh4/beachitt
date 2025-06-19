@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Modal } from '../../context/Modal';
 import SignupFormPage from './index';
 
 function SignUpFormModal() {
