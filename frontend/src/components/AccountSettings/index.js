@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
-// import { fetchUserBookings, fetchCancelBooking } from '../../store/bookings';
+import { fetchUserBookings, fetchDeleteBooking } from '../../store/bookings';
 import { formatPrice } from '../../utils/currency';
 
 function AccountSettings() {
@@ -30,6 +30,10 @@ function AccountSettings() {
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
+  // Get bookings from store
+  const bookings = useSelector(state => state.bookings);
+  const bookingsArray = Object.values(bookings);
+
   // Update profileData when user changes
   useEffect(() => {
     if (user) {
@@ -40,65 +44,12 @@ function AccountSettings() {
     }
   }, [user]);
 
-  // Mock booking data - TODO: Replace with actual API calls
-  const [bookings, setBookings] = useState([
-    {
-      id: 1,
-      propertyTitle: "Stunning Ocean View Condo",
-      propertyImage: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      location: "Miami Beach, FL",
-      checkIn: "2024-02-15",
-      checkOut: "2024-02-20",
-      guests: 4,
-      totalPrice: 750,
-      status: "upcoming",
-      bookingDate: "2024-01-10",
-      hostName: "Sarah Johnson",
-      hostEmail: "sarah@example.com"
-    },
-    {
-      id: 2,
-      propertyTitle: "Cozy Beach House",
-      propertyImage: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      location: "Malibu, CA",
-      checkIn: "2024-01-05",
-      checkOut: "2024-01-10",
-      guests: 2,
-      totalPrice: 600,
-      status: "completed",
-      bookingDate: "2023-12-15",
-      hostName: "Mike Chen",
-      hostEmail: "mike@example.com"
-    },
-    {
-      id: 3,
-      propertyTitle: "Luxury Beachfront Villa",
-      propertyImage: "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      location: "Outer Banks, NC",
-      checkIn: "2024-03-10",
-      checkOut: "2024-03-17",
-      guests: 8,
-      totalPrice: 1400,
-      status: "upcoming",
-      bookingDate: "2024-01-20",
-      hostName: "Emma Davis",
-      hostEmail: "emma@example.com"
-    },
-    {
-      id: 4,
-      propertyTitle: "Charming Cottage by the Sea",
-      propertyImage: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      location: "Cape Cod, MA",
-      checkIn: "2023-12-20",
-      checkOut: "2023-12-27",
-      guests: 6,
-      totalPrice: 980,
-      status: "completed",
-      bookingDate: "2023-11-15",
-      hostName: "David Wilson",
-      hostEmail: "david@example.com"
+  // Load user bookings when component mounts
+  useEffect(() => {
+    if (user && user.id) {
+      dispatch(fetchUserBookings(user.id));
     }
-  ]);
+  }, [dispatch, user]);
 
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [showBookingDetails, setShowBookingDetails] = useState(false);
@@ -138,26 +89,35 @@ function AccountSettings() {
         return 'bg-blue-100 text-blue-800';
       case 'completed':
         return 'bg-green-100 text-green-800';
-      case 'cancelled':
-        return 'bg-red-100 text-red-800';
+      case 'current':
+        return 'bg-yellow-100 text-yellow-800';
       default:
         return 'bg-gray-100 text-gray-800';
     }
   };
 
-  const filteredBookings = bookings.filter(booking => {
+  const getBookingStatus = (booking) => {
+    const today = new Date();
+    const startDate = new Date(booking.startDate);
+    const endDate = new Date(booking.endDate);
+    
+    if (startDate > today) {
+      return 'upcoming';
+    } else if (endDate < today) {
+      return 'completed';
+    } else {
+      return 'current';
+    }
+  };
+
+  const filteredBookings = bookingsArray.filter(booking => {
     if (tripFilter === 'all') return true;
-    return booking.status === tripFilter;
+    return getBookingStatus(booking) === tripFilter;
   });
 
   const handleCancelBooking = async (bookingId) => {
     try {
-      // TODO: Implement booking cancellation API call
-      setBookings(bookings.map(booking =>
-        booking.id === bookingId
-          ? { ...booking, status: 'cancelled' }
-          : booking
-      ));
+      await dispatch(fetchDeleteBooking(bookingId));
       setSuccessMessage('Booking cancelled successfully!');
       setShowBookingDetails(false);
     } catch (error) {
@@ -411,9 +371,9 @@ function AccountSettings() {
                     <div className="border-b border-gray-200">
                       <nav className="-mb-px flex space-x-8">
                         {[
-                          { key: 'all', label: 'All Trips', count: bookings.length },
-                          { key: 'upcoming', label: 'Upcoming', count: bookings.filter(b => b.status === 'upcoming').length },
-                          { key: 'completed', label: 'Completed', count: bookings.filter(b => b.status === 'completed').length }
+                          { key: 'all', label: 'All Trips', count: bookingsArray.length },
+                          { key: 'upcoming', label: 'Upcoming', count: bookingsArray.filter(b => getBookingStatus(b) === 'upcoming').length },
+                          { key: 'completed', label: 'Completed', count: bookingsArray.filter(b => getBookingStatus(b) === 'completed').length }
                         ].map((filter) => (
                           <button
                             key={filter.key}
@@ -464,8 +424,8 @@ function AccountSettings() {
                               {/* Property Image */}
                               <div className="flex-shrink-0">
                                 <img
-                                  src={booking.propertyImage}
-                                  alt={booking.propertyTitle}
+                                  src={booking.RentalUnit?.url || "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"}
+                                  alt={booking.RentalUnit?.title || "Property"}
                                   className="w-24 h-24 rounded-lg object-cover"
                                 />
                               </div>
@@ -475,43 +435,43 @@ function AccountSettings() {
                                 <div className="flex items-start justify-between">
                                   <div>
                                     <h3 className="text-lg font-medium text-gray-900 truncate">
-                                      {booking.propertyTitle}
+                                      {booking.RentalUnit?.title || "Property"}
                                     </h3>
                                     <p className="text-sm text-gray-500 flex items-center mt-1">
                                       <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                       </svg>
-                                      {booking.location}
+                                      {booking.RentalUnit?.city}, {booking.RentalUnit?.state}
                                     </p>
                                   </div>
-                                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(booking.status)}`}>
-                                    {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
+                                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(getBookingStatus(booking))}`}>
+                                    {getBookingStatus(booking).charAt(0).toUpperCase() + getBookingStatus(booking).slice(1)}
                                   </span>
                                 </div>
 
                                 <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                                   <div>
                                     <p className="text-gray-500">Check-in</p>
-                                    <p className="font-medium text-gray-900">{formatDate(booking.checkIn)}</p>
+                                    <p className="font-medium text-gray-900">{formatDate(booking.startDate)}</p>
                                   </div>
                                   <div>
                                     <p className="text-gray-500">Check-out</p>
-                                    <p className="font-medium text-gray-900">{formatDate(booking.checkOut)}</p>
+                                    <p className="font-medium text-gray-900">{formatDate(booking.endDate)}</p>
                                   </div>
                                   <div>
-                                    <p className="text-gray-500">Guests</p>
-                                    <p className="font-medium text-gray-900">{booking.guests} guests</p>
+                                    <p className="text-gray-500">Nights</p>
+                                    <p className="font-medium text-gray-900">{booking.numberOfNights || calculateNights(booking.startDate, booking.endDate)} nights</p>
                                   </div>
                                 </div>
 
                                 <div className="mt-4 flex items-center justify-between">
                                   <div>
                                     <p className="text-sm text-gray-500">
-                                      {calculateNights(booking.checkIn, booking.checkOut)} nights
+                                      Total Price
                                     </p>
                                     <p className="text-lg font-semibold text-gray-900">
-                                      {formatPrice(booking.totalPrice)}
+                                      {formatPrice(booking.totalPrice || (booking.RentalUnit?.price * calculateNights(booking.startDate, booking.endDate)))}
                                     </p>
                                   </div>
                                   <div className="flex space-x-3">
@@ -524,7 +484,7 @@ function AccountSettings() {
                                     >
                                       View Details
                                     </button>
-                                    {booking.status === 'upcoming' && (
+                                    {getBookingStatus(booking) === 'upcoming' && (
                                       <button
                                         onClick={() => handleCancelBooking(booking.id)}
                                         className="px-4 py-2 text-sm font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
@@ -682,23 +642,23 @@ function AccountSettings() {
                 {/* Property Information */}
                 <div className="flex space-x-4">
                   <img
-                    src={selectedBooking.propertyImage}
-                    alt={selectedBooking.propertyTitle}
+                    src={selectedBooking.RentalUnit?.url || "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"}
+                    alt={selectedBooking.RentalUnit?.title || "Property"}
                     className="w-32 h-32 rounded-lg object-cover flex-shrink-0"
                   />
                   <div className="flex-1">
                     <h4 className="text-xl font-semibold text-gray-900 mb-2">
-                      {selectedBooking.propertyTitle}
+                      {selectedBooking.RentalUnit?.title || "Property"}
                     </h4>
                     <p className="text-gray-600 flex items-center mb-2">
                       <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>
-                      {selectedBooking.location}
+                      {selectedBooking.RentalUnit?.city}, {selectedBooking.RentalUnit?.state}
                     </p>
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(selectedBooking.status)}`}>
-                      {selectedBooking.status.charAt(0).toUpperCase() + selectedBooking.status.slice(1)}
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(getBookingStatus(selectedBooking))}`}>
+                      {getBookingStatus(selectedBooking).charAt(0).toUpperCase() + getBookingStatus(selectedBooking).slice(1)}
                     </span>
                   </div>
                 </div>
@@ -710,37 +670,33 @@ function AccountSettings() {
                     <div className="space-y-3">
                       <div className="flex justify-between">
                         <span className="text-gray-500">Check-in:</span>
-                        <span className="font-medium">{formatDate(selectedBooking.checkIn)}</span>
+                        <span className="font-medium">{formatDate(selectedBooking.startDate)}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-500">Check-out:</span>
-                        <span className="font-medium">{formatDate(selectedBooking.checkOut)}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-500">Guests:</span>
-                        <span className="font-medium">{selectedBooking.guests} guests</span>
+                        <span className="font-medium">{formatDate(selectedBooking.endDate)}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-500">Nights:</span>
-                        <span className="font-medium">{calculateNights(selectedBooking.checkIn, selectedBooking.checkOut)} nights</span>
+                        <span className="font-medium">{selectedBooking.numberOfNights || calculateNights(selectedBooking.startDate, selectedBooking.endDate)} nights</span>
                       </div>
                     </div>
                   </div>
 
                   <div className="space-y-4">
-                    <h5 className="font-medium text-gray-900">Host Information</h5>
+                    <h5 className="font-medium text-gray-900">Property Details</h5>
                     <div className="space-y-3">
                       <div className="flex justify-between">
-                        <span className="text-gray-500">Host:</span>
-                        <span className="font-medium">{selectedBooking.hostName}</span>
+                        <span className="text-gray-500">Property:</span>
+                        <span className="font-medium">{selectedBooking.RentalUnit?.title}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-500">Contact:</span>
-                        <span className="font-medium">{selectedBooking.hostEmail}</span>
+                        <span className="text-gray-500">Location:</span>
+                        <span className="font-medium">{selectedBooking.RentalUnit?.city}, {selectedBooking.RentalUnit?.state}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-500">Booked on:</span>
-                        <span className="font-medium">{formatDate(selectedBooking.bookingDate)}</span>
+                        <span className="text-gray-500">Price per night:</span>
+                        <span className="font-medium">{formatPrice(selectedBooking.pricePerNight || selectedBooking.RentalUnit?.price)}</span>
                       </div>
                     </div>
                   </div>
@@ -752,13 +708,13 @@ function AccountSettings() {
                   <div className="space-y-2">
                     <div className="flex justify-between">
                       <span className="text-gray-500">
-                        {formatPrice(selectedBooking.totalPrice / calculateNights(selectedBooking.checkIn, selectedBooking.checkOut))} x {calculateNights(selectedBooking.checkIn, selectedBooking.checkOut)} nights
+                        {formatPrice(selectedBooking.pricePerNight || selectedBooking.RentalUnit?.price)} x {selectedBooking.numberOfNights || calculateNights(selectedBooking.startDate, selectedBooking.endDate)} nights
                       </span>
-                      <span>{formatPrice(selectedBooking.totalPrice)}</span>
+                      <span>{formatPrice(selectedBooking.totalPrice || (selectedBooking.RentalUnit?.price * calculateNights(selectedBooking.startDate, selectedBooking.endDate)))}</span>
                     </div>
                     <div className="flex justify-between font-semibold text-lg border-t border-gray-200 pt-2">
                       <span>Total</span>
-                      <span>{formatPrice(selectedBooking.totalPrice)}</span>
+                      <span>{formatPrice(selectedBooking.totalPrice || (selectedBooking.RentalUnit?.price * calculateNights(selectedBooking.startDate, selectedBooking.endDate)))}</span>
                     </div>
                   </div>
                 </div>
@@ -771,7 +727,7 @@ function AccountSettings() {
                   >
                     Close
                   </button>
-                  {selectedBooking.status === 'upcoming' && (
+                  {getBookingStatus(selectedBooking) === 'upcoming' && (
                     <button
                       onClick={() => handleCancelBooking(selectedBooking.id)}
                       className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors"
@@ -779,7 +735,7 @@ function AccountSettings() {
                       Cancel Booking
                     </button>
                   )}
-                  {selectedBooking.status === 'completed' && (
+                  {getBookingStatus(selectedBooking) === 'completed' && (
                     <button
                       onClick={() => {
                         // TODO: Navigate to review form

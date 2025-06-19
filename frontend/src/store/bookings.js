@@ -1,6 +1,7 @@
 import {csrfFetch} from "./csrf";
 
 const LOAD_BOOKING = 'booking/LOAD_BOOKING';
+const LOAD_USER_BOOKINGS = 'booking/LOAD_USER_BOOKINGS';
 const ADD_BOOKING = 'booking/ADD_BOOKING';
 const DELETE_BOOKING= 'booking/DELETE_BOOKING';
 const EDIT_BOOKING= 'booking/EDIT_BOOKING';
@@ -9,6 +10,11 @@ const EDIT_BOOKING= 'booking/EDIT_BOOKING';
 const loadBooking = booking =>({
     type: LOAD_BOOKING,
     booking,
+});
+
+const loadUserBookings = bookings =>({
+    type: LOAD_USER_BOOKINGS,
+    bookings,
 });
 
   const addBooking = booking => ({
@@ -38,6 +44,13 @@ const loadBooking = booking =>({
 
   };
 
+export const fetchUserBookings = (userId) => async (dispatch) => {
+    const res = await csrfFetch(`/api/bookings/user/${userId}`);
+    const data = await res.json();
+
+    if(res.ok) dispatch(loadUserBookings(data))
+    return data
+};
 
 export const fetchAddBooking = (payload)=> async(dispatch) =>{
     const res = await csrfFetch('/api/bookings/new',{
@@ -86,6 +99,13 @@ const bookingsReducer = (state = initialState , action) => {
     switch(action.type){
         case LOAD_BOOKING:{
             return {...action.booking}
+        }
+        case LOAD_USER_BOOKINGS:{
+            const newState = {};
+            action.bookings.forEach(booking => {
+                newState[booking.id] = booking;
+            });
+            return newState;
         }
         case ADD_BOOKING:{
             const newState ={[action.booking.id]:action.booking};
