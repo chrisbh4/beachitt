@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Modal } from '../../../context/Modal';
 import LoginFormPage from "../../LoginFormPage"
 
 function LoginFormModal() {

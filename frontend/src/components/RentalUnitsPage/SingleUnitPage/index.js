@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams, useHistory, Redirect } from 'react-router-dom';
+import { Link, useParams, Redirect } from 'react-router-dom';
 import {getSingleUnit } from '../../../store/rentalUnits';
 import MapContainer from '../../Maps';
 import BookingCal from '../../Booking-Cal';
@@ -12,7 +12,6 @@ import { formatPrice } from '../../../utils/currency';
 
 function GetSingleUnitPage() {
     const dispatch = useDispatch();
-    const history = useHistory();
     const {id} = useParams();
     const [activeTab, setActiveTab] = useState('reviews');
     const [showImageModal, setShowImageModal] = useState(false);
@@ -257,7 +256,7 @@ function GetSingleUnitPage() {
                     <div className="relative max-w-4xl max-h-full mx-4">
                         <img
                             src={imageGallery[selectedImageIndex] || fallbackImage}
-                            alt={`${unit?.title} - Image ${selectedImageIndex + 1}`}
+                            alt={`${unit?.title} - ${selectedImageIndex + 1}`}
                             className="max-w-full max-h-full object-contain"
                         />
 
