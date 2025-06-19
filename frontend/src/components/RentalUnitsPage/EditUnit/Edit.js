@@ -216,7 +216,11 @@ function EditUnitForm({submitModal}) {
                 if (!formData.lat.toString().trim()) {
                     newErrors.push("Latitude is required");
                     newFieldErrors.lat = "Latitude is required";
-                } else {
+                } else if (formData.lat.toString().trim().length <= 4) {
+                    newErrors.push("Latitude must be longer than 4 digits");
+                    newFieldErrors.lat = "Latitude must be longer than 4 digits";
+                } 
+                else {
                     const latNum = parseFloat(formData.lat.toString());
                     if (isNaN(latNum) || latNum < -90 || latNum > 90) {
                         newErrors.push("Latitude must be between -90 and 90 degrees");
@@ -228,7 +232,12 @@ function EditUnitForm({submitModal}) {
                 if (!formData.lng.toString().trim()) {
                     newErrors.push("Longitude is required");
                     newFieldErrors.lng = "Longitude is required";
-                } else {
+                }
+                else if (formData.lng.toString().trim().length <= 5) {
+                    newErrors.push("Longitude must be longer than 4 digits");
+                    newFieldErrors.lng = "Longitude must be longer than 4 digits";
+                }    
+                else {
                     const lngNum = parseFloat(formData.lng.toString());
                     if (isNaN(lngNum) || lngNum < -180 || lngNum > 180) {
                         newErrors.push("Longitude must be between -180 and 180 degrees");
@@ -237,7 +246,7 @@ function EditUnitForm({submitModal}) {
                 }
                 
                 // Image validation (optional but recommended)
-                if (!formData.url) {
+                if (!formData.url && !rentalUnit.url) {
                     newErrors.push("Please upload at least one image of your property");
                     newFieldErrors.url = "Please upload at least one image of your property";
                 }
