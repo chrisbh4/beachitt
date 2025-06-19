@@ -64,119 +64,6 @@ function EditUnitForm({submitModal}) {
         }
     }, [rentalUnit]);
 
-    // Helper function to validate individual fields
-    const validateField = (field, value) => {
-        const fieldError = {};
-        
-        switch (field) {
-            case 'title':
-                if (!value.trim()) {
-                    fieldError.title = "Property title is required";
-                } else if (value.trim().length < 10) {
-                    fieldError.title = "Property title must be at least 10 characters long";
-                } else if (value.trim().length > 100) {
-                    fieldError.title = "Property title must be less than 100 characters";
-                }
-                break;
-            case 'city':
-                if (!value.trim()) {
-                    fieldError.city = "City is required";
-                } else if (value.trim().length < 2) {
-                    fieldError.city = "City name must be at least 2 characters long";
-                } else if (value.trim().length > 50) {
-                    fieldError.city = "City name must be less than 50 characters";
-                }
-                break;
-            case 'state':
-                if (!value.trim()) {
-                    fieldError.state = "State is required";
-                } else if (value.trim().length !== 2) {
-                    fieldError.state = "State must be a 2-letter abbreviation";
-                }
-                break;
-            case 'zipcode':
-                if (!value.toString().trim()) {
-                    fieldError.zipcode = "Zipcode is required";
-                } else if (!/^\d{5}(-\d{4})?$/.test(value.toString().trim())) {
-                    fieldError.zipcode = "Please enter a valid 5-digit zipcode";
-                }
-                break;
-            case 'rooms':
-                if (!value || value < 1) {
-                    fieldError.rooms = "Number of rooms is required";
-                } else if (value > 20) {
-                    fieldError.rooms = "Number of rooms cannot exceed 20";
-                }
-                break;
-            case 'bathrooms':
-                if (!value || value < 1) {
-                    fieldError.bathrooms = "Number of bathrooms is required";
-                } else if (value > 10) {
-                    fieldError.bathrooms = "Number of bathrooms cannot exceed 10";
-                }
-                break;
-            case 'price':
-                if (!value.toString().trim()) {
-                    fieldError.price = "Price per night is required";
-                } else {
-                    const priceNum = parseFloat(value.toString().replace(/[$,]/g, ''));
-                    if (isNaN(priceNum) || priceNum <= 0) {
-                        fieldError.price = "Please enter a valid price greater than $0";
-                    } else if (priceNum > 10000) {
-                        fieldError.price = "Price cannot exceed $10,000 per night";
-                    }
-                }
-                break;
-            case 'distanceFromBeach':
-                if (!value.toString().trim()) {
-                    fieldError.distanceFromBeach = "Distance from beach is required";
-                } else {
-                    // Check for valid decimal format (max 2 decimal places)
-                    if (!/^\d+(\.\d{1,2})?$/.test(value.toString().trim())) {
-                        fieldError.distanceFromBeach = "Distance must be a number with up to 2 decimal places";
-                    } else {
-                        const distanceNum = parseFloat(value);
-                        if (isNaN(distanceNum) || distanceNum < 0) {
-                            fieldError.distanceFromBeach = "Distance from beach must be a positive number";
-                        } else if (distanceNum > 5) {
-                            fieldError.distanceFromBeach = "Distance from beach cannot exceed 5 miles";
-                        }
-                    }
-                }
-                break;
-            case 'rentalUnitDescription':
-                if (!value.trim()) {
-                    fieldError.rentalUnitDescription = "Property description is required";
-                } else if (value.trim().length > 2000) {
-                    fieldError.rentalUnitDescription = "Property description must be less than 2000 characters";
-                }
-                break;
-            case 'lat':
-                if (!value.toString().trim()) {
-                    fieldError.lat = "Latitude is required";
-                } else {
-                    const latNum = parseFloat(value);
-                    if (isNaN(latNum) || latNum < -90 || latNum > 90) {
-                        fieldError.lat = "Latitude must be between -90 and 90 degrees";
-                    }
-                }
-                break;
-            case 'lng':
-                if (!value.toString().trim()) {
-                    fieldError.lng = "Longitude is required";
-                } else {
-                    const lngNum = parseFloat(value);
-                    if (isNaN(lngNum) || lngNum < -180 || lngNum > 180) {
-                        fieldError.lng = "Longitude must be between -180 and 180 degrees";
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-        
-        return fieldError;
-    };
 
     const updateField = (field, value) => {
         setFormData(prev => ({...prev, [field]: value}));
@@ -329,7 +216,11 @@ function EditUnitForm({submitModal}) {
                 if (!formData.lat.toString().trim()) {
                     newErrors.push("Latitude is required");
                     newFieldErrors.lat = "Latitude is required";
-                } else {
+                } else if (formData.lat.toString().trim().length <= 4) {
+                    newErrors.push("Latitude must be longer than 4 digits");
+                    newFieldErrors.lat = "Latitude must be longer than 4 digits";
+                } 
+                else {
                     const latNum = parseFloat(formData.lat.toString());
                     if (isNaN(latNum) || latNum < -90 || latNum > 90) {
                         newErrors.push("Latitude must be between -90 and 90 degrees");
@@ -341,7 +232,12 @@ function EditUnitForm({submitModal}) {
                 if (!formData.lng.toString().trim()) {
                     newErrors.push("Longitude is required");
                     newFieldErrors.lng = "Longitude is required";
-                } else {
+                }
+                else if (formData.lng.toString().trim().length <= 5) {
+                    newErrors.push("Longitude must be longer than 4 digits");
+                    newFieldErrors.lng = "Longitude must be longer than 4 digits";
+                }    
+                else {
                     const lngNum = parseFloat(formData.lng.toString());
                     if (isNaN(lngNum) || lngNum < -180 || lngNum > 180) {
                         newErrors.push("Longitude must be between -180 and 180 degrees");
@@ -350,7 +246,7 @@ function EditUnitForm({submitModal}) {
                 }
                 
                 // Image validation (optional but recommended)
-                if (!formData.url) {
+                if (!formData.url && !rentalUnit.url) {
                     newErrors.push("Please upload at least one image of your property");
                     newFieldErrors.url = "Please upload at least one image of your property";
                 }
