@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import {useHistory} from 'react-router-dom'
 import { createRentalUnit} from "../../../store/rentalUnits"
 
 function NewUnitForm({submitModal}) {
     const dispatch = useDispatch();
+    const history = useHistory();
     const ownerId = useSelector(state => state.session.user.id);
 
     const [formData, setFormData] = useState({
@@ -137,6 +139,8 @@ function NewUnitForm({submitModal}) {
             case 'lat':
                 if (!value.trim()) {
                     fieldError.lat = "Latitude is required";
+                } else if (value.trim().length <= 4) {
+                    fieldError.lat = "Latitude must be longer than 4 digits";
                 } else {
                     const latNum = parseFloat(value);
                     if (isNaN(latNum) || latNum < -90 || latNum > 90) {
@@ -293,7 +297,11 @@ function NewUnitForm({submitModal}) {
             if (!formData.lat.toString().trim()) {
                 newErrors.push("Latitude is required");
                 newFieldErrors.lat = "Latitude is required";
-            } else {
+            } else if (formData.lat.toString().trim().length <= 4) {
+                newErrors.push("Latitude must be longer than 4 digits");
+                newFieldErrors.lat = "Latitude must be longer than 4 digits";
+            } 
+            else {
                 const latNum = parseFloat(formData.lat.toString());
                 if (isNaN(latNum) || latNum < -90 || latNum > 90) {
                     newErrors.push("Latitude must be between -90 and 90 degrees");
@@ -305,7 +313,12 @@ function NewUnitForm({submitModal}) {
             if (!formData.lng.toString().trim()) {
                 newErrors.push("Longitude is required");
                 newFieldErrors.lng = "Longitude is required";
-            } else {
+            }
+            else if (formData.lng.toString().trim().length <= 5) {
+                newErrors.push("Longitude must be longer than 4 digits");
+                newFieldErrors.lng = "Longitude must be longer than 4 digits";
+            }    
+            else {
                 const lngNum = parseFloat(formData.lng.toString());
                 if (isNaN(lngNum) || lngNum < -180 || lngNum > 180) {
                     newErrors.push("Longitude must be between -180 and 180 degrees");
@@ -391,7 +404,11 @@ function NewUnitForm({submitModal}) {
                 setValidationAttempted(false); // Reset validation attempted
                 setErrors([]); // Clear any errors
                 setFieldErrors({}); // Clear field errors
-                submitModal(false);
+                if (typeof submitModal === 'function') {
+                    submitModal(false);
+                }
+                history.push('/');
+
             } else {
                 // Unexpected response format
                 console.log('Unexpected response format:', data);
@@ -399,7 +416,7 @@ function NewUnitForm({submitModal}) {
             }
         } catch (error) {
             console.error('Error creating rental unit:', error);
-            setErrors(["An error occurred while creating your listing. Please try again."]);
+            // setErrors(["An error occurred while creating your listing. Please try again."]);
         } finally {
             setIsLoading(false);
         }
