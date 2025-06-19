@@ -2,7 +2,7 @@ const express = require('express');
 const asyncHandler = require('express-async-handler');
 // const { dataAdjuster} = require('../../utils/utils');
 const {check} = require('express-validator')
-const {Bookings} = require('../../db/models')
+const {Bookings, RentalUnits, User} = require('../../db/models')
 const {handleValidationErrors} = require("../../utils/validation")
 
 const router = express.Router();
@@ -24,6 +24,31 @@ router.get('/', asyncHandler(async( req, res)=>{
    return res.json({msg:"No bookings available."})
 }));
 
+// Get bookings for a specific user
+router.get('/user/:userId', asyncHandler(async( req, res)=>{
+    const bookings = await Bookings.findAll({
+        where: { userId: req.params.userId },
+        include: [
+            {
+                model: RentalUnits,
+                attributes: ['id', 'title', 'city', 'state', 'url', 'price']
+            },
+            {
+                model: User,
+                as: 'User',
+                attributes: ['id', 'username', 'email']
+            }
+        ],
+        attributes: ['id', 'userId', 'startDate', 'endDate', 'rentalUnitId', 'pricePerNight', 'totalPrice', 'numberOfNights'],
+        order: [['startDate', 'DESC']]
+    });
+    
+    if(bookings) {
+        res.json(bookings);
+    } else {
+        res.json([]);
+    }
+}));
 
 router.get('/:id', asyncHandler(async( req, res)=>{
     const booking = await Bookings.findByPk(req.params.id)
@@ -35,7 +60,30 @@ router.get('/:id', asyncHandler(async( req, res)=>{
 
 router.post('/new', asyncHandler( async ( req, res )=>{
     const { userId , startDate , endDate , rentalUnitId } = req.body;
-    const booking =  await Bookings.create({userId, startDate, endDate ,rentalUnitId});
+    
+    // Calculate the number of nights
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const numberOfNights = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+    
+    // Get the rental unit to get the current price
+    const rentalUnit = await RentalUnits.findByPk(rentalUnitId);
+    if (!rentalUnit) {
+        return res.status(404).json({ error: 'Rental unit not found' });
+    }
+    
+    const pricePerNight = parseFloat(rentalUnit.price);
+    const totalPrice = pricePerNight * numberOfNights;
+    
+    const booking = await Bookings.create({
+        userId, 
+        startDate, 
+        endDate, 
+        rentalUnitId,
+        pricePerNight,
+        totalPrice,
+        numberOfNights
+    });
 
     res.json({booking});
 }))
