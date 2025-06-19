@@ -28,6 +28,18 @@ module.exports = {
         type: Sequelize.INTEGER,
         references:{model:'RentalUnits'}
       },
+      pricePerNight: {
+        allowNull: true,
+        type: Sequelize.DECIMAL(10,2)
+      },
+      totalPrice: {
+        allowNull: true,
+        type: Sequelize.DECIMAL(10,2)
+      },
+      numberOfNights: {
+        allowNull: true,
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
