@@ -488,11 +488,13 @@ function GetSingleUnitPage() {
                                         unitId={unit?.id}
                                         unitBookings={unit?.Bookings}
                                         unitPrice={unit?.price}
+                                        unitOwnerId={unit?.ownerId}
                                         onBookingSuccess={(bookingDetails) => {
-                                            showNotification(
-                                                `Booking confirmed! ${bookingDetails.nights} night${bookingDetails.nights !== 1 ? 's' : ''} for ${bookingDetails.totalPrice}`,
-                                                'success'
-                                            );
+                                            const isOwner = userId === unit?.ownerId;
+                                            const message = isOwner 
+                                                ? `Free booking confirmed! ${bookingDetails.nights} night${bookingDetails.nights !== 1 ? 's' : ''} as property owner.`
+                                                : `Booking confirmed! ${bookingDetails.nights} night${bookingDetails.nights !== 1 ? 's' : ''} for ${bookingDetails.totalPrice}`;
+                                            showNotification(message, 'success');
                                         }}
                                     />
                                 </div>
