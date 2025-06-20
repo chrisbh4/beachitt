@@ -20,7 +20,7 @@ import './booking.css'
             4. compare if the values are the same if so then return and set error startDate can't be the same as endDate
 */
 
-function BookingCal({ userId, unitId, unitBookings, onBookingSuccess, unitPrice }) {
+function BookingCal({ userId, unitId, unitBookings, onBookingSuccess, unitPrice, unitOwnerId }) {
     const dispatch = useDispatch();
     const [selectedRange, setSelectedRange] = useState(null);
     const [errors, setErrors] = useState([]);
@@ -28,6 +28,9 @@ function BookingCal({ userId, unitId, unitBookings, onBookingSuccess, unitPrice 
     const [totalNights, setTotalNights] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
     const [showSummary, setShowSummary] = useState(false);
+
+    // Check if user is the owner of the unit
+    const isOwner = userId === unitOwnerId;
 
     // Convert existing bookings to date objects for calendar highlighting
     const bookedDates = unitBookings?.map(booking => ({
@@ -54,7 +57,9 @@ function BookingCal({ userId, unitId, unitBookings, onBookingSuccess, unitPrice 
             if (startDate && endDate) {
                 const nights = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
                 setTotalNights(nights);
-                setTotalPrice(nights * (unitPrice || 0));
+                // Set price to 0 if user is the owner, otherwise calculate normally
+                const effectivePrice = isOwner ? 0 : (unitPrice || 0);
+                setTotalPrice(nights * effectivePrice);
                 setShowSummary(true);
             }
         } else {
@@ -62,7 +67,7 @@ function BookingCal({ userId, unitId, unitBookings, onBookingSuccess, unitPrice 
             setTotalPrice(0);
             setShowSummary(false);
         }
-    }, [selectedRange, unitPrice]);
+    }, [selectedRange, unitPrice, isOwner]);
 
     // Handle calendar date selection
     const handleDateChange = (value) => {
@@ -255,17 +260,39 @@ function BookingCal({ userId, unitId, unitBookings, onBookingSuccess, unitPrice 
                 <div className="booking-summary">
                     <div className="bg-gray-50 rounded-lg p-4 mb-4">
                         <h4 className="font-semibold text-gray-900 mb-3">Booking Summary</h4>
-                        <div className="space-y-2">
-                            <div className="flex justify-between">
-                                <span className="text-gray-600">{formatPrice(unitPrice)} × {totalNights} night{totalNights !== 1 ? 's' : ''}</span>
-                                <span className="font-medium">{formatPrice(totalPrice)}</span>
+                        {isOwner ? (
+                            <div className="space-y-2">
+                                <div className="flex justify-between">
+                                    <span className="text-gray-600">Owner's stay</span>
+                                    <span className="font-medium text-green-600">Free</span>
+                                </div>
+                                <hr className="border-gray-200" />
+                                <div className="flex justify-between font-semibold text-lg">
+                                    <span>Total</span>
+                                    <span className="text-green-600">Free</span>
+                                </div>
+                                <div className="mt-2 p-2 bg-green-50 border border-green-200 rounded text-sm text-green-700">
+                                    <div className="flex items-center gap-2">
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                        </svg>
+                                        Free stay for property owner
+                                    </div>
+                                </div>
                             </div>
-                            <hr className="border-gray-200" />
-                            <div className="flex justify-between font-semibold text-lg">
-                                <span>Total</span>
-                                <span>{formatPrice(totalPrice)}</span>
+                        ) : (
+                            <div className="space-y-2">
+                                <div className="flex justify-between">
+                                    <span className="text-gray-600">{formatPrice(unitPrice)} × {totalNights} night{totalNights !== 1 ? 's' : ''}</span>
+                                    <span className="font-medium">{formatPrice(totalPrice)}</span>
+                                </div>
+                                <hr className="border-gray-200" />
+                                <div className="flex justify-between font-semibold text-lg">
+                                    <span>Total</span>
+                                    <span>{formatPrice(totalPrice)}</span>
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </div>
                 </div>
             )}

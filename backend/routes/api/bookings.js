@@ -66,13 +66,17 @@ router.post('/new', asyncHandler( async ( req, res )=>{
     const end = new Date(endDate);
     const numberOfNights = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
     
-    // Get the rental unit to get the current price
+    // Get the rental unit to get the current price and owner ID
     const rentalUnit = await RentalUnits.findByPk(rentalUnitId);
     if (!rentalUnit) {
         return res.status(404).json({ error: 'Rental unit not found' });
     }
     
-    const pricePerNight = parseFloat(rentalUnit.price);
+    // Check if the user is the owner of the unit
+    const isOwner = userId === rentalUnit.ownerId;
+    
+    // Set pricing based on ownership
+    const pricePerNight = isOwner ? 0 : parseFloat(rentalUnit.price);
     const totalPrice = pricePerNight * numberOfNights;
     
     const booking = await Bookings.create({

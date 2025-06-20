@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams, Redirect } from 'react-router-dom';
 import {getSingleUnit } from '../../../store/rentalUnits';
+import { addToFavorites, removeFromFavorites, fetchUserFavorites } from '../../../store/favorites';
 import MapContainer from '../../Maps';
 import BookingCal from '../../Booking-Cal';
 import EditUnitModal from '../../Modals/Units/EditModal';
@@ -17,9 +18,12 @@ function GetSingleUnitPage() {
     const [showImageModal, setShowImageModal] = useState(false);
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [notification, setNotification] = useState(null);
+    const [isFavorited, setIsFavorited] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
 
     const unit = useSelector(state => state?.rentalUnit)
     const user = useSelector(state => state?.session.user)
+    const favorites = useSelector(state => state?.favorites)
     const userId = user?.id;
     const unitReviews = unit?.Reviews;
     const unitBookings = unit?.Bookings;
@@ -37,10 +41,47 @@ function GetSingleUnitPage() {
         dispatch(getSingleUnit(id))
     }, [dispatch, id])
 
+    // Load user favorites and check if current unit is favorited
+    useEffect(() => {
+        if (userId && unit?.id) {
+            dispatch(fetchUserFavorites(userId));
+        }
+    }, [dispatch, userId, unit?.id]);
+
+    // Check if current unit is favorited
+    useEffect(() => {
+        if (favorites && unit?.id) {
+            setIsFavorited(!!favorites[unit.id]);
+        }
+    }, [favorites, unit?.id]);
+
     // Notification system
     const showNotification = (message, type = 'success') => {
         setNotification({ message, type });
         setTimeout(() => setNotification(null), 5000);
+    };
+
+    // Handle save/favorite toggle
+    const handleSaveToggle = async () => {
+        if (!userId) {
+            showNotification('Please log in to save units', 'error');
+            return;
+        }
+
+        setIsSaving(true);
+        try {
+            if (isFavorited) {
+                await dispatch(removeFromFavorites(userId, unit.id));
+                showNotification('Removed from saved units');
+            } else {
+                await dispatch(addToFavorites(userId, unit.id));
+                showNotification('Added to saved units');
+            }
+        } catch (error) {
+            showNotification('Error saving unit', 'error');
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     // Image modal functions
@@ -90,11 +131,25 @@ function GetSingleUnitPage() {
                             Book Now
                         </a>
                     </button>
-                    <button className="px-6 py-4 border-2 border-gray-300 text-gray-700 rounded-lg hover:border-gray-400 transition-colors font-medium">
-                        <svg className="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
-                        Save
+                    <button 
+                        onClick={handleSaveToggle}
+                        disabled={isSaving}
+                        className={`px-6 py-4 border-2 rounded-lg transition-colors font-medium flex items-center gap-2 ${
+                            isFavorited 
+                                ? 'border-red-300 text-red-700 bg-red-50 hover:bg-red-100' 
+                                : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                        } ${isSaving ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    >
+                        {isSaving ? (
+                            <svg className="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                        ) : (
+                            <svg className={`w-5 h-5 ${isFavorited ? 'text-red-500 fill-current' : ''}`} fill={isFavorited ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                        )}
+                        {isFavorited ? 'Saved' : 'Save'}
                     </button>
                 </div>
             )
@@ -488,11 +543,13 @@ function GetSingleUnitPage() {
                                         unitId={unit?.id}
                                         unitBookings={unit?.Bookings}
                                         unitPrice={unit?.price}
+                                        unitOwnerId={unit?.ownerId}
                                         onBookingSuccess={(bookingDetails) => {
-                                            showNotification(
-                                                `Booking confirmed! ${bookingDetails.nights} night${bookingDetails.nights !== 1 ? 's' : ''} for ${bookingDetails.totalPrice}`,
-                                                'success'
-                                            );
+                                            const isOwner = userId === unit?.ownerId;
+                                            const message = isOwner 
+                                                ? `Free booking confirmed! ${bookingDetails.nights} night${bookingDetails.nights !== 1 ? 's' : ''} as property owner.`
+                                                : `Booking confirmed! ${bookingDetails.nights} night${bookingDetails.nights !== 1 ? 's' : ''} for ${bookingDetails.totalPrice}`;
+                                            showNotification(message, 'success');
                                         }}
                                     />
                                 </div>
