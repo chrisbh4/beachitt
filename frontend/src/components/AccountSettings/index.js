@@ -671,7 +671,8 @@ function AccountSettings() {
                                   <img
                                     src={unit?.url || "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"}
                                     alt={unit?.title || "Property"}
-                                    className="w-24 h-24 rounded-lg object-cover"
+                                    className="w-24 h-24 rounded-lg object-cover cursor-pointer hover:opacity-80 transition-opacity"
+                                    onClick={() => history.push(`/units/${unit?.id}`)}
                                   />
                                 </div>
 
