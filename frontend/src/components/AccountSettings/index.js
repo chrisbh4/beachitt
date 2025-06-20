@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
 import { fetchUserBookings, fetchDeleteBooking } from '../../store/bookings';
+import { fetchUserFavorites, removeFromFavorites } from '../../store/favorites';
 import { formatPrice } from '../../utils/currency';
 import NewReviewForm from '../Reviews/NewReviewForm';
 
@@ -31,9 +32,11 @@ function AccountSettings() {
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
-  // Get bookings from store
+  // Get bookings and favorites from store
   const bookings = useSelector(state => state.bookings);
   const bookingsArray = Object.values(bookings);
+  const favorites = useSelector(state => state.favorites);
+  const favoritesArray = Object.values(favorites);
 
   // Update profileData when user changes
   useEffect(() => {
@@ -45,10 +48,11 @@ function AccountSettings() {
     }
   }, [user]);
 
-  // Load user bookings when component mounts
+  // Load user bookings and favorites when component mounts
   useEffect(() => {
     if (user && user.id) {
       dispatch(fetchUserBookings(user.id));
+      dispatch(fetchUserFavorites(user.id));
     }
   }, [dispatch, user]);
 
@@ -210,9 +214,10 @@ function AccountSettings() {
     }
   };
 
-  const tabs = [
+  const navigation = [
     { id: 'profile', name: 'Profile', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' },
     { id: 'trips', name: 'Booked Trips', icon: 'M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7' },
+    { id: 'saved-units', name: 'Saved Units', icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z' },
     { id: 'security', name: 'Security', icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z' }
   ];
 
@@ -254,7 +259,7 @@ function AccountSettings() {
           {/* Sidebar Navigation */}
           <div className="lg:w-64 flex-shrink-0">
             <nav className="bg-white rounded-2xl shadow-sm p-2">
-              {tabs.map((tab) => (
+              {navigation.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => {
@@ -623,6 +628,108 @@ function AccountSettings() {
                       </button>
                     </div>
                   </div>
+                </div>
+              )}
+
+              {/* Saved Units Tab */}
+              {activeTab === 'saved-units' && (
+                <div className="p-6">
+                  <div className="mb-6">
+                    <h2 className="text-xl font-semibold text-gray-900 mb-2">Saved Units</h2>
+                    <p className="text-gray-600">Manage your saved rental units.</p>
+                  </div>
+
+                  {/* Saved Units List */}
+                  {favoritesArray.length === 0 ? (
+                    <div className="text-center py-12">
+                      <h3 className="mt-2 text-sm font-medium text-gray-900">No saved units found</h3>
+                      <p className="mt-1 text-sm text-gray-500">
+                        You haven't saved any units yet.
+                      </p>
+                      <div className="mt-6">
+                        <button
+                          onClick={() => history.push('/units')}
+                          className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                        >
+                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                          </svg>
+                          Browse Properties
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {favoritesArray.map((favorite) => {
+                        const unit = favorite.RentalUnit;
+                        return (
+                          <div key={favorite.id} className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                            <div className="p-6">
+                              <div className="flex items-start space-x-4">
+                                {/* Property Image */}
+                                <div className="flex-shrink-0">
+                                  <img
+                                    src={unit?.url || "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"}
+                                    alt={unit?.title || "Property"}
+                                    className="w-24 h-24 rounded-lg object-cover"
+                                  />
+                                </div>
+
+                                {/* Unit Details */}
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-start justify-between">
+                                    <div>
+                                      <h3 className="text-lg font-medium text-gray-900 truncate">
+                                        {unit?.title || "Property"}
+                                      </h3>
+                                      <p className="text-sm text-gray-500 flex items-center mt-1">
+                                        <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                        {unit?.city}, {unit?.state}
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                  <div className="mt-4 flex items-center justify-between">
+                                    <div>
+                                      <p className="text-sm text-gray-500">
+                                        Price per night
+                                      </p>
+                                      <p className="text-lg font-semibold text-gray-900">
+                                        {formatPrice(unit?.price)}
+                                      </p>
+                                    </div>
+                                    <div className="flex space-x-3">
+                                      <button
+                                        onClick={() => {
+                                          setSelectedRentalUnitId(unit?.id);
+                                          setShowReviewModal(true);
+                                        }}
+                                        className="px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
+                                      >
+                                        Write Review
+                                      </button>
+                                      <button
+                                        onClick={() => {
+                                          dispatch(removeFromFavorites(user.id, unit?.id));
+                                          setSuccessMessage('Unit removed from favorites!');
+                                        }}
+                                        className="px-4 py-2 text-sm font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
+                                      >
+                                        Remove
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
