@@ -35,13 +35,13 @@ A full-stack vacation rental platform that connects travelers with beachfront pr
 ## 📸 Screenshots
 
 ### Homepage
-![Homepage](https://imgur.com/BcUCHd8.png)
+![Homepage](https://imgur.com/3iFEEyv.png)
 
 ### Units Page
-![Units Page](https://imgur.com/yNpzMZW.png)
+![Units Page](https://imgur.com/fLP3TzP.png)
 
 ### Unit Details Page
-![Unit Details](https://imgur.com/53XA49J.png)
+![Unit Details](https://imgur.com/MtvAEKY.png)
 
 ## 🛠️ Tech Stack
 
@@ -96,11 +96,11 @@ A full-stack vacation rental platform that connects travelers with beachfront pr
    ```bash
    # Install root dependencies
    npm install
-   
+
    # Install backend dependencies
    cd backend
    npm install
-   
+
    # Install frontend dependencies
    cd ../frontend
    npm install
@@ -109,13 +109,13 @@ A full-stack vacation rental platform that connects travelers with beachfront pr
 3. **Set up the database**
    ```bash
    cd ../backend
-   
+
    # Create database
    npx dotenv sequelize db:create
-   
+
    # Run migrations
    npx dotenv sequelize db:migrate
-   
+
    # Seed the database
    npx dotenv sequelize db:seed:all
    ```
@@ -124,7 +124,7 @@ A full-stack vacation rental platform that connects travelers with beachfront pr
    ```bash
    # Start backend server (from backend directory)
    npm start
-   
+
    # Start frontend development server (from frontend directory)
    cd ../frontend
    npm start
@@ -188,4 +188,3 @@ Project Link: [https://github.com/chrisbh4/beachitt](https://github.com/chrisbh4
 </div>
 
 ---
-
